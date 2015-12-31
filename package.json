@@ -19,9 +19,10 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.6",
+    "glob": "^6.0.3",
     "istanbul": "^0.4.1"
   },
   "peerDependencies": {
-    "glob": "^6.0.3"
+    "glob": "*"
   }
 }
