@@ -9,5 +9,4 @@ notifications:
   email:
     on_success: "never"
 script:
-  - "npm run pretest"
   - "npm run cover"
