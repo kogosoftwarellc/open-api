@@ -1,0 +1,27 @@
+{
+  "name": "fs-routes",
+  "version": "0.0.0",
+  "description": "Scan a filesystem for route files.",
+  "author": "Joseph Spencer",
+  "scripts": {
+    "cover": "istanbul cover ./test.js && cat ./coverage/lcov.info | coveralls -v",
+    "test": "node ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsdevel/node-fs-routes.git"
+  },
+  "keywords": [],
+  "contributors": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsdevel/node-fs-routes/issues"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.1"
+  },
+  "peerDependencies": {
+    "glob": "^6.0.3"
+  }
+}
