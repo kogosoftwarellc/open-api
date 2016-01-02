@@ -1,0 +1,26 @@
+{
+  "name": "openapi-jsonschema-parameters",
+  "version": "0.0.0",
+  "description": "Converts openapi parameters to a jsonschema format.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kogosoftwarellc/openapi-jsonschema-parameters.git"
+  },
+  "keywords": [
+    "openapi",
+    "parameters",
+    "jsonschema",
+    "convert",
+    "converter"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/openapi-jsonschema-parameters/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/openapi-jsonschema-parameters#readme"
+}
