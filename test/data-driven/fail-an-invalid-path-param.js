@@ -2,9 +2,10 @@ module.exports = {
   validateArgs: {
     parameters: [
       {
-        in: 'query',
-        name: 'foo',
+        in: 'path',
+        name: 'path1',
         type: 'string',
+        pattern: '^a$',
         required: true
       }
     ],
@@ -16,7 +17,7 @@ module.exports = {
 
   requestBody: null,
 
-  path: '',
+  path: '/f',
 
   statusCode: 400,
 
@@ -24,10 +25,10 @@ module.exports = {
     status: 400,
     errors: [
       {
-        path: 'foo',
-        errorCode: 'required.openapi.validation',
-        message: 'instance requires property "foo"',
-        location: 'query'
+        path: 'path1',
+        errorCode: 'pattern.openapi.validation',
+        message: 'instance.path1 does not match pattern "^a$"',
+        location: 'path'
       }
     ]
   })

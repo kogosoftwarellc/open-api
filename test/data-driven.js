@@ -29,6 +29,14 @@ describe('express-openapi-validation', function() {
         test = test.get(path);
       }
 
+      var headers = fixture.headers;
+
+      if (headers) {
+        Object.keys(headers).forEach(function(header) {
+          test = test.set(header, headers[header]);
+        });
+      }
+
       test.expect(fixture.statusCode, fixture.responseBody, done);
     });
   });
@@ -43,6 +51,14 @@ describe('express-openapi-validation', function() {
       'post'
     ].forEach(function(method) {
       app[method]('/test', validationMiddleware, function(req, res) {
+        res.status(200).json('woot');
+      });
+
+      app[method]('/test/:path1', validationMiddleware, function(req, res) {
+        res.status(200).json('woot');
+      });
+
+      app[method]('/test/:path1/:path2', validationMiddleware, function(req, res) {
         res.status(200).json('woot');
       });
     });

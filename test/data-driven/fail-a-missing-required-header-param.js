@@ -2,7 +2,7 @@ module.exports = {
   validateArgs: {
     parameters: [
       {
-        in: 'query',
+        in: 'header',
         name: 'foo',
         type: 'string',
         required: true
@@ -16,6 +16,8 @@ module.exports = {
 
   requestBody: null,
 
+  headers: null,
+
   path: '',
 
   statusCode: 400,
@@ -27,7 +29,7 @@ module.exports = {
         path: 'foo',
         errorCode: 'required.openapi.validation',
         message: 'instance requires property "foo"',
-        location: 'query'
+        location: 'headers'
       }
     ]
   })

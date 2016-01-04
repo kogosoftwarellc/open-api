@@ -17,6 +17,7 @@ function validate(args) {
   var schemas = convert(args.parameters);
   var errorTransformer = args.errorTransformer || toOpenapiValidationError;
   var bodySchema = schemas.body;
+  var headersSchema = lowercasedHeaders(schemas.headers);
   var pathSchema = schemas.path;
   var querySchema = schemas.query;
   var v = new JsonschemaValidator();
@@ -54,11 +55,23 @@ function validate(args) {
     var err;
 
     if (req.body && bodySchema) {
-      errors.push.apply(errors, v.validate(req.body, bodySchema).errors);
+      errors.push.apply(errors, withAddedLocation('body', v.validate(
+          req.body, bodySchema).errors));
+    }
+
+    if (req.params && pathSchema) {
+      errors.push.apply(errors, withAddedLocation('path', v.validate(
+          req.params, pathSchema).errors));
+    }
+
+    if (req.headers && headersSchema) {
+      errors.push.apply(errors, withAddedLocation('headers', v.validate(
+          req.headers, headersSchema).errors));
     }
 
     if (req.query && querySchema) {
-      errors.push.apply(errors, v.validate(req.query, querySchema).errors);
+      errors.push.apply(errors, withAddedLocation('query', v.validate(
+          req.query, querySchema).errors));
     }
 
     if (errors.length) {
@@ -72,10 +85,40 @@ function validate(args) {
   };
 }
 
+function lowercasedHeaders(headersSchema) {
+  if (headersSchema) {
+    var properties = headersSchema.properties;
+    Object.keys(properties).forEach(function(header) {
+      var property = properties[header];
+      delete properties[header];
+      properties[header.toLowerCase()] = property;
+    });
+
+    if (headersSchema.required) {
+      headersSchema.required = headersSchema.required.map(function(header) {
+        return header.toLowerCase();
+      });
+    }
+  }
+
+  return headersSchema;
+}
+
 function toOpenapiValidationError(error) {
   return {
-    path: error.argument,
+    path: error.property.replace(/^instance\.?/, '') || error.argument,
     errorCode: error.name + '.openapi.validation',
-    message: error.stack
+    message: error.stack,
+    location: error.location
   };
+}
+
+function withAddedLocation(location, errors) {
+  if (errors) {
+    errors.forEach(function(error) {
+      error.location = location;
+    });
+  }
+
+  return errors;
 }

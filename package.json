@@ -37,6 +37,6 @@
   },
   "dependencies": {
     "jsonschema": "^1.0.2",
-    "openapi-jsonschema-parameters": "^0.1.2"
+    "openapi-jsonschema-parameters": "^0.1.3"
   }
 }
