@@ -1,6 +1,6 @@
 {
   "name": "openapi-jsonschema-parameters",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Converts openapi parameters to a jsonschema format.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js && cat ./coverage/lcov.info | coveralls -v",
