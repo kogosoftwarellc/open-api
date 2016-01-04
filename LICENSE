@@ -1,9 +1,3 @@
-# openapi-jsonschema-parameters [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
-> Converts openapi parameters to a jsonschema format.
-
-
-## LICENSE
-``````
 The MIT License (MIT)
 
 Copyright (c) 2016 Kogo Software LLC
@@ -25,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-``````
-
-[downloads-image]: http://img.shields.io/npm/dm/openapi-jsonschema-parameters.svg
-[npm-url]: https://npmjs.org/package/openapi-jsonschema-parameters
-[npm-image]: http://img.shields.io/npm/v/openapi-jsonschema-parameters.svg
-
-[travis-url]: https://travis-ci.org/kogosoftwarellc/node-openapi-jsonschema-parameters
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/node-openapi-jsonschema-parameters.svg
-
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/node-openapi-jsonschema-parameters
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/node-openapi-jsonschema-parameters/master.svg
