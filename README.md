@@ -11,6 +11,8 @@ If validation errors occur, `next` is called with `{status: 400, errors: [<valid
 * Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
 * Supports `$ref` in body schemas i.e. `#/definitions/SomeType`.
+* Does not handle type conversion (use [express-openapi-defaults](http://github.com/kogosoftwarellc/express-openapi-defaults)).
+* Does not supply default values (use [express-openapi-coercion](http://github.com/kogosoftwarellc/express-openapi-coercion)).
 
 ## Example
 
