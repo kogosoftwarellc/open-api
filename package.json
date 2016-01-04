@@ -1,7 +1,7 @@
 {
   "name": "express-openapi-coercion",
   "version": "0.2.1",
-  "description": "Express middleware for openapi parameter validation.",
+  "description": "Express middleware to coerce request properties according to an openapi parameter list.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",

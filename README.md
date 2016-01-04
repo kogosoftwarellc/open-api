@@ -1,5 +1,5 @@
-# express-openapi-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
->
+# express-openapi-coercion [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
+> Express middleware to coerce request properties according to an openapi parameter list.
 
 ## Highlights
 
@@ -67,12 +67,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ``````
 
-[downloads-image]: http://img.shields.io/npm/dm/express-openapi-validation.svg
-[npm-url]: https://npmjs.org/package/express-openapi-validation
-[npm-image]: http://img.shields.io/npm/v/express-openapi-validation.svg
+[downloads-image]: http://img.shields.io/npm/dm/express-openapi-coercion.svg
+[npm-url]: https://npmjs.org/package/express-openapi-coercion
+[npm-image]: http://img.shields.io/npm/v/express-openapi-coercion.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/express-openapi-validation
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/express-openapi-validation.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/express-openapi-coercion
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/express-openapi-coercion.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/express-openapi-validation
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/express-openapi-validation/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/express-openapi-coercion
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/express-openapi-coercion/master.svg
