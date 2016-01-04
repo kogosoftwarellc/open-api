@@ -4,18 +4,19 @@ module.exports = {
       {
         in: 'query',
         name: 'foo',
-        type: 'string'
+        type: 'string',
+        required: true
       }
     ],
 
-    definitions: null
+    schemas: null
   },
 
   requestMethod: 'get',
 
   requestBody: null,
 
-  path: '',
+  path: '?foo=asdf',
 
   statusCode: 200,
 

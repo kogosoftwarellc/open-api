@@ -1,6 +1,8 @@
 # express-openapi-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Express middleware for openapi parameter validation.
 
+If validation errors occur, `next` is called with `{status: 400, errors: [<validation errors>]}`.
+
 ## Highlights
 
 * Performant.
@@ -8,6 +10,7 @@
 * Small footprint.
 * Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
+* Supports `$ref` in body schemas i.e. `#/definitions/SomeType`.
 
 ## Example
 
@@ -24,7 +27,7 @@ var validate = require('express-openapi-validation')({
       required: true
     }
   ],
-  definitions: null, // an optional array of jsonschema definitions
+  schemas: null, // an optional array of jsonschemas used to dereference $ref
   version: 'swagger-2.0', // default optional value for future versions of openapi
   errorTransformer: null // an optional transformer function to format errors
 });
@@ -36,6 +39,41 @@ app.get('/something', validate, function(req, res) {
 // GET /something => 400
 // GET /something?foo=asdf => 200
 ```
+
+## API
+
+### validate(args)
+#### args.parameters
+
+An array of openapi parameters.
+
+#### args.schemas
+
+An array of schemas.  Each schema must have an `id` property.  See `./test/data-driven/`
+for tests with `schemas`.  Ids may be schema local (i.e. `#/definitions/SomeType`),
+or URL based (i.e. `/SomeType`).  When supplied, `$ref` usage will map exactly to the
+Id e.g. if `id` is `/SomeType`, `$ref` must be `/SomeType`.
+
+#### args.version
+
+An optional string that currently does nothing.  This will ensure nothing breaks
+for new versions of openapi drafts that get added in the future.
+
+#### args.errorTransformer
+
+A function that transforms errors.
+
+E.G.
+
+```
+  errorTransformer: function(error) {
+    return {
+      message: error.message
+    };
+  }
+```
+
+See the error format in [jsonschema](https://www.npmjs.com/package/jsonschema).
 
 ## LICENSE
 ``````

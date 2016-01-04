@@ -9,16 +9,25 @@ module.exports = {
       }
     ],
 
-    definitions: null
+    schemas: null,
+
+    errorTransformer: function(error) {
+      return 'asdf';
+    }
   },
 
   requestMethod: 'get',
 
   requestBody: null,
 
-  path: '?foo=asdf',
+  path: '',
 
-  statusCode: 200,
+  statusCode: 400,
 
-  responseBody: '"woot"'
+  responseBody: JSON.stringify({
+    status: 400,
+    errors: [
+      'asdf'
+    ]
+  })
 };

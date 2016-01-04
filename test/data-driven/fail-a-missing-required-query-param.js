@@ -9,7 +9,7 @@ module.exports = {
       }
     ],
 
-    definitions: null
+    schemas: null
   },
 
   requestMethod: 'get',
