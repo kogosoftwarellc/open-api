@@ -1,21 +1,41 @@
 # express-openapi-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
-> Express middleware for openapi input validation.
+> Express middleware for openapi parameter validation.
 
 ## Highlights
 
 * Performant.
 * Extensively tested.
 * Small footprint.
+* Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
 
 ## Example
 
-See `./test/data-driven` for more examples.
+See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-// TODO
-```
+var app = require('express')();
+var validate = require('express-openapi-validation')({
+  parameters: [
+    {
+      in: 'query',
+      type: 'string',
+      name: 'foo',
+      required: true
+    }
+  ],
+  definitions: null, // an optional array of jsonschema definitions
+  version: 'swagger-2.0', // default optional value for future versions of openapi
+  errorTransformer: null // an optional transformer function to format errors
+});
 
+app.get('/something', validate, function(req, res) {
+  res.status(200).json('woohoo');
+});
+
+// GET /something => 400
+// GET /something?foo=asdf => 200
+```
 
 ## LICENSE
 ``````

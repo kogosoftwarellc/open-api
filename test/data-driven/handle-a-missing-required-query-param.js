@@ -1,14 +1,16 @@
 module.exports = {
-  parameters: [
-    {
-      in: 'query',
-      name: 'foo',
-      type: 'string',
-      required: true
-    }
-  ],
+  validateArgs: {
+    parameters: [
+      {
+        in: 'query',
+        name: 'foo',
+        type: 'string',
+        required: true
+      }
+    ],
 
-  definitions: null,
+    definitions: null
+  },
 
   requestMethod: 'get',
 

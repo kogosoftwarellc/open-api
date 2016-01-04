@@ -1,7 +1,7 @@
 {
   "name": "express-openapi-validation",
   "version": "0.0.1",
-  "description": "Express middleware for openapi input validation.",
+  "description": "Express middleware for openapi parameter validation.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",

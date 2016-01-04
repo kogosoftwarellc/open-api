@@ -13,7 +13,7 @@ describe('express-openapi-validation', function() {
     fixture = require(path.resolve(baseDir, fixture));
 
     it('should ' + testName, function(done) {
-      var test = request(sampleApp(sut(fixture.parameters, fixture.definitions)));
+      var test = request(sampleApp(sut(fixture.validateArgs)));
       var path = '/test' + fixture.path;
 
       if (fixture.requestMethod === 'post') {

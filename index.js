@@ -3,14 +3,15 @@ var JsonschemaValidator = require('jsonschema').Validator;
 
 module.exports = validate;
 
-function validate(parameters, definitions) {
-  var schemas = convert(parameters);
+function validate(args) {
+  var schemas = convert(args.parameters);
+  var errorTransformer = args.errorTransformer || toOpenapiValidationError;
   var bodySchema = schemas.body;
   var pathSchema = schemas.path;
   var querySchema = schemas.query;
   var v = new JsonschemaValidator();
 
-  if (Array.isArray(definitions)) {
+  if (Array.isArray(args.definitions)) {
     definitions.forEach(function(definition) {
       if (definition.id) {
         validator.addSchema(definition, definition.id);
@@ -29,7 +30,7 @@ function validate(parameters, definitions) {
     if (errors.length) {
       err = {
         status: 400,
-        errors: errors.map(toOpenapiValidationError)
+        errors: errors.map(errorTransformer)
       };
     }
 
