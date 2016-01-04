@@ -3,11 +3,16 @@ module.exports = convert;
 function convert(parameters) {
   var parametersSchema = {};
   var bodySchema = getBodySchema(parameters);
+  var headerSchema = getSchema(parameters, 'header');
   var pathSchema = getSchema(parameters, 'path');
   var querySchema = getSchema(parameters, 'query');
 
   if (bodySchema) {
     parametersSchema.body = bodySchema;
+  }
+
+  if (headerSchema) {
+    parametersSchema.headers = headerSchema;
   }
 
   if (pathSchema) {

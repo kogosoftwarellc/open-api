@@ -19,6 +19,26 @@ var convert = require('openapi-jsonschema-parameters');
 
 var jsonschema = convert([
   {
+    in: 'body',
+    name: 'wow',
+    schema: {
+      $ref: '#/definitions/SomeDefinition'
+    }
+  },
+
+  {
+    in: 'header',
+    name: 'Accept',
+    type: 'string'
+  },
+
+  {
+    in: 'path',
+    name: 'boo',
+    type: 'string'
+  },
+
+  {
     in: 'query',
     name: 'foo',
     required: true,
@@ -28,6 +48,26 @@ var jsonschema = convert([
 
 console.log(jsonschema); //=>
 // {
+//   body: {
+//     $ref: '#/definitions/SomeDefinition'
+//   },
+//
+//   headers: {
+//     properties: {
+//       Accept: {
+//         type: 'string'
+//       }
+//     }
+//   },
+//
+//   path: {
+//     properties: {
+//       boo: {
+//         type: 'string'
+//       }
+//     }
+//   },
+//
 //   query: {
 //     properties: {
 //       foo: {
