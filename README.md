@@ -5,13 +5,11 @@
 
 * Effortlessly coerce header, path, and query request properties to defined types in
 an openapi parameters list.
+* Handles array types.
 * Performant.
 * Extensively tested.
 * Small footprint.
-* Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
-* Supports `$ref` in body schemas i.e. `#/definitions/SomeType`.
-* Handles array types.
 
 ## Example
 
