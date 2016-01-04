@@ -1,6 +1,44 @@
 # openapi-jsonschema-parameters [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Converts openapi parameters to a jsonschema format.
 
+## Highlights
+
+* No validation on the input or the output.  It is expected that you'll do this with
+some other library.
+* Performant.
+* Extensively tested.
+* Small footprint.
+* Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
+
+## Example
+
+See `./test/data-driven` for more examples.
+
+```javascript
+var convert = require('openapi-jsonschema-parameters');
+
+var jsonschema = convert([
+  {
+    in: 'query',
+    name: 'foo',
+    required: true,
+    type: 'string'
+  }
+]);
+
+console.log(jsonschema); //=>
+// {
+//   query: {
+//     properties: {
+//       foo: {
+//         type: 'string'
+//       }
+//     },
+//     required: ['foo']
+//   }
+// }
+```
+
 
 ## LICENSE
 ``````
