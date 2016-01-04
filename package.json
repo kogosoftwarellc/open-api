@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Converts openapi parameters to a jsonschema format.",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js && cat ./coverage/*/lcov.info | coveralls -v && rm -rf coverage",
+    "cover": "istanbul cover _mocha -- ./test/*.js && cat ./coverage/*/lcov.info | coveralls -v",
     "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
     "test": "mocha ./test/*.js"
   },
