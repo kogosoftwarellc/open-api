@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Express middleware for openapi input validation.",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js && cat ./coverage/lcov.info | coveralls -v",
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
     "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
     "test": "mocha ./test/*.js"
   },
