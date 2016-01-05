@@ -29,6 +29,7 @@ var coerce = require('express-openapi-coercion')({
 });
 
 app.get('/something', coerce, function(req, res) {
+  // GET /something?foo=5
   console.log(req.query.foo); //=> 5
 });
 ```
