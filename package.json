@@ -1,7 +1,7 @@
 {
   "name": "express-openapi-defaults",
   "version": "0.3.1",
-  "description": "",
+  "description": "Express middelware to set openapi parameter defaults in request properties.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
