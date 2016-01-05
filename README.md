@@ -44,7 +44,7 @@ openapi.initialize({
 
 ## API
 
-### initialize(args)
+### .initialize(args)
 
 Initializes routes and middleware on an express app.
 
@@ -64,7 +64,7 @@ parameters.
 
 #### args.app {Object}
 
-This is the express app you with to initialize.
+The express app you wish to initialize.
 
 #### args.routes {String}
 
@@ -114,13 +114,18 @@ module.exports.get.apiDoc = {
       required: true,
       type: 'integer'
     }
-  ]
+  ],
+  responses: {
+    default: {
+      $ref: '#/definitions/Error'
+    }
+  }
 };
 
 ```
 
 Modules under `args.routes` expose methods.  Methods may either be a method handler
-function, or an array of business specific middleware + a method handler.
+function, or an array of business specific middleware + a method handler function.
 
 `express-openapi` will prepend middleware to this stack based on the parameters
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
