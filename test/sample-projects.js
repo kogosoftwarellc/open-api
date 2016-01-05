@@ -3,7 +3,7 @@ var request = require('supertest');
 describe(require('../package.json').name + 'sample-projects', function() {
   describe('basic-usage', function() {
     var app = require('./sample-projects/basic-usage/app.js');
-    var expectedApiDoc = require('./fixtures/basic-usage-api-doc.json');
+    var expectedApiDoc = require('./fixtures/basic-usage-api-doc-after-initialization.json');
 
     it('should expose <apiDoc>.basePath/api-docs', function(done) {
       request(app)
