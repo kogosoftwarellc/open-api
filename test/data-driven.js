@@ -20,7 +20,8 @@ describe(require('../package.json').name, function() {
         return done();
       }
 
-      var test = request(sampleApp(sut(fixture.validateArgs)));
+      var test = request(sampleApp(sut(fixture.validateArgs),
+            fixture.disableBodyParser));
       var path = '/test' + fixture.path;
 
       if (fixture.requestMethod === 'post') {
@@ -41,10 +42,12 @@ describe(require('../package.json').name, function() {
     });
   });
 
-  function sampleApp(validationMiddleware) {
+  function sampleApp(validationMiddleware, disableBodyParser) {
     var app = express();
 
-    app.use(bodyParser.json());
+    if (!disableBodyParser) {
+      app.use(bodyParser.json());
+    }
 
     [
       'get',

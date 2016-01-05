@@ -23,6 +23,7 @@ function validate(args) {
   var pathSchema = schemas.path;
   var querySchema = schemas.query;
   var v = new JsonschemaValidator();
+  var isBodyRequired = args.parameters.filter(byBodyParameters).length > 0;
 
   if (Array.isArray(args.schemas)) {
     args.schemas.forEach(function(schema) {
@@ -57,13 +58,21 @@ function validate(args) {
     var err;
     var schemaError;
 
-    if (req.body && bodySchema) {
-      try {
-        var validation = v.validate(req.body, bodySchema);
-        errors.push.apply(errors, withAddedLocation('body', validation.errors));
-      } catch(e) {
-        e.location = 'body';
-        schemaError = e;
+    if (bodySchema) {
+      if (req.body) {
+        try {
+          var validation = v.validate(req.body, bodySchema);
+          errors.push.apply(errors, withAddedLocation('body', validation.errors));
+        } catch(e) {
+          e.location = 'body';
+          schemaError = e;
+        }
+      } else {
+        schemaError = {
+          location: 'body',
+          message: 'req.body was not present in the request.  Is a body-parser being used?',
+          schema: bodySchema
+        };
       }
     }
 
@@ -96,6 +105,10 @@ function validate(args) {
 
     next(err);
   };
+}
+
+function byBodyParameters(param) {
+  return param.in === 'body' || param.in === 'formData';
 }
 
 function lowercasedHeaders(headersSchema) {
