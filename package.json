@@ -31,7 +31,6 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
-    "json-schema": "0.2.2",
     "jsonschema": "1.0.2",
     "swagger-schema-official": "2.0.0-bab6bed"
   }

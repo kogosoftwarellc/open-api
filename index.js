@@ -2,7 +2,7 @@ var loggingKey = require('./package.json').name;
 var fs = require('fs');
 var Validator = require('jsonschema').Validator;
 var v = new Validator();
-var jsonSchema = JSON.parse(fs.readFileSync(require.resolve('json-schema/draft-04/schema'), 'utf8'));
+var jsonSchema = require('./json-schema-draft-04.json');
 var swaggerSchema = require('swagger-schema-official/schema.json');
 
 v.addSchema(jsonSchema, 'http://json-schema.org/draft-04/schema#');
