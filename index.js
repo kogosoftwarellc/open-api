@@ -27,8 +27,8 @@ function initialize(args) {
   var apiDocValidation = validateSchema(args.apiDoc);
 
   if (apiDocValidation.errors.length) {
-    console.error(loggingKey, 'Validating schema before populating paths', args.apiDoc);
-    console.error(loggingKey, 'validation errors', apiDocValidation.errors);
+    console.error(loggingKey, 'Validating schema before populating paths');
+    console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
     throw new Error(loggingKey + 'args.apiDoc was invalid.  See the output.');
   }
 
@@ -95,7 +95,7 @@ function initialize(args) {
   var apiDocValidation = validateSchema(apiDoc);
 
   if (apiDocValidation.errors.length) {
-    console.error(loggingKey, 'Validating schema after populating paths', JSON.stringify(apiDoc, null, '  '));
+    console.error(loggingKey, 'Validating schema after populating paths');
     console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
     throw new Error(loggingKey + 'args.apiDoc was invalid after populating paths.  See the output.');
   }
