@@ -4,13 +4,15 @@
 ## Highlights
 
 * Utilizes convention based programming.
-* Unopinionated.
-* Stays as close to express as possible.
+* Unobtrusively opinionated.
+* Stays as close to `express` as possible.
 * Leverages openapi parameter lists for parameter defaults, type coercion,
 and validation.
   * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
   * See [express-openapi-coercion](https://github.com/kogosoftwarellc/express-openapi-coercion)
   * See [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)
+* Validates api documents.
+  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
 * Performant.
 * Extensively tested.
 * Small footprint.
@@ -18,21 +20,27 @@ and validation.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
 wherever possible.
 * Clean interface.
+* Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
 
 ## Example
+
+This uses the sample project located at [./test/sample-projects/basic-usage/](
+https://github.com/kogosoftwarellc/express-openapi/test/sample-projects/basic-usage).
+Check out the other sample projects for complete usage examples.  You'll learn all
+you need to know by studying it and the related tests.
 
 ```javascript
 var app = require('express')();
 var openapi = require('express-openapi');
 
-openapi.initialize(app, {
-  routes: 'api-routes',
-  schema: require('api-schema')
+openapi.initialize({
+  apiDoc: require('./test/sample-projects/basic-usage/api-doc.js'),
+  app: app,
+  docsPath: '/api-docs',
+  routes: './test/sample-projects/basic-usage/api-routes/'
 });
 
 ```
-
-## API
 
 ## LICENSE
 ``````

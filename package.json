@@ -14,10 +14,8 @@
   },
   "keywords": [
     "openapi",
-    "coercion",
-    "jsonschema",
-    "express",
-    "middleware"
+    "swagger",
+    "express"
   ],
   "author": "Joseph Spencer",
   "license": "MIT",
@@ -25,16 +23,14 @@
     "url": "https://github.com/kogosoftwarellc/express-openapi/issues"
   },
   "homepage": "https://github.com/kogosoftwarellc/express-openapi#readme",
-
   "peerDependencies": {
     "glob": "^6.0.3"
   },
-
   "devDependencies": {
+    "body-parser": "^1.14.2",
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
     "express": "^4.13.3",
-    "glob": "^6.0.3",
     "istanbul": "^0.4.1",
     "mocha": "^2.3.4",
     "supertest": "^1.1.0"
@@ -42,8 +38,10 @@
   "dependencies": {
     "express-openapi-coercion": "^0.3.3",
     "express-openapi-defaults": "^0.4.1",
-    "express-openapi-validation": "^0.2.1",
+    "express-openapi-validation": "^0.5.1",
     "fs-routes": "^1.0.0",
-    "glob": "^6.0.3"
+    "glob": "^6.0.3",
+    "is-dir": "^1.0.0",
+    "openapi-schema-validation": "^0.2.0"
   }
 }
