@@ -38,7 +38,7 @@ app.get('/something', defaults, function(req, res) {
 
 ## API
 
-### coerce(args)
+### defaults(args)
 #### args.parameters
 
 An array of openapi parameters.
