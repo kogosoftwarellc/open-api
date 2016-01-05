@@ -1,0 +1,102 @@
+{
+  "basePath": "/v3",
+  "definitions": {
+    "Error": {
+      "additionalProperties": true
+    },
+    "User": {
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "info": {
+    "title": "express-openapi sample project",
+    "version": "3.0.0"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "description": "asdf",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "Retrieve a user.",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "description": "The name of this person.  It may only be \"fred\".",
+            "in": "query",
+            "name": "name",
+            "pattern": "^fred$",
+            "type": "string"
+          },
+          {
+            "description": "Fred's age.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "default": 80,
+            "description": "Fred's age.",
+            "in": "query",
+            "name": "age",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/definitions/User"
+          },
+          "default": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      },
+      "post": {
+        "description": "Create a user.",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "users"
+    }
+  ]
+}

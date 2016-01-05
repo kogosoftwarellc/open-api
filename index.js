@@ -61,10 +61,10 @@ function initialize(args) {
     var route = result.route;
     // express path params start with :paramName
     // openapi path params use {paramName}
-    var apiPath = basePath + '/' + route.replace(/^\//, '').split('/')
+    var openapiPath = '/' + route.substring(1).split('/')
         .map(toOpenapiParams).join('/');
     var pathMethods = {};
-    apiDoc.paths[apiPath] = pathMethods;
+    apiDoc.paths[openapiPath] = pathMethods;
 
     Object.keys(routeModule).forEach(function(methodName) {
       // methodHandler may be an array or a function.

@@ -3,11 +3,12 @@ var request = require('supertest');
 describe(require('../package.json').name + 'sample-projects', function() {
   describe('basic-usage', function() {
     var app = require('./sample-projects/basic-usage/app.js');
+    var expectedApiDoc = require('./fixtures/basic-usage-api-doc.json');
 
     it('should expose <apiDoc>.basePath/api-docs', function(done) {
       request(app)
         .get('/v3/api-docs')
-        .expect(200, done);
+        .expect(200, expectedApiDoc, done);
     });
 
     it('should wire up routes with defaults and coercion', function(done) {
