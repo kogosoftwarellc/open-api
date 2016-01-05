@@ -7,7 +7,7 @@ var baseDir = path.resolve(__dirname, 'data-driven');
 var request = require('supertest');
 var sut = require('../');
 
-describe('express-openapi-validation', function() {
+describe(require('../package.json').name, function() {
   glob.sync('*.js', {cwd: baseDir}).forEach(function(fixture) {
     var testName = path.basename(fixture, '.js').replace(/-/g, ' ');
     fixture = require(path.resolve(baseDir, fixture));

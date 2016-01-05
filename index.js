@@ -1,17 +1,19 @@
 var convert = require('openapi-jsonschema-parameters');
-var JsonschemaValidator = require('jsonschema').Validator;
-var loggingKey = 'express-openapi-validation';
+var jsonschema = require('jsonschema');
+var SchemaError = jsonschema.SchemaError;
+var JsonschemaValidator = jsonschema.Validator;
+var loggingKey = require('./package.json').name + ': ';
 var LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 module.exports = validate;
 
 function validate(args) {
   if (!args) {
-    throw new Error(loggingKey + ': missing args argument');
+    throw new Error(loggingKey + 'missing args argument');
   }
 
   if (!Array.isArray(args.parameters)) {
-    throw new Error(loggingKey + ': args.parameters must be an Array');
+    throw new Error(loggingKey + 'args.parameters must be an Array');
   }
 
   var schemas = convert(args.parameters);
@@ -53,10 +55,16 @@ function validate(args) {
   return function(req, res, next) {
     var errors = [];
     var err;
+    var schemaError;
 
     if (req.body && bodySchema) {
-      errors.push.apply(errors, withAddedLocation('body', v.validate(
-          req.body, bodySchema).errors));
+      try {
+        var validation = v.validate(req.body, bodySchema);
+        errors.push.apply(errors, withAddedLocation('body', validation.errors));
+      } catch(e) {
+        e.location = 'body';
+        schemaError = e;
+      }
     }
 
     if (req.params && pathSchema) {
@@ -79,6 +87,11 @@ function validate(args) {
         status: 400,
         errors: errors.map(errorTransformer)
       };
+    } else if (schemaError) {
+      err = {
+        status: 400,
+        errors: [schemaError]
+      };
     }
 
     next(err);
@@ -94,7 +107,7 @@ function lowercasedHeaders(headersSchema) {
       properties[header.toLowerCase()] = property;
     });
 
-    if (headersSchema.required) {
+    if (headersSchema.required && headersSchema.required.length) {
       headersSchema.required = headersSchema.required.map(function(header) {
         return header.toLowerCase();
       });
