@@ -30,7 +30,7 @@ var validate = require('express-openapi-validation')({
       required: true
     }
   ],
-  schemas: null, // an optional array of jsonschemas used to dereference $ref
+  schemas: null, // an optional array or object of jsonschemas used to dereference $ref
   version: 'swagger-2.0', // default optional value for future versions of openapi
   errorTransformer: null // an optional transformer function to format errors
 });
@@ -52,10 +52,12 @@ An array of openapi parameters.
 
 #### args.schemas
 
-An array of schemas.  Each schema must have an `id` property.  See `./test/data-driven/`
+If given as an array, each schema must have an `id` property.  See `./test/data-driven/`
 for tests with `schemas`.  Ids may be schema local (i.e. `#/definitions/SomeType`),
 or URL based (i.e. `/SomeType`).  When supplied, `$ref` usage will map exactly to the
 Id e.g. if `id` is `/SomeType`, `$ref` must be `/SomeType`.
+
+If given as an object, it will be assigned to `bodySchema.definitions`.  Schemas may then be dereferenced in parameters by using `#/definitions/<key in args.schemas object>`.
 
 #### args.version
 

@@ -25,32 +25,36 @@ function validate(args) {
   var v = new JsonschemaValidator();
   var isBodyRequired = args.parameters.filter(byBodyParameters).length > 0;
 
-  if (Array.isArray(args.schemas)) {
-    args.schemas.forEach(function(schema) {
-      var id = schema.id;
+  if (args.schemas) {
+    if (Array.isArray(args.schemas)) {
+      args.schemas.forEach(function(schema) {
+        var id = schema.id;
 
-      if (id) {
-        var localSchemaPath;
+        if (id) {
+          var localSchemaPath;
 
-        if (bodySchema) {
-          localSchemaPath = LOCAL_DEFINITION_REGEX.exec(id);
-        }
-
-        if (localSchemaPath) {
-          var localSchemas = bodySchema[localSchemaPath[1]];
-
-          if (!localSchemas) {
-            localSchemas = bodySchema[localSchemaPath[1]] = {};
+          if (bodySchema) {
+            localSchemaPath = LOCAL_DEFINITION_REGEX.exec(id);
           }
 
-          localSchemas[localSchemaPath[2]] = schema;
-        }
+          if (localSchemaPath) {
+            var localSchemas = bodySchema[localSchemaPath[1]];
 
-        v.addSchema(schema, id);
-      } else {
-        console.warn(loggingKey, 'igorning schema without id property');
-      }
-    });
+            if (!localSchemas) {
+              localSchemas = bodySchema[localSchemaPath[1]] = {};
+            }
+
+            localSchemas[localSchemaPath[2]] = schema;
+          }
+
+          v.addSchema(schema, id);
+        } else {
+          console.warn(loggingKey, 'igorning schema without id property');
+        }
+      });
+    } else {
+      bodySchema.definitions = args.schemas;
+    }
   }
 
   return function(req, res, next) {
