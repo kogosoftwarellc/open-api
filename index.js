@@ -52,7 +52,7 @@ function validate(args) {
           console.warn(loggingKey, 'igorning schema without id property');
         }
       });
-    } else {
+    } else if (bodySchema) {
       bodySchema.definitions = args.schemas;
     }
   }
