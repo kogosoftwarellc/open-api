@@ -2,11 +2,11 @@ var loggingKey = require('./package.json').name;
 var fs = require('fs');
 var Validator = require('jsonschema').Validator;
 var v = new Validator();
-var jsonSchema = require('./json-schema-draft-04.json');
+var jsonSchema = require('jsonschema-draft4');
 var swaggerSchema = require('swagger-schema-official/schema.json');
 
-v.addSchema(jsonSchema, 'http://json-schema.org/draft-04/schema#');
-v.addSchema(swaggerSchema, 'http://swagger.io/v2/schema.json#');
+v.addSchema(jsonSchema);
+v.addSchema(swaggerSchema);
 
 module.exports = {
   validate: validate

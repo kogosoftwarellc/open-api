@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "jsonschema": "1.0.2",
+    "jsonschema-draft4": "^1.0.0",
     "swagger-schema-official": "2.0.0-bab6bed"
   }
 }
