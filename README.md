@@ -38,11 +38,13 @@ var app = require('express')();
 var openapi = require('express-openapi');
 
 openapi.initialize({
-  apiDoc: require('./test/sample-projects/basic-usage/api-doc.js'),
+  apiDoc: require('./api-doc.js'),
   app: app,
   docsPath: '/api-docs',
-  routes: './test/sample-projects/basic-usage/api-routes/'
+  routes: './api-routes/'
 });
+
+app.listen(3000);
 
 ```
 
