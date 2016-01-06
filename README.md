@@ -22,6 +22,16 @@ wherever possible.
 * Clean interface.
 * Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
 
+## Swagger UI in action
+
+With a basic project layout
+
+![basic express-openapi-project](./docs/express-openapi.png)
+
+We can point a Swagger UI instance at it
+
+![swagger ui](./docs/swagger-page.png)
+
 ## Example
 
 This uses the sample project located at [./test/sample-projects/basic-usage/](
