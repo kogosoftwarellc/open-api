@@ -35,17 +35,24 @@ Here's how we add our routes to express:
 
 ```javascript
 var app = require('express')();
+var bodyParser = require('body-parser');
 var openapi = require('express-openapi');
+var cors = require('cors');
+
+app.use(cors());
+app.use(bodyParser.json());
 
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  docsPath: '/api-docs',
-  routes: './api-routes/'
+  routes: './api-routes'
+});
+
+app.use(function(err, req, res, next) {
+  res.status(err.status).json(err);
 });
 
 app.listen(3000);
-
 ```
 
 Our routes are now active and we can test them out with Swagger UI:
