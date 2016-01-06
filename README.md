@@ -22,22 +22,16 @@ wherever possible.
 * Clean interface.
 * Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
 
-## Swagger UI in action
+## Example
 
-With a basic project layout
+Let's use the sample project located at [./test/sample-projects/basic-usage/](
+https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage).
+
+The project layout looks something like this:
 
 ![basic express-openapi-project](./docs/express-openapi.png)
 
-We can point a Swagger UI instance at it
-
-![swagger ui](./docs/swagger-page.png)
-
-## Example
-
-This uses the sample project located at [./test/sample-projects/basic-usage/](
-https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage).
-Check out the other sample projects for complete usage examples.  You'll learn all
-you need to know by studying it and the related tests.
+Here's how we add our routes to express:
 
 ```javascript
 var app = require('express')();
@@ -51,6 +45,12 @@ openapi.initialize({
 });
 
 ```
+
+Our routes are now active and we can test them out with Swagger UI:
+
+![swagger ui](./docs/swagger-page.png)
+
+Check out the other sample projects for complete usage examples.
 
 ## API
 
