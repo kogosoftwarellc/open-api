@@ -12,6 +12,8 @@ module.exports = {
 // showing that if parameters are empty, express-openapi adds no middleware
 module.exports.post.apiDoc = {
   description: 'asdf',
+  operationId: 'createUser',
+  tags: ['users'],
   parameters: [],
   responses: {
     default: {

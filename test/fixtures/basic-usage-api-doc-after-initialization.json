@@ -23,6 +23,10 @@
     "/users": {
       "post": {
         "description": "asdf",
+        "operationId": "createUser",
+        "tags": [
+          "users"
+        ],
         "parameters": [],
         "responses": {
           "default": {
