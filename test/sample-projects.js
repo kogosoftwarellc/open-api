@@ -68,4 +68,14 @@ describe(require('../package.json').name + 'sample-projects', function() {
         ], status: 400}, done);
     });
   });
+
+  describe('with-exposeApiDocs-set-to-false', function() {
+    var app = require('./sample-projects/with-exposeApiDocs-set-to-false/app.js');
+
+    it('should not expose /api-docs', function(done) {
+      request(app)
+        .get('/v3/api-docs')
+        .expect(404, done);
+    });
+  });
 });

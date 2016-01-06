@@ -24,12 +24,21 @@ function initialize(args) {
     throw new Error(loggingKey + 'args.apiDoc is required');
   }
 
-  var apiDocValidation = validateSchema(args.apiDoc);
+  var exposeApiDocs = 'exposeApiDocs' in args ?
+      !!args.exposeApiDocs :
+      true;
+  var validateApiDoc = 'validateApiDoc' in args ?
+      !!args.validateApiDoc :
+      true;
 
-  if (apiDocValidation.errors.length) {
-    console.error(loggingKey, 'Validating schema before populating paths');
-    console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
-    throw new Error(loggingKey + 'args.apiDoc was invalid.  See the output.');
+  if (validateApiDoc) {
+    var apiDocValidation = validateSchema(args.apiDoc);
+
+    if (apiDocValidation.errors.length) {
+      console.error(loggingKey, 'Validating schema before populating paths');
+      console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
+      throw new Error(loggingKey + 'args.apiDoc was invalid.  See the output.');
+    }
   }
 
   if (typeof args.routes !== 'string') {
@@ -59,7 +68,7 @@ function initialize(args) {
   fsRoutes(routesDir).forEach(function(result) {
     var routeModule = require(result.path);
     var route = result.route;
-    // express path params start with :paramName
+    // express path pargumentarams start with :paramName
     // openapi path params use {paramName}
     var openapiPath = '/' + route.substring(1).split('/')
         .map(toOpenapiParams).join('/');
@@ -76,15 +85,26 @@ function initialize(args) {
         pathMethods[methodName] = JSON.parse(JSON.stringify(methodDoc));
 
         if (Array.isArray(methodDoc.parameters) && methodDoc.parameters.length) {
-          var defaultsMiddleware = buildDefaultsMiddleware({parameters: methodDoc.parameters});
-          var coercionMiddleware = buildCoercionMiddleware({parameters: methodDoc.parameters});
+          var apiParams = methodDoc.parameters;
+          var defaultsMiddleware;
+
+          // no point in default middleware if we don't have any parameters with defaults.
+          if (apiParams.filter(byDefault).length) {
+            defaultsMiddleware = buildDefaultsMiddleware({parameters: apiParams});
+          }
+
+          var coercionMiddleware = buildCoercionMiddleware({parameters: apiParams});
           var validationMiddleware = buildValidationMiddleware({
             errorTransformer: errorTransformer,
-            parameters: methodDoc.parameters,
+            parameters: apiParams,
             schemas: apiDoc.definitions
           });
 
-          middleware.unshift(defaultsMiddleware, coercionMiddleware, validationMiddleware);
+          middleware.unshift(coercionMiddleware, validationMiddleware);
+
+          if (defaultsMiddleware) {
+            middleware.unshift(defaultsMiddleware);
+          }
         }
       }
 
@@ -92,18 +112,26 @@ function initialize(args) {
     });
   });
 
-  var apiDocValidation = validateSchema(apiDoc);
+  if (validateApiDoc) {
+    var apiDocValidation = validateSchema(apiDoc);
 
-  if (apiDocValidation.errors.length) {
-    console.error(loggingKey, 'Validating schema after populating paths');
-    console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
-    throw new Error(loggingKey + 'args.apiDoc was invalid after populating paths.  See the output.');
+    if (apiDocValidation.errors.length) {
+      console.error(loggingKey, 'Validating schema after populating paths');
+      console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
+      throw new Error(loggingKey + 'args.apiDoc was invalid after populating paths.  See the output.');
+    }
   }
 
-  // Swagger UI support
-  app.get(basePath + docsPath, function(req, res) {
-    res.status(200).json(apiDoc);
-  });
+  if (exposeApiDocs) {
+    // Swagger UI support
+    app.get(basePath + docsPath, function(req, res) {
+      res.status(200).json(apiDoc);
+    });
+  }
+}
+
+function byDefault(param) {
+  return param && 'default' in param;
 }
 
 function toOpenapiParams(part) {

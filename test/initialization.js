@@ -55,5 +55,18 @@ describe(require('../package.json').name, function() {
         });
       }).to.throw(/express-openapi: args.apiDoc was invalid after populating paths.  See the output./);
     });
+
+    it('should not throw an error when args.validateApiDoc is false and a route method apiDoc is invalid', function() {
+      var app = express();
+
+      expressOpenapi.initialize({
+        apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
+        app: app,
+        docsPath: '/api-docs',
+        validateApiDoc: false,
+        routes: path.resolve(__dirname, 'sample-projects', 'with-invalid-method-doc', 'api-routes')
+      });
+    });
+
   });
 });

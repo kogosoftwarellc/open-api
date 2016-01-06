@@ -48,11 +48,11 @@ openapi.initialize({
 
 Initializes routes and middleware on an express app.
 
-#### args.apiDoc {Object}
+#### args.apiDoc
 
-This is an openapi (swagger 2.0) compliant document.  See the [OpenAPI-Specification](
-https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
-for more details.
+|Type|Required|Description|
+|----|--------|-----------|
+|Object|Y|This is an openapi (swagger 2.0) compliant document.  See the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) for more details.|
 
 `args.apiDoc.paths` should be an empty object.  `express-openapi` will populate this
 for you.  This prevents you from defining your paths in 2 places.
@@ -62,13 +62,18 @@ for you.  This prevents you from defining your paths in 2 places.
 `args.apiDoc.definitions` will be used for de-referencing `$ref` properties in
 parameters.
 
-#### args.app {Object}
+#### args.app
 
-The express app you wish to initialize.
+|Type|Required|Description|
+|----|--------|-----------|
+|Object|Y|The express app you wish to initialize.|
 
-#### args.routes {String}
+#### args.routes
 
-A path to the directory that contains your route files.
+|Type|Required|Description|
+|----|--------|-----------|
+|String|Y|A path to the directory that contains your route files.|
+
 
 Route files are logically structured according to their URL path.
 
@@ -131,18 +136,29 @@ function, or an array of business specific middleware + a method handler functio
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
 
-#### args.docsPath {String} [optional]
+#### args.docsPath
 
-Changes the default location (`/api-docs`) to serve up `args.apiDoc` with populated
-paths.  This is imoprtant if you wish to support multiple versions of your app and
-for Swagger UI support.
+|Type|Required|Default Value|Description|
+|----|--------|-----------|----|
+|String|N|/api&#8209;docs|Sets the path that Swagger UI will use to request `args.apiDoc` with populated paths.  You can use this to support multiple versions of your app.|
 
-#### args.errorTransformer {Function} [optional]
+#### args.errorTransformer
 
-Transforms errors to a standard format as defined by the application.  See
-[express-openapi-validation#args.errorTransformer](
-https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
-) for more info.
+|Type|Required|Description|
+|----|--------|-----------|
+|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer) for more info.|
+
+#### args.exposeApiDocs
+
+|Type|Required|Default Value|Description|
+|----|--------|-----------|-------|
+|Boolean|N|true|Adds a route at `args.apiDoc.basePath` + `args.docsPath`.  The route will respond with `args.apiDoc`.|
+
+#### args.validateApiDoc
+
+|Type|Required|Default Value|Description|
+|----|--------|-----------|-------|
+|Boolean|N|true|Validates `args.apiDoc` before and after path population.  Set this to false if you do not want to disable this validation.  This does not effect individual route validation of route parameters.|
 
 
 ## LICENSE
