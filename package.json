@@ -1,6 +1,6 @@
 {
   "name": "fs-routes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Scan a filesystem for route files.",
   "author": "Joseph Spencer",
   "scripts": {
