@@ -23,9 +23,6 @@
     "url": "https://github.com/kogosoftwarellc/express-openapi/issues"
   },
   "homepage": "https://github.com/kogosoftwarellc/express-openapi#readme",
-  "peerDependencies": {
-    "glob": "^6.0.3"
-  },
   "devDependencies": {
     "body-parser": "^1.14.2",
     "chai": "^3.4.1",
