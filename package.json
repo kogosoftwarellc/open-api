@@ -38,7 +38,7 @@
     "express-openapi-defaults": "^0.4.2",
     "express-openapi-validation": "^0.5.1",
     "fs-routes": "^1.0.0",
-    "glob": "^6.0.3",
+    "glob": "*",
     "is-dir": "^1.0.0",
     "openapi-schema-validation": "^0.2.0"
   }
