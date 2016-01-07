@@ -177,7 +177,7 @@ module method, then `express-openapi` will add no additional middleware.
 
 |Type|Required|Default Value|Description|
 |----|--------|-----------|-------|
-|Boolean|N|true|Validates `args.apiDoc` before and after path population.  Set this to false if you do not want to disable this validation.  This does not effect individual route validation of route parameters.|
+|Boolean|N|true|Validates `args.apiDoc` before and after path population.  This does not effect individual route validation of route parameters.  You can disable this behavior by passing `false`.|
 
 
 ## LICENSE
