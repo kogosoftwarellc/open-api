@@ -11,6 +11,12 @@ describe(require('../package.json').name + 'sample-projects', function() {
         .expect(200, expectedApiDoc, done);
     });
 
+    it('should add response validation middleware when parameters are empty', function(done) {
+      request(app)
+        .delete('/v3/users')
+        .expect(204, '', done);
+    });
+
     it('should wire up routes with defaults and coercion', function(done) {
       request(app)
         .get('/v3/users/34?name=fred')

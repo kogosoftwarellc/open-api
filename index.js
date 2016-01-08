@@ -5,6 +5,7 @@ var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
 var buildValidationMiddleware = require('express-openapi-validation');
+var buildResponseValidationMiddleware = require('express-openapi-response-validation');
 var validateSchema = require('openapi-schema-validation').validate;
 
 module.exports = {
@@ -83,6 +84,16 @@ function initialize(args) {
 
       if (methodDoc) {
         pathMethods[methodName] = JSON.parse(JSON.stringify(methodDoc));
+
+        if (methodDoc.responses) {
+          // it's invalid for a method doc to not have responses, but the post
+          // validation will pick it up, so this is almost always going to be added.
+          middleware.unshift(buildResponseValidationMiddleware({
+            definitions: apiDoc.definitions,
+            errorTransformer: errorTransformer,
+            responses: methodDoc.responses
+          }));
+        }
 
         if (Array.isArray(methodDoc.parameters) && methodDoc.parameters.length) {
           var apiParams = methodDoc.parameters;

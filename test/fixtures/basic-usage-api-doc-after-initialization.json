@@ -21,8 +21,19 @@
   },
   "paths": {
     "/users": {
+      "delete": {
+        "description": "Delete users.",
+        "operationId": "deleteUsers",
+        "tags": ["users"],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Users were successfully deleted."
+          }
+        }
+      },
       "post": {
-        "description": "asdf",
+        "description": "Create a new user.",
         "operationId": "createUser",
         "tags": [
           "users"

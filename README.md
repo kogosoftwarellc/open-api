@@ -11,6 +11,8 @@ and validation in your app's express routes.
   * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
   * See [express-openapi-coercion](https://github.com/kogosoftwarellc/express-openapi-coercion)
   * See [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)
+* Leverages openapi response definitions to provide `res.validateResponse` tailored to a particular route.
+  * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
 * Validates api documents.
   * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
 * Performant.
@@ -121,7 +123,13 @@ The contents of `<project>/routes/users/:id.js` would look like this:
 module.exports = {
   get: [
     /* business middleware not expressible by openapi documentation goes here */
-    function(req, res) {
+    function(req, res, next) {
+      var validationError = res.validateResponse(200, /* return the user or an error */);
+
+      if (validationError)
+        return next(validationError);
+      }
+
       res.status(200).json(/* return the user or an error */);
     }
   ]
