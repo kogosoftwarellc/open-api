@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/express-openapi-response-validation#readme",
   "devDependencies": {
-    "body-parser": "^1.14.2",
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
     "express": "^4.13.3",

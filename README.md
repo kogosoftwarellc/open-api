@@ -1,7 +1,9 @@
 # express-openapi-response-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Express middleware for openapi response validation.
 
-If validation errors occur, `next` is called with `{status: 404, errors: [<validation errors>]}`.
+Provides a `.validateResponse` method to express response objects.  If the method
+returns a value, it will be a validation error with `status: 500`, a `message`, and
+an optional array of `errors`.
 
 ## Highlights
 
@@ -9,7 +11,7 @@ If validation errors occur, `next` is called with `{status: 404, errors: [<valid
 * Extensively tested.
 * Small footprint.
 * Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
-* Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
+* Currently supports openapi 2.0 (a.k.a. swagger 2.0) responses objects.
 * Supports `$ref` in response schemas i.e. `#/definitions/SomeType`.
 
 ## Example
@@ -18,7 +20,7 @@ See `./test/data-driven/*.js` for more examples.
 
 ```javascript
 var app = require('express')();
-var validateResponse = require('express-openapi-response-validation')({
+var validateResponseMiddleware = require('express-openapi-response-validation')({
   responses: {
     200: {
       description: 'We found what you were looking for.',
@@ -60,12 +62,28 @@ var validateResponse = require('express-openapi-response-validation')({
   }
 });
 
-app.get('/something', validate, function(req, res, next) {
+app.get('/something', validateResponseMiddleware, function(req, res, next) {
   var someResource = {};
-  var validation = res.validate(200, someResource);
+  var validationError = res.validateResponse(200, someResource);
 
-  if (validation.errors) {
-    return next(validation);
+  /*
+    Validation errors look like this (except for objects in the errors array which
+    may be overridden with errorTransformer):
+    {
+      status: 500,
+      message: 'The response was not valid.',
+      errors: [
+        {
+          path: 'foo',
+          errorCode: 'type.openapi.responseValidation',
+          message: 'foo is not of a type(s) string'
+        }
+      ]
+    }
+  */
+
+  if (validationError) {
+    return next(validationError);
   } else {
     res.status(200, someResource);
   }
@@ -74,7 +92,41 @@ app.get('/something', validate, function(req, res, next) {
 
 ## API
 
-TODO
+### module(args)
+
+Returns an express middleware function.
+
+#### args
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|Y|N/A|Arguments to configure the middleware.|
+
+#### args.responses
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|Y|N/A|A key value pair of response definitions.  At least one response definition is to be provided.|
+
+Keys may be any HTTP status code or `default` (for all HTTP status codes).  See
+http://swagger.io/specification/#responsesObject.
+
+#### args.definitions
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|N/A|A key value pair of type definitions|
+
+This object is used to support `$ref` in your responses
+
+#### args.errorTransformer
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Function|N|toOpenapiValidationError (see the source)|A function that receives an error and returns a mapped version of the error.|
+
+This function is passed a single argument (the error to be transformed).  The error
+comes directly from [jsonschema](https://github.com/tdegrunt/jsonschema).
 
 ## LICENSE
 ``````
