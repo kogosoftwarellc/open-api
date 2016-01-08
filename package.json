@@ -1,6 +1,6 @@
 {
   "name": "express-openapi-response-validation",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Express middleware for openapi response validation.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
