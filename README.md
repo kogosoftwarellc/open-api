@@ -7,7 +7,7 @@
 * Unobtrusively opinionated.
 * Stays as close to `express` as possible.
 * Leverages openapi parameter lists for parameter defaults, type coercion,
-and validation in your app's express routes.
+and validation.
   * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
   * See [express-openapi-coercion](https://github.com/kogosoftwarellc/express-openapi-coercion)
   * See [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)
@@ -18,9 +18,8 @@ and validation in your app's express routes.
 * Performant.
 * Extensively tested.
 * Small footprint.
-* Currently supports openapi 2.0 (a.k.a. swagger 2.0) documents.
-* Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
-wherever possible.
+* Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.
+* Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
 * Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
 
@@ -61,7 +60,7 @@ Our routes are now active and we can test them out with Swagger UI:
 
 ![swagger ui](./docs/swagger-page.png)
 
-Check out the other sample projects for complete usage examples.
+For more examples see the [sample projects](https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects) used in tests.
 
 ## API
 
