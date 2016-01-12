@@ -172,7 +172,7 @@ module method, then `express-openapi` will add no additional middleware.
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer) for more info.|
+|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer) and [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation) for more info.|
 
 #### args.exposeApiDocs
 
