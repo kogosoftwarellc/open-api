@@ -68,12 +68,12 @@ for new versions of openapi drafts that get added in the future.
 
 A function that transforms errors.
 
-E.G.
+This function is passed 2 arguments.
 
 ```
   errorTransformer: function(openapiError, jsonschemaError) {
     return {
-      message: error.message
+      message: openapiError.message
     };
   }
 ```
