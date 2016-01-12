@@ -18,9 +18,12 @@ function validateResponseMiddlewareFactory(args) {
   }
 
   var schemas = getSchemas(args.responses, args.definitions);
-  var errorTransformer = typeof args.errorTransformer === 'function' ?
-      args.errorTransformer :
+  var errorTransformer = typeof args.errorTransformer === 'function' &&
+      args.errorTransformer;
+  var errorMapper = errorTransformer ?
+      makeErrorMapper(errorTransformer) :
       toOpenapiValidationError;
+
   var definitions = args.definitions;
   var v = new JsonschemaValidator();
 
@@ -59,7 +62,7 @@ function validateResponseMiddlewareFactory(args) {
       return {
         status: 500,
         message: 'The response was not valid.',
-        errors: errors.map(errorTransformer)
+        errors: errors.map(errorMapper)
       };
     }
   }
@@ -83,6 +86,12 @@ function getSchemas(responses, definitions) {
   });
 
   return schemas;
+}
+
+function makeErrorMapper(mapper) {
+  return function(jsonschemaError) {
+    return mapper(toOpenapiValidationError(jsonschemaError), jsonschemaError);
+  };
 }
 
 function toOpenapiValidationError(error) {

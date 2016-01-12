@@ -15,8 +15,8 @@ module.exports = {
 
     definitions: null,
 
-    errorTransformer: function(error) {
-      return 'asdf';
+    errorTransformer: function(openapiError, jsonschemaError) {
+      return arguments.length;
     }
   },
 
@@ -26,6 +26,6 @@ module.exports = {
   expectedValidationError: {
     status: 500,
     message: 'The response was not valid.',
-    errors: ['asdf']
+    errors: [2]
   }
 };

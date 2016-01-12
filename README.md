@@ -125,8 +125,23 @@ This object is used to support `$ref` in your responses
 |----|--------|-------------|-----------|
 |Function|N|toOpenapiValidationError (see the source)|A function that receives an error and returns a mapped version of the error.|
 
-This function is passed a single argument (the error to be transformed).  The error
-comes directly from [jsonschema](https://github.com/tdegrunt/jsonschema).
+This function is passed 2 arguments.
+
+```
+  errorTransformer: function(openapiError, jsonschemaError) {
+    return {
+      message: openapiError.message
+    };
+  }
+```
+
+See the error format in [jsonschema](https://www.npmjs.com/package/jsonschema) for
+`jsonschemaError`.  `openapiError`s have the following properties:
+
+* `errorCode` - A jsonschema error suffixed with `.openapi.validation`.
+failed.
+* `message` - A detailed message as to why validation failed.
+* `path` - The property of the response body that failed validation.
 
 ## LICENSE
 ``````
