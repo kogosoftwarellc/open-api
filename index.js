@@ -17,7 +17,11 @@ function validate(args) {
   }
 
   var schemas = convert(args.parameters);
-  var errorTransformer = args.errorTransformer || toOpenapiValidationError;
+  var errorTransformer = typeof args.errorTransformer === 'function' &&
+                         args.errorTransformer;
+  var errorMapper = errorTransformer ?
+    extendedErrorMapper(errorTransformer) :
+    toOpenapiValidationError;
   var bodySchema = schemas.body;
   var headersSchema = lowercasedHeaders(schemas.headers);
   var pathSchema = schemas.path;
@@ -98,7 +102,7 @@ function validate(args) {
     if (errors.length) {
       err = {
         status: 400,
-        errors: errors.map(errorTransformer)
+        errors: errors.map(errorMapper)
       };
     } else if (schemaError) {
       err = {
@@ -113,6 +117,12 @@ function validate(args) {
 
 function byBodyParameters(param) {
   return param.in === 'body' || param.in === 'formData';
+}
+
+function extendedErrorMapper(mapper) {
+  return function(jsonSchemaError) {
+    return mapper(toOpenapiValidationError(jsonSchemaError), jsonSchemaError);
+  };
 }
 
 function lowercasedHeaders(headersSchema) {

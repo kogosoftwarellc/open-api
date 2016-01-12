@@ -11,8 +11,8 @@ module.exports = {
 
     schemas: null,
 
-    errorTransformer: function(error) {
-      return 'asdf';
+    errorTransformer: function(openApiError, jsonSchemaError) {
+      return arguments.length;
     }
   },
 
@@ -27,7 +27,7 @@ module.exports = {
   responseBody: JSON.stringify({
     status: 400,
     errors: [
-      'asdf'
+      2
     ]
   })
 };

@@ -71,14 +71,21 @@ A function that transforms errors.
 E.G.
 
 ```
-  errorTransformer: function(error) {
+  errorTransformer: function(openapiError, jsonschemaError) {
     return {
       message: error.message
     };
   }
 ```
 
-See the error format in [jsonschema](https://www.npmjs.com/package/jsonschema).
+See the error format in [jsonschema](https://www.npmjs.com/package/jsonschema) for
+`jsonschemaError`.  `openapiError`s have the following properties:
+
+* `errorCode` - A jsonschema error suffixed with `.openapi.validation`.
+* `location` - One of `body`, `headers`, `path`, or `query`.  Signifies where validation
+failed.
+* `message` - A detailed message as to why validation failed.
+* `path` - The property of the location that failed validation.
 
 ## LICENSE
 ``````
