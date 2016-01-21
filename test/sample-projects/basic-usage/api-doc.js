@@ -19,6 +19,12 @@ module.exports = {
       properties: {
         name: {
           type: 'string'
+        },
+        friends: {
+          type: 'array',
+          items: {
+            $ref: '#/definitions/User'
+          }
         }
       },
       required: ['name']
