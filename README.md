@@ -95,13 +95,16 @@ parameters.
 |String|Y|A path to the directory that contains your route files.|
 
 
-Route files are logically structured according to their URL path.
+Route files are logically structured according to their URL path.  For cross platform
+compatibility, URLs that accept a parameter use the swagger format for parameters
+as opposed to the express format (i.e. use `{id}` instead of `:id`).  Filenames in
+Windows do not allow the `:` character as it is consued with drive names.
 
-For example, if you have the following routes that you wish to add to your express
+For example, if you have the following api routes that you wish to add to your express
 app:
 
 ```
-GET /v1/users/:id
+GET /v1/users/{id}
 POST /v1/users
 ```
 
@@ -112,11 +115,11 @@ as follows:
 <project>
         `routes/
                `users/
-                     `:id.js
+                     `{id}.js
                 users.js
 ```
 
-The contents of `<project>/routes/users/:id.js` would look like this:
+The contents of `<project>/routes/users/{id}.js` would look like this:
 
 ```javascript
 module.exports = {
