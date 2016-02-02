@@ -71,8 +71,7 @@ function initialize(args) {
     var route = result.route;
     // express path pargumentarams start with :paramName
     // openapi path params use {paramName}
-    var openapiPath = '/' + route.substring(1).split('/')
-        .map(toOpenapiParams).join('/');
+    var openapiPath = route;
     var pathMethods = {};
     apiDoc.paths[openapiPath] = pathMethods;
 
@@ -119,7 +118,9 @@ function initialize(args) {
         }
       }
 
-      app[methodName].apply(app, [basePath + route].concat(middleware));
+      var expressPath = basePath + '/' +
+          route.substring(1).split('/').map(toExpressParams).join('/');
+      app[methodName].apply(app, [expressPath].concat(middleware));
     });
   });
 
@@ -145,10 +146,6 @@ function byDefault(param) {
   return param && 'default' in param;
 }
 
-function toOpenapiParams(part) {
-  if (part[0] === ':') {
-    part = '{' + part.substring(1, part.length) + '}';
-  }
-
-  return part;
+function toExpressParams(part) {
+  return part.replace(/^\{([^\{]+)\}$/, ':$1');
 }
