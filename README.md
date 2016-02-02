@@ -98,7 +98,7 @@ parameters.
 Route files are logically structured according to their URL path.  For cross platform
 compatibility, URLs that accept a parameter use the swagger format for parameters
 as opposed to the express format (i.e. use `{id}` instead of `:id`).  Filenames in
-Windows do not allow the `:` character as it is consued with drive names.
+Windows do not allow the `:` character as it is confused with drive names.
 
 For example, if you have the following api routes that you wish to add to your express
 app:
