@@ -185,7 +185,9 @@ function withNoDuplicates(arr) {
     }
 
     seenParams[key] = true;
-    parameters.push(item);
+    // unshifting to preserve ordering.  I don't believe it matters, but good to be
+    // consistent.
+    parameters.unshift(item);
   } while(--index > 0);
 
   return parameters;
