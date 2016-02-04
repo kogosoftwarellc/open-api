@@ -68,28 +68,30 @@ function initialize(args) {
   var errorTransformer = args.errorTransformer;
 
   fsRoutes(routesDir).forEach(function(result) {
-    var routeModule = require(result.path);
+    var pathModule = require(result.path);
     var route = result.route;
     // express path pargumentarams start with :paramName
     // openapi path params use {paramName}
     var openapiPath = route;
     var pathItem = apiDoc.paths[openapiPath] || {};
-    var pathParameters = Array.isArray(routeModule.parameters) ?
-        [].concat(routeModule.parameters) :
+    var pathParameters = Array.isArray(pathModule.parameters) ?
+        [].concat(pathModule.parameters) :
         [];
     pathItem.parameters = pathParameters;
     apiDoc.paths[openapiPath] = pathItem;
 
-    Object.keys(routeModule).filter(byMethods).forEach(function(methodName) {
+    Object.keys(pathModule).filter(byMethods).forEach(function(methodName) {
       // methodHandler may be an array or a function.
-      var methodHandler = routeModule[methodName];
+      var methodHandler = pathModule[methodName];
       var methodDoc = methodHandler.apiDoc;
       var middleware = [].concat(methodHandler);
 
-      if (methodDoc) {
+      if (methodDoc &&
+          allowsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {// add middleware
         pathItem[methodName] = copy(methodDoc);
 
-        if (methodDoc.responses) {
+        if (methodDoc.responses && allowsResponseValidationMiddleware(apiDoc,
+              pathModule, pathItem, methodDoc)) {// add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
           // validation will pick it up, so this is almost always going to be added.
           middleware.unshift(buildResponseValidationMiddleware({
@@ -103,24 +105,25 @@ function initialize(args) {
           withNoDuplicates(pathParameters.concat(methodDoc.parameters)) :
           pathParameters;
 
-        if (methodParameters.length) {
-          var defaultsMiddleware;
-
-          // no point in default middleware if we don't have any parameters with defaults.
-          if (methodParameters.filter(byDefault).length) {
-            defaultsMiddleware = buildDefaultsMiddleware({parameters: methodParameters});
+        if (methodParameters.length) {// defaults, coercion, and parameter validation middleware
+          if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
+            var validationMiddleware = buildValidationMiddleware({
+              errorTransformer: errorTransformer,
+              parameters: methodParameters,
+              schemas: apiDoc.definitions
+            });
+            middleware.unshift(validationMiddleware);
           }
 
-          var coercionMiddleware = buildCoercionMiddleware({parameters: methodParameters});
-          var validationMiddleware = buildValidationMiddleware({
-            errorTransformer: errorTransformer,
-            parameters: methodParameters,
-            schemas: apiDoc.definitions
-          });
+          if (allowsCoercionMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
+            var coercionMiddleware = buildCoercionMiddleware({parameters: methodParameters});
+            middleware.unshift(coercionMiddleware);
+          }
 
-          middleware.unshift(coercionMiddleware, validationMiddleware);
-
-          if (defaultsMiddleware) {
+          // no point in default middleware if we don't have any parameters with defaults.
+          if (methodParameters.filter(byDefault).length &&
+              allowsDefaultsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
+            var defaultsMiddleware = buildDefaultsMiddleware({parameters: methodParameters});
             middleware.unshift(defaultsMiddleware);
           }
         }
@@ -152,6 +155,32 @@ function initialize(args) {
   }
 }
 
+function allows(args, prop, val) {
+  return ![].slice.call(args).filter(byProperty(prop, val))
+    .length;
+}
+
+function allowsMiddleware() {
+  return allows(arguments, 'x-express-openapi-disable-middleware', true);
+}
+
+function allowsCoercionMiddleware() {
+  return allows(arguments, 'x-express-openapi-disable-coercion-middleware', true);
+}
+
+function allowsDefaultsMiddleware() {
+  return allows(arguments, 'x-express-openapi-disable-defaults-middleware', true);
+}
+
+function allowsResponseValidationMiddleware() {
+  return allows(arguments, 'x-express-openapi-disable-response-validation-middleware',
+      true);
+}
+
+function allowsValidationMiddleware() {
+  return allows(arguments, 'x-express-openapi-disable-validation-middleware', true);
+}
+
 function byDefault(param) {
   return param && 'default' in param;
 }
@@ -160,6 +189,12 @@ function byMethods(name) {
   // not handling $ref at this time.  Please open an issue if you need this.
   return ['get', 'put', 'post', 'delete', 'options', 'head', 'patch']
       .indexOf(name) > -1;
+}
+
+function byProperty(property, value) {
+  return function(obj) {
+    return obj && property in obj && obj[property] === value;
+  };
 }
 
 function copy(obj) {

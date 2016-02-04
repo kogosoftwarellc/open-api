@@ -100,4 +100,100 @@ describe(require('../package.json').name + 'sample-projects', function() {
         .expect(404, done);
     });
   });
+
+  describe('disabling middleware', function() {
+    var coercionMissingBody = {
+      errors: [
+        {
+          errorCode: 'type.openapi.validation',
+          location: 'path',
+          message: 'instance.id is not of a type(s) integer',
+          path: 'id'
+        }
+      ],
+      status: 400
+    };
+
+    [
+      // disable coercion
+      {name: 'with-coercion-middleware-disabled-in-methodDoc', url: '/v3/users/34?name=fred',
+          expectedStatus: 400, expectedBody: coercionMissingBody},
+      {name: 'with-coercion-middleware-disabled-in-pathItem', url: '/v3/users/34?name=fred',
+          expectedStatus: 400, expectedBody: coercionMissingBody},
+      {name: 'with-coercion-middleware-disabled-in-pathModule', url: '/v3/users/34?name=fred',
+          expectedStatus: 400, expectedBody: coercionMissingBody},
+      {name: 'with-coercion-middleware-disabled-in-the-apiDoc', url: '/v3/users/34?name=fred',
+          expectedStatus: 400, expectedBody: coercionMissingBody},
+
+      // disable defaults
+      {name: 'with-defaults-middleware-disabled-in-methodDoc', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
+      {name: 'with-defaults-middleware-disabled-in-pathItem', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
+      {name: 'with-defaults-middleware-disabled-in-pathModule', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
+      {name: 'with-defaults-middleware-disabled-in-the-apiDoc', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
+
+      // disable validation
+      {name: 'with-validation-middleware-disabled-in-methodDoc', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
+      {name: 'with-validation-middleware-disabled-in-pathItem', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
+      {name: 'with-validation-middleware-disabled-in-pathModule', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
+      {name: 'with-validation-middleware-disabled-in-the-apiDoc', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
+
+      // disable all
+      {name: 'with-middleware-disabled-in-methodDoc', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
+      {name: 'with-middleware-disabled-in-pathItem', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
+      {name: 'with-middleware-disabled-in-pathModule', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
+      {name: 'with-middleware-disabled-in-the-apiDoc', url: '/v3/users/asdf?name=fred',
+          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}}
+    ].forEach(function(test) {
+      describe(test.name, function() {
+        var app = require('./sample-projects/' + test.name + '/app.js');
+
+        it('should meet expectations', function(done) {
+          request(app)
+            .get(test.url)
+            .expect(test.expectedStatus)
+            .end(function(err, res) {
+              expect(res.body).to.eql(test.expectedBody);
+              done(err);
+            });
+        });
+      });
+    });
+
+    [
+      // disable response validation
+      {name: 'with-response-validation-middleware-disabled-in-methodDoc',
+          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
+      {name: 'with-response-validation-middleware-disabled-in-pathItem',
+          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
+      {name: 'with-response-validation-middleware-disabled-in-pathModule',
+          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
+      {name: 'with-response-validation-middleware-disabled-in-the-apiDoc',
+          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true}
+    ].forEach(function(test) {
+      describe(test.name, function() {
+        var app = require('./sample-projects/' + test.name + '/app.js');
+
+        it('should not expose res.validateResponse in the app', function(done) {
+          request(app)
+            .get(test.url)
+            .expect(test.expectedStatus)
+            .end(function(err, res) {
+              expect(res.body).to.eql(test.expectedBody);
+              done(err);
+            });
+        });
+      });
+    });
+  });
 });

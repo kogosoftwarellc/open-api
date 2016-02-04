@@ -15,6 +15,8 @@ and validation.
   * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
 * Validates api documents.
   * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
+* Configurable Middleware.
+  * See [Configuring Middleware](#configuring-middleware)
 * Performant.
 * Extensively tested.
 * Small footprint.
@@ -61,6 +63,28 @@ Our routes are now active and we can test them out with Swagger UI:
 ![swagger ui](./docs/swagger-page.png)
 
 For more examples see the [sample projects](https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects) used in tests.
+
+## Configuring Middleware
+
+You can directly control what middleware `express-openapi` adds to your express app
+by using the following vendor extension properties.  These properties are scoped, so
+if you use one as a root property of your API Document, all paths and operations will be affected.  Similarly if you just want to disable middleware for an operation, you can
+use these properties in said operation's apiDoc.  See full examples in the
+[./test/sample-projects/](
+https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects)
+directory.
+
+### Supported vendor extensions
+
+* `'x-express-openapi-disable-middleware': true` - Disables all middleware.
+* `'x-express-openapi-disable-coercion-middleware': true` - Disables coercion middleware.
+* `'x-express-openapi-disable-defaults-middleware': true` - Disables
+defaults middleware.
+* `'x-express-openapi-disable-response-validation-middleware': true` - Disables
+response validation middleware I.E. no `res.validateResponse` method will be
+available in the affected operation handler method.
+* `'x-express-openapi-disable-validation-middleware': true` - Disables input
+validation middleware.
 
 ## API
 
