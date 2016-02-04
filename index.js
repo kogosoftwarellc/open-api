@@ -202,7 +202,7 @@ function copy(obj) {
 }
 
 function toExpressParams(part) {
-  return part.replace(/^\{([^\{]+)\}$/, ':$1');
+  return part.replace(/^\{([^\}]+)\}$/, ':$1');
 }
 
 function withNoDuplicates(arr) {
