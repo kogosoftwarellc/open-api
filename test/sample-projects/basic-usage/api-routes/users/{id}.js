@@ -1,4 +1,14 @@
 module.exports = {
+  // parameters for all operations in this path
+  parameters: [
+    {
+      name: 'id',
+      in: 'path',
+      type: 'integer',
+      required: true,
+      description: 'Fred\'s age.'
+    }
+  ],
   // method handlers may just be the method handler...
   get: get,
   // or they may also be an array of middleware + the method handler.  This allows
@@ -49,14 +59,6 @@ get.apiDoc = {
       type: 'string',
       pattern: '^fred$',
       description: 'The name of this person.  It may only be "fred".'
-    },
-
-    {
-      name: 'id',
-      in: 'path',
-      type: 'integer',
-      required: true,
-      description: 'Fred\'s age.'
     },
 
     {

@@ -123,6 +123,15 @@ The contents of `<project>/routes/users/{id}.js` would look like this:
 
 ```javascript
 module.exports = {
+  // parameters for all operations in this path
+  parameters: [
+    {
+      in: 'path',
+      name: 'id',
+      required: true,
+      type: 'integer'
+    }
+  ],
   get: [
     /* business middleware not expressible by openapi documentation goes here */
     function(req, res, next) {
@@ -141,12 +150,12 @@ module.exports.get.apiDoc = {
   description: 'A description for retrieving a user.',
   tags: ['users'],
   operationId: 'getUser',
+  // parameters for this operation
   parameters: [
     {
-      in: 'path',
-      name: 'id',
-      required: true,
-      type: 'integer'
+      in: 'query',
+      name: 'firstName',
+      type: 'string'
     }
   ],
   responses: {

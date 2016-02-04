@@ -28,6 +28,7 @@
   },
   "paths": {
     "/users": {
+      "parameters": [],
       "delete": {
         "description": "Delete users.",
         "operationId": "deleteUsers",
@@ -54,6 +55,15 @@
       }
     },
     "/users/{id}": {
+      "parameters": [
+        {
+          "description": "Fred's age.",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "integer"
+        }
+      ],
       "get": {
         "description": "Retrieve a user.",
         "operationId": "getUser",
@@ -64,13 +74,6 @@
             "name": "name",
             "pattern": "^fred$",
             "type": "string"
-          },
-          {
-            "description": "Fred's age.",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
           },
           {
             "default": 80,

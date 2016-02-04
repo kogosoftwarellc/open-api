@@ -72,17 +72,21 @@ function initialize(args) {
     // express path pargumentarams start with :paramName
     // openapi path params use {paramName}
     var openapiPath = route;
-    var pathMethods = {};
-    apiDoc.paths[openapiPath] = pathMethods;
+    var pathItem = apiDoc.paths[openapiPath] || {};
+    var pathParameters = Array.isArray(routeModule.parameters) ?
+        [].concat(routeModule.parameters) :
+        [];
+    pathItem.parameters = pathParameters;
+    apiDoc.paths[openapiPath] = pathItem;
 
-    Object.keys(routeModule).forEach(function(methodName) {
+    Object.keys(routeModule).filter(byMethods).forEach(function(methodName) {
       // methodHandler may be an array or a function.
       var methodHandler = routeModule[methodName];
       var methodDoc = methodHandler.apiDoc;
       var middleware = [].concat(methodHandler);
 
       if (methodDoc) {
-        pathMethods[methodName] = JSON.parse(JSON.stringify(methodDoc));
+        pathItem[methodName] = JSON.parse(JSON.stringify(methodDoc));
 
         if (methodDoc.responses) {
           // it's invalid for a method doc to not have responses, but the post
@@ -94,7 +98,11 @@ function initialize(args) {
           }));
         }
 
-        if (Array.isArray(methodDoc.parameters) && methodDoc.parameters.length) {
+        var methodParameters = Array.isArray(methodDoc.parameters) ?
+          pathParameters.concat(methodDoc.parameters) :
+          pathParameters;
+
+        if (methodParameters.length) {
           var apiParams = methodDoc.parameters;
           var defaultsMiddleware;
 
@@ -144,6 +152,12 @@ function initialize(args) {
 
 function byDefault(param) {
   return param && 'default' in param;
+}
+
+function byMethods(name) {
+  // not handling $ref at this time.  Please open an issue if you need this.
+  return ['get', 'put', 'post', 'delete', 'options', 'head', 'patch']
+      .indexOf(name) > -1;
 }
 
 function toExpressParams(part) {
