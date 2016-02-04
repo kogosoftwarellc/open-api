@@ -37,7 +37,8 @@ function initialize(args) {
 
     if (apiDocValidation.errors.length) {
       console.error(loggingKey, 'Validating schema before populating paths');
-      console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
+      console.error(loggingKey, 'validation errors',
+          JSON.stringify(apiDocValidation.errors, null, '  '));
       throw new Error(loggingKey + 'args.apiDoc was invalid.  See the output.');
     }
   }
@@ -103,18 +104,17 @@ function initialize(args) {
           pathParameters;
 
         if (methodParameters.length) {
-          var apiParams = methodDoc.parameters;
           var defaultsMiddleware;
 
           // no point in default middleware if we don't have any parameters with defaults.
-          if (apiParams.filter(byDefault).length) {
-            defaultsMiddleware = buildDefaultsMiddleware({parameters: apiParams});
+          if (methodParameters.filter(byDefault).length) {
+            defaultsMiddleware = buildDefaultsMiddleware({parameters: methodParameters});
           }
 
-          var coercionMiddleware = buildCoercionMiddleware({parameters: apiParams});
+          var coercionMiddleware = buildCoercionMiddleware({parameters: methodParameters});
           var validationMiddleware = buildValidationMiddleware({
             errorTransformer: errorTransformer,
-            parameters: apiParams,
+            parameters: methodParameters,
             schemas: apiDoc.definitions
           });
 
@@ -137,8 +137,10 @@ function initialize(args) {
 
     if (apiDocValidation.errors.length) {
       console.error(loggingKey, 'Validating schema after populating paths');
-      console.error(loggingKey, 'validation errors', JSON.stringify(apiDocValidation.errors, null, '  '));
-      throw new Error(loggingKey + 'args.apiDoc was invalid after populating paths.  See the output.');
+      console.error(loggingKey, 'validation errors',
+          JSON.stringify(apiDocValidation.errors, null, '  '));
+      throw new Error(loggingKey +
+          'args.apiDoc was invalid after populating paths.  See the output.');
     }
   }
 
