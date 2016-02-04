@@ -1,3 +1,4 @@
+var expect = require('chai').expect;
 var request = require('supertest');
 
 describe(require('../package.json').name + 'sample-projects', function() {
@@ -17,10 +18,14 @@ describe(require('../package.json').name + 'sample-projects', function() {
         .expect(204, '', done);
     });
 
-    it('should wire up routes with defaults and coercion', function(done) {
+    it('should use defaults, coercion, and operation parameter overriding', function(done) {
       request(app)
         .get('/v3/users/34?name=fred')
-        .expect(200, {id: 34, name: 'fred', age: 80}, done);
+        .expect(200)
+        .end(function(err, res) {
+          expect(res.body).to.eql({id: 34, name: 'fred', age: 80});
+          done(err);
+        });
     });
 
     it('should validate input', function(done) {
@@ -34,6 +39,17 @@ describe(require('../package.json').name + 'sample-projects', function() {
             path: 'name'
           }
         ], status: 400}, done);
+    });
+
+    it('should use path parameters', function(done) {
+      request(app)
+        .post('/v3/users/34')
+        .send({name: 'fred'})
+        .expect(200)
+        .end(function(err, res) {
+          expect(res.body).to.eql({id: '34'});
+          done(err);
+        });
     });
 
     it('should dereference #/definitions/ for validation', function(done) {

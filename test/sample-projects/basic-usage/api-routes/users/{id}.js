@@ -4,7 +4,7 @@ module.exports = {
     {
       name: 'id',
       in: 'path',
-      type: 'integer',
+      type: 'string',
       required: true,
       description: 'Fred\'s age.'
     }
@@ -13,9 +13,10 @@ module.exports = {
   get: get,
   // or they may also be an array of middleware + the method handler.  This allows
   // for flexible middleware management.  express-openapi middleware generated from
-  // the <methodHandler>.apiDoc.parameters is prepended to this array.
+  // the <path>.parameters + <methodHandler>.apiDoc.parameters is prepended to this
+  // array.
   post: [function(req, res, next) {next();}, function(req, res) {
-    res.status(500).json('only one user is returned by this API.');
+    res.status(200).json({id: req.params.id});
   }]
 };
 
@@ -60,7 +61,14 @@ get.apiDoc = {
       pattern: '^fred$',
       description: 'The name of this person.  It may only be "fred".'
     },
-
+    // showing that operation parameters override path parameters
+    {
+      name: 'id',
+      in: 'path',
+      type: 'integer',
+      required: true,
+      description: 'Fred\'s age.'
+    },
     {
       name: 'age',
       in: 'query',

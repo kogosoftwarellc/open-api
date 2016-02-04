@@ -61,7 +61,7 @@ function initialize(args) {
 
   var app = args.app;
   // Make a copy of the apiDoc that we can safely modify.
-  var apiDoc = JSON.parse(JSON.stringify(args.apiDoc));
+  var apiDoc = copy(args.apiDoc);
   var docsPath = args.docsPath || '/api-docs';
   var routesDir = path.resolve(process.cwd(), args.routes);
   var basePath = apiDoc.basePath || '';
@@ -87,7 +87,7 @@ function initialize(args) {
       var middleware = [].concat(methodHandler);
 
       if (methodDoc) {
-        pathItem[methodName] = JSON.parse(JSON.stringify(methodDoc));
+        pathItem[methodName] = copy(methodDoc);
 
         if (methodDoc.responses) {
           // it's invalid for a method doc to not have responses, but the post
@@ -100,7 +100,7 @@ function initialize(args) {
         }
 
         var methodParameters = Array.isArray(methodDoc.parameters) ?
-          pathParameters.concat(methodDoc.parameters) :
+          withNoDuplicates(pathParameters.concat(methodDoc.parameters)) :
           pathParameters;
 
         if (methodParameters.length) {
@@ -162,6 +162,31 @@ function byMethods(name) {
       .indexOf(name) > -1;
 }
 
+function copy(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
 function toExpressParams(part) {
   return part.replace(/^\{([^\{]+)\}$/, ':$1');
+}
+
+function withNoDuplicates(arr) {
+  var parameters = [];
+  var seenParams = {};
+  var index = arr.length;
+
+  while (index > 0) {
+    --index;
+    var item = arr[index];
+    var key = [item.name, item.location].join(';////|||||\\\\;');
+
+    if (key in seenParams) {
+      continue;
+    }
+
+    seenParams[key] = true;
+    parameters.push(item);
+  } while(--index > 0);
+
+  return parameters;
 }

@@ -61,7 +61,7 @@
           "in": "path",
           "name": "id",
           "required": true,
-          "type": "integer"
+          "type": "string"
         }
       ],
       "get": {
@@ -74,6 +74,13 @@
             "name": "name",
             "pattern": "^fred$",
             "type": "string"
+          },
+          {
+            "description": "Fred's age.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
           },
           {
             "default": 80,
