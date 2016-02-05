@@ -23,11 +23,20 @@ function validate(args) {
     extendedErrorMapper(errorTransformer) :
     toOpenapiValidationError;
   var bodySchema = schemas.body;
+  var bodyValidationSchema;
   var headersSchema = lowercasedHeaders(schemas.headers);
   var pathSchema = schemas.path;
   var querySchema = schemas.query;
   var v = new JsonschemaValidator();
   var isBodyRequired = args.parameters.filter(byBodyParameters).length > 0;
+
+  if (bodySchema) {
+    bodyValidationSchema = {
+      properties: {
+        body: bodySchema
+      }
+    };
+  }
 
   if (args.schemas) {
     if (Array.isArray(args.schemas)) {
@@ -35,20 +44,16 @@ function validate(args) {
         var id = schema.id;
 
         if (id) {
-          var localSchemaPath;
+          var localSchemaPath = LOCAL_DEFINITION_REGEX.exec(id);
 
-          if (bodySchema) {
-            localSchemaPath = LOCAL_DEFINITION_REGEX.exec(id);
-          }
+          if (localSchemaPath && bodyValidationSchema) {
+            var definitions = bodyValidationSchema[localSchemaPath[1]];
 
-          if (localSchemaPath) {
-            var localSchemas = bodySchema[localSchemaPath[1]];
-
-            if (!localSchemas) {
-              localSchemas = bodySchema[localSchemaPath[1]] = {};
+            if (!definitions) {
+              definitions = bodyValidationSchema[localSchemaPath[1]] = {};
             }
 
-            localSchemas[localSchemaPath[2]] = schema;
+            definitions[localSchemaPath[2]] = schema;
           }
 
           v.addSchema(schema, id);
@@ -57,7 +62,7 @@ function validate(args) {
         }
       });
     } else if (bodySchema) {
-      bodySchema.definitions = args.schemas;
+      bodyValidationSchema.definitions = args.schemas;
     }
   }
 
@@ -69,7 +74,7 @@ function validate(args) {
     if (bodySchema) {
       if (req.body) {
         try {
-          var validation = v.validate(req.body, bodySchema);
+          var validation = v.validate({body: req.body}, bodyValidationSchema);
           errors.push.apply(errors, withAddedLocation('body', validation.errors));
         } catch(e) {
           e.location = 'body';
@@ -145,12 +150,25 @@ function lowercasedHeaders(headersSchema) {
 }
 
 function toOpenapiValidationError(error) {
-  return {
-    path: error.property.replace(/^instance\.?/, '') || error.argument,
+  return stripBodyInfo({
+    path: error.property.replace(
+              error.location === 'body' ?
+              /^instance\.body\.?/ :
+              /^instance\.?/, '') || error.argument,
     errorCode: error.name + '.openapi.validation',
     message: error.stack,
     location: error.location
-  };
+  });
+}
+
+function stripBodyInfo(error) {
+  if (error.location === 'body') {
+    error.path = error.path.replace(/^body\./, '');
+    error.message = error.message.replace(/^instance\.body\./, 'instance.');
+    error.message = error.message.replace(/^instance\.body /, 'instance ');
+  }
+
+  return error;
 }
 
 function withAddedLocation(location, errors) {
