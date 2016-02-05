@@ -101,7 +101,7 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
-  describe('disabling middleware', function() {
+  describe('configuring middleware', function() {
     var coercionMissingBody = {
       errors: [
         {
@@ -115,6 +115,14 @@ describe(require('../package.json').name + 'sample-projects', function() {
     };
 
     [
+      // adding additional middleware
+      {name: 'with-additional-middleware', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {
+            apiDocAdded: true,
+            pathDocAdded: true,
+            pathModuleAdded: true
+          }},
+
       // disable coercion
       {name: 'with-coercion-middleware-disabled-in-methodDoc', url: '/v3/users/34?name=fred',
           expectedStatus: 400, expectedBody: coercionMissingBody},

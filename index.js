@@ -1,3 +1,4 @@
+var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
 var buildDefaultsMiddleware = require('express-openapi-defaults');
 var buildCoercionMiddleware = require('express-openapi-coercion');
 var fsRoutes = require('fs-routes');
@@ -60,6 +61,8 @@ function initialize(args) {
   }
 
   var app = args.app;
+  // Do not make modifications to this.
+  var originalApiDoc = args.apiDoc;
   // Make a copy of the apiDoc that we can safely modify.
   var apiDoc = copy(args.apiDoc);
   var docsPath = args.docsPath || '/api-docs';
@@ -73,6 +76,8 @@ function initialize(args) {
     // express path pargumentarams start with :paramName
     // openapi path params use {paramName}
     var openapiPath = route;
+    // Do not make modifications to this.
+    var originalPathItem = originalApiDoc.paths[openapiPath] || {};
     var pathItem = apiDoc.paths[openapiPath] || {};
     var pathParameters = Array.isArray(pathModule.parameters) ?
         [].concat(pathModule.parameters) :
@@ -84,7 +89,8 @@ function initialize(args) {
       // methodHandler may be an array or a function.
       var methodHandler = pathModule[methodName];
       var methodDoc = methodHandler.apiDoc;
-      var middleware = [].concat(methodHandler);
+      var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
+            pathModule, methodDoc), methodHandler);
 
       if (methodDoc &&
           allowsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {// add middleware
@@ -205,6 +211,26 @@ function byProperty(property, value) {
 
 function copy(obj) {
   return JSON.parse(JSON.stringify(obj));
+}
+
+function getAdditionalMiddleware() {
+  var additionalMiddleware = [];
+
+  [].slice.call(arguments).forEach(function(doc) {
+    if (doc && Array.isArray(doc[ADDITIONAL_MIDDLEWARE_PROPERTY])) {
+      [].push.apply(additionalMiddleware, doc[ADDITIONAL_MIDDLEWARE_PROPERTY]);
+    }
+  });
+
+  return additionalMiddleware.filter(function(middleware) {
+    if (typeof middleware === 'function') {
+      return true;
+    } else {
+      console.warn(loggingKey, 'Ignoring ' + middleware + ' as middleware in ' +
+          ADDITIONAL_MIDDLEWARE_PROPERTY + ' array.');
+      return false;
+    }
+  });
 }
 
 function toExpressParams(part) {

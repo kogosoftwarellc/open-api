@@ -68,14 +68,19 @@ For more examples see the [sample projects](https://github.com/kogosoftwarellc/e
 
 You can directly control what middleware `express-openapi` adds to your express app
 by using the following vendor extension properties.  These properties are scoped, so
-if you use one as a root property of your API Document, all paths and operations will be affected.  Similarly if you just want to disable middleware for an operation, you can
-use these properties in said operation's apiDoc.  See full examples in the
+if you use one as a root property of your API Document, all paths and operations will
+be affected.  Similarly if you just want to configure middleware for an operation,
+you can use these properties in said operation's apiDoc.  See full examples in the
 [./test/sample-projects/](
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects)
 directory.
 
 ### Supported vendor extensions
 
+* `'x-express-openapi-additional-middleware': [myMiddleware]` - Adds the provided
+middleware _after_ defaults, coercion, and validation middleware (added by
+`express-openapi`) but _before_ middleware defined in operations.  This property
+inherits from all previous properties.
 * `'x-express-openapi-disable-middleware': true` - Disables all middleware.
 * `'x-express-openapi-disable-coercion-middleware': true` - Disables coercion middleware.
 * `'x-express-openapi-disable-defaults-middleware': true` - Disables
