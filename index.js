@@ -153,6 +153,12 @@ function initialize(args) {
       res.status(200).json(apiDoc);
     });
   }
+
+  var initializedApi = {
+    apiDoc: apiDoc
+  };
+
+  return initializedApi;
 }
 
 function allows(args, prop, val) {

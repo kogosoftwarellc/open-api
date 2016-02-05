@@ -37,7 +37,7 @@
     "express-openapi-coercion": "^0.3.3",
     "express-openapi-defaults": "^0.4.2",
     "express-openapi-response-validation": "^0.1.1",
-    "express-openapi-validation": "^0.5.3",
+    "express-openapi-validation": "^0.5.4",
     "fs-routes": "^1.0.0",
     "glob": "*",
     "is-dir": "^1.0.0",

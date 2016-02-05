@@ -90,7 +90,10 @@ validation middleware.
 
 ### .initialize(args)
 
-Initializes routes and middleware on an express app.
+Initializes routes and middleware on an express app, and returns an initialized
+api.  An initialized api contains the following properties:
+
+* `apiDoc` - This is the final result of the apiDoc after processing.
 
 #### args.apiDoc
 

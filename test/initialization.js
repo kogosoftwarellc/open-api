@@ -68,5 +68,16 @@ describe(require('../package.json').name, function() {
       });
     });
 
+    it('should return the built apiDoc', function() {
+      var expectedApiDoc = require(
+          './fixtures/basic-usage-api-doc-after-initialization.json');
+      var initializedApp = expressOpenapi.initialize({
+        apiDoc: require('./sample-projects/basic-usage/api-doc.js'),
+        app: express(),
+        routes: routesDir
+      });
+
+      expect(initializedApp.apiDoc).to.eql(expectedApiDoc);
+    });
   });
 });
