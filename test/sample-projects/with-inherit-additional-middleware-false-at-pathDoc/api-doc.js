@@ -3,12 +3,6 @@
 module.exports = {
   'x-express-openapi-additional-middleware': [/* generate a warning */ null,
   function(req, res, next) {
-    // assure ordering of middleware is preserved
-    req.apiDocAdded = false;
-    next();
-  },
-  function(req, res, next) {
-    req.orderingApiDoc = 'apiDoc';
     req.apiDocAdded = true;
     next();
   }],
@@ -28,13 +22,8 @@ module.exports = {
   // paths are derived from args.routes.  These are filled in by fs-routes.
   paths: {
     '/users/{id}': {
-      'x-express-openapi-additional-middleware': [
-        function(req, res, next) {
-          req.pathDocAdded = false;
-          req.orderingApiDoc = 'pathDoc';
-          next();
-        },
-        function(req, res, next) {
+      'x-express-openapi-inherit-additional-middleware': false,
+      'x-express-openapi-additional-middleware': [function(req, res, next) {
         req.pathDocAdded = true;
         next();
       }]

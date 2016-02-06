@@ -118,8 +118,29 @@ describe(require('../package.json').name + 'sample-projects', function() {
       // adding additional middleware
       {name: 'with-additional-middleware', url: '/v3/users/34?name=fred',
           expectedStatus: 200, expectedBody: {
+            orderingApiDoc: 'pathModule',
             apiDocAdded: true,
             pathDocAdded: true,
+            pathModuleAdded: true
+          }},
+
+      // not inheriting additional middleware
+      {name: 'with-inherit-additional-middleware-false-at-methodDoc', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {
+            apiDocAdded: null,
+            pathDocAdded: null,
+            pathModuleAdded: null
+          }},
+      {name: 'with-inherit-additional-middleware-false-at-pathDoc', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {
+            apiDocAdded: null,
+            pathDocAdded: true,
+            pathModuleAdded: true
+          }},
+      {name: 'with-inherit-additional-middleware-false-at-pathModule', url: '/v3/users/34?name=fred',
+          expectedStatus: 200, expectedBody: {
+            apiDocAdded: null,
+            pathDocAdded: null,
             pathModuleAdded: true
           }},
 

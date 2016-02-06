@@ -81,6 +81,12 @@ directory.
 middleware _after_ defaults, coercion, and validation middleware (added by
 `express-openapi`) but _before_ middleware defined in operations.  This property
 inherits from all previous properties.
+* `'x-express-openapi-inherit-additional-middleware': false` - Prevents middleware
+added in a parent scope with `x-express-openapi-additional-middleware`.  This extension
+works from the methodDoc up to the apiDoc, as opposed to the apiDoc down to the methodDoc.
+The effect is that using this extension in the methodDoc would prevent that method
+from receiving any additional middleware defined in parent scopes.  You can use this
+extension in any scope (methodDoc, pathDoc, or apiDoc) and the result i the same.
 * `'x-express-openapi-disable-middleware': true` - Disables all middleware.
 * `'x-express-openapi-disable-coercion-middleware': true` - Disables coercion middleware.
 * `'x-express-openapi-disable-defaults-middleware': true` - Disables

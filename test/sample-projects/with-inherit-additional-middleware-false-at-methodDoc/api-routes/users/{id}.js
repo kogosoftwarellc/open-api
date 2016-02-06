@@ -1,16 +1,8 @@
 module.exports = {
-  'x-express-openapi-additional-middleware': [
-    function(req, res, next) {
-      req.orderingApiDoc = 'pathModule';
-      // assuring that ordering is preserved
-      req.pathModuleAdded = false;
-      next();
-    },
-    function(req, res, next) {
-      req.pathModuleAdded = true;
-      next();
-    }
-  ],
+  'x-express-openapi-additional-middleware': [function(req, res, next) {
+    req.pathModuleAdded = true;
+    next();
+  }],
 
   // parameters for all operations in this path
   parameters: [
@@ -27,14 +19,14 @@ module.exports = {
 
 function get(req, res) {
   res.status(200).json({
-    orderingApiDoc: req.orderingApiDoc,
-    apiDocAdded: req.apiDocAdded,
-    pathDocAdded: req.pathDocAdded,
-    pathModuleAdded: req.pathModuleAdded
+    apiDocAdded: req.apiDocAdded || null,
+    pathDocAdded: req.pathDocAdded || null,
+    pathModuleAdded: req.pathModuleAdded || null
   });
 }
 
 get.apiDoc = {
+  'x-express-openapi-inherit-additional-middleware': false,
   description: 'Retrieve a user.',
   operationId: 'getUser',
   tags: ['users'],

@@ -2,6 +2,7 @@ var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
 var buildDefaultsMiddleware = require('express-openapi-defaults');
 var buildCoercionMiddleware = require('express-openapi-coercion');
 var fsRoutes = require('fs-routes');
+var INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-inherit-additional-middleware';
 var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
@@ -215,12 +216,19 @@ function copy(obj) {
 
 function getAdditionalMiddleware() {
   var additionalMiddleware = [];
+  var index = arguments.length - 1;
 
-  [].slice.call(arguments).forEach(function(doc) {
-    if (doc && Array.isArray(doc[ADDITIONAL_MIDDLEWARE_PROPERTY])) {
-      [].push.apply(additionalMiddleware, doc[ADDITIONAL_MIDDLEWARE_PROPERTY]);
+  while (index > 0) {
+    --index;
+    var currentDoc = arguments[index + 1];
+    var parentDoc = arguments[index];
+
+    if (currentDoc && currentDoc[INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY] === false) {
+      break;
+    } else {
+      [].unshift.apply(additionalMiddleware, getDocMiddleware(parentDoc));
     }
-  });
+  }
 
   return additionalMiddleware.filter(function(middleware) {
     if (typeof middleware === 'function') {
@@ -231,6 +239,12 @@ function getAdditionalMiddleware() {
       return false;
     }
   });
+
+  function getDocMiddleware(doc) {
+    if (doc && Array.isArray(doc[ADDITIONAL_MIDDLEWARE_PROPERTY])) {
+      return doc[ADDITIONAL_MIDDLEWARE_PROPERTY];
+    }
+  }
 }
 
 function toExpressParams(part) {
