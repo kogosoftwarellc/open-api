@@ -269,7 +269,7 @@ function withNoDuplicates(arr) {
     // unshifting to preserve ordering.  I don't believe it matters, but good to be
     // consistent.
     parameters.unshift(item);
-  } while(--index > 0);
+  }
 
   return parameters;
 }
