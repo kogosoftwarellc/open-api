@@ -34,7 +34,12 @@ function coerce(args) {
 }
 
 var COERCION_STRATEGIES = {
-  array: function(itemCoercer, input) {
+  array: function(itemCoercer, collectionFormat, input) {
+    if (!Array.isArray(input)) {
+      var sep = pathsep(collectionFormat || 'csv');
+      input = input.split(sep);
+    }
+
     if (Array.isArray(input)) {
       input.forEach(function(v, i) {
         input[i] = itemCoercer(v);
@@ -97,7 +102,7 @@ function buildCoercer(params, isHeaders) {
 
         itemCoercer = getCoercer(param.items.type);
 
-        coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer);
+        coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
       } else {
         coercer = getCoercer(param.type);
       }
@@ -127,4 +132,19 @@ function byLocation(location) {
 
 function getCoercer(type) {
   return COERCION_STRATEGIES[type];
+}
+
+function pathsep(format) {
+  switch (format) {
+    case 'csv':
+      return ',';
+    case 'ssv':
+      return ' ';
+    case 'tsv':
+      return '\t';
+    case 'pipes':
+      return '|';
+    case 'multi':
+      return '&';
+  }
 }
