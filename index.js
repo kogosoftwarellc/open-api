@@ -15,6 +15,7 @@ function coerce(args) {
       true);
   var coerceParams = buildCoercer(args.parameters.filter(byLocation('path')));
   var coerceQuery = buildCoercer(args.parameters.filter(byLocation('query')));
+  var coerceFormData = buildCoercer(args.parameters.filter(byLocation('formData')));
 
   return function(req, res, next) {
     if (req.headers && coerceHeaders) {
@@ -27,6 +28,10 @@ function coerce(args) {
 
     if (req.query && coerceQuery) {
       coerceQuery(req.query);
+    }
+
+    if (req.body && coerceFormData) {
+      coerceFormData(req.body);
     }
 
     next();
