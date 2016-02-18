@@ -4,6 +4,7 @@ var glob = require('glob');
 var path = require('path');
 var baseDir = path.resolve(__dirname, 'data-driven');
 var request = require('supertest');
+var bodyParser = require('body-parser');
 var sut = require('../');
 
 describe(require('../package.json').name, function() {
@@ -39,6 +40,10 @@ describe(require('../package.json').name, function() {
           expect(req.query).to.eql(fixture.query);
         }
 
+        if (fixture.body) {
+          expect(req.body).to.eql(fixture.body);
+        }
+
         next();
       };
       var test = request(sampleApp(sut(fixture.args), assertionMiddleware));
@@ -65,6 +70,9 @@ describe(require('../package.json').name, function() {
   function sampleApp(coercionMiddleware, assertionMiddleware) {
     var app = express();
 
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+
     function woot(req, res) {
       res.status(200).json('woot');
     }
@@ -75,6 +83,8 @@ describe(require('../package.json').name, function() {
 
     app.get('/', coercionMiddleware, assertionMiddleware, woot);
     app.get('/:path1/:path2', coercionMiddleware, assertionMiddleware, woot);
+
+    app.post('/', coercionMiddleware, assertionMiddleware, woot);
 
     return app;
   }

@@ -15,6 +15,7 @@ function coerce(args) {
       true);
   var coerceParams = buildCoercer(args.parameters.filter(byLocation('path')));
   var coerceQuery = buildCoercer(args.parameters.filter(byLocation('query')));
+  var coerceFormData = buildCoercer(args.parameters.filter(byLocation('formData')));
 
   return function(req, res, next) {
     if (req.headers && coerceHeaders) {
@@ -29,12 +30,21 @@ function coerce(args) {
       coerceQuery(req.query);
     }
 
+    if (req.body && coerceFormData) {
+      coerceFormData(req.body);
+    }
+
     next();
   };
 }
 
 var COERCION_STRATEGIES = {
-  array: function(itemCoercer, input) {
+  array: function(itemCoercer, collectionFormat, input) {
+    if (!Array.isArray(input)) {
+      var sep = pathsep(collectionFormat || 'csv');
+      input = input.split(sep);
+    }
+
     if (Array.isArray(input)) {
       input.forEach(function(v, i) {
         input[i] = itemCoercer(v);
@@ -97,7 +107,7 @@ function buildCoercer(params, isHeaders) {
 
         itemCoercer = getCoercer(param.items.type);
 
-        coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer);
+        coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
       } else {
         coercer = getCoercer(param.type);
       }
@@ -127,4 +137,19 @@ function byLocation(location) {
 
 function getCoercer(type) {
   return COERCION_STRATEGIES[type];
+}
+
+function pathsep(format) {
+  switch (format) {
+    case 'csv':
+      return ',';
+    case 'ssv':
+      return ' ';
+    case 'tsv':
+      return '\t';
+    case 'pipes':
+      return '|';
+    case 'multi':
+      return '&';
+  }
 }

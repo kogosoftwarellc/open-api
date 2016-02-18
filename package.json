@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/express-openapi-coercion#readme",
   "devDependencies": {
+    "body-parser": "^1.15.0",
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
     "express": "^4.13.3",
