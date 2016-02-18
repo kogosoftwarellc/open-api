@@ -20,6 +20,7 @@ and validation.
 * Performant.
 * Supports custom `format` validators.
   * See [args.customFormats](#argscustomformats)
+* Supports `collectionFormat` for `formData` `array` parameters.
 * Extensively tested.
 * Small footprint.
 * Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.

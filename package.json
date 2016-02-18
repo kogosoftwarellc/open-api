@@ -34,7 +34,7 @@
     "supertest": "^1.1.0"
   },
   "dependencies": {
-    "express-openapi-coercion": "^0.3.3",
+    "express-openapi-coercion": "^0.4.0",
     "express-openapi-defaults": "^0.4.2",
     "express-openapi-response-validation": "^0.2.0",
     "express-openapi-validation": "^0.6.1",
