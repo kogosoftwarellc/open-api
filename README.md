@@ -18,6 +18,8 @@ and validation.
 * Configurable Middleware.
   * See [Configuring Middleware](#configuring-middleware)
 * Performant.
+* Supports custom `format` validators.
+  * See [args.customFormats](#argscustomformats)
 * Extensively tested.
 * Small footprint.
 * Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.
@@ -236,6 +238,16 @@ module method, then `express-openapi` will add no additional middleware.
 |----|--------|-----------|-------|
 |Boolean|N|true|Validates `args.apiDoc` before and after path population.  This does not effect individual route validation of route parameters.  You can disable this behavior by passing `false`.|
 
+#### args.customFormats
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|An object of custom formats.|
+
+Each key is the name of the format to be used with the `format` keyword.  Each value
+is a function that accepts an input and returns a boolean value.
+
+See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
 
 ## LICENSE
 ``````

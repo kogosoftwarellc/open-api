@@ -70,6 +70,7 @@ function initialize(args) {
   var routesDir = path.resolve(process.cwd(), args.routes);
   var basePath = apiDoc.basePath || '';
   var errorTransformer = args.errorTransformer;
+  var customFormats = args.customFormats;
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -104,7 +105,8 @@ function initialize(args) {
           middleware.unshift(buildResponseValidationMiddleware({
             definitions: apiDoc.definitions,
             errorTransformer: errorTransformer,
-            responses: methodDoc.responses
+            responses: methodDoc.responses,
+            customFormats: customFormats
           }));
         }
 
@@ -117,7 +119,8 @@ function initialize(args) {
             var validationMiddleware = buildValidationMiddleware({
               errorTransformer: errorTransformer,
               parameters: methodParameters,
-              schemas: apiDoc.definitions
+              schemas: apiDoc.definitions,
+              customFormats: customFormats
             });
             middleware.unshift(validationMiddleware);
           }
