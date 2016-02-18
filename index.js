@@ -51,8 +51,6 @@ var COERCION_STRATEGIES = {
       });
 
       return input;
-    } else {
-      return [itemCoercer(input)];
     }
   },
 
@@ -149,7 +147,5 @@ function pathsep(format) {
       return '\t';
     case 'pipes':
       return '|';
-    case 'multi':
-      return '&';
   }
 }

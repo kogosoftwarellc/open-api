@@ -3,13 +3,14 @@
 
 ## Highlights
 
-* Effortlessly coerce header, path, and query request properties to defined types in
+* Effortlessly coerce header, path, query and formData request properties to defined types in
 an openapi parameters list.
 * Handles array types.
 * Performant.
 * Extensively tested.
 * Small footprint.
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
+* Supports _collectionFormat_ for _formData array_ parameters.
 
 ## Example
 

@@ -3,7 +3,7 @@ module.exports = {
     parameters: [
       {
         in: 'formData',
-        name: 'data1',
+        name: 'csv',
         type: 'array',
         items: {
           type: 'string'
@@ -13,9 +13,33 @@ module.exports = {
 
       {
         in: 'formData',
-        name: 'data2',
-        type: 'integer'
-      }
+        name: 'ssv',
+        type: 'array',
+        items: {
+          type: 'string'
+        },
+        collectionFormat: 'ssv'
+      },
+
+      {
+        in: 'formData',
+        name: 'tsv',
+        type: 'array',
+        items: {
+          type: 'string'
+        },
+        collectionFormat: 'tsv'
+      },
+
+      {
+        in: 'formData',
+        name: 'pipes',
+        type: 'array',
+        items: {
+          type: 'string'
+        },
+        collectionFormat: 'pipes'
+      },
     ]
   },
 
@@ -27,7 +51,7 @@ module.exports = {
     'Content-Type': 'application/x-www-form-urlencoded'
   },
 
-  requestBody: 'data1=foo,bar&data2=5',
+  requestBody: 'csv=foo,bar&ssv=foo bar&tsv=foo\tbar&pipes=foo|bar',
 
   headers: null,
 
@@ -36,7 +60,9 @@ module.exports = {
   query: null,
 
   body: {
-    data1: ['foo', 'bar'],
-    data2: 5
+    csv: ['foo', 'bar'],
+    ssv: ['foo', 'bar'],
+    tsv: ['foo', 'bar'],
+    pipes: ['foo', 'bar']
   }
 };
