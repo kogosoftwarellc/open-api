@@ -30,6 +30,15 @@ function validate(args) {
   var v = new JsonschemaValidator();
   var isBodyRequired = args.parameters.filter(byBodyParameters).length > 0;
 
+  if (args.customFormats) {
+    Object.keys(args.customFormats).forEach(function(format) {
+      var func = args.customFormats[format];
+      if (typeof func === 'function') {
+        v.customFormats[format] = func;
+      }
+    });
+  }
+
   if (bodySchema) {
     bodyValidationSchema = {
       properties: {

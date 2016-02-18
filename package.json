@@ -36,7 +36,7 @@
     "supertest": "^1.1.0"
   },
   "dependencies": {
-    "jsonschema": "^1.0.2",
+    "jsonschema": "^1.1.0",
     "openapi-jsonschema-parameters": "^0.1.3"
   }
 }

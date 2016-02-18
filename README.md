@@ -32,7 +32,13 @@ var validate = require('express-openapi-validation')({
   ],
   schemas: null, // an optional array or object of jsonschemas used to dereference $ref
   version: 'swagger-2.0', // default optional value for future versions of openapi
-  errorTransformer: null // an optional transformer function to format errors
+  errorTransformer: null, // an optional transformer function to format errors
+  customFormats: {
+    // support `"format": "foo"` for types.
+    foo: function(input) {
+      return input === 'foo';
+    }
+  }
 });
 
 app.get('/something', validate, function(req, res) {
@@ -86,6 +92,12 @@ See the error format in [jsonschema](https://www.npmjs.com/package/jsonschema) f
 failed.
 * `message` - A detailed message as to why validation failed.
 * `path` - The property of the location that failed validation.
+
+#### args.customFormats
+
+An object of formatters to use for the `format` keyword.
+
+See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
 
 ## LICENSE
 ``````
