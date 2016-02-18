@@ -27,6 +27,15 @@ function validateResponseMiddlewareFactory(args) {
   var definitions = args.definitions;
   var v = new JsonschemaValidator();
 
+  if (args.customFormats) {
+    Object.keys(args.customFormats).forEach(function(format) {
+      var func = args.customFormats[format];
+      if (typeof func === 'function') {
+        v.customFormats[format] = func;
+      }
+    });
+  }
+
   return function(req, res, next) {
     res.validateResponse = validateResponse;
     next();

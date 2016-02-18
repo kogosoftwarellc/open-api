@@ -143,6 +143,17 @@ failed.
 * `message` - A detailed message as to why validation failed.
 * `path` - The property of the response body that failed validation.
 
+#### args.customFormats
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|An object of custom formats.|
+
+Each key is the name of the format to be used with the `format` keyword.  Each value
+is a function that accepts an input and returns a boolean value.
+
+See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
+
 ## LICENSE
 ``````
 The MIT License (MIT)
