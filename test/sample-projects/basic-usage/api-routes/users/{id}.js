@@ -52,7 +52,7 @@ function get(req, res) {
 get.apiDoc = {
   description: 'Retrieve a user.',
   operationId: 'getUser',
-  tags: ['users'],
+  tags: ['users', 'fooey'],
   parameters: [
     {
       name: 'name',

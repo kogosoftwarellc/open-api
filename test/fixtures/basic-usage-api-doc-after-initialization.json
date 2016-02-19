@@ -44,7 +44,8 @@
         "description": "Create a new user.",
         "operationId": "createUser",
         "tags": [
-          "users"
+          "users",
+          "creating"
         ],
         "parameters": [],
         "responses": {
@@ -99,7 +100,8 @@
           }
         },
         "tags": [
-          "users"
+          "users",
+          "fooey"
         ]
       },
       "post": {
@@ -127,6 +129,12 @@
   },
   "swagger": "2.0",
   "tags": [
+    {
+      "name": "creating"
+    },
+    {
+      "name": "fooey"
+    },
     {
       "name": "users"
     }

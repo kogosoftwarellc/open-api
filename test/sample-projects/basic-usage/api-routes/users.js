@@ -38,7 +38,7 @@ module.exports.delete.apiDoc = {
 module.exports.post.apiDoc = {
   description: 'Create a new user.',
   operationId: 'createUser',
-  tags: ['users'],
+  tags: ['users', 'creating'],
   parameters: [],
   responses: {
     default: {

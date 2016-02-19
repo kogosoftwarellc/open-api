@@ -27,6 +27,10 @@ and validation.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
 * Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
+* Adds operation tags to your apiDoc.tags array and sorts then alphabetically for you.
+  * See how it's done in the [basic-usage](
+https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage/api-doc.js#L37)
+    sample project.
 
 ## Example
 

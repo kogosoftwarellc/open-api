@@ -93,6 +93,7 @@ function initialize(args) {
       var methodDoc = methodHandler.apiDoc;
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
             pathModule, methodDoc), methodHandler);
+      (methodDoc && methodDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
 
       if (methodDoc &&
           allowsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {// add middleware
@@ -145,6 +146,8 @@ function initialize(args) {
     });
   });
 
+  sortApiDocTags(apiDoc);
+
   if (validateApiDoc) {
     var apiDocValidation = validateSchema(apiDoc);
 
@@ -169,6 +172,23 @@ function initialize(args) {
   };
 
   return initializedApi;
+}
+
+function addOperationTagToApiDoc(apiDoc, tag) {
+  if (apiDoc && typeof tag === 'string') {
+    var apiDocTags = (apiDoc.tags || []);
+    var availableTags = apiDocTags.map(function(tag) {
+      return tag && tag.name;
+    });
+
+    if (availableTags.indexOf(tag) === -1) {
+      apiDocTags.push({
+        name: tag
+      });
+    }
+
+    apiDoc.tags = apiDocTags;
+  }
 }
 
 function allows(args, prop, val) {
@@ -247,6 +267,14 @@ function getAdditionalMiddleware() {
     if (doc && Array.isArray(doc[ADDITIONAL_MIDDLEWARE_PROPERTY])) {
       return doc[ADDITIONAL_MIDDLEWARE_PROPERTY];
     }
+  }
+}
+
+function sortApiDocTags(apiDoc) {
+  if (apiDoc && Array.isArray(apiDoc.tags)) {
+    apiDoc.tags.sort(function(a, b) {
+      return a.name > b.name;
+    });
   }
 }
 
