@@ -26,6 +26,8 @@ and validation.
 * Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
+* Supports error middleware scoped to your API's `basePath`.
+  * See [args.errorMiddleware](#argserrormiddleware)
 * Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
 * Adds operation tags to your apiDoc.tags array and sorts them alphabetically for you.
   * See how it's done in the [basic-usage](
@@ -252,7 +254,40 @@ module method, then `express-openapi` will add no additional middleware.
 Each key is the name of the format to be used with the `format` keyword.  Each value
 is a function that accepts an input and returns a boolean value.
 
+```javascript
+openapi.initialize({
+  /*...*/
+  customFormats: {
+    myFormat: function(input) {
+      return input === 'foo';
+    }
+  }
+  /*...*/
+});
+```
+
 See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
+
+#### args.errorMiddleware
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|A middleware function that is scoped to your api's basePath.|
+
+This is just standard express error middleware (I.E. it has 4 arguments `err, req, res, next`).
+When an error occurs in your API's handlers, it'll be passed to this middleware.  The
+rest of your app is unaffected.
+
+```javascript
+openapi.initialize({
+  apiDoc: require('v3-api-doc'),
+  /*...*/
+  errorMiddleware: function(err, req, res, next) { // only handles errors for /v3/*
+      /* do something with err in a v3 way */
+  }
+  /*...*/
+});
+```
 
 ## LICENSE
 ``````

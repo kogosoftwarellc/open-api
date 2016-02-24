@@ -71,6 +71,8 @@ function initialize(args) {
   var basePath = apiDoc.basePath || '';
   var errorTransformer = args.errorTransformer;
   var customFormats = args.customFormats;
+  var errorMiddleware = typeof args.errorMiddleware === 'function' &&
+      args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -165,6 +167,10 @@ function initialize(args) {
     app.get(basePath + docsPath, function(req, res) {
       res.status(200).json(apiDoc);
     });
+  }
+
+  if (errorMiddleware) {
+    app.use(apiDoc.basePath, errorMiddleware);
   }
 
   var initializedApi = {
