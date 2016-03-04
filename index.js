@@ -9,6 +9,16 @@ var path = require('path');
 var buildValidationMiddleware = require('express-openapi-validation');
 var buildResponseValidationMiddleware = require('express-openapi-response-validation');
 var validateSchema = require('openapi-schema-validation').validate;
+var METHOD_ALIASES = {
+  get: 'get',
+  put: 'put',
+  post: 'post',
+  del: 'delete',
+  delete: 'delete',
+  options: 'options',
+  head: 'head',
+  patch: 'patch'
+};
 
 module.exports = {
   initialize: initialize
@@ -92,10 +102,14 @@ function initialize(args) {
     Object.keys(pathModule).filter(byMethods).forEach(function(methodName) {
       // methodHandler may be an array or a function.
       var methodHandler = pathModule[methodName];
-      var methodDoc = methodHandler.apiDoc;
+      var methodDoc = Array.isArray(methodHandler) ?
+          methodHandler.slice(-1)[0].apiDoc :
+          methodHandler.apiDoc;
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
             pathModule, methodDoc), methodHandler);
       (methodDoc && methodDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
+
+      methodName = METHOD_ALIASES[methodName];
 
       if (methodDoc &&
           allowsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {// add middleware
@@ -229,8 +243,7 @@ function byDefault(param) {
 
 function byMethods(name) {
   // not handling $ref at this time.  Please open an issue if you need this.
-  return ['get', 'put', 'post', 'delete', 'options', 'head', 'patch']
-      .indexOf(name) > -1;
+  return name in METHOD_ALIASES;
 }
 
 function byProperty(property, value) {

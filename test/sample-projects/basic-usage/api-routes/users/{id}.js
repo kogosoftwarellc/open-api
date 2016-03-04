@@ -15,12 +15,15 @@ module.exports = {
   // for flexible middleware management.  express-openapi middleware generated from
   // the <path>.parameters + <methodHandler>.apiDoc.parameters is prepended to this
   // array.
-  post: [function(req, res, next) {next();}, function(req, res) {
-    res.status(200).json({id: req.params.id});
-  }]
+  post: [function(req, res, next) {next();}, post]
 };
 
-module.exports.post.apiDoc = {
+function post(req, res) {
+  res.status(200).json({id: req.params.id});
+}
+
+// verify that apiDoc is available with middleware
+post.apiDoc = {
   description: 'Create a user.',
   operationId: 'createUser',
   tags: ['users'],

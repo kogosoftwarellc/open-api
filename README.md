@@ -179,6 +179,15 @@ module.exports = {
       type: 'integer'
     }
   ],
+
+  /*
+    Also available are:
+    del
+    delete
+    patch...
+    see index.js for the full list.
+  */
+
   get: [
     /* business middleware not expressible by openapi documentation goes here */
     function(req, res, next) {
@@ -190,7 +199,9 @@ module.exports = {
 
       res.status(200).json(/* return the user or an error */);
     }
-  ]
+  ],
+
+  post: post
 };
 
 module.exports.get.apiDoc = {
@@ -210,6 +221,14 @@ module.exports.get.apiDoc = {
       $ref: '#/definitions/Error'
     }
   }
+};
+
+function post(req, res, next) {
+  /* ... */
+}
+
+post.apiDoc = {
+  /* ... */
 };
 
 ```

@@ -1,6 +1,6 @@
 // Showing that you don't need to have apiDoc defined on methodHandlers.
 module.exports = {
-  delete: function(req, res, next) {
+  del: function(req, res, next) {
     // Showing how to validate responses
     var validationError = res.validateResponse(204, null);
 
@@ -19,7 +19,7 @@ module.exports = {
   }
 };
 
-module.exports.delete.apiDoc = {
+module.exports.del.apiDoc = {
   description: 'Delete users.',
   operationId: 'deleteUsers',
   tags: ['users'],
