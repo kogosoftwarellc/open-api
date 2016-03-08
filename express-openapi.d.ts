@@ -250,6 +250,7 @@ declare module "express-openapi" {
         app: express.Application
         routes: string
         docPath?: string
+        errorMiddleware?: express.ErrorRequestHandler,
         errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
         exposeApiDocs?: boolean
         validateApiDoc?: boolean
