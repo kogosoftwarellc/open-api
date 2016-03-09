@@ -11,11 +11,23 @@ module.exports = {
         in: 'path',
         name: 'path2',
         type: 'boolean'
+      },
+
+      {
+        in: 'query',
+        name: 'query1',
+        type: 'boolean'
+      },
+
+      {
+        in: 'query',
+        name: 'query2',
+        type: 'boolean'
       }
     ]
   },
 
-  requestPath: '/true/false',
+  requestPath: '/true/false?query1=true&query2=false',
 
   requestHeaders: null,
 
@@ -26,5 +38,8 @@ module.exports = {
     path2: false
   },
 
-  query: null
+  query: {
+    query1: true,
+    query2: false
+  }
 };
