@@ -33,6 +33,8 @@ and validation.
   * See how it's done in the [basic-usage](
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage/api-doc.js#L37)
     sample project.
+* Support TypeScript
+  * See [Work with TypeScript](#work-with-typescript)
 
 ## Example
 
@@ -306,6 +308,88 @@ openapi.initialize({
   }
   /*...*/
 });
+```
+
+## Work with TypeScript
+
+This package includes definition for TypeScript.
+
+### Prepare
+
+Install definition for `express`  via [tsd](https://www.npmjs.com/package/tsd) or [dtsm](https://www.npmjs.com/package/dtsm).
+
+### Example
+
+In server script:
+```typescript
+import * as express from "express";
+import * as bodyParse from "body-parser";
+import * as openapi from "express-openapi";
+
+var app = express();
+
+app.use(bodyParser.json());
+
+openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    routes: './built/api-routes'
+});
+
+app.use(<express.ErrorRequestHandler>(err, req, res, next) => {
+    res.status(err.status).json(err);
+});
+
+app.listen(3000);
+```
+
+In route handler file like `<project>/src/api-routes/users/{id}.ts`:
+```typescript
+
+import {Operation} from "express-openapi";
+
+export var parameters = [
+  {
+    in: 'path',
+    name: 'id',
+    required: true,
+    type: 'integer'
+  }
+ ];
+ 
+export var get: Operation = [
+    /* business middleware not expressible by openapi documentation goes here */
+    (req, res, next) => {
+        res.status(200).json(/* return the user */);
+    }
+];
+ 
+get.apiDoc = {
+  description: 'A description for retrieving a user.',
+  tags: ['users'],
+  operationId: 'getUser',
+  // parameters for this operation
+  parameters: [
+    {
+      in: 'query',
+      name: 'firstName',
+      type: 'string'
+    }
+  ],
+  responses: {
+    default: {
+      $ref: '#/definitions/Error'
+    }
+  }
+};
+
+export var post: Operation = (req, res, next) => {
+    /* ... */
+}
+
+post.apiDoc = {
+    /* ... */
+};
 ```
 
 ## LICENSE
