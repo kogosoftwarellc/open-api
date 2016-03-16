@@ -288,9 +288,9 @@ function getAdditionalMiddleware() {
 }
 
 function getMethodDoc(methodHandler) {
-  return Array.isArray(methodHandler) ?
-    methodHandler.slice(-1)[0].apiDoc || methodHandler.apiDoc :
-    methodHandler.apiDoc;
+  return methodHandler.apiDoc || (Array.isArray(methodHandler) ?
+    methodHandler.slice(-1)[0].apiDoc :
+    null);
 }
 
 function sortApiDocTags(apiDoc) {
