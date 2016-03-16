@@ -266,7 +266,7 @@ declare module "express-openapi" {
         [index: number]: express.RequestHandler;
     }
 
-    export type Operation = OperationFunction | OperationHandlerArray;
+    export type Operation = OperationFunction | OperationHandlerArray | OperationFunction[];
 
     export interface PathModule {
         parameters?: OpenApi.Parameters;
