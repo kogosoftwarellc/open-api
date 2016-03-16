@@ -166,6 +166,17 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
+  describe('with-apiDoc-as-array-method-handler-property', function() {
+    var app = require('./sample-projects/with-apiDoc-as-array-method-handler-property/app.js');
+    var expectedApiDoc = require('./fixtures/basic-usage-api-doc-after-initialization.json');
+
+    it('should expose <apiDoc>.basePath/api-docs', function(done) {
+      request(app)
+        .get('/v3/api-docs')
+        .expect(200, expectedApiDoc, done);
+    });
+  });
+
   describe('configuring middleware', function() {
     var coercionMissingBody = {
       errors: [
