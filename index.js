@@ -102,9 +102,7 @@ function initialize(args) {
     Object.keys(pathModule).filter(byMethods).forEach(function(methodName) {
       // methodHandler may be an array or a function.
       var methodHandler = pathModule[methodName];
-      var methodDoc = Array.isArray(methodHandler) ?
-          methodHandler.slice(-1)[0].apiDoc :
-          methodHandler.apiDoc;
+      var methodDoc = getMethodDoc(methodHandler);
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
             pathModule, methodDoc), methodHandler);
       (methodDoc && methodDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
@@ -287,6 +285,12 @@ function getAdditionalMiddleware() {
       return doc[ADDITIONAL_MIDDLEWARE_PROPERTY];
     }
   }
+}
+
+function getMethodDoc(methodHandler) {
+  return Array.isArray(methodHandler) ?
+    methodHandler.slice(-1)[0].apiDoc || methodHandler.apiDoc :
+    methodHandler.apiDoc;
 }
 
 function sortApiDocTags(apiDoc) {
