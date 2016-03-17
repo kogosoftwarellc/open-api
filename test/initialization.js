@@ -79,5 +79,20 @@ describe(require('../package.json').name, function() {
 
       expect(initializedApp.apiDoc).to.eql(expectedApiDoc);
     });
+
+    it('should require referenced parameter to exist', function() {
+      expect(function() {
+        require('./sample-projects/with-referenced-parameter-missing/app.js');
+      }).to.throw(/Invalid parameter \$ref or definition not found in apiDoc\.parameters: #\/parameters\/Boo/);
+
+    });
+
+    it('should require referenced response to exist', function() {
+      expect(function() {
+        require('./sample-projects/with-referenced-response-missing/app.js');
+      }).to.throw(/Invalid response \$ref or definition not found in apiDoc.responses: #\/responses\/SuccessResponse/);
+
+    });
+
   });
 });

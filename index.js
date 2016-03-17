@@ -8,6 +8,8 @@ var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
 var buildValidationMiddleware = require('express-openapi-validation');
 var buildResponseValidationMiddleware = require('express-openapi-response-validation');
+var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
+var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var validateSchema = require('openapi-schema-validation').validate;
 var METHOD_ALIASES = {
   get: 'get',
@@ -83,6 +85,7 @@ function initialize(args) {
   var customFormats = args.customFormats;
   var errorMiddleware = typeof args.errorMiddleware === 'function' &&
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
+  var parameterDefinitions = apiDoc.parameters || {};
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -120,14 +123,15 @@ function initialize(args) {
           middleware.unshift(buildResponseValidationMiddleware({
             definitions: apiDoc.definitions,
             errorTransformer: errorTransformer,
-            responses: methodDoc.responses,
+            responses: resolveResponseRefs(methodDoc.responses, apiDoc, result.path),
             customFormats: customFormats
           }));
         }
 
-        var methodParameters = Array.isArray(methodDoc.parameters) ?
-          withNoDuplicates(pathParameters.concat(methodDoc.parameters)) :
-          pathParameters;
+        var methodParameters = withNoDuplicates(resolveParameterRefs(
+          Array.isArray(methodDoc.parameters) ?
+          pathParameters.concat(methodDoc.parameters) :
+          pathParameters, parameterDefinitions));
 
         if (methodParameters.length) {// defaults, coercion, and parameter validation middleware
           if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
@@ -193,20 +197,18 @@ function initialize(args) {
 }
 
 function addOperationTagToApiDoc(apiDoc, tag) {
-  if (apiDoc && typeof tag === 'string') {
-    var apiDocTags = (apiDoc.tags || []);
-    var availableTags = apiDocTags.map(function(tag) {
-      return tag && tag.name;
+  var apiDocTags = (apiDoc.tags || []);
+  var availableTags = apiDocTags.map(function(tag) {
+    return tag && tag.name;
+  });
+
+  if (availableTags.indexOf(tag) === -1) {
+    apiDocTags.push({
+      name: tag
     });
-
-    if (availableTags.indexOf(tag) === -1) {
-      apiDocTags.push({
-        name: tag
-      });
-    }
-
-    apiDoc.tags = apiDocTags;
   }
+
+  apiDoc.tags = apiDocTags;
 }
 
 function allows(args, prop, val) {
@@ -291,6 +293,54 @@ function getMethodDoc(methodHandler) {
   return methodHandler.apiDoc || (Array.isArray(methodHandler) ?
     methodHandler.slice(-1)[0].apiDoc :
     null);
+}
+
+function resolveParameterRefs(parameters, definitions) {
+  return parameters.map(function(parameter) {
+    if (typeof parameter.$ref === 'string') {
+      var match = PARAMETER_REF_REGEX.exec(parameter.$ref);
+      var definition = match && definitions[match[1]];
+
+      if (!definition) {
+        throw new Error(
+            'Invalid parameter $ref or definition not found in apiDoc.parameters: ' +
+            parameter.$ref);
+      }
+
+      return definition;
+    } else {
+      return parameter;
+    }
+  });
+}
+
+function resolveResponseRefs(responses, apiDoc, pathToModule) {
+  return Object.keys(responses).reduce(function(resolvedResponses, responseCode) {
+    var response = responses[responseCode];
+
+    if (typeof response.$ref === 'string') {
+      var match = RESPONSE_REF_REGEX.exec(response.$ref);
+      var definition = match && (apiDoc[match[1]] || {})[match[2]];
+
+      if (!definition) {
+        throw new Error(
+            'Invalid response $ref or definition not found in apiDoc.responses: ' +
+            response.$ref);
+      }
+
+      if (match[1] === 'definitions') {
+        console.warn('Using "$ref: \'#/definitions/...\'" for responses has been deprecated.');
+        console.warn('Please switch to "$ref: \'#/responses/...\'" in ' + pathToModule + '.');
+        console.warn('Future versions of express-openapi will no longer support this.');
+      }
+
+      resolvedResponses[responseCode] = definition;
+    } else {
+      resolvedResponses[responseCode] = response;
+    }
+
+    return resolvedResponses;
+  }, {});
 }
 
 function sortApiDocTags(apiDoc) {
