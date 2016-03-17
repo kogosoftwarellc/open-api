@@ -257,13 +257,23 @@ declare module "express-openapi" {
         customFormats?: CustomFormats
     }
 
-    export interface OperationFunction extends express.RequestHandler {
+    export interface RequestHandler {
+        (req: Request, res: Response, next: NextFunction): any
+    }
+
+    export type Request = express.Request;
+    export type NextFunction = express.NextFunction;
+    export interface Response extends express.Response {
+        validateResponse(status: number, resource: any): {status: number, message: string, errors: any}
+    }
+
+    export interface OperationFunction extends RequestHandler {
         apiDoc?: OpenApi.OperationObject;
     }
 
     export interface OperationHandlerArray {
         apiDoc?: OpenApi.OperationObject;
-        [index: number]: express.RequestHandler;
+        [index: number]: RequestHandler;
     }
 
     export type Operation = OperationFunction | OperationHandlerArray | OperationFunction[];
