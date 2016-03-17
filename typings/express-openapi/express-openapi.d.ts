@@ -316,7 +316,6 @@ declare module "express-openapi" {
         (input: any): boolean
     }
 
-
     interface IJsonSchema {
         id?: string
         $schema?: string
