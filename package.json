@@ -41,6 +41,7 @@
     "fs-routes": "^1.0.0",
     "glob": "*",
     "is-dir": "^1.0.0",
+    "json-ref-lite": "^1.0.73",
     "openapi-schema-validation": "^0.2.0"
   }
 }
