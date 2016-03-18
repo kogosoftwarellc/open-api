@@ -1,0 +1,50 @@
+{
+  "basePath": "/v3",
+  "definitions": {
+    "Error": {
+      "additionalProperties": true
+    }
+  },
+  "info": {
+    "title": "express-openapi sample project",
+    "version": "3.0.0"
+  },
+  "paths": {
+    "/foo": {
+      "parameters": [
+        {
+          "$ref": "http://example.com/foo#/parameters/Boo"
+        }
+      ],
+      "get": {
+        "description": "Get foo.",
+        "operationId": "getFoo",
+        "tags": [
+          "foo"
+        ],
+        "parameters": [
+          {
+            "$ref": "http://example.com/foo#/parameters/Foo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "http://example.com/foo#/responses/SuccessResponse"
+          },
+          "default": {
+            "$ref": "http://example.com/error"
+          }
+        }
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "foo"
+    },
+    {
+      "name": "users"
+    }
+  ]
+}

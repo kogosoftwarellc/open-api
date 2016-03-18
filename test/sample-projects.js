@@ -152,6 +152,54 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
+  describe('with-external-response-and-parameter-references', function() {
+    var app = require('./sample-projects/with-external-response-and-parameter-references/app.js');
+    var expectedApiDoc = require('./fixtures/with-external-response-and-parameter-references-api-doc-after-initialization.json');
+
+    it('should expose <apiDoc>.basePath/api-docs', function(done) {
+      request(app)
+        .get('/v3/api-docs')
+        .expect(200, expectedApiDoc, done);
+    });
+
+    it('should use parameter references', function(done) {
+      request(app)
+        .get('/v3/foo?name=barney')
+        .expect(400, {
+          status: 400,
+          errors:[
+            {
+              path: 'boo',
+              errorCode: 'required.openapi.validation',
+              message: 'instance requires property \"boo\"',
+              location:'query'
+            },
+            {
+              path: 'foo',
+              errorCode: 'required.openapi.validation',
+              message: 'instance requires property \"foo\"',
+              location: 'query'
+            }
+          ]
+        }, done);
+    });
+
+    it('should use response references', function(done) {
+      request(app)
+        .get('/v3/foo?foo=error&boo=success')
+        .expect(500, {
+          errors: [
+            {
+              errorCode: 'enum.openapi.responseValidation',
+              message: 'response is not one of enum values: error'
+            }
+          ],
+          message: 'The response was not valid.',
+          status: 500
+        }, done);
+    });
+  });
+
   describe('with-customFormats', function() {
     var app = require('./sample-projects/with-customFormats/app.js');
 

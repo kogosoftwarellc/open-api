@@ -25,6 +25,7 @@ describe(require('../package.json').name, function() {
         ['args.routes non directory', {app: {}, apiDoc: validDocument, routes: 'asdasdfasdf'}, /express-openapi: args.routes was not a path to a directory/],
         ['args.routes non directory', {app: {}, apiDoc: validDocument, routes: routesDir, docsPath: true}, /express-openapi: args.docsPath must be a string when given/],
         ['args.errorTransformer', {app: {}, apiDoc: validDocument, routes: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
+        ['args.referencedJSONs', {app: {}, apiDoc: validDocument, routes: routesDir, referencedJSONs: 'asdf'}, /express-openapi: args.referencedJSONs must be a object when given/],
       ].forEach(function(test) {
         var description = test[0];
         var args = test[1];
@@ -94,5 +95,10 @@ describe(require('../package.json').name, function() {
 
     });
 
+    it('should require external parameter reference to solved', function() {
+      expect(function() {
+        require('./sample-projects/with-referenced-external-parameter-missing/app.js');
+      }).to.throw(/Unresolved external reference: http:\/\/example\.com\/error/);
+    });
   });
 });
