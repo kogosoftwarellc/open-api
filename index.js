@@ -6,8 +6,10 @@ var INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-inherit-addition
 var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
+var jsonRef = require('json-ref-lite');
 var buildValidationMiddleware = require('express-openapi-validation');
 var buildResponseValidationMiddleware = require('express-openapi-response-validation');
+var EXTERNAL_REF_REGEX = /^(https?:[^#]+)(?:#(\/.*)?)?/;
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var validateSchema = require('openapi-schema-validation').validate;
@@ -73,6 +75,10 @@ function initialize(args) {
     throw new Error(loggingKey + 'args.errorTransformer must be a function when given');
   }
 
+  if ('referencedJSONs' in args && typeof args.referencedJSONs !== 'object') {
+    throw new Error(loggingKey + 'args.referencedJSONs must be a object when given');
+  }
+
   var app = args.app;
   // Do not make modifications to this.
   var originalApiDoc = args.apiDoc;
@@ -86,6 +92,7 @@ function initialize(args) {
   var errorMiddleware = typeof args.errorMiddleware === 'function' &&
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
   var parameterDefinitions = apiDoc.parameters || {};
+  var referencedJSONs = resolveExternalJSONsRefs(args.referencedJSONs || {});
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -123,15 +130,15 @@ function initialize(args) {
           middleware.unshift(buildResponseValidationMiddleware({
             definitions: apiDoc.definitions,
             errorTransformer: errorTransformer,
-            responses: resolveResponseRefs(methodDoc.responses, apiDoc, result.path),
+            responses: resolveResponseRefs(resolveExternalRefs(methodDoc.responses, referencedJSONs), apiDoc, result.path),
             customFormats: customFormats
           }));
         }
 
-        var methodParameters = withNoDuplicates(resolveParameterRefs(
+        var methodParameters = withNoDuplicates(resolveParameterRefs(resolveExternalRefs(
           Array.isArray(methodDoc.parameters) ?
           pathParameters.concat(methodDoc.parameters) :
-          pathParameters, parameterDefinitions));
+          pathParameters, referencedJSONs), parameterDefinitions));
 
         if (methodParameters.length) {// defaults, coercion, and parameter validation middleware
           if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
@@ -293,6 +300,38 @@ function getMethodDoc(methodHandler) {
   return methodHandler.apiDoc || (Array.isArray(methodHandler) ?
     methodHandler.slice(-1)[0].apiDoc :
     null);
+}
+
+function resolveExternalRefs(object, referencedJSONs) {
+  return Object.keys(object).reduce(function (resolved, key) {
+    var item = resolved[key] = object[key];
+
+    if (typeof item.$ref !== 'string') {
+      return resolved;
+    }
+
+    var match = EXTERNAL_REF_REGEX.exec(item.$ref);
+    if (!match) {
+      return resolved;
+    }
+
+    var definition = referencedJSONs[match[1]];
+    if (!definition) {
+      throw new Error(
+        'Unresolved external reference: ' +
+        item.$ref);
+    }
+
+    resolved[key] = match[2] ? jsonRef.get_json_pointer(match[2], definition) : definition;
+    return resolved;
+  }, Array.isArray(object) ? [] : {});
+}
+
+function resolveExternalJSONsRefs(referencedJSONs) {
+  return Object.keys(referencedJSONs).reduce(function (resolved, url) {
+    resolved[url] = jsonRef.resolve(copy(referencedJSONs[url]));
+    return resolved;
+  }, {});
 }
 
 function resolveParameterRefs(parameters, definitions) {
