@@ -90,7 +90,7 @@ function initialize(args) {
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
     var route = result.route;
-    // express path pargumentarams start with :paramName
+    // express path params start with :paramName
     // openapi path params use {paramName}
     var openapiPath = route;
     // Do not make modifications to this.
