@@ -95,5 +95,10 @@ describe(require('../package.json').name, function() {
 
     });
 
+    it('should require external parameter reference to solved', function() {
+      expect(function() {
+        require('./sample-projects/with-referenced-external-parameter-missing/app.js');
+      }).to.throw(/Unresolved external reference: http:\/\/example\.com\/error/);
+    });
   });
 });
