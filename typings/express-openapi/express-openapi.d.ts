@@ -231,8 +231,8 @@ declare module "express-openapi" {
             discriminator?: string
             readOnly?: boolean
             xml?: XMLObject
-            externalDocs: ExternalDocumentationObject
-            example: any
+            externalDocs?: ExternalDocumentationObject
+            example?: any
         }
 
         export interface XMLObject {
