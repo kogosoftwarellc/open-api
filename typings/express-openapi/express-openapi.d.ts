@@ -273,10 +273,10 @@ declare module "express-openapi" {
 
     export interface OperationHandlerArray {
         apiDoc?: OpenApi.OperationObject;
-        [index: number]: RequestHandler;
+        [index: number]: OperationFunction;
     }
 
-    export type Operation = OperationFunction | OperationHandlerArray | OperationFunction[];
+    export type Operation = OperationFunction | OperationHandlerArray;
 
     export interface PathModule {
         parameters?: OpenApi.Parameters;
