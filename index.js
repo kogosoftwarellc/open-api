@@ -172,7 +172,13 @@ function toOpenapiValidationError(error) {
 
 function stripBodyInfo(error) {
   if (error.location === 'body') {
-    error.path = error.path.replace(/^body\./, '');
+    if (typeof error.path === 'string') {
+      error.path = error.path.replace(/^body\./, '');
+    } else {
+      // Removing to avoid breaking clients that are expecting strings.
+      delete error.path;
+    }
+
     error.message = error.message.replace(/^instance\.body\./, 'instance.');
     error.message = error.message.replace(/^instance\.body /, 'instance ');
   }
