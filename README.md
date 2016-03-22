@@ -1,4 +1,4 @@
-# express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
+# express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > Effortlessly add routes and middleware to express apps with openapi documents.
 
 ## Highlights
@@ -426,3 +426,6 @@ THE SOFTWARE.
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/express-openapi
 [coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/express-openapi/master.svg
+
+[gitter-url]: https://gitter.im/kogosoftwarellc/express-openapi
+[gitter-image]: https://badges.gitter.im/kogosoftwarellc/express-openapi.png
