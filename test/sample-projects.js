@@ -152,6 +152,32 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
+  describe('with-express-mount-after-initialize', function() {
+    var app = require('./sample-projects/with-express-mount-after-initialize/app.js');
+
+    it('should expose apiDoc containing baseUrl with mountpath', function(done) {
+      request(app)
+        .get('/api/v3/api-docs')
+        .expect(function(res) {
+          expect(res.body).to.have.property('basePath', '/api/v3');
+        })
+        .expect(200, done);
+    });
+  });
+
+  describe('with-express-mount-before-initialize', function() {
+    var app = require('./sample-projects/with-express-mount-before-initialize/app.js');
+
+    it('should expose apiDoc containing baseUrl with mountpath', function(done) {
+      request(app)
+        .get('/api/v3/api-docs')
+        .expect(function(res) {
+          expect(res.body).to.have.property('basePath', '/api/v3');
+        })
+        .expect(200, done);
+    });
+  });
+
   describe('with-customFormats', function() {
     var app = require('./sample-projects/with-customFormats/app.js');
 

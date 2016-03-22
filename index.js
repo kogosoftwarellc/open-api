@@ -186,8 +186,16 @@ function initialize(args) {
   }
 
   if (errorMiddleware) {
-    app.use(apiDoc.basePath, errorMiddleware);
+    app.use(basePath, errorMiddleware);
   }
+
+  function setBasePath() {
+    // none-express app may not have mountpath
+    apiDoc.basePath = (app.mountpath||'').replace(/\/$/, '') + basePath;
+  }
+
+  app.on('mount', setBasePath);
+  setBasePath();
 
   var initializedApi = {
     apiDoc: apiDoc
