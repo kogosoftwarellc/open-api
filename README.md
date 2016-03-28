@@ -316,14 +316,14 @@ This package includes definition for TypeScript.
 
 ### Prepare
 
-Install definition for `express`  via [tsd](https://www.npmjs.com/package/tsd) or [dtsm](https://www.npmjs.com/package/dtsm).
+Install definition for `express` and `body-parser`(optional) via [typings](https://www.npmjs.com/package/typings).
 
 ### Example
 
 In server script:
 ```typescript
 import * as express from "express";
-import * as bodyParse from "body-parser";
+import * as bodyParser from "body-parser";
 import * as openapi from "express-openapi";
 
 var app = express();
