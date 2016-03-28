@@ -261,7 +261,11 @@ declare module "express-openapi" {
         (req: Request, res: Response, next: NextFunction): any
     }
 
-    export type Request = express.Request;
+    export interface Request extends express.Request {
+        get(name: string): any
+        header(name: string): any
+        headers: { [key: string]: any }
+    }
     export type NextFunction = express.NextFunction;
     export interface Response extends express.Response {
         validateResponse(status: number, resource: any): {status: number, message: string, errors: any}
