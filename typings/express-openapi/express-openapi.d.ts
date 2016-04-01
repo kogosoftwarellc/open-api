@@ -255,6 +255,7 @@ declare module "express-openapi" {
         exposeApiDocs?: boolean
         validateApiDoc?: boolean
         customFormats?: CustomFormats
+        externalSchemas?: {[url:string]: any}
     }
 
     export interface RequestHandler {

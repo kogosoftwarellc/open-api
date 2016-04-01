@@ -73,6 +73,10 @@ function initialize(args) {
     throw new Error(loggingKey + 'args.errorTransformer must be a function when given');
   }
 
+  if ('externalSchemas' in args && typeof args.externalSchemas !== 'object') {
+    throw new Error(loggingKey + 'args.externalSchemas must be a object when given');
+  }
+
   var app = args.app;
   // Do not make modifications to this.
   var originalApiDoc = args.apiDoc;
@@ -86,6 +90,7 @@ function initialize(args) {
   var errorMiddleware = typeof args.errorMiddleware === 'function' &&
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
   var parameterDefinitions = apiDoc.parameters || {};
+  var externalSchemas = args.externalSchemas || {};
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -122,6 +127,7 @@ function initialize(args) {
           // validation will pick it up, so this is almost always going to be added.
           middleware.unshift(buildResponseValidationMiddleware({
             definitions: apiDoc.definitions,
+            externalSchemas: externalSchemas,
             errorTransformer: errorTransformer,
             responses: resolveResponseRefs(methodDoc.responses, apiDoc, result.path),
             customFormats: customFormats
@@ -139,6 +145,7 @@ function initialize(args) {
               errorTransformer: errorTransformer,
               parameters: methodParameters,
               schemas: apiDoc.definitions,
+              externalSchemas: externalSchemas,
               customFormats: customFormats
             });
             middleware.unshift(validationMiddleware);
