@@ -36,6 +36,12 @@ function validateResponseMiddlewareFactory(args) {
     });
   }
 
+  if (args.externalSchemas) {
+    Object.keys(args.externalSchemas).forEach(function(id) {
+      v.addSchema(args.externalSchemas[id], id);
+    });
+  }
+
   return function(req, res, next) {
     res.validateResponse = validateResponse;
     next();
