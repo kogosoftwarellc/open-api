@@ -33,8 +33,10 @@ and validation.
   * See how it's done in the [basic-usage](
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage/api-doc.js#L37)
     sample project.
-* Support TypeScript
+* Supports TypeScript
   * See [Work with TypeScript](#work-with-typescript)
+* Supports external schema references
+  * See [args.externalSchemas](#argsexternalschemas)
 
 ## Example
 
@@ -310,6 +312,63 @@ openapi.initialize({
 });
 ```
 
+#### args.externalSchemas
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|Map id to pre-loaded external schema|
+
+This is used to resolve a schema reference `$ref`. Id can be a URL or relative path from `args.docPath`.
+
+```javascript
+openapi.initialize({
+  apiDoc: require('v3-api-doc'),
+  /*...*/
+  externalSchemas: {
+    'http://example.com/schema': {
+      description: "example schema",
+      type: object,
+      /*....*/
+    },
+    'http://example.com/another-schema': {
+      /*....*/
+    }
+  }
+  /*...*/
+});
+```
+
+And then you can reference them in your api-doc file and route handlers.
+```javascript
+{
+  /*...*/
+  parameters: {
+    foo: {
+      "in": "body",
+      name: "foo",
+      schema: { $ref: 'http://example.com/schema'}
+    }
+  },
+  /*...*/
+  definitions: {
+   bar: { $ref: 'http://example.com/another-schema#/definitions/bar'}
+  }
+}
+```
+or
+```javascript
+module.exports.put.apiDoc = {
+  /*...*/
+  parameters: [
+    {
+      "in": "body",
+      name: "foo",
+      schema: { $ref: 'http://example.com/schema'}
+    }
+  ],
+ /*...*/
+}
+```
 ## Work with TypeScript
 
 This package includes definition for TypeScript.
