@@ -399,6 +399,34 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
+  describe('with-middleware-builder', function() {
+    var app = require('./sample-projects/with-middleware-builder/app.js');
+
+    it('should call additional middleware before express-openapi middleware', function(done) {
+      request(app)
+        .get('/v3/users')
+        .expect(200, {baz: 'woo'}, done);
+    });
+
+    it('should call additional middleware after express-openapi middleware', function(done) {
+      request(app)
+        .post('/v3/users')
+        .expect(401, done);
+    });
+
+    it('should not call global additional middleware when it disabled in methodDoc', function(done) {
+      request(app)
+        .patch('/v3/users')
+        .expect(200, done);
+    });
+
+    it('should call additional middleware built by method middleware builder', function(done) {
+      request(app)
+        .patch('/v3/users')
+        .expect(200, {message: 'zoo'}, done);
+    });
+  });
+
   describe('configuring middleware', function() {
     var coercionMissingBody = {
       errors: [

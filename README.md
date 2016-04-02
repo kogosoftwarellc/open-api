@@ -37,6 +37,8 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
   * See [Work with TypeScript](#work-with-typescript)
 * Supports external schema references
   * See [args.externalSchemas](#argsexternalschemas)
+* Supports middleware builders
+  * See [args.middlewareBuilder](#argsmiddlewarebuilder) and [Middleware Builder](#middleware-builder)
 
 ## Example
 
@@ -87,6 +89,8 @@ you can use these properties in said operation's apiDoc.  See full examples in t
 [./test/sample-projects/](
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects)
 directory.
+And you can also add middleware using [Middleware Builder](#middlewarebuilder), which supplied as
+`middlewareBuilder` property of initialize argument or operations.
 
 ### Supported vendor extensions
 
@@ -369,6 +373,72 @@ module.exports.put.apiDoc = {
  /*...*/
 }
 ```
+
+#### args.middlewareBuilder
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|A middleware builder function|
+
+See [MiddlewareBuilder](#middleware-builder).
+
+## Middleware Builder
+
+Middleware builder is a `Function` to add middleware to each operations according to methodDoc or apiDoc.
+
+### Arguments
+|Name|Type|Description|
+|----|----|-----------|
+|middleware|Array|Array of middleware includes `express-openapi` middleware. It does *NOT* contain operation handlers and additional middleware.|
+|methodDoc|Object|The api-doc for the operation which is in building|
+|apiDoc|Object|The api-doc|
+
+### Properties of Operation
+|Name|Type|Description|
+|----|----|-----------|
+|disableGlobalMiddlewareBuilder|Boolean|Disable `args.middlewareBuilder` for the operation|
+|middlewareBuilder|Middleware Builder Function|Middleware builder for the operation. This called after `args.middlewareBuilder` when it exists.|
+
+### Example
+
+In user server scripts:
+```javascript
+openapi.initialize({
+  apiDoc: require('./api-doc.js'),
+  app: app,
+  routes: path.resolve(__dirname, 'api-routes'),
+  middlewareBuilder: function (middleware, methodDoc, apiDoc) {
+    // Add a middleware before express-openapi middleware.
+    middleware.unshift(function (req, res, next) {
+      req.query.baz = 'woo';
+      next();
+    });
+
+    // Add middleware according to methodDoc or apiDoc
+    if (methodDoc.security && methodDoc.security[0]['api-key']) {
+      // Add a middleware after express-openapi middleware.
+      middleware.push(function (req, res, next) {
+        // e.g. security middleware
+        if (req.header('x-api-key') === 'my-api-key') {
+          return next();
+        }
+        next({status: 401, message: 'unauthorized'});
+      });
+    }
+  }
+});
+```
+In user route handler:
+```javascript
+module.exports.patch.disableGlobalMiddlewareBuilder = true;
+module.exports.patch.middlewareBuilder = function(middleware, methodDoc, apiDoc) {
+  middleware.unshift(function(req, res, next) {
+    req.query.baz = 'zoo';
+    next();
+  });
+};
+```
+
 ## Work with TypeScript
 
 This package includes definition for TypeScript.

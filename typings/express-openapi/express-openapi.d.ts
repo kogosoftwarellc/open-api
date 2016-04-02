@@ -256,6 +256,7 @@ declare module "express-openapi" {
         validateApiDoc?: boolean
         customFormats?: CustomFormats
         externalSchemas?: {[url:string]: any}
+        middlewareBuilder?: MiddlewareBuilder
     }
 
     export interface RequestHandler {
@@ -274,10 +275,14 @@ declare module "express-openapi" {
 
     export interface OperationFunction extends RequestHandler {
         apiDoc?: OpenApi.OperationObject;
+        disableGlobalMiddlewareBuilder?: boolean;
+        middlewareBuilder?: MiddlewareBuilder;
     }
 
     export interface OperationHandlerArray {
         apiDoc?: OpenApi.OperationObject;
+        disableGlobalMiddlewareBuilder?: boolean;
+        middlewareBuilder?: MiddlewareBuilder;
         [index: number]: OperationFunction;
     }
 
@@ -303,6 +308,10 @@ declare module "express-openapi" {
 
     export interface CustomFormats {
         [index: string]: CustomFormatValidator
+    }
+
+    export interface MiddlewareBuilder {
+        (middleware: express.Handler[], methodDoc: OpenApi.OperationObject, apiDoc: OpenApi.ApiDefinition): void;
     }
 
     // Following 2 interfaces are part of jsonschema package.

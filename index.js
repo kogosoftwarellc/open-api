@@ -74,7 +74,11 @@ function initialize(args) {
   }
 
   if ('externalSchemas' in args && typeof args.externalSchemas !== 'object') {
-    throw new Error(loggingKey + 'args.externalSchemas must be a object when given');
+    throw new Error(loggingKey + 'args.externalSchemas must be an object when given');
+  }
+
+  if ('middlewareBuilder' in args && typeof args.middlewareBuilder !== 'function') {
+    throw new Error(loggingKey + 'args.middlewareBuilder must be a function when given');
   }
 
   var app = args.app;
@@ -91,6 +95,7 @@ function initialize(args) {
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
   var parameterDefinitions = apiDoc.parameters || {};
   var externalSchemas = args.externalSchemas || {};
+  var middlewareBuilder = args.middlewareBuilder;
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -111,8 +116,7 @@ function initialize(args) {
       // methodHandler may be an array or a function.
       var methodHandler = pathModule[methodName];
       var methodDoc = getMethodDoc(methodHandler);
-      var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
-            pathModule, methodDoc), methodHandler);
+      var middleware = [];
       (methodDoc && methodDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
 
       methodName = METHOD_ALIASES[methodName];
@@ -165,9 +169,18 @@ function initialize(args) {
         }
       }
 
+      if (middlewareBuilder && !methodHandler.disableGlobalMiddlewareBuilder) {
+        middlewareBuilder(middleware, methodDoc, apiDoc);
+      }
+
+      if (methodHandler.middlewareBuilder) {
+        methodHandler.middlewareBuilder(middleware, methodDoc, apiDoc);
+      }
+
       var expressPath = basePath + '/' +
           route.substring(1).split('/').map(toExpressParams).join('/');
-      app[methodName].apply(app, [expressPath].concat(middleware));
+      app[methodName].apply(app, [expressPath].concat(middleware, getAdditionalMiddleware(originalApiDoc, originalPathItem,
+            pathModule, methodDoc), methodHandler));
     });
   });
 
