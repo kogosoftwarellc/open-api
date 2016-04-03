@@ -28,11 +28,11 @@ var securityDefinitions = {
 var securityHandlers = {
   keyScheme: function(req, scopes, securityDefinition, cb) {
     req.user = {name: 'fred'};
-    cb(true);// pass true if validation succeeds, false otherwise.
+    cb(null, true);// pass true if validation succeeds, false otherwise.
   },
   passwordScheme: function(req, scopes, securityDefinition, cb) {
     req.user = {name: 'fred'};
-    cb(true);
+    cb(null, true);
   }
 };
 var operationSecurity = [
