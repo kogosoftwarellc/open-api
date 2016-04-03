@@ -77,7 +77,7 @@ function buildOpenapiSecurity(securityDefinitions, securityHandlers,
         status: 401,
         message: 'Failed to authorize against ' +
             operationSecurity.map(toAuthenticationScheme).join(' OR '),
-        errorCode: 'express-openapi.authentication'
+        errorCode: 'authentication.openapi.security'
       });
     });
   };
