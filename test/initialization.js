@@ -26,6 +26,7 @@ describe(require('../package.json').name, function() {
         ['args.routes non directory', {app: {}, apiDoc: validDocument, routes: routesDir, docsPath: true}, /express-openapi: args.docsPath must be a string when given/],
         ['args.errorTransformer', {app: {}, apiDoc: validDocument, routes: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
         ['args.externalSchemas', {app: {}, apiDoc: validDocument, routes: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
+        ['args.securityHandlers', {app: {}, apiDoc: validDocument, routes: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be an object when given/],
       ].forEach(function(test) {
         var description = test[0];
         var args = test[1];

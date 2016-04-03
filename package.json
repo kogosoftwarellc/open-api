@@ -37,6 +37,7 @@
     "express-openapi-coercion": "^0.4.0",
     "express-openapi-defaults": "^0.4.2",
     "express-openapi-response-validation": "^0.3.0",
+    "express-openapi-security": "^0.1.0",
     "express-openapi-validation": "^0.7.0",
     "fs-routes": "^1.0.0",
     "glob": "*",

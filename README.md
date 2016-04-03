@@ -13,6 +13,8 @@ and validation.
   * See [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)
 * Leverages openapi response definitions to provide `res.validateResponse` tailored to a particular route.
   * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
+* Leverages security definitions for security management.
+  * See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
 * Validates api documents.
   * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
 * Configurable Middleware.
@@ -369,6 +371,84 @@ module.exports.put.apiDoc = {
  /*...*/
 }
 ```
+
+#### args.securityHandlers
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|Map name of security scheme name to a handler function.|
+
+If you'd like to support security, define your schemes in your apiDoc like so:
+
+```javascript
+var apiDoc = {
+  swagger: 2.0,
+  /* ... */
+  securityDefinitions: {
+    keyScheme: {
+      type: 'apiKey',
+      name: 'api_key',
+      in: 'header'
+    },
+    passwordScheme: {
+      type: 'basic'
+    }
+  }
+};
+```
+
+Define your security handlers in the openapi initialization args:
+
+```javascript
+openapi.initialize({
+  apiDoc: apiDoc,
+  app: app,
+  securityHandlers: {
+    keyScheme: function(req, scopes, definition, cb) {
+      /* do something.  You can assign values to req to make them available in
+      operation handlers. */
+      cb(null, true);
+    },
+    passwordScheme: function(req, scopes, definition, cb) {
+      /* do something */
+      cb({
+        status: 401,
+        challenge: 'Basic realm=foo',
+        message: 'You must authenticate to access foo.'
+      });
+    }
+  }
+});
+```
+
+Now you can use `security` in your operation docs, or in the api doc.
+
+```javascript
+module.exports = {
+  post: post
+};
+
+function post(req, res, next) {
+  /* code */
+}
+
+post.apiDoc = {
+  /* ... */
+  security: [
+    {
+      passwordScheme: []
+    },
+    // if the previous set of security schemes fail, we move to the next block.
+    {
+      keyScheme: []
+    }
+  ]
+};
+```
+
+See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
+for more details.
+
 ## Work with TypeScript
 
 This package includes definition for TypeScript.
@@ -415,14 +495,14 @@ export var parameters = [
     type: 'integer'
   }
  ];
- 
+
 export var get: Operation = [
     /* business middleware not expressible by openapi documentation goes here */
     (req, res, next) => {
         res.status(200).json(/* return the user */);
     }
 ];
- 
+
 get.apiDoc = {
   description: 'A description for retrieving a user.',
   tags: ['users'],

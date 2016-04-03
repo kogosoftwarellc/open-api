@@ -8,6 +8,7 @@ var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
 var buildValidationMiddleware = require('express-openapi-validation');
 var buildResponseValidationMiddleware = require('express-openapi-response-validation');
+var buildSecurityMiddleware = require('express-openapi-security');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var validateSchema = require('openapi-schema-validation').validate;
@@ -77,6 +78,10 @@ function initialize(args) {
     throw new Error(loggingKey + 'args.externalSchemas must be a object when given');
   }
 
+  if ('securityHandlers' in args && typeof args.securityHandlers !== 'object') {
+    throw new Error(loggingKey + 'args.securityHandlers must be an object when given');
+  }
+
   var app = args.app;
   // Do not make modifications to this.
   var originalApiDoc = args.apiDoc;
@@ -91,6 +96,11 @@ function initialize(args) {
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
   var parameterDefinitions = apiDoc.parameters || {};
   var externalSchemas = args.externalSchemas || {};
+  var securityHandlers = args.securityHandlers;
+  var apiSecurity = securityHandlers && apiDoc.security && apiDoc.securityDefinitions ?
+      buildSecurityMiddleware(apiDoc.securityDefinitions, securityHandlers,
+          apiDoc.security) :
+      null;
 
   fsRoutes(routesDir).forEach(function(result) {
     var pathModule = require(result.path);
@@ -112,7 +122,7 @@ function initialize(args) {
       var methodHandler = pathModule[methodName];
       var methodDoc = getMethodDoc(methodHandler);
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
-            pathModule, methodDoc), methodHandler);
+            pathModule, methodDoc));
       (methodDoc && methodDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
 
       methodName = METHOD_ALIASES[methodName];
@@ -164,6 +174,20 @@ function initialize(args) {
           }
         }
       }
+
+      var securityMiddleware;
+      if (securityHandlers && methodDoc.security && apiDoc.securityDefinitions) {
+        securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
+            securityHandlers, methodDoc.security);
+      } else if (apiSecurity) {
+        securityMiddleware = apiSecurity;
+      }
+
+      if (securityMiddleware) {
+        middleware.push(securityMiddleware);
+      }
+
+      middleware.push(methodHandler);
 
       var expressPath = basePath + '/' +
           route.substring(1).split('/').map(toExpressParams).join('/');
