@@ -1,0 +1,7 @@
+/bower_components/
+/coverage/
+/node_modules/
+/dist/
+npm-debug.log
+*.swp
+*.swo
