@@ -53,6 +53,28 @@ app.get('/something', security, function(req, res) {
 });
 ```
 
+## Response
+
+`express-openapi-security` will respond in the following ways:
+
+* `401`
+  * This status code is sent if:
+    * `cb(null, false)` is called from all `securityHandlers`.
+    * `cb({status: 401, challange: 'a challenge string like "Basic"'})` is called
+      from at least one of the handlers in the last set of security handlers.
+* `403`
+  * This status code is sent if:
+    * `cb({status: 403, message: 'some message'})` is called
+      from at least one of the handlers in the last set of security handlers.
+* `500`
+  * This status code is sent if:
+    * An unknown `status` is passed to `cb`.
+    * No security handlers yield `true`.
+
+## Successful Authentication
+
+Upon successful authentication, `next()` is called.
+
 ## LICENSE
 ``````
 The MIT License (MIT)

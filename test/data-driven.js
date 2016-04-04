@@ -29,7 +29,16 @@ describe(require('../package.json').name, function() {
         });
       }
 
-      test.expect(fixture.expectedStatusCode, fixture.expectedResponse, done);
+      test.expect(fixture.expectedStatusCode, fixture.expectedResponse,
+          function(err, result) {
+            if (fixture.expectedHeaders) {
+              Object.keys(fixture.expectedHeaders).forEach(function(name) {
+                expect(result.res.headers[name]).to.equal(
+                    fixture.expectedHeaders[name]);
+              });
+            }
+            done(err);
+          });
     });
   });
 

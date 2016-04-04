@@ -50,10 +50,10 @@ module.exports = {
     next();
   },
 
-  expectedStatusCode: 401,
+  expectedStatusCode: 500,
   expectedResponse: JSON.stringify({
-    status: 401,
-    message: 'Failed to authorize against keyScheme AND keyScheme1 OR keyScheme2 AND keyScheme1',
+    status: 500,
+    message: 'No security handlers returned an acceptable response: keyScheme AND keyScheme1 OR keyScheme2 AND keyScheme1',
     errorCode: 'authentication.openapi.security'
   })
 };
