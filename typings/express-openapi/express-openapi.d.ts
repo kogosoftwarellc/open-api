@@ -256,6 +256,7 @@ declare module "express-openapi" {
         validateApiDoc?: boolean
         customFormats?: CustomFormats
         externalSchemas?: {[url:string]: any}
+        securityHandlers?: SecurityHandlers
     }
 
     export interface RequestHandler {
@@ -319,6 +320,24 @@ declare module "express-openapi" {
 
     interface CustomFormatValidator {
         (input: any): boolean
+    }
+
+    export interface SecurityHandlers {
+        [name: string]: SecurityHandler
+    }
+
+    export interface SecurityHandler {
+        (req: Request, scopes: string[], definition: OpenApi.SecuritySchemeObject, cb: SecurityHandlerCallback): void;
+    }
+
+    export interface SecurityHandlerCallback {
+        (error: SecurityHandlerError, result: boolean): void;
+    }
+
+    export interface SecurityHandlerError {
+        status?: number;
+        challenge?: string;
+        message?: any;
     }
 
     interface IJsonSchema {
