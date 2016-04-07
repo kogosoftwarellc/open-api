@@ -233,6 +233,11 @@ declare module "express-openapi" {
             xml?: XMLObject
             externalDocs?: ExternalDocumentationObject
             example?: any
+            default?: any
+            items?: ItemsObject
+            properties?: {
+                [name: string]: SchemaObject
+            }
         }
 
         export interface XMLObject {
