@@ -95,5 +95,9 @@ describe(require('../package.json').name, function() {
       }).to.throw(/Invalid response \$ref or definition not found in apiDoc.responses: #\/responses\/SuccessResponse/);
 
     });
+
+    it('should not throw when security handlers are defined and no method doc exists on a handler', function() {
+      require('./sample-projects/securityHandlers-without-a-method-doc/app.js');
+    });
   });
 });

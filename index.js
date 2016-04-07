@@ -173,18 +173,18 @@ function initialize(args) {
             middleware.unshift(defaultsMiddleware);
           }
         }
-      }
 
-      var securityMiddleware;
-      if (securityHandlers && methodDoc.security && apiDoc.securityDefinitions) {
-        securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
-            securityHandlers, methodDoc.security);
-      } else if (apiSecurity) {
-        securityMiddleware = apiSecurity;
-      }
+        var securityMiddleware;
+        if (securityHandlers && methodDoc.security && apiDoc.securityDefinitions) {
+          securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
+              securityHandlers, methodDoc.security);
+        } else if (apiSecurity) {
+          securityMiddleware = apiSecurity;
+        }
 
-      if (securityMiddleware) {
-        middleware.push(securityMiddleware);
+        if (securityMiddleware) {
+          middleware.push(securityMiddleware);
+        }
       }
 
       middleware.push(methodHandler);
