@@ -15,5 +15,9 @@ describe('fetch-openapi', () => {
         require('./fixtures/output.js');
       }).to.not.throw();
     });
+
+    it('should export methods', function() {
+      expect(require('./fixtures/output.js')({}).addPet).to.be.a('function');
+    });
   });
 });

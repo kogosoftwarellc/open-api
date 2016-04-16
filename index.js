@@ -8,6 +8,10 @@ function buildApiService(apiDoc, options) {
   var apiFunctionDeclaration = new Program;
   var apiFunctionBody = new Program;
 
+  apiFunctionDeclaration.push('if (module && module.exports) {');
+  apiFunctionDeclaration.push('  module.exports = createApi;');
+  apiFunctionDeclaration.push('}');
+
   apiFunctionDeclaration.push('function createApi(options) {');
   apiFunctionDeclaration.push('  const basePath = \'' + apiDoc.basePath + '\';');
   apiFunctionDeclaration.push(
