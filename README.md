@@ -39,6 +39,8 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
   * See [Work with TypeScript](#work-with-typescript)
 * Supports external schema references
   * See [args.externalSchemas](#argsexternalschemas)
+* Client SDK generators available.
+  * See [fetch-openapi](kogosoftwarellc/fetch-openapi).
 
 ## Example
 
