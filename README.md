@@ -40,7 +40,7 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 * Supports external schema references
   * See [args.externalSchemas](#argsexternalschemas)
 * Client SDK generators available.
-  * See [fetch-openapi](kogosoftwarellc/fetch-openapi).
+  * See [fetch-openapi](https://github.com/kogosoftwarellc/fetch-openapi).
 
 ## Example
 
