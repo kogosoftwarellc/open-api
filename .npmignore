@@ -1,0 +1,13 @@
+/.git/
+/dist/
+/bower_components/
+/example/
+/coverage/
+/node_modules/
+/docs/
+/test/
+.gitignore
+.jshint*
+.travis.yml
+*.swp
+*.spec.js

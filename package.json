@@ -1,0 +1,35 @@
+{
+  "name": "fetch-openapi",
+  "version": "0.0.0",
+  "description": "Client SDK for openapi documents using fetch.",
+  "main": "index.js",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
+    "test-watch": "mocha -w ./test/*.js",
+    "test": "mocha ./test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kogosoftwarellc/fetch-openapi.git"
+  },
+  "keywords": [
+    "fetch",
+    "openapi"
+  ],
+  "author": "Kogo Software LLC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/fetch-openapi/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/fetch-openapi#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "composites": "^1.1.1"
+  }
+}
