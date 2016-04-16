@@ -15,9 +15,12 @@ var fs = require('fs');
 var fetchOpenapi = require('fetch-openapi');
 // See http://petstore.swagger.io/v2/swagger.json for an example API doc.
 var apiDoc = require('./petstore-api-doc.json');
+var options = {
+  preset: 'node'
+};
 
 // generator is a string of javascript.
-var generator = fetchOpenApi(apiDoc);
+var generator = fetchOpenApi(apiDoc, options);
 fs.writeFileSync('./petStore.js', generator, 'utf8');
 
 
@@ -25,6 +28,21 @@ fs.writeFileSync('./petStore.js', generator, 'utf8');
 var petStore = require('./petStore');
 petStore.addPet({/* data */})// => handle the promise
 ```
+## API
+
+### createApi(apiDoc, options)
+
+#### apiDoc
+
+An openapi document.  Use http://petstore.swagger.io/v2/swagger.json as an example.
+See the [spec](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
+for more details.
+
+#### options
+
+Valid options are:
+
+* `preset` - available values are `node` and `es6`.
 
 ## LICENSE
 ``````

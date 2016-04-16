@@ -1,16 +1,22 @@
 var composites = require('composites');
 var Program = composites.Program;
 var Statement = composites.Statement;
+var logPrefix = require('./package.json').name + ': ';
 
 module.exports = buildApiService;
 
 function buildApiService(apiDoc, options) {
   var apiFunctionDeclaration = new Program;
   var apiFunctionBody = new Program;
+  options = options || {preset: 'node'};
 
-  apiFunctionDeclaration.push('if (module && module.exports) {');
-  apiFunctionDeclaration.push('  module.exports = createApi;');
-  apiFunctionDeclaration.push('}');
+  if (options.preset === 'node') {
+    apiFunctionDeclaration.push('module.exports = createApi;');
+  } else if (options.preset === 'es6') {
+    apiFunctionDeclaration.push('export default createApi;');
+  } else {
+    throw new Error(logPrefix + 'Unknown preset "' + options.preset + '"');
+  }
 
   apiFunctionDeclaration.push('function createApi(options) {');
   apiFunctionDeclaration.push('  const basePath = \'' + apiDoc.basePath + '\';');

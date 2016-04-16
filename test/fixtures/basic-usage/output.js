@@ -1,6 +1,4 @@
-if (module && module.exports) {
-  module.exports = createApi;
-}
+module.exports = createApi;
 function createApi(options) {
   const basePath = '/v2';
   const endpoint = options.endpoint || 'http://petstore.swagger.io';
