@@ -9,15 +9,17 @@ describe('fetch-openapi', function() {
         path.resolve(__dirname, './fixtures/output.js'), 'utf8'));
   });
 
-  describe('the api service factory', function() {
-    it('should have valid syntax', function() {
-      expect(function() {
-        require('./fixtures/output.js');
-      }).to.not.throw();
-    });
+  if (process.version.indexOf('v0.') !== 0) {
+    describe('the api service factory', function() {
+      it('should have valid syntax', function() {
+        expect(function() {
+          require('./fixtures/output.js');
+        }).to.not.throw();
+      });
 
-    it('should export methods', function() {
-      expect(require('./fixtures/output.js')({}).addPet).to.be.a('function');
+      it('should export methods', function() {
+        expect(require('./fixtures/output.js')({}).addPet).to.be.a('function');
+      });
     });
-  });
+  }
 });
