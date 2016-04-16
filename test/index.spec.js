@@ -1,16 +1,16 @@
-const expect = require('chai').expect;
-const fs = require('fs');
-const path = require('path');
-const sut = require('../index');
+var expect = require('chai').expect;
+var fs = require('fs');
+var path = require('path');
+var sut = require('../index');
 
-describe('fetch-openapi', () => {
-  it('should output an api service factory', () => {
+describe('fetch-openapi', function() {
+  it('should output an api service factory', function() {
     expect(sut(require('./fixtures/input.json'))).to.equal(fs.readFileSync(
         path.resolve(__dirname, './fixtures/output.js'), 'utf8'));
   });
 
-  describe('the api service factory', () => {
-    it('should have valid syntax', () => {
+  describe('the api service factory', function() {
+    it('should have valid syntax', function() {
       expect(function() {
         require('./fixtures/output.js');
       }).to.not.throw();
