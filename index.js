@@ -212,6 +212,7 @@ function initialize(args) {
   if (exposeApiDocs) {
     // Swagger UI support
     app.get(basePath + docsPath, function(req, res) {
+      apiDoc.basePath = req.baseUrl + basePath;
       res.status(200).json(apiDoc);
     });
   }
@@ -219,14 +220,6 @@ function initialize(args) {
   if (errorMiddleware) {
     app.use(basePath, errorMiddleware);
   }
-
-  function setBasePath() {
-    // none-express app may not have mountpath
-    apiDoc.basePath = (app.mountpath||'').replace(/\/$/, '') + basePath;
-  }
-
-  app.on('mount', setBasePath);
-  setBasePath();
 
   var initializedApi = {
     apiDoc: apiDoc
