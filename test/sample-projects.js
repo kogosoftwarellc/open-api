@@ -209,6 +209,32 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
+  describe('with-express-mount-deeply-nested', function() {
+    var app = require('./sample-projects/with-express-mount-deeply-nested/app.js');
+
+    it('should expose apiDoc containing baseUrl with mountpath', function(done) {
+      request(app)
+        .get('/grandparent/parent/v3/api-docs')
+        .expect(function(res) {
+          expect(res.body).to.have.property('basePath', '/grandparent/parent/v3');
+        })
+        .expect(200, done);
+    });
+  });
+
+  describe('with-express-mount-on-router', function() {
+    var app = require('./sample-projects/with-express-mount-on-router/app.js');
+
+    it('should expose apiDoc containing baseUrl with mountpath', function(done) {
+      request(app)
+        .get('/api/v3/api-docs')
+        .expect(function(res) {
+          expect(res.body).to.have.property('basePath', '/api/v3');
+        })
+        .expect(200, done);
+    });
+  });
+
   describe('with-external-schema-references', function() {
     var app = require('./sample-projects/with-external-schema-references/app.js');
     var expectedApiDoc = require('./fixtures/with-external-schema-references-api-doc-after-initialization.json');
