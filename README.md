@@ -41,6 +41,7 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
   * See [args.externalSchemas](#argsexternalschemas)
 * Client SDK generators available.
   * See [fetch-openapi](https://github.com/kogosoftwarellc/fetch-openapi).
+* Adds `apiDoc` and `operationDoc` to requests E.G. `req.apiDoc` and `req.operationDoc`
 
 ## Example
 

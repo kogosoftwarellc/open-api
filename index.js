@@ -118,39 +118,41 @@ function initialize(args) {
     apiDoc.paths[openapiPath] = pathItem;
 
     Object.keys(pathModule).filter(byMethods).forEach(function(methodName) {
-      // methodHandler may be an array or a function.
-      var methodHandler = pathModule[methodName];
-      var methodDoc = getMethodDoc(methodHandler);
+      // operationHandler may be an array or a function.
+      var operationHandler = pathModule[methodName];
+      var operationDoc = getMethodDoc(operationHandler);
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
-            pathModule, methodDoc));
-      (methodDoc && methodDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
+            pathModule, operationDoc));
+      (operationDoc && operationDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
 
       methodName = METHOD_ALIASES[methodName];
 
-      if (methodDoc &&
-          allowsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {// add middleware
-        pathItem[methodName] = copy(methodDoc);
+      if (operationDoc &&
+          allowsMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {// add middleware
+        pathItem[methodName] = copy(operationDoc);
 
-        if (methodDoc.responses && allowsResponseValidationMiddleware(apiDoc,
-              pathModule, pathItem, methodDoc)) {// add response validation middleware
+        middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
+
+        if (operationDoc.responses && allowsResponseValidationMiddleware(apiDoc,
+              pathModule, pathItem, operationDoc)) {// add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
           // validation will pick it up, so this is almost always going to be added.
           middleware.unshift(buildResponseValidationMiddleware({
             definitions: apiDoc.definitions,
             externalSchemas: externalSchemas,
             errorTransformer: errorTransformer,
-            responses: resolveResponseRefs(methodDoc.responses, apiDoc, result.path),
+            responses: resolveResponseRefs(operationDoc.responses, apiDoc, result.path),
             customFormats: customFormats
           }));
         }
 
         var methodParameters = withNoDuplicates(resolveParameterRefs(
-          Array.isArray(methodDoc.parameters) ?
-          pathParameters.concat(methodDoc.parameters) :
+          Array.isArray(operationDoc.parameters) ?
+          pathParameters.concat(operationDoc.parameters) :
           pathParameters, parameterDefinitions));
 
         if (methodParameters.length) {// defaults, coercion, and parameter validation middleware
-          if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
+          if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
             var validationMiddleware = buildValidationMiddleware({
               errorTransformer: errorTransformer,
               parameters: methodParameters,
@@ -161,23 +163,23 @@ function initialize(args) {
             middleware.unshift(validationMiddleware);
           }
 
-          if (allowsCoercionMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
+          if (allowsCoercionMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
             var coercionMiddleware = buildCoercionMiddleware({parameters: methodParameters});
             middleware.unshift(coercionMiddleware);
           }
 
           // no point in default middleware if we don't have any parameters with defaults.
           if (methodParameters.filter(byDefault).length &&
-              allowsDefaultsMiddleware(apiDoc, pathModule, pathItem, methodDoc)) {
+              allowsDefaultsMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
             var defaultsMiddleware = buildDefaultsMiddleware({parameters: methodParameters});
             middleware.unshift(defaultsMiddleware);
           }
         }
 
         var securityMiddleware;
-        if (securityHandlers && methodDoc.security && apiDoc.securityDefinitions) {
+        if (securityHandlers && operationDoc.security && apiDoc.securityDefinitions) {
           securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
-              securityHandlers, methodDoc.security);
+              securityHandlers, operationDoc.security);
         } else if (apiSecurity) {
           securityMiddleware = apiSecurity;
         }
@@ -187,7 +189,7 @@ function initialize(args) {
         }
       }
 
-      middleware.push(methodHandler);
+      middleware.push(operationHandler);
 
       var expressPath = basePath + '/' +
           route.substring(1).split('/').map(toExpressParams).join('/');
@@ -288,6 +290,14 @@ function copy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
+function createAssignApiDocMiddleware(apiDoc, operationDoc) {
+  return function(req, res, next) {
+    req.apiDoc = apiDoc;
+    req.operationDoc = operationDoc;
+    next();
+  };
+}
+
 function getAdditionalMiddleware() {
   var additionalMiddleware = [];
   var index = arguments.length - 1;
@@ -321,9 +331,9 @@ function getAdditionalMiddleware() {
   }
 }
 
-function getMethodDoc(methodHandler) {
-  return methodHandler.apiDoc || (Array.isArray(methodHandler) ?
-    methodHandler.slice(-1)[0].apiDoc :
+function getMethodDoc(operationHandler) {
+  return operationHandler.apiDoc || (Array.isArray(operationHandler) ?
+    operationHandler.slice(-1)[0].apiDoc :
     null);
 }
 

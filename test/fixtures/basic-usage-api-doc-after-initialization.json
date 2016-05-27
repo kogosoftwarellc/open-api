@@ -27,6 +27,36 @@
     "version": "3.0.0"
   },
   "paths": {
+    "/apiDocs": {
+      "get": {
+        "description": "Returns the requested apiDoc",
+        "operationId": "getApiDoc",
+        "parameters": [
+          {
+            "description": "The type of apiDoc to return.",
+            "enum": [
+              "apiDoc",
+              "operationDoc"
+            ],
+            "in": "query",
+            "name": "type",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested apiDoc.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "The requested apiDoc."
+          }
+        }
+      },
+      "parameters": []
+    },
     "/users": {
       "parameters": [],
       "delete": {
