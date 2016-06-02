@@ -62,6 +62,11 @@ function generatePaths(apiDoc, options, apiFunctionBody) {
     path = path.replace(/\{([^}]+)\}/g, '\' + params[\'$1\'] + \'');
     Object.keys(methods).forEach(function(method) {
       var methodDoc = methods[method];
+
+      if (!Array.isArray(methodDoc.parameters)) {
+        return;
+      }
+
       var queryParams = methodDoc.parameters.filter(byQuery);
       var bodyParams = methodDoc.parameters.filter(byBodyParams);
       var headerParams = methodDoc.parameters.filter(byHeaders);

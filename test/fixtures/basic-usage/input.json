@@ -7,6 +7,7 @@
   "host": "petstore.swagger.io",
   "paths": {
     "/pet": {
+      "parameters": [],
       "post": {
         "tags": [
           "pet"
