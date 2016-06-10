@@ -7,6 +7,7 @@
 * Uses the fetch API.
 * Very simple.
 * Outputs an intuitive interface.
+* Supports OpenAPI (f.k.a. Swagger) 2.0 API documents.
 
 ## Example
 
@@ -30,7 +31,10 @@ petStore.addPet({/* data */})// => handle the promise
 ```
 ## API
 
-### createApi(apiDoc, options)
+### fetchOpenapi(apiDoc, options)
+
+Outputs a `createApi` function represented as a string of javascript that
+you can either `eval` or write to a file.
 
 #### apiDoc
 
@@ -40,9 +44,24 @@ for more details.
 
 #### options
 
-Valid options are:
+##### options.preset
 
-* `preset` - available values are `node` and `es6`.
+Valid values are `node` and `es6`.  With node, `module.exports` is used.  With `es6`, `export` is used.
+
+### createApi(options)
+
+Creates a service you use to call your API.  Each method of the service is named after the operationId of your API's path operations.
+
+#### options
+
+##### options.cors
+
+Enables cors support for `fetch` calls.
+
+##### options.securityHandlers
+
+An object of security scheme name / handler function.  The handler function receives 3 arguments:  `headers`, `params`, and `schemePart`.  The handler function returns `true` if the security scheme is supported, false otherwise.
+
 
 ## LICENSE
 ``````
