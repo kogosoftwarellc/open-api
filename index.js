@@ -134,7 +134,7 @@ function generatePaths(apiDoc, options, apiFunctionBody, requiredSecurityHandler
       apiFunctionBody.push('      let headers = {');
       apiFunctionBody.push(headers);
       apiFunctionBody.push('      };');
-      if (security) {
+      if (security && security.length) {
         apiFunctionBody.push('      handleSecurity(', JSON.stringify(security));
         apiFunctionBody.push('          , headers, params, \'', methodDoc.operationId, '\');');
       }
