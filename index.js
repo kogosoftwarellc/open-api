@@ -11,6 +11,7 @@ function buildApiService(apiDoc, options) {
   options = options || {preset: 'node'};
 
   if (options.preset === 'node') {
+    apiFunctionDeclaration.push('\'use strict\';');
     apiFunctionDeclaration.push('module.exports = createApi;');
   } else if (options.preset === 'es6') {
     apiFunctionDeclaration.push('export default createApi;');
@@ -75,6 +76,9 @@ function generatePaths(apiDoc, options, apiFunctionBody) {
       var query = new Program;
 
       apiFunctionBody.push('    ' + methodDoc.operationId + '(params) {');
+      apiFunctionBody.push('      let headers = {');
+      apiFunctionBody.push(headers);
+      apiFunctionBody.push('      };');
       apiFunctionBody.push('      return fetch(endpoint + basePath + \'' + path + '\'', query);
 
       if (queryParams && queryParams.length) {
@@ -86,22 +90,19 @@ function generatePaths(apiDoc, options, apiFunctionBody) {
       }
       apiFunctionBody.push('        , {');
       apiFunctionBody.push('          method: \'', method.toUpperCase(), '\',');
-      apiFunctionBody.push('          headers: {');
-      apiFunctionBody.push(headers);
-
-      apiFunctionBody.push('          },');
+      apiFunctionBody.push('          headers,');
       apiFunctionBody.push('          mode,');
 
       if (bodyParams && bodyParams.length) {
         if (bodyParams[0].in === 'formData') {
-          headers.push('            \'content-type\': \'application/x-www-form-urlencoded\',');
+          headers.push('        \'content-type\': \'application/x-www-form-urlencoded\',');
           body.push('          body: buildQuery({');
           bodyParams.filter(byFormData).forEach(function(param) {
             body.push('            \'', param.name, '\': params[\'', param.name, '\'],');
           });
           body.push('          }),');
         } else {
-          headers.push('            \'content-type\': \'application/json\',');
+          headers.push('        \'content-type\': \'application/json\',');
           body.push('          body: JSON.stringify(params[\'' + bodyParams[0].name + '\']),');
         }
 
@@ -110,7 +111,7 @@ function generatePaths(apiDoc, options, apiFunctionBody) {
 
       if (headerParams && headerParams.length || bodyParams && bodyParams.length) {
         headerParams.forEach(function(param) {
-          headers.push('            \'', param.name, '\': params[\'', param.name, '\'],');
+          headers.push('        \'', param.name, '\': params[\'', param.name, '\'],');
         });
       }
 

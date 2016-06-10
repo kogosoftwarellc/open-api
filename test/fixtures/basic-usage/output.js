@@ -1,3 +1,4 @@
+'use strict';
 module.exports = createApi;
 function createApi(options) {
   const basePath = '/v2';
@@ -26,75 +27,81 @@ function createApi(options) {
   };
   return {
     addPet(params) {
+      let headers = {
+        'content-type': 'application/json',
+
+      };
       return fetch(endpoint + basePath + '/pet'
         , {
           method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-
-          },
+          headers,
           mode,
           body: JSON.stringify(params['body']),
 
         });
     },
     updatePet(params) {
+      let headers = {
+        'content-type': 'application/json',
+
+      };
       return fetch(endpoint + basePath + '/pet'
         , {
           method: 'PUT',
-          headers: {
-            'content-type': 'application/json',
-
-          },
+          headers,
           mode,
           body: JSON.stringify(params['body']),
 
         });
     },
     findPetsByStatus(params) {
+      let headers = {
+
+      };
       return fetch(endpoint + basePath + '/pet/findByStatus' + '?' + buildQuery({
           'status': params['status'],
         })
 
         , {
           method: 'GET',
-          headers: {
-
-          },
+          headers,
           mode,
         });
     },
     findPetsByTags(params) {
+      let headers = {
+
+      };
       return fetch(endpoint + basePath + '/pet/findByTags' + '?' + buildQuery({
           'tags': params['tags'],
         })
 
         , {
           method: 'GET',
-          headers: {
-
-          },
+          headers,
           mode,
         });
     },
     getPetById(params) {
+      let headers = {
+
+      };
       return fetch(endpoint + basePath + '/pet/' + params['petId'] + ''
         , {
           method: 'GET',
-          headers: {
-
-          },
+          headers,
           mode,
         });
     },
     updatePetWithForm(params) {
+      let headers = {
+        'content-type': 'application/x-www-form-urlencoded',
+
+      };
       return fetch(endpoint + basePath + '/pet/' + params['petId'] + ''
         , {
           method: 'POST',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-
-          },
+          headers,
           mode,
           body: buildQuery({
             'name': params['name'],
@@ -104,13 +111,14 @@ function createApi(options) {
         });
     },
     deletePet(params) {
+      let headers = {
+        'api_key': params['api_key'],
+
+      };
       return fetch(endpoint + basePath + '/pet/' + params['petId'] + ''
         , {
           method: 'DELETE',
-          headers: {
-            'api_key': params['api_key'],
-
-          },
+          headers,
           mode,
         });
     },
