@@ -166,6 +166,7 @@
       "name": "fooey"
     },
     {
+      "description": "Everything users",
       "name": "users"
     }
   ]
