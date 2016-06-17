@@ -92,6 +92,7 @@ function initialize(args) {
   var basePath = apiDoc.basePath || '';
   var errorTransformer = args.errorTransformer;
   var customFormats = args.customFormats;
+  var consumesMiddleware = args.consumesMiddleware;
   var errorMiddleware = typeof args.errorMiddleware === 'function' &&
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
   var parameterDefinitions = apiDoc.parameters || {};
@@ -130,6 +131,11 @@ function initialize(args) {
       if (operationDoc &&
           allowsMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {// add middleware
         pathItem[methodName] = copy(operationDoc);
+        var consumes = Array.isArray(operationDoc.consumes) ?
+          operationDoc.consumes :
+          Array.isArray(apiDoc.consumes) ?
+          apiDoc.consumes :
+          null;
 
         middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
 
@@ -187,6 +193,10 @@ function initialize(args) {
         if (securityMiddleware) {
           middleware.push(securityMiddleware);
         }
+
+        if (consumesMiddleware && consumes) {
+          addConsumesMiddleware(middleware, consumesMiddleware, consumes);
+        }
       }
 
       middleware.push(operationHandler);
@@ -228,6 +238,19 @@ function initialize(args) {
   };
 
   return initializedApi;
+}
+
+function addConsumesMiddleware(middleware, consumesMiddleware, consumes) {
+  for (var i = consumes.length - 1; i >= 0; --i) {
+    var mimeType = consumes[i];
+    console.log(i);
+    console.log(mimeType);
+    if (mimeType in consumesMiddleware) {
+      var middlewareToAdd = consumesMiddleware[mimeType];
+      console.log(mimeType, middlewareToAdd);
+      middleware.unshift(middlewareToAdd);
+    }
+  }
 }
 
 function addOperationTagToApiDoc(apiDoc, tag) {

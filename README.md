@@ -42,6 +42,8 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 * Client SDK generators available.
   * See [fetch-openapi](https://github.com/kogosoftwarellc/fetch-openapi).
 * Adds `apiDoc` and `operationDoc` to requests E.G. `req.apiDoc` and `req.operationDoc`
+* Handles request payloads with `consumes` mimeTypes.
+  * See [args.consumesMiddleware](#argsconsumesmiddleware)
 
 ## Example
 
@@ -272,6 +274,26 @@ module method, then `express-openapi` will add no additional middleware.
 |Type|Required|Default Value|Description|
 |----|--------|-----------|-------|
 |Boolean|N|true|Validates `args.apiDoc` before and after path population.  This does not effect individual route validation of route parameters.  You can disable this behavior by passing `false`.|
+
+#### args.consumesMiddleware
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|A key value map of mimeTypes and middleware.|
+
+Each key is the mime type from the consumes array of either the apiDoc or the operation doc.
+
+```javascript
+var bodyParser = require('body-parser');
+openapi.initialize({
+  /*...*/
+  consumesMiddleware: {
+    'application/json': bodyParser.json(),
+    'text/text': bodyParser.text()
+  }
+  /*...*/
+});
+```
 
 #### args.customFormats
 
