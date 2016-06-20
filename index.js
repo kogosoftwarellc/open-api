@@ -243,11 +243,8 @@ function initialize(args) {
 function addConsumesMiddleware(middleware, consumesMiddleware, consumes) {
   for (var i = consumes.length - 1; i >= 0; --i) {
     var mimeType = consumes[i];
-    console.log(i);
-    console.log(mimeType);
     if (mimeType in consumesMiddleware) {
       var middlewareToAdd = consumesMiddleware[mimeType];
-      console.log(mimeType, middlewareToAdd);
       middleware.unshift(middlewareToAdd);
     }
   }
