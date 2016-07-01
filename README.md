@@ -3,13 +3,22 @@
 
 ## Highlights
 
-* Outputs javascript that is optimized for ES6.
-* Uses the fetch API.
-* Very simple.
+* Outputs javascript that is optimized for ES6 using the new fetch API.
+* Very simple to use.
 * Outputs an intuitive interface.
 * Supports OpenAPI (f.k.a. Swagger) 2.0 API documents.
+* Includes a cli tool (`fetch-openapi`) when you `npm install`.
 
-## Example
+## CLI Usage
+```shell
+fetch-openapi --api-doc-url http://petstore.swagger.io/v2/swagger.json \
+              --output-file-path ./api.js \
+              --preset es6
+```
+
+See `fetch-openapi -h` for more info.
+
+## Programatic Usage
 
 ```javascript
 var fs = require('fs');
