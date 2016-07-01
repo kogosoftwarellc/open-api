@@ -3,6 +3,9 @@
   "version": "0.2.1",
   "description": "Client SDK generator for openapi documents using fetch.",
   "main": "index.js",
+  "bin": {
+    "fetch-openapi": "./bin/fetch-openapi.js"
+  },
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
@@ -33,6 +36,10 @@
     "mocha": "^2.4.5"
   },
   "dependencies": {
-    "composites": "^1.1.1"
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "composites": "^1.1.1",
+    "err-handler": "^1.0.5",
+    "request": "*"
   }
 }
