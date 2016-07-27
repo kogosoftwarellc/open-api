@@ -103,7 +103,7 @@ function initialize(args) {
           apiDoc.security) :
       null;
 
-  fsRoutes(routesDir).forEach(function(result) {
+  fsRoutes(routesDir).sort(byRoute).forEach(function(result) {
     var pathModule = require(result.path);
     var route = result.route;
     // express path params start with :paramName
@@ -304,6 +304,10 @@ function byProperty(property, value) {
   return function(obj) {
     return obj && property in obj && obj[property] === value;
   };
+}
+
+function byRoute(a, b) {
+  return a.route.localeCompare(b.route);
 }
 
 function copy(obj) {
