@@ -1,0 +1,74 @@
+{
+  "swagger": "2.0",
+  "basePath": "/v3",
+  "info": {
+    "title": "express-openapi sample project",
+    "version": "3.0.0"
+  },
+  "definitions": {},
+  "paths": {
+    "/boo": {
+      "parameters": [],
+      "get": {
+        "description": "Get boo.",
+        "operationId": "getBoo",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "testing security"
+          }
+        }
+      }
+    },
+    "/fail": {
+      "parameters": [],
+      "get": {
+        "description": "Get fail.",
+        "operationId": "getFail",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "testing security"
+          }
+        },
+        "security": [{"auth1": []}]
+      }
+    },
+    "/foo": {
+      "parameters": [],
+      "get": {
+        "description": "Get foo.",
+        "operationId": "getFoo",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "testing security"
+          }
+        },
+        "security": [{"auth2": []}]
+      }
+    },
+    "/fooo": {
+      "parameters": [],
+      "get": {
+        "description": "Get fooo.",
+        "operationId": "getFooo",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "testing security"
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "securityDefinitions": {
+    "auth1": {
+      "type": "basic"
+    },
+    "auth2": {
+      "type": "basic"
+    }
+  }
+}

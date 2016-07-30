@@ -30,6 +30,16 @@ describe('when pathSecurity matches the path', function() {
       .get('/v3/fooo')
       .expect(200, 'fooo', done);
   });
+
+  it('should be added to the apiDoc', function(done) {
+    request(app)
+      .get('/v3/api-docs')
+      .expect(200)
+      .end(function(err, result) {
+        expect(result.res.body).to.eql(require('./fixtures/expected-api-doc.json'));
+        done(err);
+      });
+  });
 });
 
 describe('when pathSecurity does not match the path', function() {

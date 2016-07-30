@@ -201,7 +201,7 @@ function initialize(args) {
         }
 
         if (securityDefinition) {
-          operationDoc.security = securityDefinition;
+          pathItem[methodName].security = securityDefinition;
           securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
               securityHandlers, securityDefinition);
         } else if (apiSecurityMiddleware) {
