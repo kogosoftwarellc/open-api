@@ -98,10 +98,17 @@ function initialize(args) {
   var parameterDefinitions = apiDoc.parameters || {};
   var externalSchemas = args.externalSchemas || {};
   var securityHandlers = args.securityHandlers;
-  var apiSecurity = securityHandlers && apiDoc.security && apiDoc.securityDefinitions ?
+  var apiSecurityMiddleware = securityHandlers &&
+                              apiDoc.security &&
+                              apiDoc.securityDefinitions ?
       buildSecurityMiddleware(apiDoc.securityDefinitions, securityHandlers,
           apiDoc.security) :
       null;
+  var pathSecurity = Array.isArray(args.pathSecurity) ?
+      args.pathSecurity :
+      [];
+
+  pathSecurity.forEach(assertRegExpAndSecurity);
 
   fsRoutes(routesDir).sort(byRoute).forEach(function(result) {
     var pathModule = require(result.path);
@@ -183,11 +190,22 @@ function initialize(args) {
         }
 
         var securityMiddleware;
-        if (securityHandlers && operationDoc.security && apiDoc.securityDefinitions) {
+        var securityDefinition;
+
+        if (securityHandlers && apiDoc.securityDefinitions) {
+          if (operationDoc.security) {
+            securityDefinition = operationDoc.security;
+          } else if (pathSecurity.length) {
+            securityDefinition = getSecurityDefinitionByPath(openapiPath, pathSecurity);
+          }
+        }
+
+        if (securityDefinition) {
+          operationDoc.security = securityDefinition;
           securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
-              securityHandlers, operationDoc.security);
-        } else if (apiSecurity) {
-          securityMiddleware = apiSecurity;
+              securityHandlers, securityDefinition);
+        } else if (apiSecurityMiddleware) {
+          securityMiddleware = apiSecurityMiddleware;
         }
 
         if (securityMiddleware) {
@@ -291,6 +309,18 @@ function allowsValidationMiddleware() {
   return allows(arguments, 'x-express-openapi-disable-validation-middleware', true);
 }
 
+function assertRegExpAndSecurity(tuple) {
+  if (!Array.isArray(tuple)) {
+    throw new Error(loggingKey + 'args.pathSecurity expects an array of tuples.');
+  } else if (!(tuple[0] instanceof RegExp)) {
+    throw new Error(loggingKey +
+        'args.pathSecurity tuples expect the first argument to be a RegExp.');
+  } else if (!Array.isArray(tuple[1])) {
+    throw new Error(loggingKey +
+        'args.pathSecurity tuples expect the second argument to be a security Array.');
+  }
+}
+
 function byDefault(param) {
   return param && 'default' in param;
 }
@@ -359,6 +389,15 @@ function getMethodDoc(operationHandler) {
   return operationHandler.apiDoc || (Array.isArray(operationHandler) ?
     operationHandler.slice(-1)[0].apiDoc :
     null);
+}
+
+function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
+  for (var i = pathSecurity.length; i--;) {
+    var tuple = pathSecurity[i];
+    if (tuple[0].test(openapiPath)) {
+      return tuple[1];
+    }
+  }
 }
 
 function resolveParameterRefs(parameters, definitions) {

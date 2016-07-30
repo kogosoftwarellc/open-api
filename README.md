@@ -44,6 +44,8 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 * Adds `apiDoc` and `operationDoc` to requests E.G. `req.apiDoc` and `req.operationDoc`
 * Handles request payloads with `consumes` mimeTypes.
   * See [args.consumesMiddleware](#argsconsumesmiddleware)
+* Supports matching paths by regex to set `security` in `operation` docs.
+  * See [args.pathSecurity](#argspathsecurity)
 
 ## Example
 
@@ -395,6 +397,30 @@ module.exports.put.apiDoc = {
   ],
  /*...*/
 }
+```
+#### args.pathSecurity
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Array|N|null|An array of tuples.|
+
+Each tuple in the array consists of a `RegExp` to match paths, and a `security`
+definition (see [security](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operation-object)).  The tuples are traversed in reverse order, so the bottom
+most matching `RegExp` wins.  When a matching definition is found and the operation
+had no `security` defined, it is added to the `operationDoc` and security middleware
+is applied.
+
+```javascript
+openapi.initialize({
+  apiDoc: require('v3-api-doc'),
+  /*...*/
+  pathSecurity: [
+    // here /some/{pathId} will get theirSecurity.
+    [/^\/some/\{pathId\}/, [{mySecurity:[]}]],
+    [/^\/some/\{pathId\}/, [{theirSecurity:[]}]]
+  ]
+  /*...*/
+});
 ```
 
 #### args.securityHandlers
