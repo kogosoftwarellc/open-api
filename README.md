@@ -24,7 +24,6 @@ and validation.
   * See [args.customFormats](#argscustomformats)
 * Supports `collectionFormat` for `formData` `array` parameters.
 * Extensively tested.
-* Small footprint.
 * Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
