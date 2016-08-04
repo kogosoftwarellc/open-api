@@ -3,7 +3,8 @@
 
 ## Highlights
 
-* Utilizes convention based programming.
+* Performant.
+* Extensively tested.
 * Unobtrusively opinionated.
 * Stays as close to `express` as possible.
 * Leverages openapi parameter lists for parameter defaults, type coercion,
@@ -19,11 +20,9 @@ and validation.
   * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
 * Configurable Middleware.
   * See [Configuring Middleware](#configuring-middleware)
-* Performant.
 * Supports custom `format` validators.
   * See [args.customFormats](#argscustomformats)
 * Supports `collectionFormat` for `formData` `array` parameters.
-* Extensively tested.
 * Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
