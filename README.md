@@ -63,12 +63,14 @@ var openapi = require('express-openapi');
 var cors = require('cors');
 
 app.use(cors());
-app.use(bodyParser.json());
 
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  routes: './api-routes'
+  routes: './api-routes',
+  consumesMiddleware: {
+    'application/json': bodyParser.json()
+  }
 });
 
 app.use(function(err, req, res, next) {
@@ -193,6 +195,10 @@ module.exports = {
 
   /*
     Also available are:
+    GET
+    DELETE
+    PATCH
+    OPTIONS
     del
     delete
     patch...

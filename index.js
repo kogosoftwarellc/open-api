@@ -13,6 +13,16 @@ var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var validateSchema = require('openapi-schema-validation').validate;
 var METHOD_ALIASES = {
+  // HTTP style
+  GET: 'get',
+  PUT: 'put',
+  POST: 'post',
+  DELETE: 'delete',
+  OPTIONS: 'options',
+  HEAD: 'head',
+  PATCH: 'patch',
+
+  // js style
   get: 'get',
   put: 'put',
   post: 'post',
