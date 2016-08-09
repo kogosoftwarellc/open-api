@@ -86,6 +86,7 @@ declare module "express-openapi" {
             get?: OperationObject
             put?: OperationObject
             post?: OperationObject
+            del?: OperationObject
             'delete'?: OperationObject
             options?: OperationObject
             head?: OperationObject
@@ -290,14 +291,15 @@ declare module "express-openapi" {
     export type Operation = OperationFunction | OperationHandlerArray;
 
     export interface PathModule {
-        parameters?: OpenApi.Parameters;
-        get?: Operation;
-        put?: Operation;
-        post?: Operation;
         delete?: Operation;
-        patch?: Operation;
-        options?: Operation;
+        del?: Operation;
+        get?: Operation;
         head?: Operation;
+        options?: Operation;
+        parameters?: OpenApi.Parameters;
+        patch?: Operation;
+        post?: Operation;
+        put?: Operation;
     }
 
     export interface OpenapiError {
