@@ -14,23 +14,23 @@ var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var validateSchema = require('openapi-schema-validation').validate;
 var METHOD_ALIASES = {
   // HTTP style
-  GET: 'get',
-  PUT: 'put',
-  POST: 'post',
   DELETE: 'delete',
-  OPTIONS: 'options',
+  GET: 'get',
   HEAD: 'head',
+  OPTIONS: 'options',
   PATCH: 'patch',
+  POST: 'post',
+  PUT: 'put',
 
   // js style
-  get: 'get',
-  put: 'put',
-  post: 'post',
   del: 'delete',
   delete: 'delete',
-  options: 'options',
+  get: 'get',
   head: 'head',
-  patch: 'patch'
+  options: 'options',
+  patch: 'patch',
+  post: 'post',
+  put: 'put'
 };
 
 module.exports = {
