@@ -1,5 +1,5 @@
 # express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
-> An unopinionated openapi framework for express
+> An unopinionated OpenAPI framework for express
 
 ## Highlights
 
@@ -12,7 +12,7 @@ and validation.
   * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
   * See [express-openapi-coercion](https://github.com/kogosoftwarellc/express-openapi-coercion)
   * See [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)
-* Leverages openapi response definitions to provide `res.validateResponse` tailored to a particular route.
+* Leverages OpenAPI response definitions to provide `res.validateResponse` tailored to a particular route.
   * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
 * Leverages security definitions for security management.
   * See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
@@ -23,7 +23,7 @@ and validation.
 * Supports custom `format` validators.
   * See [args.customFormats](#argscustomformats)
 * Supports `collectionFormat` for `formData` `array` parameters.
-* Currently supports openapi 2.0 (f.k.a. swagger 2.0) documents.
+* Currently supports OpenAPI 2.0 (f.k.a. swagger 2.0) documents.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
 * Supports error middleware scoped to your API's `basePath`.
@@ -132,7 +132,7 @@ api.  An initialized api contains the following properties:
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Object|Y|This is an openapi (swagger 2.0) compliant document.  See the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) for more details.|
+|Object|Y|This is an OpenAPI (swagger 2.0) compliant document.  See the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) for more details.|
 
 `args.apiDoc.paths` should be an empty object.  `express-openapi` will populate this
 for you.  This prevents you from defining your paths in 2 places.
@@ -206,7 +206,7 @@ module.exports = {
   */
 
   get: [
-    /* business middleware not expressible by openapi documentation goes here */
+    /* business middleware not expressible by OpenAPI documentation goes here */
     function(req, res, next) {
       var validationError = res.validateResponse(200, /* return the user or an error */);
 
@@ -452,7 +452,7 @@ var apiDoc = {
 };
 ```
 
-Define your security handlers in the openapi initialization args:
+Define your security handlers in the OpenAPI initialization args:
 
 ```javascript
 openapi.initialize({
@@ -552,7 +552,7 @@ export var parameters = [
  ];
 
 export var get: Operation = [
-    /* business middleware not expressible by openapi documentation goes here */
+    /* business middleware not expressible by OpenAPI documentation goes here */
     (req, res, next) => {
         res.status(200).json(/* return the user */);
     }
