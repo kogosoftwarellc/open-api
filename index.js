@@ -81,15 +81,18 @@ function initialize(args) {
   }
 
   if ('errorTransformer' in args && typeof args.errorTransformer !== 'function') {
-    throw new Error(loggingKey + 'args.errorTransformer must be a function when given');
+    throw new Error(loggingKey +
+        'args.errorTransformer must be a function when given');
   }
 
   if ('externalSchemas' in args && typeof args.externalSchemas !== 'object') {
-    throw new Error(loggingKey + 'args.externalSchemas must be a object when given');
+    throw new Error(loggingKey +
+        'args.externalSchemas must be a object when given');
   }
 
   if ('securityHandlers' in args && typeof args.securityHandlers !== 'object') {
-    throw new Error(loggingKey + 'args.securityHandlers must be an object when given');
+    throw new Error(loggingKey +
+        'args.securityHandlers must be an object when given');
   }
 
   var app = args.app;
@@ -141,12 +144,14 @@ function initialize(args) {
       var operationDoc = getMethodDoc(operationHandler);
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
             pathModule, operationDoc));
-      (operationDoc && operationDoc.tags || []).forEach(addOperationTagToApiDoc.bind(null, apiDoc));
+      (operationDoc && operationDoc.tags || []).forEach(addOperationTagToApiDoc
+          .bind(null, apiDoc));
 
       methodName = METHOD_ALIASES[methodName];
 
       if (operationDoc &&
-          allowsMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {// add middleware
+          allowsMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
+        // add middleware
         pathItem[methodName] = copy(operationDoc);
         var consumes = Array.isArray(operationDoc.consumes) ?
           operationDoc.consumes :
@@ -157,7 +162,8 @@ function initialize(args) {
         middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
 
         if (operationDoc.responses && allowsResponseValidationMiddleware(apiDoc,
-              pathModule, pathItem, operationDoc)) {// add response validation middleware
+              pathModule, pathItem, operationDoc)) {
+          // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
           // validation will pick it up, so this is almost always going to be added.
           middleware.unshift(buildResponseValidationMiddleware({
@@ -174,7 +180,8 @@ function initialize(args) {
           pathParameters.concat(operationDoc.parameters) :
           pathParameters, parameterDefinitions));
 
-        if (methodParameters.length) {// defaults, coercion, and parameter validation middleware
+        if (methodParameters.length) {
+          // defaults, coercion, and parameter validation middleware
           if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
             var validationMiddleware = buildValidationMiddleware({
               errorTransformer: errorTransformer,
