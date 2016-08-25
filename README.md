@@ -16,8 +16,7 @@ and validation.
   * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
 * Leverages security definitions for security management.
   * See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
-* Validates api documents.
-  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
+* Validates api documents.  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
 * Configurable Middleware.
   * See [Configuring Middleware](#configuring-middleware)
 * Supports custom `format` validators.
@@ -78,6 +77,36 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(3000);
+```
+
+Here's what a route file looks like:
+
+```javascript
+module.exports = {
+  GET
+};
+
+function GET(req, res, next) {
+  res.status(200).json(`Hello ${req.query.firstName}!`);
+}
+
+GET.apiDoc = {
+  description: 'A description for retrieving a user.',
+  tags: ['users'],
+  operationId: 'getUser',
+  parameters: [
+    {
+      in: 'query',
+      name: 'firstName',
+      type: 'string'
+    }
+  ],
+  responses: {
+    default: {
+      $ref: '#/definitions/Error'
+    }
+  }
+};
 ```
 
 Our routes are now active and we can test them out with Swagger UI:
