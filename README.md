@@ -419,7 +419,7 @@ And then you can reference them in your api-doc file and route handlers.
 ```
 or
 ```javascript
-module.exports.put.apiDoc = {
+put.apiDoc = {
   /*...*/
   parameters: [
     {
