@@ -481,7 +481,7 @@ var apiDoc = {
 };
 ```
 
-Define your security handlers in the OpenAPI initialization args:
+Next you can define your security handlers in the OpenAPI initialization args:
 
 ```javascript
 openapi.initialize({
