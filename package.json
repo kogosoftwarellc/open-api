@@ -1,6 +1,6 @@
 {
   "name": "express-openapi",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Effortlessly add routes and middleware to express apps with openapi documents.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
