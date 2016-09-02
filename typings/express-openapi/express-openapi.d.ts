@@ -260,8 +260,10 @@ declare module "express-openapi" {
         errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
         exposeApiDocs?: boolean
         validateApiDoc?: boolean
+        consumesMiddleware?: {[mimeType: string]: express.RequestHandler}
         customFormats?: CustomFormats
         externalSchemas?: {[url:string]: any}
+        pathSecurity?: PathSecurityTuple[]
         securityHandlers?: SecurityHandlers
     }
 
@@ -329,12 +331,20 @@ declare module "express-openapi" {
         (input: any): boolean
     }
 
+    export type PathSecurityTuple = [RegExp, SecurityRequirement]
+
+    export interface SecurityRequirement {
+        [name: string]: SecurityScope[]
+    }
+
+    type SecurityScope = string
+
     export interface SecurityHandlers {
         [name: string]: SecurityHandler
     }
 
     export interface SecurityHandler {
-        (req: Request, scopes: string[], definition: OpenApi.SecuritySchemeObject, cb: SecurityHandlerCallback): void;
+        (req: Request, scopes: SecurityScope[], definition: OpenApi.SecuritySchemeObject, cb: SecurityHandlerCallback): void;
     }
 
     export interface SecurityHandlerCallback {
