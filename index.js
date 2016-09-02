@@ -50,6 +50,7 @@ function initialize(args) {
     throw new Error(loggingKey + 'args.apiDoc is required');
   }
 
+  var routes = [].concat(args.routes);
   var exposeApiDocs = 'exposeApiDocs' in args ?
       !!args.exposeApiDocs :
       true;
@@ -68,12 +69,14 @@ function initialize(args) {
     }
   }
 
-  if (typeof args.routes !== 'string') {
-    throw new Error(loggingKey + 'args.routes must be a string');
+  if (!routes.filter(byString).length) {
+    throw new Error(loggingKey + 'args.routes must be a string or an array of strings');
   }
 
-  if (!isDir.sync(args.routes)) {
-    throw new Error(loggingKey + 'args.routes was not a path to a directory');
+  routes = routes.map(toAbsolutePath);
+
+  if (!routes.filter(byDirectory).length) {
+    throw new Error(loggingKey + 'args.routes contained a value that was not a path to a directory');
   }
 
   if (args.docsPath && typeof args.docsPath !== 'string') {
@@ -101,7 +104,6 @@ function initialize(args) {
   // Make a copy of the apiDoc that we can safely modify.
   var apiDoc = copy(args.apiDoc);
   var docsPath = args.docsPath || '/api-docs';
-  var routesDir = path.resolve(process.cwd(), args.routes);
   var basePath = apiDoc.basePath || '';
   var errorTransformer = args.errorTransformer;
   var customFormats = args.customFormats;
@@ -123,7 +125,7 @@ function initialize(args) {
 
   pathSecurity.forEach(assertRegExpAndSecurity);
 
-  fsRoutes(routesDir).sort(byRoute).forEach(function(result) {
+  [].concat.apply([], routes.map(fsRoutes)).sort(byRoute).forEach(function(result) {
     var pathModule = require(result.path);
     var route = result.route;
     // express path params start with :paramName
@@ -342,6 +344,10 @@ function byDefault(param) {
   return param && 'default' in param;
 }
 
+function byDirectory(el) {
+  return isDir.sync(el);
+}
+
 function byMethods(name) {
   // not handling $ref at this time.  Please open an issue if you need this.
   return name in METHOD_ALIASES;
@@ -355,6 +361,10 @@ function byProperty(property, value) {
 
 function byRoute(a, b) {
   return a.route.localeCompare(b.route);
+}
+
+function byString(el) {
+  return typeof el === 'string';
 }
 
 function copy(obj) {
@@ -471,6 +481,10 @@ function sortApiDocTags(apiDoc) {
       return a.name > b.name;
     });
   }
+}
+
+function toAbsolutePath(part) {
+  return path.resolve(process.cwd(), part);
 }
 
 function toExpressParams(part) {

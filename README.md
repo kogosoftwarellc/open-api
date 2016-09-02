@@ -181,7 +181,7 @@ parameters.
 
 |Type|Required|Description|
 |----|--------|-----------|
-|String|Y|A path to the directory that contains your route files.|
+|String or Array|Y|Path or paths to the directory or directories that contain your route files.|
 
 
 Route files are logically structured according to their URL path.  For cross platform

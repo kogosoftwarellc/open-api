@@ -22,7 +22,7 @@ describe(require('../package.json').name, function() {
         ['args.apiDoc required', {app: {}}, /express-openapi: args.apiDoc is required/],
         ['args.apiDoc not valid', {app: {}, apiDoc: {}}, /express-openapi: args.apiDoc was invalid.  See the output./],
         ['args.routes required', {app: {}, apiDoc: validDocument}, /express-openapi: args.routes must be a string/],
-        ['args.routes non directory', {app: {}, apiDoc: validDocument, routes: 'asdasdfasdf'}, /express-openapi: args.routes was not a path to a directory/],
+        ['args.routes non directory', {app: {}, apiDoc: validDocument, routes: 'asdasdfasdf'}, /express-openapi: args.routes contained a value that was not a path to a directory/],
         ['args.routes non directory', {app: {}, apiDoc: validDocument, routes: routesDir, docsPath: true}, /express-openapi: args.docsPath must be a string when given/],
         ['args.errorTransformer', {app: {}, apiDoc: validDocument, routes: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
         ['args.externalSchemas', {app: {}, apiDoc: validDocument, routes: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
