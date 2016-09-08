@@ -533,14 +533,12 @@ function dependencyInjection(dependencies, handler) {
     return handler.apply(null, getParamNames(handler).map(function (param) {
       var dep = dependencies[param];
       if(!dep){
-        throw new Error(loggingKey +
-            'args.dependencies: no dependency found for ' + param);
+        throw new Error('express-openapi: a route function signature contains a parameter that was not found in args.dependencies: ' + param);
       }
       return dep;
     }));
   }
 
-  throw new Error(loggingKey +
-      'args.dependencies must be undefined or an object.');
+  throw new Error('express-openapi: args.dependencies must be an object when given');
 
 }
