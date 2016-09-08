@@ -1,0 +1,27 @@
+{
+  "swagger": "2.0",
+  "basePath": "/v3",
+  "info": {
+    "title": "express-openapi sample project",
+    "version": "3.0.0"
+  },
+  "definitions": {},
+  "paths": {
+    "/boo": {
+      "parameters": [],
+      "get": {
+        "description": "Get boo.",
+        "operationId": "getBoo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "boo",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

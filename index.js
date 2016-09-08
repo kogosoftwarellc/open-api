@@ -126,7 +126,7 @@ function initialize(args) {
   pathSecurity.forEach(assertRegExpAndSecurity);
 
   [].concat.apply([], routes.map(fsRoutes)).sort(byRoute).forEach(function(result) {
-    var pathModule = require(result.path);
+    var pathModule = args.routesDependencyInjection ? require(result.path).apply(null, args.routesDependencyInjection) : require(result.path);
     var route = result.route;
     // express path params start with :paramName
     // openapi path params use {paramName}

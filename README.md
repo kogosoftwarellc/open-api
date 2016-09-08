@@ -286,6 +286,15 @@ function, or an array of business specific middleware + a method handler functio
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
 
+#### args.routesDependencyInjection
+
+|Type|Required|Description|
+|----|--------|-----------|
+|Array|N|An array of arguments passed to the individual routes as they are loaded|
+
+If not set, then routes export an object. If set, then routes export a constructor function that 
+will be passed the contents of this array as arguments.
+
 #### args.docsPath
 
 |Type|Required|Default Value|Description|
