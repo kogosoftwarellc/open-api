@@ -518,31 +518,31 @@ function withNoDuplicates(arr) {
   return parameters;
 }
 
-var DEPENDENCY_REGEX = /^function\s[^(]*\(\s*((?:(?!\))[\s\S])*)\)/m;
+//http://stackoverflow.com/questions/1007981/how-to-get-function-parameter-names-values-dynamically-from-javascript
+var _DI_STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+var _DI_ARGUMENT_NAMES = /([^\s,]+)/g;
+function getParamNames(func) {
+  var fnStr = func.toString().replace(_DI_STRIP_COMMENTS, '');
+  var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(_DI_ARGUMENT_NAMES);
+  if (result === null)
+    result = [];
+  return result;
+}
+
 function dependencyInjection(dependencies, handler) {
 
-  if (Array.isArray(dependencies)) {
-
-    return handler.apply(null, dependencies);
-
-  } else if (typeof(dependencies) === "object") {
-
-    var declaredDependencies = DEPENDENCY_REGEX.exec(handler.toString());
-    var injectables = [];
-
-    if (declaredDependencies) {
-      injectables = declaredDependencies[1].trim().split(/\s*,\s*/).map(function(name) {
-        if (name in dependencies) {
-          return dependencies[name];
-        }
-        throw new Error('No dependency found for ' + name);
-      });
-    }
-
-    return handler.apply(null, injectables);
+  if (typeof(dependencies) === "object") {
+    return handler.apply(null, getParamNames(handler).map(function (param) {
+      var dep = dependencies[param];
+      if(!dep){
+        throw new Error(loggingKey +
+            'args.dependencies: no dependency found for ' + param);
+      }
+      return dep;
+    }));
   }
 
   throw new Error(loggingKey +
-      'args.dependencies must be undefined, an array, or an object.');
+      'args.dependencies must be undefined or an object.');
 
 }

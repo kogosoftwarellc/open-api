@@ -290,33 +290,73 @@ module method, then `express-openapi` will add no additional middleware.
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Array or Object|N|An array/object of arguments passed to the individual routes as they are loaded|
+|Object|N|Mapping from keys to dependency objects that can be injected as named parameters into routes exported as functions |
 
-If not set, then routes export an object. If set, then routes export a constructor function that 
-will be passed the dependencies as arguments.
+If not set, then all routes export an object. If set, then all routes export a constructor function whose signature may contain
+any of the keys in args.dependencies
 
-Example using positional (array) dependency injection
+Example
 ```javascript
+// ├── api-doc.js
+// ├── api-routes1
+// │   └── users.js
+// ├── api-routes2
+// │   └── location.js
+// └── app.js
+
+// app.js
+// create some backend services. You can use typescript.
+
+// a mock data provider, for testing or local development
+var mockDataProvider = require("custom-mock-data-provider");
+
+// a pretend geo service, as an example of allowing route handlers to perform external interactions
+var geoService = require("awesome-geo-service")({url: "http.example.com/geoservice"});
+
 openapi.initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
     routes: [
         path.resolve(__dirname, 'api-routes'),
     ],
-    dependencies: [{ /* dependency passed as positional argument 1 */}, {/* dependency passed as positional argument 2 */}]
-});
-```
 
-Example using named (object) dependency injection
-```javascript
-openapi.initialize({
-    apiDoc: require('./api-doc.js'),
-    app: app,
-    routes: [
-        path.resolve(__dirname, 'api-routes'),
-    ],
-    dependencies: {"named parameter 1": {/* dependency*/}, "named parameter 2": {/* dependency*/}}
+    // Provide a mapping of dependency names.
+    // The keys of this object can be named parameters in the signature of
+    // the functions exported from the modules in your routes directory.
+    dependencies: {
+        dataprovider: mockDataProvider(),
+        geoservice: geoService
+    }
 });
+
+// api-routes1/users.js
+// inject both a dataprovider and geoservice dependency.
+module.exports = function(geoservice, dataprovider) {
+    var doc = {
+        GET: function (req, res, next) {
+            res.json({user: dataprovider.getUser(req.params.userid), location: geoservice.getUserLocation(req.params.userid)});
+        }
+    };
+    doc.GET.apiDoc = {
+        ...
+    };
+    return doc;
+};
+
+
+// api-routes2/location.js
+// only inject a geoservice dependency.
+module.exports = function(geoservice) {
+    var doc = {
+        GET: function (req, res, next) {
+            res.json({location: geoservice.getUserLocation(req.session.user.id)});
+        }
+    };
+    doc.GET.apiDoc = {
+        ...
+    };
+    return doc;
+};
 ```
 
 #### args.docsPath

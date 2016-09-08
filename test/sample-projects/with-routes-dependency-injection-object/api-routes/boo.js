@@ -1,4 +1,6 @@
-module.exports = function(injected1, injected2) {
+module.exports = function(
+    /* I can inject the parameters in any order */injected2,
+                          injected1 /* and add comments */ ) {
 
   var doc = {
     get: function(req, res, next) {
