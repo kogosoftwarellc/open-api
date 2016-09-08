@@ -126,15 +126,7 @@ function initialize(args) {
   pathSecurity.forEach(assertRegExpAndSecurity);
 
   var loadPathModule = args.dependencies ? function (path) {
-    if (Array.isArray(args.dependencies)) {
-      return require(path).apply(null, args.dependencies);
-    } else if (typeof(args.dependencies) === "object") {
-      return require(path).apply(null, Object.keys(args.dependencies).map(function (key) {
-        return args.dependencies[key];
-      }));
-    }
-    throw new Error(loggingKey +
-        'args.dependencies must be undefined, an array, or an object.');
+    return dependencyInjection(args.dependencies, require(path));
   } : function (path) {
       return require(path);
   };
@@ -524,4 +516,33 @@ function withNoDuplicates(arr) {
   }
 
   return parameters;
+}
+
+var DEPENDENCY_REGEX = /^function\s[^(]*\(\s*((?:(?!\))[\s\S])*)\)/m;
+function dependencyInjection(dependencies, handler) {
+
+  if (Array.isArray(dependencies)) {
+
+    return handler.apply(null, dependencies);
+
+  } else if (typeof(dependencies) === "object") {
+
+    var declaredDependencies = DEPENDENCY_REGEX.exec(handler.toString());
+    var injectables = [];
+
+    if (declaredDependencies) {
+      injectables = declaredDependencies[1].trim().split(/\s*,\s*/).map(function(name) {
+        if (name in dependencies) {
+          return dependencies[name];
+        }
+        throw new Error('No dependency found for ' + name);
+      });
+    }
+
+    return handler.apply(null, injectables);
+  }
+
+  throw new Error(loggingKey +
+      'args.dependencies must be undefined, an array, or an object.');
+
 }
