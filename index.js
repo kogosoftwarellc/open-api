@@ -126,18 +126,15 @@ function initialize(args) {
   pathSecurity.forEach(assertRegExpAndSecurity);
 
   var loadPathModule = args.dependencies ? function (path) {
-      switch (typeof(args.dependencies)) {
-          case "array":
-              return require(path).apply(null, args.dependencies);
-          case "object":
-              return require(path).apply(null, Object.keys(args.dependencies).map(function (key) {
-                  return args.dependencies[key];
-              }));
-          default:
-              throw new Error(loggingKey +
-                  'args.dependencies must be undefined, an array, or an object.');
-              break;
-      }
+    if (Array.isArray(args.dependencies)) {
+      return require(path).apply(null, args.dependencies);
+    } else if (typeof(args.dependencies) === "object") {
+      return require(path).apply(null, Object.keys(args.dependencies).map(function (key) {
+        return args.dependencies[key];
+      }));
+    }
+    throw new Error(loggingKey +
+        'args.dependencies must be undefined, an array, or an object.');
   } : function (path) {
       return require(path);
   };
