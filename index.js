@@ -524,9 +524,7 @@ var _DI_ARGUMENT_NAMES = /([^\s,]+)/g;
 function getParamNames(func) {
   var fnStr = func.toString().replace(_DI_STRIP_COMMENTS, '');
   var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(_DI_ARGUMENT_NAMES);
-  if (result === null)
-    result = [];
-  return result;
+  return result||[];
 }
 
 function dependencyInjection(dependencies, handler) {
