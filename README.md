@@ -286,14 +286,38 @@ function, or an array of business specific middleware + a method handler functio
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
 
-#### args.routesDependencyInjection
+#### args.dependencies
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Array|N|An array of arguments passed to the individual routes as they are loaded|
+|Array or Object|N|An array/object of arguments passed to the individual routes as they are loaded|
 
 If not set, then routes export an object. If set, then routes export a constructor function that 
-will be passed the contents of this array as arguments.
+will be passed the dependencies as arguments.
+
+Example using positional (array) dependency injection
+```javascript
+openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    routes: [
+        path.resolve(__dirname, 'api-routes'),
+    ],
+    dependencies: [{ /* dependency passed as positional argument 1 */}, {/* dependency passed as positional argument 2 */}]
+});
+```
+
+Example using named (object) dependency injection
+```javascript
+openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    routes: [
+        path.resolve(__dirname, 'api-routes'),
+    ],
+    dependencies: {"named parameter 1": {/* dependency*/}, "named parameter 2": {/* dependency*/}}
+});
+```
 
 #### args.docsPath
 

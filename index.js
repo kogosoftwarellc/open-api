@@ -125,8 +125,24 @@ function initialize(args) {
 
   pathSecurity.forEach(assertRegExpAndSecurity);
 
+  var loadPathModule = args.dependencies ? function (path) {
+      switch (typeof(args.dependencies)) {
+          case "array":
+              return require(path).apply(null, args.dependencies);
+          case "object":
+              return require(path).apply(null, Object.keys(args.dependencies).map(function (key) {
+                  return args.dependencies[key];
+              }));
+          default:
+              throw new Error(loggingKey +
+                  'args.dependencies must be undefined, an array, or an object.');
+              break;
+      }
+  } : function (path) {
+      return require(path);
+  };
   [].concat.apply([], routes.map(fsRoutes)).sort(byRoute).forEach(function(result) {
-    var pathModule = args.routesDependencyInjection ? require(result.path).apply(null, args.routesDependencyInjection) : require(result.path);
+    var pathModule = loadPathModule(result.path);
     var route = result.route;
     // express path params start with :paramName
     // openapi path params use {paramName}

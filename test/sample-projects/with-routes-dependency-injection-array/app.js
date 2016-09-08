@@ -9,7 +9,7 @@ openapi.initialize({
     routes: [
         path.resolve(__dirname, 'api-routes'),
     ],
-    routesDependencyInjection: [{description: "Get boo."}, {description: "boo"}]
+    dependencies: [{description: "Get boo."}, {description: "boo"}]
 });
 
 app.use(function (err, req, res, next) {
