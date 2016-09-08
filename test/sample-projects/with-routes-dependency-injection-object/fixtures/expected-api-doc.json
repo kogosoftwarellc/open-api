@@ -22,6 +22,22 @@
           }
         }
       }
+    },
+    "/foo": {
+      "parameters": [],
+      "get": {
+        "description": "Get foo.",
+        "operationId": "getFoo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "foo",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   }
 }

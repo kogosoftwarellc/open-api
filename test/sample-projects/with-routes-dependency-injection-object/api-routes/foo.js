@@ -2,7 +2,7 @@ module.exports = function(/*no params*/) {
 
   var doc = {
     get: function(req, res, next) {
-      res.status(200).send('boo');
+      res.status(200).send('foo');
     }
   };
   doc.get.apiDoc = {
