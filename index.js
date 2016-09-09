@@ -125,8 +125,13 @@ function initialize(args) {
 
   pathSecurity.forEach(assertRegExpAndSecurity);
 
+  var loadPathModule = args.dependencies ? function (path) {
+    return dependencyInjection(args.dependencies, require(path));
+  } : function (path) {
+      return require(path);
+  };
   [].concat.apply([], routes.map(fsRoutes)).sort(byRoute).forEach(function(result) {
-    var pathModule = require(result.path);
+    var pathModule = loadPathModule(result.path);
     var route = result.route;
     // express path params start with :paramName
     // openapi path params use {paramName}
@@ -511,4 +516,29 @@ function withNoDuplicates(arr) {
   }
 
   return parameters;
+}
+
+//http://stackoverflow.com/questions/1007981/how-to-get-function-parameter-names-values-dynamically-from-javascript
+var _DI_STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+var _DI_ARGUMENT_NAMES = /([^\s,]+)/g;
+function getParamNames(func) {
+  var fnStr = func.toString().replace(_DI_STRIP_COMMENTS, '');
+  var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(_DI_ARGUMENT_NAMES);
+  return result||[];
+}
+
+function dependencyInjection(dependencies, handler) {
+
+  if (typeof(dependencies) === "object") {
+    return handler.apply(null, getParamNames(handler).map(function (param) {
+      var dep = dependencies[param];
+      if(!dep){
+        throw new Error('express-openapi: a route function signature contains a parameter that was not found in args.dependencies: ' + param);
+      }
+      return dep;
+    }));
+  }
+
+  throw new Error('express-openapi: args.dependencies must be an object when given');
+
 }
