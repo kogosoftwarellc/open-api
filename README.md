@@ -44,7 +44,33 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 * Supports matching paths by regex to set `security` in `operation` docs.
   * See [args.pathSecurity](#argspathsecurity)
 
-## Example
+## Table of Contents
+
+* [Example Usage](#example)
+* [Configuring Middleware](#configuring-middleware)
+  * [Supported Vendor Extensions](#supported-vendor-extensions)
+* [API](#api)
+  * [.initialize(args)](#initializeargs)
+    * [args.apiDoc](#argsapidoc)
+    * [args.app](#argsapp)
+    * [args.consumesMiddleware](#argsconsumesmiddleware)
+    * [args.customFormats](#argscustomformats)
+    * [args.dependencies](#argsdependencies)
+    * [args.docsPath](#argsdocspath)
+    * [args.errorMiddleware](#argserrormiddleware)
+    * [args.errorTransformer](#argserrortransformer)
+    * [args.exposeApiDocs](#argsexposeapidocs)
+    * [args.externalSchemas](#argsexternalschemas)
+    * [args.pathSecurity](#argspathsecurity)
+    * [args.routes](#argsroutes)
+    * [args.securityHandlers](#argssecurityhandlers)
+    * [args.validateApiDoc](#argsvalidateapidoc)
+* [Using with TypeScript](#using-with-typescript)
+  * [Prerequisites](#prerequisites)
+  * [TypeScript Example](#typescript-example)
+* [License](#license)
+
+## Example Usage
 
 Let's use the sample project located at [./test/sample-projects/basic-usage/](
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage).
@@ -56,23 +82,26 @@ The project layout looks something like this:
 Here's how we add our routes to express:
 
 ```javascript
-var app = require('express')();
-var bodyParser = require('body-parser');
-var openapi = require('express-openapi');
-var cors = require('cors');
+import express from 'express';
+import bodyParser from body-parser;
+import openapi from 'express-openapi';
+import cors from 'cors';
+import apiDoc from './api-doc';
+
+const app = express();
 
 app.use(cors());
 
 openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
+  apiDoc,
+  appapp,
   routes: './api-routes',
   consumesMiddleware: {
     'application/json': bodyParser.json()
   }
 });
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status).json(err);
 });
 
@@ -176,6 +205,244 @@ parameters.
 |Type|Required|Description|
 |----|--------|-----------|
 |Object|Y|The express app you wish to initialize.|
+
+#### args.consumesMiddleware
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|A key value map of mimeTypes and middleware.|
+
+Each key is the mime type from the consumes array of either the apiDoc or the operation doc.
+
+```javascript
+var bodyParser = require('body-parser');
+openapi.initialize({
+  /*...*/
+  consumesMiddleware: {
+    'application/json': bodyParser.json(),
+    'text/text': bodyParser.text()
+  }
+  /*...*/
+});
+```
+
+#### args.customFormats
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|An object of custom formats.|
+
+Each key is the name of the format to be used with the `format` keyword.  Each value
+is a function that accepts an input and returns a boolean value.
+
+```javascript
+openapi.initialize({
+  /*...*/
+  customFormats: {
+    myFormat: function(input) {
+      return input === 'foo';
+    }
+  }
+  /*...*/
+});
+```
+
+See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
+
+#### args.dependencies
+
+|Type|Required|Description|
+|----|--------|-----------|
+|Object|N|Mapping from keys to dependency objects that can be injected as named parameters into routes exported as functions |
+
+If not set, then all routes export an object. If set, then all routes export a constructor function whose signature may contain
+any of the keys in args.dependencies
+
+Example
+```javascript
+// ├── api-doc.js
+// ├── api-routes1
+// │   └── users.js
+// ├── api-routes2
+// │   └── location.js
+// └── app.js
+
+// app.js
+// create some backend services. You can use typescript.
+
+// a mock data provider, for testing or local development
+var mockDataProvider = require("custom-mock-data-provider");
+
+// a pretend geo service, as an example of allowing route handlers to perform external interactions
+var geoService = require("awesome-geo-service")({url: "http.example.com/geoservice"});
+
+openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    routes: [
+        path.resolve(__dirname, 'api-routes'),
+    ],
+
+    // Provide a mapping of dependency names.
+    // The keys of this object can be named parameters in the signature of
+    // the functions exported from the modules in your routes directory.
+    dependencies: {
+        dataprovider: mockDataProvider(),
+        geoservice: geoService
+    }
+});
+
+// api-routes1/users.js
+// inject both a dataprovider and geoservice dependency.
+module.exports = function(geoservice, dataprovider) {
+    var doc = {
+        GET: function (req, res, next) {
+            res.json({user: dataprovider.getUser(req.params.userid), location: geoservice.getUserLocation(req.params.userid)});
+        }
+    };
+    doc.GET.apiDoc = {
+        ...
+    };
+    return doc;
+};
+
+
+// api-routes2/location.js
+// only inject a geoservice dependency.
+module.exports = function(geoservice) {
+    var doc = {
+        GET: function (req, res, next) {
+            res.json({location: geoservice.getUserLocation(req.session.user.id)});
+        }
+    };
+    doc.GET.apiDoc = {
+        ...
+    };
+    return doc;
+};
+```
+
+#### args.docsPath
+
+|Type|Required|Default Value|Description|
+|----|--------|-----------|----|
+|String|N|/api&#8209;docs|Sets the path that Swagger UI will use to request `args.apiDoc` with populated paths.  You can use this to support multiple versions of your app.|
+
+#### args.errorMiddleware
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|A middleware function that is scoped to your api's basePath.|
+
+This is just standard express error middleware (I.E. it has 4 arguments `err, req, res, next`).
+When an error occurs in your API's handlers, it'll be passed to this middleware.  The
+rest of your app is unaffected.
+
+```javascript
+openapi.initialize({
+  apiDoc: require('v3-api-doc'),
+  /*...*/
+  errorMiddleware: function(err, req, res, next) { // only handles errors for /v3/*
+      /* do something with err in a v3 way */
+  }
+  /*...*/
+});
+```
+
+#### args.errorTransformer
+
+|Type|Required|Description|
+|----|--------|-----------|
+|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer) and [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation) for more info.|
+
+#### args.exposeApiDocs
+
+|Type|Required|Default Value|Description|
+|----|--------|-----------|-------|
+|Boolean|N|true|Adds a route at `args.apiDoc.basePath` + `args.docsPath`.  The route will respond with `args.apiDoc`.|
+
+#### args.externalSchemas
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|Map id to pre-loaded external schema|
+
+This is used to resolve a schema reference `$ref`. Id can be a URL or relative path from `args.docPath`.
+
+```javascript
+openapi.initialize({
+  apiDoc: require('v3-api-doc'),
+  /*...*/
+  externalSchemas: {
+    'http://example.com/schema': {
+      description: "example schema",
+      type: object,
+      /*....*/
+    },
+    'http://example.com/another-schema': {
+      /*....*/
+    }
+  }
+  /*...*/
+});
+```
+
+And then you can reference them in your api-doc file and route handlers.
+```javascript
+{
+  /*...*/
+  parameters: {
+    foo: {
+      "in": "body",
+      name: "foo",
+      schema: { $ref: 'http://example.com/schema'}
+    }
+  },
+  /*...*/
+  definitions: {
+   bar: { $ref: 'http://example.com/another-schema#/definitions/bar'}
+  }
+}
+```
+or
+```javascript
+put.apiDoc = {
+  /*...*/
+  parameters: [
+    {
+      "in": "body",
+      name: "foo",
+      schema: { $ref: 'http://example.com/schema'}
+    }
+  ],
+ /*...*/
+}
+```
+
+#### args.pathSecurity
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Array|N|null|An array of tuples.|
+
+Each tuple in the array consists of a `RegExp` to match paths, and a `security`
+definition (see [security](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operation-object)).  The tuples are traversed in reverse order, so the bottom
+most matching `RegExp` wins.  When a matching definition is found and the operation
+had no `security` defined, it is added to the `operationDoc` and security middleware
+is applied.
+
+```javascript
+openapi.initialize({
+  apiDoc: require('v3-api-doc'),
+  /*...*/
+  pathSecurity: [
+    // here /some/{pathId} will get theirSecurity.
+    [/^\/some/\{pathId\}/, [{mySecurity:[]}]],
+    [/^\/some/\{pathId\}/, [{theirSecurity:[]}]]
+  ]
+  /*...*/
+});
+```
 
 #### args.routes
 
@@ -286,249 +553,6 @@ function, or an array of business specific middleware + a method handler functio
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
 
-#### args.dependencies
-
-|Type|Required|Description|
-|----|--------|-----------|
-|Object|N|Mapping from keys to dependency objects that can be injected as named parameters into routes exported as functions |
-
-If not set, then all routes export an object. If set, then all routes export a constructor function whose signature may contain
-any of the keys in args.dependencies
-
-Example
-```javascript
-// ├── api-doc.js
-// ├── api-routes1
-// │   └── users.js
-// ├── api-routes2
-// │   └── location.js
-// └── app.js
-
-// app.js
-// create some backend services. You can use typescript.
-
-// a mock data provider, for testing or local development
-var mockDataProvider = require("custom-mock-data-provider");
-
-// a pretend geo service, as an example of allowing route handlers to perform external interactions
-var geoService = require("awesome-geo-service")({url: "http.example.com/geoservice"});
-
-openapi.initialize({
-    apiDoc: require('./api-doc.js'),
-    app: app,
-    routes: [
-        path.resolve(__dirname, 'api-routes'),
-    ],
-
-    // Provide a mapping of dependency names.
-    // The keys of this object can be named parameters in the signature of
-    // the functions exported from the modules in your routes directory.
-    dependencies: {
-        dataprovider: mockDataProvider(),
-        geoservice: geoService
-    }
-});
-
-// api-routes1/users.js
-// inject both a dataprovider and geoservice dependency.
-module.exports = function(geoservice, dataprovider) {
-    var doc = {
-        GET: function (req, res, next) {
-            res.json({user: dataprovider.getUser(req.params.userid), location: geoservice.getUserLocation(req.params.userid)});
-        }
-    };
-    doc.GET.apiDoc = {
-        ...
-    };
-    return doc;
-};
-
-
-// api-routes2/location.js
-// only inject a geoservice dependency.
-module.exports = function(geoservice) {
-    var doc = {
-        GET: function (req, res, next) {
-            res.json({location: geoservice.getUserLocation(req.session.user.id)});
-        }
-    };
-    doc.GET.apiDoc = {
-        ...
-    };
-    return doc;
-};
-```
-
-#### args.docsPath
-
-|Type|Required|Default Value|Description|
-|----|--------|-----------|----|
-|String|N|/api&#8209;docs|Sets the path that Swagger UI will use to request `args.apiDoc` with populated paths.  You can use this to support multiple versions of your app.|
-
-#### args.errorTransformer
-
-|Type|Required|Description|
-|----|--------|-----------|
-|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer) and [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation) for more info.|
-
-#### args.exposeApiDocs
-
-|Type|Required|Default Value|Description|
-|----|--------|-----------|-------|
-|Boolean|N|true|Adds a route at `args.apiDoc.basePath` + `args.docsPath`.  The route will respond with `args.apiDoc`.|
-
-#### args.validateApiDoc
-
-|Type|Required|Default Value|Description|
-|----|--------|-----------|-------|
-|Boolean|N|true|Validates `args.apiDoc` before and after path population.  This does not effect individual route validation of route parameters.  You can disable this behavior by passing `false`.|
-
-#### args.consumesMiddleware
-
-|Type|Required|Default Value|Description|
-|----|--------|-------------|-----------|
-|Object|N|null|A key value map of mimeTypes and middleware.|
-
-Each key is the mime type from the consumes array of either the apiDoc or the operation doc.
-
-```javascript
-var bodyParser = require('body-parser');
-openapi.initialize({
-  /*...*/
-  consumesMiddleware: {
-    'application/json': bodyParser.json(),
-    'text/text': bodyParser.text()
-  }
-  /*...*/
-});
-```
-
-#### args.customFormats
-
-|Type|Required|Default Value|Description|
-|----|--------|-------------|-----------|
-|Object|N|null|An object of custom formats.|
-
-Each key is the name of the format to be used with the `format` keyword.  Each value
-is a function that accepts an input and returns a boolean value.
-
-```javascript
-openapi.initialize({
-  /*...*/
-  customFormats: {
-    myFormat: function(input) {
-      return input === 'foo';
-    }
-  }
-  /*...*/
-});
-```
-
-See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
-
-#### args.errorMiddleware
-
-|Type|Required|Default Value|Description|
-|----|--------|-------------|-----------|
-|Object|N|null|A middleware function that is scoped to your api's basePath.|
-
-This is just standard express error middleware (I.E. it has 4 arguments `err, req, res, next`).
-When an error occurs in your API's handlers, it'll be passed to this middleware.  The
-rest of your app is unaffected.
-
-```javascript
-openapi.initialize({
-  apiDoc: require('v3-api-doc'),
-  /*...*/
-  errorMiddleware: function(err, req, res, next) { // only handles errors for /v3/*
-      /* do something with err in a v3 way */
-  }
-  /*...*/
-});
-```
-
-#### args.externalSchemas
-
-|Type|Required|Default Value|Description|
-|----|--------|-------------|-----------|
-|Object|N|null|Map id to pre-loaded external schema|
-
-This is used to resolve a schema reference `$ref`. Id can be a URL or relative path from `args.docPath`.
-
-```javascript
-openapi.initialize({
-  apiDoc: require('v3-api-doc'),
-  /*...*/
-  externalSchemas: {
-    'http://example.com/schema': {
-      description: "example schema",
-      type: object,
-      /*....*/
-    },
-    'http://example.com/another-schema': {
-      /*....*/
-    }
-  }
-  /*...*/
-});
-```
-
-And then you can reference them in your api-doc file and route handlers.
-```javascript
-{
-  /*...*/
-  parameters: {
-    foo: {
-      "in": "body",
-      name: "foo",
-      schema: { $ref: 'http://example.com/schema'}
-    }
-  },
-  /*...*/
-  definitions: {
-   bar: { $ref: 'http://example.com/another-schema#/definitions/bar'}
-  }
-}
-```
-or
-```javascript
-put.apiDoc = {
-  /*...*/
-  parameters: [
-    {
-      "in": "body",
-      name: "foo",
-      schema: { $ref: 'http://example.com/schema'}
-    }
-  ],
- /*...*/
-}
-```
-#### args.pathSecurity
-
-|Type|Required|Default Value|Description|
-|----|--------|-------------|-----------|
-|Array|N|null|An array of tuples.|
-
-Each tuple in the array consists of a `RegExp` to match paths, and a `security`
-definition (see [security](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operation-object)).  The tuples are traversed in reverse order, so the bottom
-most matching `RegExp` wins.  When a matching definition is found and the operation
-had no `security` defined, it is added to the `operationDoc` and security middleware
-is applied.
-
-```javascript
-openapi.initialize({
-  apiDoc: require('v3-api-doc'),
-  /*...*/
-  pathSecurity: [
-    // here /some/{pathId} will get theirSecurity.
-    [/^\/some/\{pathId\}/, [{mySecurity:[]}]],
-    [/^\/some/\{pathId\}/, [{theirSecurity:[]}]]
-  ]
-  /*...*/
-});
-```
-
 #### args.securityHandlers
 
 |Type|Required|Default Value|Description|
@@ -606,15 +630,22 @@ post.apiDoc = {
 See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
 for more details.
 
-## Work with TypeScript
+#### args.validateApiDoc
 
-This package includes definition for TypeScript.
+|Type|Required|Default Value|Description|
+|----|--------|-----------|-------|
+|Boolean|N|true|Validates `args.apiDoc` before and after path population.  This does not effect individual route validation of route parameters.  You can disable this behavior by passing `false`.|
 
-### Prepare
+## Using with TypeScript
 
-Install definition for `express` and `body-parser`(optional) via [typings](https://www.npmjs.com/package/typings).
+This package includes definitions for TypeScript.
 
-### Example
+### Prerequisites
+
+Install definitions for `express` and `body-parser`(optional) via
+[typings](https://www.npmjs.com/package/typings).
+
+### TypeScript Example
 
 In server script:
 ```typescript
