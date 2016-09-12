@@ -225,6 +225,7 @@ export interface Args {
     apiDoc: OpenApi.ApiDefinition
     app: express.Application
     routes: string | string[]
+    paths: string | string[]
     docsPath?: string
     errorMiddleware?: express.ErrorRequestHandler,
     errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any

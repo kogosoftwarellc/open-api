@@ -1,4 +1,4 @@
-# express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+`# express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]`
 > An unopinionated OpenAPI framework for express
 
 ## Highlights
@@ -46,7 +46,8 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 
 ## Table of Contents
 
-* [Example Usage](#example)
+* [What is OpenAPI](#what-is-openapi)
+* [Getting Started](#getting-started)
 * [Configuring Middleware](#configuring-middleware)
   * [Supported Vendor Extensions](#supported-vendor-extensions)
 * [API](#api)
@@ -62,7 +63,7 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
     * [args.exposeApiDocs](#argsexposeapidocs)
     * [args.externalSchemas](#argsexternalschemas)
     * [args.pathSecurity](#argspathsecurity)
-    * [args.routes](#argsroutes)
+    * [args.paths](#argspaths)
     * [args.securityHandlers](#argssecurityhandlers)
     * [args.validateApiDoc](#argsvalidateapidoc)
 * [Using with TypeScript](#using-with-typescript)
@@ -70,79 +71,174 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
   * [TypeScript Example](#typescript-example)
 * [License](#license)
 
-## Example Usage
+## What is OpenAPI?
 
-Let's use the sample project located at [./test/sample-projects/basic-usage/](
-https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage).
+Taken from [openapis.org](https://openapis.org/specification):
 
-The project layout looks something like this:
+> The goal of the OAI specification is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming
 
-![basic express-openapi-project](./docs/express-openapi.png)
+To study the current specification [view the docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
 
-Here's how we add our routes to express:
+## Getting Started
 
-```javascript
-import express from 'express';
-import bodyParser from body-parser;
-import openapi from 'express-openapi';
-import cors from 'cors';
-import apiDoc from './api-doc';
+*To see example projects, look at our [test suite](./test/sample-projects/).*
 
-const app = express();
+This getting started guide will use the most fundamental concepts of OpenAPI and
+`express-openapi`.
 
-app.use(cors());
+1. Create your API's main apiDoc.  You can create it anywhere.  For this example
+   we'll create it in under an `api-v1/` directory:
 
-openapi.initialize({
-  apiDoc,
-  appapp,
-  routes: './api-routes',
-  consumesMiddleware: {
-    'application/json': bodyParser.json()
-  }
-});
+    ```javascript
+    // ./api-v1/api-doc.js
 
-app.use((err, req, res, next) => {
-  res.status(err.status).json(err);
-});
+    const apiDoc = {
+      swagger: '2.0',
+      basePath: '/v1',
+      info: {
+        title: 'A getting started API.',
+        version: '1.0.0'
+      },
+      definitions: {
+        World: {
+          type: 'object',
+          properties: {
+            name: {
+              description: 'The name of this world.',
+              type: 'string'
+            }
+          },
+          required: ['name']
+        }
+      }
+      paths: {}
+    };
 
-app.listen(3000);
-```
+    export default apiDoc;
+    ```
 
-Here's what a route file looks like:
+    You may be wondering why `paths` is an empty object literal.  We'll get to that in a second.
 
-```javascript
-module.exports = {
-  GET
-};
+    This is all that is required for our API's main apiDoc.  To see the full list of values
+    and options for the main apiDoc you can view [The Schema](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schema).
 
-function GET(req, res, next) {
-  res.status(200).json(`Hello ${req.query.firstName}!`);
-}
+1. Create path handlers.
 
-GET.apiDoc = {
-  description: 'A description for retrieving a user.',
-  tags: ['users'],
-  operationId: 'getUser',
-  parameters: [
-    {
-      in: 'query',
-      name: 'firstName',
-      type: 'string'
+    Our `paths` object was empty in the main apiDoc because `express-openapi` generates
+    it for us based on the location of our path handlers.  For this example we'll place
+    our path handlers under `api-v1/paths/`.
+
+    Let's create a `worlds` path:
+
+    ```javascript
+    // ./api-v1/paths/worlds.js
+    export default function(worldsService) {
+      let operations = {
+        GET
+      };
+
+      function GET(req, res, next) {
+        res.status(200).json(worldsService.getWorlds(req.query.worldName));
+      }
+
+      GET.apiDoc = {
+        summary: 'Returns worlds by name.',
+        operationId: 'getWorlds',
+        parameters: [
+          {
+            in: 'query',
+            name: 'worldName',
+            required: true,
+            type: 'string'
+          }
+        ],
+        responses: {
+          200: {
+            description: 'A list of worlds that match the requested name.',
+            schema: {
+              type: 'array',
+              items: {
+                type: '#/definitions/World'
+              }
+            }
+          },
+          default: {
+            description: 'An error occurred',
+            schema: {
+              additionalProperties: true
+            }
+          }
+        }
+      };
+
+      return operations;
     }
-  ],
-  responses: {
-    default: {
-      $ref: '#/definitions/Error'
-    }
-  }
-};
-```
+    ```
 
-Our routes are now active and we can test them out with Swagger UI:
+    In OpenAPI we define what operations a path exposes.  Operations are exposed as HTTP
+    methods.
 
-![swagger ui](./docs/swagger-page.png)
+    The `apiDoc` property of the `GET` http method configures the `getWorld` operation
+    with `express-openapi`.  Without it `express-openapi` would do nothing with it.  We
+    can see that `worldName` is a required query parameter.  If we were to call this
+    operation without `worldName` we would receive a 400 input validation error.
 
-For more examples see the [sample projects](https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects) used in tests.
+    In this example, we're also using dependency injection.  This allows us to easily
+    connect our path handlers with our API's services.  We could've exposed an object
+    literal instead of a function.  The dependency injection approach is recommended
+    which is why we use it here.
+
+1. Create services
+
+    We referenced a `worldsService` in our path handler, let's create it now.  It's
+    best to place services that conform to your API's object definitions under a versioned
+    folder.  This keeps API versioned code separately and allows you to scale your app
+    for multiple API versions.
+
+    ```javascript
+    // ./api-v1/services/worldsService.js
+
+    let worlds = {
+      Earth: {
+        name: 'Earth'
+      }
+    };
+
+    const worldsService = {
+      getWorlds(name) {
+        return worlds[name] ? [worlds[name]] : [];
+      }
+    };
+
+    export default worldsService;
+    ```
+
+1. Initialize your `express` app with `express-openapi`
+
+    We'll create our app file as usual and we'll initialize it with `express-openapi`:
+
+    ```javascript
+    // ./app.js
+    import express from 'express';
+    import openapi from 'express-openapi';
+    import v1WorldsService from './api-v1/services/worldsService';
+    import v1ApiDoc from './api-v1/api-doc';
+
+    const app = express();
+    openapi.initialize({
+      app,
+      apiDoc: v1ApiDoc,
+      dependencies: {
+        worldsService: v1WorldsService
+      },
+      paths: './api-v1/paths'
+    });
+
+    app.listen(3000);
+    ```
+Our paths are now active and we can test them out with [Swagger UI](http://petstore.swagger.io/).  This getting started guide
+didn't cover everything.  For more examples see the [sample projects](https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects) used in our
+extensive test suite.
 
 ## Configuring Middleware
 
@@ -181,7 +277,7 @@ validation middleware.
 
 ### .initialize(args)
 
-Initializes routes and middleware on an express app, and returns an initialized
+Initializes paths and middleware on an express app, and returns an initialized
 api.  An initialized api contains the following properties:
 
 * `apiDoc` - This is the final result of the apiDoc after processing.
@@ -195,7 +291,7 @@ api.  An initialized api contains the following properties:
 `args.apiDoc.paths` should be an empty object.  `express-openapi` will populate this
 for you.  This prevents you from defining your paths in 2 places.
 
-`args.apiDoc.basePath` will add a prefix to all routes added by `express-openapi`.
+`args.apiDoc.basePath` will add a prefix to all paths added by `express-openapi`.
 
 `args.apiDoc.definitions` will be used for de-referencing `$ref` properties in
 parameters.
@@ -253,17 +349,17 @@ See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Object|N|Mapping from keys to dependency objects that can be injected as named parameters into routes exported as functions |
+|Object|N|Mapping from keys to dependency objects that can be injected as named parameters into path handlers exported as functions |
 
-If not set, then all routes export an object. If set, then all routes export a constructor function whose signature may contain
+If not set, then all path handlers export an object. If set, then all path handlers export a constructor function whose signature may contain
 any of the keys in args.dependencies
 
 Example
 ```javascript
 // ├── api-doc.js
-// ├── api-routes1
+// ├── api-paths1
 // │   └── users.js
-// ├── api-routes2
+// ├── api-paths2
 // │   └── location.js
 // └── app.js
 
@@ -279,20 +375,20 @@ var geoService = require("awesome-geo-service")({url: "http.example.com/geoservi
 openapi.initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
-    routes: [
-        path.resolve(__dirname, 'api-routes'),
+    paths: [
+        path.resolve(__dirname, 'api-paths'),
     ],
 
     // Provide a mapping of dependency names.
     // The keys of this object can be named parameters in the signature of
-    // the functions exported from the modules in your routes directory.
+    // the functions exported from the modules in your paths directory.
     dependencies: {
         dataprovider: mockDataProvider(),
         geoservice: geoService
     }
 });
 
-// api-routes1/users.js
+// api-paths1/users.js
 // inject both a dataprovider and geoservice dependency.
 module.exports = function(geoservice, dataprovider) {
     var doc = {
@@ -307,7 +403,7 @@ module.exports = function(geoservice, dataprovider) {
 };
 
 
-// api-routes2/location.js
+// api-paths2/location.js
 // only inject a geoservice dependency.
 module.exports = function(geoservice) {
     var doc = {
@@ -444,19 +540,19 @@ openapi.initialize({
 });
 ```
 
-#### args.routes
+#### args.paths
 
 |Type|Required|Description|
 |----|--------|-----------|
-|String or Array|Y|Path or paths to the directory or directories that contain your route files.|
+|String or Array|Y|Relative path or paths to the directory or directories that contain your route files.|
 
 
-Route files are logically structured according to their URL path.  For cross platform
+Path files are logically structured according to their URL path.  For cross platform
 compatibility, URLs that accept a parameter use the swagger format for parameters
 as opposed to the express format (i.e. use `{id}` instead of `:id`).  Filenames in
 Windows do not allow the `:` character as it is confused with drive names.
 
-For example, if you have the following api routes that you wish to add to your express
+For example, if you have the following api paths that you wish to add to your express
 app:
 
 ```
@@ -464,18 +560,18 @@ GET /v1/users/{id}
 POST /v1/users
 ```
 
-You would define `basePath: '/v1'` in your `apiDoc`, and layout your `routes` directory
+You would define `basePath: '/v1'` in your `apiDoc`, and layout your `paths` directory
 as follows:
 
 ```
 <project>
-        `routes/
+        `paths/
                `users/
                      `{id}.js
                 users.js
 ```
 
-The contents of `<project>/routes/users/{id}.js` would look like this:
+The contents of `<project>/paths/users/{id}.js` would look like this:
 
 ```javascript
 module.exports = {
@@ -546,7 +642,7 @@ post.apiDoc = {
 
 ```
 
-Modules under `args.routes` expose methods.  Methods may either be a method handler
+Modules under `args.paths` expose methods.  Methods may either be a method handler
 function, or an array of business specific middleware + a method handler function.
 
 `express-openapi` will prepend middleware to this stack based on the parameters
@@ -660,7 +756,7 @@ app.use(bodyParser.json());
 openapi.initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
-    routes: './built/api-routes'
+    paths: './built/api-paths'
 });
 
 app.use(<express.ErrorRequestHandler>(err, req, res, next) => {
@@ -670,7 +766,7 @@ app.use(<express.ErrorRequestHandler>(err, req, res, next) => {
 app.listen(3000);
 ```
 
-In route handler file like `<project>/src/api-routes/users/{id}.ts`:
+In route handler file like `<project>/src/api-paths/users/{id}.ts`:
 ```typescript
 
 import {Operation} from "express-openapi";

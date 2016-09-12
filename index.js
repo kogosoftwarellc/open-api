@@ -50,7 +50,15 @@ function initialize(args) {
     throw new Error(loggingKey + 'args.apiDoc is required');
   }
 
-  var routes = [].concat(args.routes);
+  if (args.routes) {
+    console.warn(loggingKey, 'args.routes has been deprecated.  Please use args.paths instead.');
+    if (!args.paths) {
+      args.paths = args.routes;
+      delete args.routes;
+    }
+  }
+
+  var paths = [].concat(args.paths);
   var exposeApiDocs = 'exposeApiDocs' in args ?
       !!args.exposeApiDocs :
       true;
@@ -69,14 +77,14 @@ function initialize(args) {
     }
   }
 
-  if (!routes.filter(byString).length) {
-    throw new Error(loggingKey + 'args.routes must be a string or an array of strings');
+  if (!paths.filter(byString).length) {
+    throw new Error(loggingKey + 'args.paths must be a string or an array of strings');
   }
 
-  routes = routes.map(toAbsolutePath);
+  paths = paths.map(toAbsolutePath);
 
-  if (!routes.filter(byDirectory).length) {
-    throw new Error(loggingKey + 'args.routes contained a value that was not a path to a directory');
+  if (!paths.filter(byDirectory).length) {
+    throw new Error(loggingKey + 'args.paths contained a value that was not a path to a directory');
   }
 
   if (args.docsPath && typeof args.docsPath !== 'string') {
@@ -130,7 +138,7 @@ function initialize(args) {
   } : function (path) {
       return require(path);
   };
-  [].concat.apply([], routes.map(fsRoutes)).sort(byRoute).forEach(function(result) {
+  [].concat.apply([], paths.map(fsRoutes)).sort(byRoute).forEach(function(result) {
     var pathModule = loadPathModule(result.path);
     var route = result.route;
     // express path params start with :paramName
