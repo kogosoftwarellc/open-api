@@ -48,8 +48,9 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 
 * [What is OpenAPI](#what-is-openapi)
 * [Getting Started](#getting-started)
-* [Configuring Middleware](#configuring-middleware)
-  * [Supported Vendor Extensions](#supported-vendor-extensions)
+* [Vendor Extensions](#vendor-extensions)
+  * [Operation parameters](#operation-parameters)
+  * [Configuring Middleware](#configuring-middleware)
 * [API](#api)
   * [.initialize(args)](#initializeargs)
     * [args.apiDoc](#argsapidoc)
@@ -240,7 +241,36 @@ Our paths are now active and we can test them out with [Swagger UI](http://petst
 didn't cover everything.  For more examples see the [sample projects](https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects) used in our
 extensive test suite.
 
-## Configuring Middleware
+## Vendor extensions
+
+OpenAPI allows vendor extensions to be used throughout your api doc.
+
+### Operation parameters
+
+* `'x-express-openapi-case-sensitive': false` - Use this in parameter definitions to
+  allow parameter names to be case insensitive.  Use cases may include moving from
+  a legacy application that didn't enforce case sensitivity (see #49).
+
+  ```javascript
+  GET.apiDoc = {
+    ...
+    parameters: [
+      {
+        name: 'paramName',
+        in: 'query',
+        type: 'string',
+        required: true,
+        'x-express-openapi-case-sensitive': false
+      }
+    ],
+    ...
+  };
+  ```
+
+  Calling this operation with `paramname=5` will not affect the validity of the request
+  and your path handler will receive `paramName=5`.
+
+### Configuring Middleware
 
 You can directly control what middleware `express-openapi` adds to your express app
 by using the following vendor extension properties.  These properties are scoped, so
@@ -251,7 +281,6 @@ you can use these properties in said operation's apiDoc.  See full examples in t
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects)
 directory.
 
-### Supported vendor extensions
 
 * `'x-express-openapi-additional-middleware': [myMiddleware]` - Adds the provided
 middleware _after_ defaults, coercion, and validation middleware (added by

@@ -3,6 +3,7 @@ var buildDefaultsMiddleware = require('express-openapi-defaults');
 var buildCoercionMiddleware = require('express-openapi-coercion');
 var fsRoutes = require('fs-routes');
 var INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-inherit-additional-middleware';
+var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
@@ -12,6 +13,7 @@ var buildSecurityMiddleware = require('express-openapi-security');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var validateSchema = require('openapi-schema-validation').validate;
+var normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 var METHOD_ALIASES = {
   // HTTP style
   DELETE: 'delete',
@@ -251,6 +253,8 @@ function initialize(args) {
 
       middleware.push(operationHandler);
 
+      optionallyAddQueryNormalizationMiddleware(middleware, methodParameters);
+
       var expressPath = basePath + '/' +
           route.substring(1).split('/').map(toExpressParams).join('/');
       app[methodName].apply(app, [expressPath].concat(middleware));
@@ -437,6 +441,20 @@ function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
     if (tuple[0].test(openapiPath)) {
       return tuple[1];
     }
+  }
+}
+
+function optionallyAddQueryNormalizationMiddleware(middleware, methodParameters) {
+  if (!methodParameters) {
+    return;
+  }
+  var queryParamsNeedingNormalization = methodParameters.filter(function(param) {
+    return param.in === 'query' && param[CASE_SENSITIVE_PARAM_PROPERTY] === false;
+  }).map(function(param) {
+    return param.name;
+  });
+  if (queryParamsNeedingNormalization.length) {
+    middleware.unshift(normalizeQueryParamsMiddleware(queryParamsNeedingNormalization));
   }
 }
 
