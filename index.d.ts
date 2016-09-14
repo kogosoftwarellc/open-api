@@ -224,7 +224,7 @@ export declare module OpenApi {
 export interface Args {
     apiDoc: OpenApi.ApiDefinition
     app: express.Application
-    routes: string | string[]
+    routes?: string | string[]
     paths: string | string[]
     docsPath?: string
     errorMiddleware?: express.ErrorRequestHandler,
