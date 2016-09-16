@@ -159,7 +159,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
             schema: {
               type: 'array',
               items: {
-                type: '#/definitions/World'
+                $ref: '#/definitions/World'
               }
             }
           },
