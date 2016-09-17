@@ -111,7 +111,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
           },
           required: ['name']
         }
-      }
+      },
       paths: {}
     };
 
