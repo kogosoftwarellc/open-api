@@ -3,12 +3,17 @@ module.exports = convert;
 function convert(parameters) {
   var parametersSchema = {};
   var bodySchema = getBodySchema(parameters);
+  var formDataSchema = getSchema(parameters, 'formData');
   var headerSchema = getSchema(parameters, 'header');
   var pathSchema = getSchema(parameters, 'path');
   var querySchema = getSchema(parameters, 'query');
 
   if (bodySchema) {
     parametersSchema.body = bodySchema;
+  }
+
+  if (formDataSchema) {
+    parametersSchema.formData = formDataSchema;
   }
 
   if (headerSchema) {
@@ -67,8 +72,6 @@ function getBodySchema(parameters) {
 
   if (bodySchema) {
     bodySchema = bodySchema.schema;
-  } else {
-    bodySchema = getSchema(parameters, 'formData');
   }
 
   return bodySchema;
