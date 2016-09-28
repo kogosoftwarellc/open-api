@@ -24,16 +24,10 @@ module.exports = {
     status: 400,
     errors: [
       {
-        location: 'body',
-        message: 'req.body was not present in the request.  Is a body-parser being used?',
-        schema: {
-          properties: {
-            foo: {
-              type: 'string'
-            }
-          },
-          required: ['foo']
-        }
+        path: 'foo',
+        errorCode: 'required.openapi.validation',
+        message: 'instance requires property "foo"',
+        location: 'formData'
       }
     ]
   })

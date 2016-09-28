@@ -25,6 +25,7 @@ function validate(args) {
   var bodySchema = schemas.body;
   var bodyValidationSchema;
   var headersSchema = lowercasedHeaders(schemas.headers);
+  var formDataSchema = schemas.formData;
   var pathSchema = schemas.path;
   var querySchema = schemas.query;
   var v = new JsonschemaValidator();
@@ -102,6 +103,11 @@ function validate(args) {
           schema: bodySchema
         };
       }
+    }
+
+    if (req.params && formDataSchema) {
+      errors.push.apply(errors, withAddedLocation('formData', v.validate(
+          req.params, formDataSchema).errors));
     }
 
     if (req.params && pathSchema) {
