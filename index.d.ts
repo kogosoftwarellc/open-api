@@ -175,6 +175,7 @@ export declare module OpenApi {
         'in': string
         description?: string
         required?: boolean
+        [index: string]: any
     }
 
     export interface InBodyParameterObject extends ParameterObject {
