@@ -377,7 +377,13 @@ function byProperty(property, value) {
 }
 
 function byRoute(a, b) {
+  if(isDynamicRoute(a.route) && !isDynamicRoute(b.route)) return 1;
+  if(!isDynamicRoute(a.route) && isDynamicRoute(b.route)) return -1;
   return a.route.localeCompare(b.route);
+}
+
+function isDynamicRoute(route) {
+  return route.indexOf("{")>0;
 }
 
 function byString(el) {
