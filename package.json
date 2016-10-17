@@ -1,6 +1,6 @@
 {
   "name": "express-openapi",
-  "version": "0.27.3",
+  "version": "0.27.4",
   "description": "An unopinionated OpenAPI framework for express",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
