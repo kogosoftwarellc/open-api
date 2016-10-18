@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  routes: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes')
 });
 
 app.use(function(err, req, res, next) {

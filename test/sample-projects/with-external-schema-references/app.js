@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  routes: path.resolve(__dirname, 'api-routes'),
+  paths: path.resolve(__dirname, 'api-routes'),
   externalSchemas: {
     'http://example.com/error':{
       description: 'An error occurred.',

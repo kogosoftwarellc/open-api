@@ -23,12 +23,12 @@ describe(require('../package.json').name, function() {
         ['args.apiDoc not valid', {app: {}, apiDoc: {}}, /express-openapi: args.apiDoc was invalid.  See the output./],
         ['args.paths required', {app: {}, apiDoc: validDocument}, /express-openapi: args.paths must be a string/],
         ['args.paths non directory', {app: {}, apiDoc: validDocument, paths: 'asdasdfasdf'}, /express-openapi: args.paths contained a value that was not a path to a directory/],
-        ['args.paths non directory', {app: {}, apiDoc: validDocument, routes: routesDir, docsPath: true}, /express-openapi: args.docsPath must be a string when given/],
-        ['args.errorTransformer', {app: {}, apiDoc: validDocument, routes: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
-        ['args.externalSchemas', {app: {}, apiDoc: validDocument, routes: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
-        ['args.securityHandlers', {app: {}, apiDoc: validDocument, routes: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be an object when given/],
-        ['args.dependencies wrong type', {app: {}, dependencies: "foo", apiDoc: validDocument, routes: path.resolve(__dirname,"./sample-projects/with-routes-dependency-injection-object2/api-routes")}, /express-openapi: args.dependencies must be an object when given/],
-        ['args.dependencies wrong signature', {app: {}, dependencies: {iaminjected: {}}, apiDoc: validDocument, routes: path.resolve(__dirname,"./sample-projects/with-routes-dependency-injection-object2/api-routes")}, /express-openapi: a route function signature contains a parameter that was not found in args.dependencies/],
+        ['args.paths non directory', {app: {}, apiDoc: validDocument, paths: routesDir, docsPath: true}, /express-openapi: args.docsPath must be a string when given/],
+        ['args.errorTransformer', {app: {}, apiDoc: validDocument, paths: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
+        ['args.externalSchemas', {app: {}, apiDoc: validDocument, paths: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
+        ['args.securityHandlers', {app: {}, apiDoc: validDocument, paths: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be an object when given/],
+        ['args.dependencies wrong type', {app: {}, dependencies: "foo", apiDoc: validDocument, paths: path.resolve(__dirname,"./sample-projects/with-routes-dependency-injection-object2/api-routes")}, /express-openapi: args.dependencies must be an object when given/],
+        ['args.dependencies wrong signature', {app: {}, dependencies: {iaminjected: {}}, apiDoc: validDocument, paths: path.resolve(__dirname,"./sample-projects/with-routes-dependency-injection-object2/api-routes")}, /express-openapi: a route function signature contains a parameter that was not found in args.dependencies/],
       ].forEach(function(test) {
         var description = test[0];
         var args = test[1];
@@ -55,7 +55,7 @@ describe(require('../package.json').name, function() {
           // See https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
           // errorTransformer: null,
           // we could just pass in "api-routes" if process.cwd() was set to this directory.
-          routes: path.resolve(__dirname, 'sample-projects', 'with-invalid-method-doc', 'api-routes')
+          paths: path.resolve(__dirname, 'sample-projects', 'with-invalid-method-doc', 'api-routes')
         });
       }).to.throw(/express-openapi: args.apiDoc was invalid after populating paths.  See the output./);
     });
@@ -68,7 +68,7 @@ describe(require('../package.json').name, function() {
         app: app,
         docsPath: '/api-docs',
         validateApiDoc: false,
-        routes: path.resolve(__dirname, 'sample-projects', 'with-invalid-method-doc', 'api-routes')
+        paths: path.resolve(__dirname, 'sample-projects', 'with-invalid-method-doc', 'api-routes')
       });
     });
 
@@ -78,7 +78,7 @@ describe(require('../package.json').name, function() {
       var initializedApp = expressOpenapi.initialize({
         apiDoc: require('./sample-projects/basic-usage/api-doc.js'),
         app: express(),
-        routes: routesDir
+        paths: routesDir
       });
 
       expect(initializedApp.apiDoc).to.eql(expectedApiDoc);

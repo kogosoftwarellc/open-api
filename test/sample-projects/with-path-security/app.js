@@ -11,7 +11,7 @@ openapi.initialize({
     [/^\/fo/, [{auth2: []}]],
     [/^\/q/, [{booAuth: []}]]
   ],
-  routes: path.resolve(__dirname, 'api-routes'),
+  paths: path.resolve(__dirname, 'api-routes'),
   securityHandlers: {
     auth1: function(req, scopes, definition, cb) {
       cb({
