@@ -60,7 +60,6 @@ function initialize(args) {
     }
   }
 
-  var paths = [].concat(args.paths);
   var exposeApiDocs = 'exposeApiDocs' in args ?
       !!args.exposeApiDocs :
       true;
@@ -79,15 +78,10 @@ function initialize(args) {
     }
   }
 
-  if (!paths.filter(byString).length) {
-    throw new Error(loggingKey + 'args.paths must be a string or an array of strings');
+  if (!args.paths) {
+    throw new Error(loggingKey + 'args.paths is required')
   }
-
-  paths = paths.map(toAbsolutePath);
-
-  if (!paths.filter(byDirectory).length) {
-    throw new Error(loggingKey + 'args.paths contained a value that was not a path to a directory');
-  }
+  var paths = [].concat(args.paths);
 
   if (args.docsPath && typeof args.docsPath !== 'string') {
     throw new Error(loggingKey + 'args.docsPath must be a string when given');
@@ -135,14 +129,40 @@ function initialize(args) {
 
   pathSecurity.forEach(assertRegExpAndSecurity);
 
-  var loadPathModule = args.dependencies ? function (path) {
-    return dependencyInjection(args.dependencies, require(path));
-  } : function (path) {
-      return require(path);
+  var injectDependencies = args.dependencies ? function (handlers) {
+    return dependencyInjection(args.dependencies, handlers);
+  } : function (handlers) {
+    return handlers;
   };
-  [].concat.apply([], paths.map(fsRoutes)).sort(byRoute).forEach(function(result) {
-    var pathModule = loadPathModule(result.path);
-    var route = result.route;
+
+  var routes = [];
+  paths.forEach(function(pathItem) {
+    if (byString(pathItem)) {
+      pathItem = toAbsolutePath(pathItem);
+      if (!byDirectory(pathItem)) {
+        throw new Error(loggingKey + 'args.paths contained a value that was not a path to a directory');
+      }
+      routes = routes.concat(fsRoutes(pathItem).map(function(fsRoutesItem) {
+        return { path: fsRoutesItem.route, module: require(fsRoutesItem.path) };
+      }));
+    } else {
+      if (!pathItem.path || !pathItem.module ) {
+        throw new Error(loggingKey + 'args.paths must consist of strings or valid route specifications');
+      }
+      routes.push(pathItem);
+    }
+  });
+  routes = routes.sort(byRoute);
+
+  // Check for duplicate routes
+  var dups = routes.filter(function(v,i,o){if(i>0 && v.path === o[i-1].path) return v.path;});
+  if (dups.length > 0) {
+    throw new Error(loggingKey + 'args.paths produced duplicate urls: ' + dups);
+  }
+
+  routes.forEach(function(routeItem) {
+    var route = routeItem.path;
+    var pathModule = injectDependencies(routeItem.module);
     // express path params start with :paramName
     // openapi path params use {paramName}
     var openapiPath = route;
@@ -187,7 +207,7 @@ function initialize(args) {
             definitions: apiDoc.definitions,
             externalSchemas: externalSchemas,
             errorTransformer: errorTransformer,
-            responses: resolveResponseRefs(operationDoc.responses, apiDoc, result.path),
+            responses: resolveResponseRefs(operationDoc.responses, apiDoc, route),
             customFormats: customFormats
           }));
         }
@@ -377,9 +397,9 @@ function byProperty(property, value) {
 }
 
 function byRoute(a, b) {
-  if(isDynamicRoute(a.route) && !isDynamicRoute(b.route)) return 1;
-  if(!isDynamicRoute(a.route) && isDynamicRoute(b.route)) return -1;
-  return a.route.localeCompare(b.route);
+  if(isDynamicRoute(a.path) && !isDynamicRoute(b.path)) return 1;
+  if(!isDynamicRoute(a.path) && isDynamicRoute(b.path)) return -1;
+  return a.path.localeCompare(b.path);
 }
 
 function isDynamicRoute(route) {
@@ -483,7 +503,7 @@ function resolveParameterRefs(parameters, definitions) {
   });
 }
 
-function resolveResponseRefs(responses, apiDoc, pathToModule) {
+function resolveResponseRefs(responses, apiDoc, route) {
   return Object.keys(responses).reduce(function(resolvedResponses, responseCode) {
     var response = responses[responseCode];
 
@@ -499,7 +519,7 @@ function resolveResponseRefs(responses, apiDoc, pathToModule) {
 
       if (match[1] === 'definitions') {
         console.warn('Using "$ref: \'#/definitions/...\'" for responses has been deprecated.');
-        console.warn('Please switch to "$ref: \'#/responses/...\'" in ' + pathToModule + '.');
+        console.warn('Please switch to "$ref: \'#/responses/...\'" in handler(s) for ' + route + '.');
         console.warn('Future versions of express-openapi will no longer support this.');
       }
 
