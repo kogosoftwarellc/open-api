@@ -573,7 +573,7 @@ openapi.initialize({
 
 |Type|Required|Description|
 |----|--------|-----------|
-|String or Array|Y|Relative path or paths to the directory or directories that contain your route files.|
+|String or Array|Y|Relative path or paths to the directory or directories that contain your route files or route specifications.|
 
 
 Path files are logically structured according to their URL path.  For cross platform
@@ -670,6 +670,9 @@ post.apiDoc = {
 };
 
 ```
+
+Alternatively, args.paths may contain route specifications of the form
+`{ path: '/foo/{id}', module: require('./handlers/foo') }`.
 
 Modules under `args.paths` expose methods.  Methods may either be a method handler
 function, or an array of business specific middleware + a method handler function.

@@ -220,13 +220,18 @@ export declare module OpenApi {
         attribute?: boolean
         wrapped?: boolean
     }
+
+    export interface RouteSpecification {
+        path: string
+        module: PathModule
+    }
 }
 
 export interface Args {
     apiDoc: OpenApi.ApiDefinition
     app: express.Application
     routes?: string | string[]
-    paths: string | string[]
+    paths: string | string[] | OpenApi.RouteSpecification[]
     docsPath?: string
     errorMiddleware?: express.ErrorRequestHandler,
     errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
