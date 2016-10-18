@@ -15,7 +15,7 @@ app.get('/foo', function(req, res, next) {
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  routes: path.resolve(__dirname, 'api-routes'),
+  paths: path.resolve(__dirname, 'api-routes'),
   errorMiddleware: function(err, req, res, next) {
     res.status(200).json(err.message);
   }

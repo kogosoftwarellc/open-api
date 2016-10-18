@@ -6,7 +6,7 @@ var path = require('path');
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  routes: [
+  paths: [
     path.resolve(__dirname, 'api-routes1'),
     path.resolve(__dirname, 'api-routes2')
   ]

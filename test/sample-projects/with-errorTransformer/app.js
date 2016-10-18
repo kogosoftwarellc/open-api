@@ -14,7 +14,7 @@ openapi.initialize({
     return {fooError: 'oh yea'};
   },
   // we could just pass in "api-routes" if process.cwd() was set to this directory.
-  routes: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes')
 });
 
 app.use(function(err, req, res, next) {

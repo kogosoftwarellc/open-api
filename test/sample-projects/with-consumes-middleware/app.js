@@ -10,7 +10,7 @@ app.use(cors());
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  routes: path.resolve(__dirname, 'api-routes'),
+  paths: path.resolve(__dirname, 'api-routes'),
   consumesMiddleware: {
     'application/json': bodyParser.json(),
     'text/text': bodyParser.text()
