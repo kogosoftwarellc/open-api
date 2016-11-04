@@ -61,8 +61,10 @@ var COERCION_STRATEGIES = {
 
     if (input === 'false') {
       return false;
-    } else {
+    } else if (input === 'true') {
       return true;
+    } else {
+      return null;
     }
   },
 
