@@ -10,7 +10,7 @@ module.exports = {
     ]
   },
 
-  disableBodyParser: true,
+  disableBodyParser: false,
 
   requestMethod: 'post',
 

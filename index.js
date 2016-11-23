@@ -105,9 +105,9 @@ function validate(args) {
       }
     }
 
-    if (req.params && formDataSchema) {
+    if (req.body && formDataSchema) {
       errors.push.apply(errors, withAddedLocation('formData', v.validate(
-          req.params, formDataSchema).errors));
+          req.body, formDataSchema).errors));
     }
 
     if (req.params && pathSchema) {
