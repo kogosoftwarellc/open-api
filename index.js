@@ -92,7 +92,6 @@ function buildOpenapiSecurity(securityDefinitions, securityHandlers,
               message = 'Challenge is a required header with 401 status codes.';
             } else {
               statusCode = 401;
-              res.set('www-authenticate', lastError.challenge);
             }
             break;
           case 403:
@@ -103,6 +102,18 @@ function buildOpenapiSecurity(securityDefinitions, securityHandlers,
               message = 'Your access to this resource is forbidden.';
             }
             break;
+          case 400:
+            statusCode = 400;
+              if (lastError.message) {
+                  message = lastError.message;
+              } else {
+                  message = 'Bad request.';
+              }
+              break;
+        }
+
+        if (lastError.challenge) {
+            res.set('www-authenticate', lastError.challenge);
         }
 
         res.status(statusCode);
