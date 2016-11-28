@@ -61,10 +61,8 @@ var COERCION_STRATEGIES = {
 
     if (input === 'false') {
       return false;
-    } else if (input === 'true') {
-      return true;
     } else {
-      return null;
+      return true;
     }
   },
 
@@ -79,6 +77,22 @@ var COERCION_STRATEGIES = {
   string: function(input) {
     return String(input);
   }
+};
+
+var STRICT_COERCION_STRATEGIES = {
+  boolean: function(input) {
+    if (typeof input === 'boolean') {
+      return input;
+    }
+
+    if (input.toLowerCase() === 'false') {
+      return false;
+    } else if (input.toLowerCase() === 'true') {
+      return true;
+    } else {
+      return null;
+    }
+  },
 };
 
 function buildCoercer(params, isHeaders) {
@@ -99,6 +113,8 @@ function buildCoercer(params, isHeaders) {
       var coercer;
       var itemCoercer;
       var type = param.type;
+	  
+      var strict = param["x-express-openapi-strict-coercion"];
 
       if (type === 'array') {
         if (!param.items) {
@@ -108,12 +124,12 @@ function buildCoercer(params, isHeaders) {
         if (param.items.type === 'array') {
           throw new Error(loggingKey + ': nested arrays are not allowed (items was of type array)');
         }
-
-        itemCoercer = getCoercer(param.items.type);
+		
+        itemCoercer = getCoercer(param.items.type, strict);
 
         coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
       } else {
-        coercer = getCoercer(param.type);
+        coercer = getCoercer(param.type, strict);
       }
 
       if (coercer) {
@@ -139,8 +155,15 @@ function byLocation(location) {
   };
 }
 
-function getCoercer(type) {
-  return COERCION_STRATEGIES[type];
+function getCoercer(type, strict) {
+  var strategy = undefined;
+  if (strict) {
+    strategy = STRICT_COERCION_STRATEGIES[type];
+  }
+  if (!strategy) {
+    strategy = COERCION_STRATEGIES[type];
+  }
+  return strategy;
 }
 
 function pathsep(format) {

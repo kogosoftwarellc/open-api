@@ -10,7 +10,8 @@ module.exports = {
       {
         in: 'path',
         name: 'path2',
-        type: 'boolean'
+        type: 'boolean',
+		"x-express-openapi-strict-coercion": true
       },
 
       {
@@ -28,12 +29,13 @@ module.exports = {
       {
         in: 'query',
         name: 'query3',
-        type: 'boolean'
+        type: 'boolean',
+		"x-express-openapi-strict-coercion": true
       }
     ]
   },
 
-  requestPath: '/true/invalid?query1=true&query2=invalid&query3=false',
+  requestPath: '/invalid/invalid?query1=true&query2=invalid&query3=invalid',
 
   requestHeaders: null,
 
@@ -41,12 +43,12 @@ module.exports = {
 
   params: {
     path1: true,
-    path2: null
+    path2: null,
   },
 
   query: {
     query1: true,
-    query2: null,
-    query3: false
+    query2: true,
+    query3: null
   }
 };
