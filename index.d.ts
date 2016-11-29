@@ -117,15 +117,50 @@ export declare module OpenApi {
         [index: string]: SecuritySchemeObject
     }
 
-    export interface SecuritySchemeObject {
-        type: string
+    export type SecuritySchemeObject = SecuritySchemeBasic | SecuritySchemeApiKey | SecuritySchemeOauth2;
+
+    interface SecuritySchemeObjectBase {
+        type: 'basic' | 'apiKey' | 'oauth2'
         description?: string
+    }
+
+    interface SecuritySchemeBasic extends SecuritySchemeObjectBase {
+        type: 'basic'
+    }
+
+    interface SecuritySchemeApiKey extends SecuritySchemeObjectBase {
+        type: 'apiKey'
         name: string
-        'in': string
-        flow: string
+        in: string
+    }
+
+    type SecuritySchemeOauth2 = SecuritySchemeOauth2Implicit | SecuritySchemeOauth2AccessCode |
+        SecuritySchemeOauth2Password | SecuritySchemeOauth2Application;
+
+    interface SecuritySchemeOauth2Base extends SecuritySchemeObjectBase {
+        flow: 'implicit' | 'password' | 'application' | 'accessCode'
+        scopes: ScopesObject
+    }
+
+    interface SecuritySchemeOauth2Implicit extends SecuritySchemeOauth2Base {
+        flow: 'implicit'
+        authorizationUrl: string
+    }
+
+    interface SecuritySchemeOauth2AccessCode extends SecuritySchemeOauth2Base {
+        flow: 'accessCode'
         authorizationUrl: string
         tokenUrl: string
-        scopes: ScopesObject
+    }
+
+    interface SecuritySchemeOauth2Password extends SecuritySchemeOauth2Base {
+        flow: 'password'
+        tokenUrl: string
+    }
+
+    interface SecuritySchemeOauth2Application extends SecuritySchemeOauth2Base {
+        flow: 'application'
+        tokenUrl: string
     }
 
     export interface ScopesObject {
