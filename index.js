@@ -114,7 +114,7 @@ function buildCoercer(params, isHeaders) {
       var itemCoercer;
       var type = param.type;
 	  
-      var strict = param["x-express-openapi-strict-coercion"];
+      var strict = param["x-express-openapi-coercion-strict"];
 
       if (type === 'array') {
         if (!param.items) {

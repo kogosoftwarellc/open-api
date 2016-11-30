@@ -11,7 +11,7 @@ module.exports = {
         in: 'path',
         name: 'path2',
         type: 'boolean',
-		"x-express-openapi-strict-coercion": true
+		"x-express-openapi-coercion-strict": true
       },
 
       {
@@ -30,7 +30,7 @@ module.exports = {
         in: 'query',
         name: 'query3',
         type: 'boolean',
-		"x-express-openapi-strict-coercion": true
+		"x-express-openapi-coercion-strict": true
       }
     ]
   },
