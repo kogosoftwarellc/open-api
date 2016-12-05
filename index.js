@@ -156,7 +156,7 @@ function byLocation(location) {
 }
 
 function getCoercer(type, strict) {
-  var strategy = undefined;
+  var strategy;
   if (strict) {
     strategy = STRICT_COERCION_STRATEGIES[type];
   }
