@@ -35,6 +35,36 @@ app.get('/something', coerce, function(req, res) {
 });
 ```
 
+## Boolean parameters
+
+By default a boolean parameter is coerced to:
+* _false_ if the input value is "false"
+* _true_ for any other input value
+
+This behaviour is makes sense if you do not wish to validate the input fields. 
+
+If the opposite is the case, the behaviour can be changed by setting the "x-express-openapi-coercion-strict" to _true_ on the parameter in question as illustrated below.
+
+```javascript
+var app = require('express')();
+var coerce = require('express-openapi-coercion')({
+  parameters: [
+    {
+      in: 'query',
+      type: 'boolean',
+      name: 'foo',
+      required: true,
+      "x-express-openapi-coercion-strict": true
+    }
+  ]
+});
+```
+
+Doing so will result in the boolean parameter being coerced to:
+* _false_ if the input value is "false" (in any casing)
+* _true_ if the input value is "true" (in any casing)
+* _null_ for any other input value
+
 ## API
 
 ### coerce(args)
