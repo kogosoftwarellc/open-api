@@ -113,19 +113,23 @@ function generatePaths(apiDoc, options, apiFunctionBody, requiredSecurityHandler
   Object.keys(paths).forEach(function(path) {
     var methods = paths[path];
     path = path.replace(/\{([^}]+)\}/g, '\' + params[\'$1\'] + \'');
+
     Object.keys(methods).forEach(function(method) {
+      if (method === 'parameters' || method === '$ref') {
+        return;
+      }
+
       var methodDoc = methods[method];
       var security = methodDoc.security || apiDoc.security;
 
       addToRequiredSecurityHandlers(requiredSecurityHandlers, security);
 
-      if (!Array.isArray(methodDoc.parameters)) {
-        return;
+      if (Array.isArray(methodDoc.parameters)) {
+        var queryParams = methodDoc.parameters.filter(byQuery);
+        var bodyParams = methodDoc.parameters.filter(byBodyParams);
+        var headerParams = methodDoc.parameters.filter(byHeaders);
       }
 
-      var queryParams = methodDoc.parameters.filter(byQuery);
-      var bodyParams = methodDoc.parameters.filter(byBodyParams);
-      var headerParams = methodDoc.parameters.filter(byHeaders);
       var body = new Program;
       var headers = new Program;
       var query = new Program;
