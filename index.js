@@ -401,7 +401,7 @@ function byRoute(a, b) {
   if(!isDynamicRoute(a.path) && isDynamicRoute(b.path)) return -1;
 
   // invert compare to keep that /{foo} does not beat /{foo}.{bar}
-  return -1*a.path.localeCompare(b.path);
+  return -1 * a.path.localeCompare(b.path);
 }
 
 function isDynamicRoute(route) {
