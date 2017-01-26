@@ -285,6 +285,21 @@
           }
         }
       }
+    },
+    "/cat": {
+      "get": {
+        "summary": "Get a cat",
+        "description": "",
+        "operationId": "getCat",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ]
+      }
     }
   }
 }

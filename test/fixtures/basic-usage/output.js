@@ -122,6 +122,17 @@ function createApi(options) {
           mode,
         });
     },
+    getCat(params) {
+      let headers = {
+
+      };
+      return fetch(endpoint + basePath + '/cat'
+        , {
+          method: 'GET',
+          headers,
+          mode,
+        });
+    },
 
   };
 }
