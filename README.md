@@ -18,6 +18,8 @@ fetch-openapi --api-doc-url http://petstore.swagger.io/v2/swagger.json \
 
 See `fetch-openapi -h` for more info.
 
+Using a local api doc schema? Use the parameter `--api-doc-file-path` instead of `--api-doc-url`.
+
 ## Programatic Usage
 
 ```javascript
