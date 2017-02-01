@@ -399,7 +399,9 @@ function byProperty(property, value) {
 function byRoute(a, b) {
   if(isDynamicRoute(a.path) && !isDynamicRoute(b.path)) return 1;
   if(!isDynamicRoute(a.path) && isDynamicRoute(b.path)) return -1;
-  return a.path.localeCompare(b.path);
+
+  // invert compare to keep that /{foo} does not beat /{foo}.{bar}
+  return -1 * a.path.localeCompare(b.path);
 }
 
 function isDynamicRoute(route) {
@@ -545,7 +547,7 @@ function toAbsolutePath(part) {
 }
 
 function toExpressParams(part) {
-  return part.replace(/^\{([^\}]+)\}$/, ':$1');
+  return part.replace(/\{([^}]+)}/g, ':$1');
 }
 
 function withNoDuplicates(arr) {
