@@ -33,7 +33,7 @@ and validation.
 https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage/api-doc.js#L37)
     sample project.
 * Supports TypeScript
-  * See [Work with TypeScript](#work-with-typescript)
+  * See [Using with TypeScript](#using-with-typescript)
 * Supports external schema references
   * See [args.externalSchemas](#argsexternalschemas)
 * Client SDK generators available.
