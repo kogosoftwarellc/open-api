@@ -5,25 +5,27 @@ function createApi(options) {
   const cors = !!options.cors;
   const mode = cors ? 'cors' : 'basic';
   const buildQuery = (obj) => {
-    return Object.keys(obj).map((key) => {
-      const value = obj[key];
-      if (value === undefined) {
-        return '';
-      }
-      if (value === null) {
-        return key;
-      }
-      if (Array.isArray(value)) {
-        if (value.length) {
-          return key + '=' + value.map(encodeURIComponent).join('&' + key + '=');
-        } else {
+    return Object.keys(obj)
+      .filter(key => typeof obj.key !== 'undefined')
+      .map((key) => {
+        const value = obj[key];
+        if (value === undefined) {
           return '';
         }
-      } else {
-        return key + '=' + encodeURIComponent(value);
-      }
-    }).join('&');
-  };
+        if (value === null) {
+          return key;
+        }
+        if (Array.isArray(value)) {
+          if (value.length) {
+            return key + '=' + value.map(encodeURIComponent).join('&' + key + '=');
+          } else {
+            return '';
+          }
+        } else {
+          return key + '=' + encodeURIComponent(value);
+        }
+      }).join('&');
+    };
   return {
     addPet(params) {
       let headers = {
