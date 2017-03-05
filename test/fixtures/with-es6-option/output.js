@@ -27,7 +27,8 @@ function createApi(options) {
       }).join('&');
     };
   return {
-    addPet(params) {
+    addPet(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
         'content-type': 'application/json',
 
@@ -41,7 +42,8 @@ function createApi(options) {
 
         });
     },
-    updatePet(params) {
+    updatePet(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
         'content-type': 'application/json',
 
@@ -55,7 +57,8 @@ function createApi(options) {
 
         });
     },
-    findPetsByStatus(params) {
+    findPetsByStatus(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
 
       };
@@ -69,7 +72,8 @@ function createApi(options) {
           mode,
         });
     },
-    findPetsByTags(params) {
+    findPetsByTags(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
 
       };
@@ -83,7 +87,8 @@ function createApi(options) {
           mode,
         });
     },
-    getPetById(params) {
+    getPetById(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
 
       };
@@ -94,7 +99,8 @@ function createApi(options) {
           mode,
         });
     },
-    updatePetWithForm(params) {
+    updatePetWithForm(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
         'content-type': 'application/x-www-form-urlencoded',
 
@@ -111,7 +117,8 @@ function createApi(options) {
 
         });
     },
-    deletePet(params) {
+    deletePet(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
         'api_key': params['api_key'],
 

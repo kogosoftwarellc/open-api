@@ -136,7 +136,8 @@ function generatePaths(apiDoc, options, apiFunctionBody, requiredSecurityHandler
       var headers = new Program;
       var query = new Program;
 
-      apiFunctionBody.push('    ' + methodDoc.operationId + '(params) {');
+      apiFunctionBody.push('    ' + methodDoc.operationId + '(parameters) {');
+      apiFunctionBody.push('      const params = typeof parameters === \'undefined\' ? {} : parameters;');
       apiFunctionBody.push('      let headers = {');
       apiFunctionBody.push(headers);
       apiFunctionBody.push('      };');

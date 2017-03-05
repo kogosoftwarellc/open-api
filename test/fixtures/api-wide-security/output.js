@@ -55,7 +55,8 @@ function createApi(options) {
       }).join('&');
     };
   return {
-    addPet(params) {
+    addPet(parameters) {
+      const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
         'content-type': 'application/json',
 
