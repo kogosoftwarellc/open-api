@@ -34,7 +34,7 @@ function createApi(options) {
   ensureRequiredSecurityHandlersExist();
   const buildQuery = (obj) => {
     return Object.keys(obj)
-      .filter(key => typeof obj.key !== 'undefined')
+      .filter(key => typeof obj[key] !== 'undefined')
       .map((key) => {
         const value = obj[key];
         if (value === undefined) {

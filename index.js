@@ -80,7 +80,7 @@ function buildApiService(apiDoc, options) {
   }
   apiFunctionDeclaration.push('  const buildQuery = (obj) => {');
   apiFunctionDeclaration.push('    return Object.keys(obj)');
-  apiFunctionDeclaration.push('      .filter(key => typeof obj.key !== \'undefined\')');
+  apiFunctionDeclaration.push('      .filter(key => typeof obj[key] !== \'undefined\')');
   apiFunctionDeclaration.push('      .map((key) => {');
   apiFunctionDeclaration.push('        const value = obj[key];');
   apiFunctionDeclaration.push('        if (value === undefined) {');
