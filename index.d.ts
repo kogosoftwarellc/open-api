@@ -287,6 +287,8 @@ export interface Request extends express.Request {
     get(name: string): any
     header(name: string): any
     headers: { [key: string]: any }
+    apiDoc: OpenApi.ApiDefinition;
+    operationDoc: OpenApi.OperationObject;
 }
 export type NextFunction = express.NextFunction;
 export interface Response extends express.Response {
