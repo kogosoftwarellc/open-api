@@ -195,6 +195,7 @@ export declare module OpenApi {
         uniqueItems?: boolean
         'enum'?: any[]
         multipleOf?: number
+        $ref?: string
     }
 
     export interface ParametersDefinitionsObject {
