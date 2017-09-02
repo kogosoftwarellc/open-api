@@ -257,9 +257,11 @@ export declare module OpenApi {
         wrapped?: boolean
     }
 
+    type RouteHandlerFunction = (...services: any[]) => PathModule;
+
     export interface RouteSpecification {
         path: string
-        module: PathModule
+        module: PathModule|RouteHandlerFunction
     }
 }
 
@@ -278,6 +280,7 @@ export interface Args {
     externalSchemas?: {[url:string]: any}
     pathSecurity?: PathSecurityTuple[]
     securityHandlers?: SecurityHandlers
+    dependencies?: {[service:string]: any}
 }
 
 export interface RequestHandler {
