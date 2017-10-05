@@ -1,37 +1,39 @@
 # openapi-schema-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Validate openapi documents.
 
-For OpenAPI v2.0 (a.k.a. swagger 2.0) document examples and documentation, view
-[the official docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#itemsObject).
+##For OpenAPI v2.0 (a.k.a. swagger 2.0) and OpenAPI v3.0.0 
+####Document examples and full specs:
+* [Official 2.0 docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#itemsObject)
+* [Official 3.0.0 docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 
 ## Highlights
 
-* Validate openapi documents against official openapi schema documents.
+* Validate openapi documents against openapi schema documents.
 * Uses [jsonschema](https://github.com/tdegrunt/jsonschema) under the hood.
 * Performant.
 * Currently supports type definitions included in the `definitions` property of the
 provided openapi document.
 * Extensively tested.
 * Small footprint.
-* Currently supports openapi 2.0 (a.k.a. swagger 2.0) documents.
+* Supports openapi 2.0 (a.k.a. swagger 2.0) documents and openapi 3.0.0
+ 
+**Huge thank you to the [gnostic](https://github.com/googleapis/gnostic) project for building up a 3.0.0 JSON schema.**
+ 
 
 ## Example
-
-See `./test/data-driven/*.js` for more examples.
-
 ```javascript
 var validateSchema = require('openapi-schema-validation').validate;
-
-console.log(validateSchema({/* openapi doc */}, {version: 'swagger-2.0'});
+console.log(validateSchema(apiDoc, version));
 ```
+[see here](https://github.com/tdegrunt/jsonschema#results) for example results. 
+
 
 ## API
-### .validate(apiDoc [, args])
-
-`apiDoc` is any api document you wish to validate.
-`[args]` is an optional object the accepts the following arguments:
-* `version` - The openapi document schema version to use.  Currently the only supported
-version is `swagger-2.0` (the default).
+### .validate(apiDoc, version)
+* `apiDoc` _object_ is any api document you wish to validate.
+* `version` _optional number_ openapi document schema version to use (2 or 3). 
+    * 2 - `swagger-2.0` (default)
+    * 3 - `openapi-3.0.0`
 
 ## LICENSE
 ``````

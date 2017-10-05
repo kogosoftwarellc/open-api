@@ -1,4 +1,5 @@
 module.exports = {
+  validator: 2,
   apiDoc: {
     swagger: '2.0',
     info: {

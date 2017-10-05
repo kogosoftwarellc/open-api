@@ -1,4 +1,5 @@
 module.exports = {
+  validator: 2,
   apiDoc: {
     info: {
       title: 'Some valid API document',
