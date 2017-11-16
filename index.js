@@ -58,7 +58,7 @@ function copyValidationKeywords(src, dst) {
     for (var i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
       var keyword = keys[i];
 
-      if (VALIDATION_KEYWORDS.indexOf(keyword) > -1) {
+      if (VALIDATION_KEYWORDS.indexOf(keyword) > -1 || keyword.slice(0,2) === 'x-') {
         dst[keyword] = src[keyword];
       }
     }
