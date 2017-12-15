@@ -41,11 +41,17 @@ get.apiDoc = {
   tags: ['vm'],
   responses: {
     200: {
-      $ref: '#/definitions/Vm'
+      description: 'Requested VM',
+      schema: {
+        $ref: '#/definitions/Vm'
+      }
     },
 
     default: {
-      $ref: '#/definitions/Error'
+      description: "Unexpected error",
+      schema: {
+        $ref: '#/definitions/Error'
+      }
     }
   }
 };

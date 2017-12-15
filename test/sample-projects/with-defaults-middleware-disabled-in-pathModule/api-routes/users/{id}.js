@@ -38,7 +38,10 @@ module.exports.post.apiDoc = {
 
   responses: {
     default: {
-      $ref: '#/definitions/Error'
+      description: "Unexpected error",
+      schema: {
+        $ref: '#/definitions/Error'
+      }
     }
   }
 };
@@ -82,11 +85,17 @@ get.apiDoc = {
 
   responses: {
     200: {
-      $ref: '#/definitions/User'
+      description: "Requested user",
+      schema: {
+        $ref: '#/definitions/User'
+      }
     },
 
     default: {
-      $ref: '#/definitions/Error'
+      description: "Unexpected error",
+      schema: {
+        $ref: '#/definitions/Error'
+      }
     }
   }
 };

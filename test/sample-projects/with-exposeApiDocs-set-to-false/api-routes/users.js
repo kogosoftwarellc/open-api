@@ -15,7 +15,10 @@ module.exports.post.apiDoc = {
   parameters: [],
   responses: {
     default: {
-      $ref: '#/definitions/Error'
+      description: "Unexpected error",
+      schema: {
+        $ref: '#/definitions/Error'
+      }
     }
   }
 };
