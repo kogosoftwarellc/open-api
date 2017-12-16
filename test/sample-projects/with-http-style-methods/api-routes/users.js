@@ -38,7 +38,10 @@ GET.apiDoc = {
   parameters: [],
   responses: {
     default: {
-      $ref: '#/definitions/Error'
+      description: "Unexpected error",
+      schema: {
+        $ref: '#/definitions/Error'
+      }
     }
   }
 };
@@ -50,7 +53,10 @@ POST.apiDoc = {
   parameters: [],
   responses: {
     default: {
-      $ref: '#/definitions/Error'
+      description: "Unexpected error",
+      schema: {
+        $ref: '#/definitions/Error'
+      }
     }
   }
 };
