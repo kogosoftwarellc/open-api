@@ -80,7 +80,10 @@
         "parameters": [],
         "responses": {
           "default": {
-            "$ref": "#/definitions/Error"
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -123,10 +126,16 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/definitions/User"
+            "description": "Requested user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "default": {
-            "$ref": "#/definitions/Error"
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         },
         "tags": [
@@ -148,7 +157,10 @@
         ],
         "responses": {
           "default": {
-            "$ref": "#/definitions/Error"
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         },
         "tags": [
