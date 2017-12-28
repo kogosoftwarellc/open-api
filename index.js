@@ -142,9 +142,15 @@ function initialize(args) {
       if (!byDirectory(pathItem)) {
         throw new Error(loggingKey + 'args.paths contained a value that was not a path to a directory');
       }
-      routes = routes.concat(fsRoutes(pathItem).map(function(fsRoutesItem) {
-        return { path: fsRoutesItem.route, module: require(fsRoutesItem.path) };
-      }));
+      routes = routes.concat(fsRoutes(pathItem)
+        .filter(function(fsRoutesItem) {
+          // Ignore spec and test files
+          return !/\.(?:spec|test)$/.test(fsRoutesItem.route);
+        })
+        .map(function(fsRoutesItem) {
+          return { path: fsRoutesItem.route, module: require(fsRoutesItem.path) };
+        })
+      );
     } else {
       if (!pathItem.path || !pathItem.module ) {
         throw new Error(loggingKey + 'args.paths must consist of strings or valid route specifications');
