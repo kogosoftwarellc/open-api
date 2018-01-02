@@ -144,8 +144,7 @@ function initialize(args) {
       }
       routes = routes.concat(fsRoutes(pathItem)
         .filter(function(fsRoutesItem) {
-          // Ignore spec and test files
-          return !/\.(?:spec|test)$/.test(fsRoutesItem.route);
+          return args.pathsIgnore ? !args.pathsIgnore.test(fsRoutesItem.route) : true;
         })
         .map(function(fsRoutesItem) {
           return { path: fsRoutesItem.route, module: require(fsRoutesItem.path) };

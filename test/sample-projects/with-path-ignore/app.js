@@ -12,11 +12,7 @@ openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
-  customFormats: {
-    foo: function(input) {
-      return input === 'foo';
-    }
-  }
+  pathsIgnore: new RegExp('\.(spec|test)$')
 });
 
 app.use(function(err, req, res, next) {

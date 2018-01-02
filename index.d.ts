@@ -270,6 +270,7 @@ export interface Args {
     app: express.Application
     routes?: string | string[]
     paths: string | string[] | OpenApi.RouteSpecification[]
+    pathsIgnore?: RegExp
     docsPath?: string
     errorMiddleware?: express.ErrorRequestHandler,
     errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
