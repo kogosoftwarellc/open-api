@@ -65,6 +65,7 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
     * [args.externalSchemas](#argsexternalschemas)
     * [args.pathSecurity](#argspathsecurity)
     * [args.paths](#argspaths)
+    * [args.pathsIgnore](#argspathsignore)
     * [args.securityHandlers](#argssecurityhandlers)
     * [args.validateApiDoc](#argsvalidateapidoc)
 * [Using with TypeScript](#using-with-typescript)
@@ -567,6 +568,23 @@ openapi.initialize({
   ]
   /*...*/
 });
+```
+
+#### args.pathsIgnore
+
+|Type|Required|Description|
+|----|--------|-----------|
+|RegExp|N|Paths matching this regular expression will be ignored.|
+
+A common use for this is to ignore spec or test files located in the same folder than the paths, like:
+
+```javascript
+openapi.initialize({
+  apiDoc: apiDoc,
+  app: app,
+  paths: './api-v1/paths',
+  pathsIgnore: new RegExp('\.(spec|test)$')
+})
 ```
 
 #### args.paths
