@@ -3,6 +3,7 @@
 module.exports = {
   swagger: '2.0',
 
+  host: "test-host",
   // all routes will now have /v3 prefixed.
   basePath: '/v3',
 
