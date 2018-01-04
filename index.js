@@ -303,6 +303,7 @@ function initialize(args) {
   if (exposeApiDocs) {
     // Swagger UI support
     app.get(basePath + docsPath, function(req, res) {
+      apiDoc.host = req.headers.host;
       apiDoc.basePath = req.baseUrl + basePath;
       res.status(200).json(apiDoc);
     });

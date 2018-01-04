@@ -1,4 +1,5 @@
 {
+  "host": "test-host",
   "basePath": "/v3",
   "definitions": {
     "Error": {

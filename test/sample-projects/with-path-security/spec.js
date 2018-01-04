@@ -34,6 +34,7 @@ describe('when pathSecurity matches the path', function() {
   it('should be added to the apiDoc', function(done) {
     request(app)
       .get('/v3/api-docs')
+      .set("Host", "test-host")
       .expect(200)
       .end(function(err, result) {
         expect(result.res.body).to.eql(require('./fixtures/expected-api-doc.json'));

@@ -1,5 +1,6 @@
 {
   "swagger": "2.0",
+  "host": "test-host",
   "basePath": "/v3",
   "info": {
     "title": "express-openapi sample project",
