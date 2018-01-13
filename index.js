@@ -117,6 +117,7 @@ function initialize(args) {
   var parameterDefinitions = apiDoc.parameters || {};
   var externalSchemas = args.externalSchemas || {};
   var securityHandlers = args.securityHandlers;
+  var promiseMode = !!args.promiseMode;
   var apiSecurityMiddleware = securityHandlers &&
                               apiDoc.security &&
                               apiDoc.securityDefinitions ?
@@ -279,6 +280,10 @@ function initialize(args) {
       middleware.push(operationHandler);
 
       optionallyAddQueryNormalizationMiddleware(middleware, methodParameters);
+
+      if (promiseMode) {
+        middleware = [].concat.apply([], middleware).map(toPromiseCompatibleMiddleware);
+      }
 
       var expressPath = basePath + '/' +
           route.substring(1).split('/').map(toExpressParams).join('/');
@@ -554,6 +559,18 @@ function toAbsolutePath(part) {
 
 function toExpressParams(part) {
   return part.replace(/\{([^}]+)}/g, ':$1');
+}
+
+function toPromiseCompatibleMiddleware(fn) {
+  if (typeof fn === 'function' && fn.name !== 'expressOpenapiPromiseMiddleware') {
+    return function expressOpenapiPromiseMiddleware(req, res, next) {
+      var potentialPromise = fn(req, res, next);
+      if (potentialPromise && typeof potentialPromise.catch === 'function') {
+        potentialPromise.catch(next);
+      }
+    };
+  }
+  return fn;
 }
 
 function withNoDuplicates(arr) {

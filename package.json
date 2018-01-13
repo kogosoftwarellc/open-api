@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/express-openapi#readme",
   "devDependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.14.2",
     "chai": "^3.5.0",
     "cors": "^2.7.1",

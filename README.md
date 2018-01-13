@@ -7,6 +7,8 @@
 * Extensively tested.
 * Unobtrusively opinionated.
 * Stays as close to `express` as possible.
+* Supports Promise based middleware and response handlers.
+  * See [args.promiseMode](#argspromisemode)
 * Leverages openapi parameter lists for parameter defaults, type coercion,
 and validation.
   * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
@@ -66,6 +68,7 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
     * [args.pathSecurity](#argspathsecurity)
     * [args.paths](#argspaths)
     * [args.pathsIgnore](#argspathsignore)
+    * [args.promiseMode](#argspromisemode)
     * [args.securityHandlers](#argssecurityhandlers)
     * [args.validateApiDoc](#argsvalidateapidoc)
 * [Using with TypeScript](#using-with-typescript)
@@ -570,23 +573,6 @@ openapi.initialize({
 });
 ```
 
-#### args.pathsIgnore
-
-|Type|Required|Description|
-|----|--------|-----------|
-|RegExp|N|Paths matching this regular expression will be ignored.|
-
-A common use for this is to ignore spec or test files located in the same folder than the paths, like:
-
-```javascript
-openapi.initialize({
-  apiDoc: apiDoc,
-  app: app,
-  paths: './api-v1/paths',
-  pathsIgnore: new RegExp('\.(spec|test)$')
-})
-```
-
 #### args.paths
 
 |Type|Required|Description|
@@ -698,6 +684,70 @@ function, or an array of business specific middleware + a method handler functio
 `express-openapi` will prepend middleware to this stack based on the parameters
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
+
+#### args.pathsIgnore
+
+|Type|Required|Description|
+|----|--------|-----------|
+|RegExp|N|Paths matching this regular expression will be ignored.|
+
+A common use for this is to ignore spec or test files located in the same folder than the paths, like:
+
+```javascript
+openapi.initialize({
+  apiDoc: apiDoc,
+  app: app,
+  paths: './api-v1/paths',
+  pathsIgnore: new RegExp('\.(spec|test)$')
+})
+```
+
+#### args.promiseMode
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Boolean|N|false|Allows middleware and path handlers to return promises.|
+
+The following would then be supported:
+
+```
+export default function(worldsService) {
+  const operations = {
+    GET,
+    PUT,
+  };
+
+  // If using node >= 7.6 you can use async/await.
+  async function GET(req, res) {
+    const worlds = await worldsService.getWorlds(req.query.worldName);
+    if (!worlds.length) {
+      throw {
+        status: 404,
+        message: 'No worlds were found',
+      };
+    }
+    res.status(200).json(worlds);
+  }
+
+  // For node < 7.6 you can use plain promises.
+  function PUT(req, res) {
+    return worldsService.getWorlds(req.query.worldName)
+      .then(function(worlds) {
+        if (!worlds.length) {
+          throw {
+            status: 404,
+            message: 'No worlds were found',
+          };
+        }
+        res.status(200).json(worlds);
+      });
+  }
+
+  /* apidocs removed for brevity's sake in this example. */
+
+  return operations;
+}
+```
 
 #### args.securityHandlers
 
