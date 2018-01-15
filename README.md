@@ -20,7 +20,8 @@ and validation.
   * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
 * Leverages security definitions for security management.
   * See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
-* Validates api documents.  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
+* Validates api documents.
+  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
 * Configurable Middleware.
   * See [Configuring Middleware](#configuring-middleware)
 * Supports custom `format` validators.
