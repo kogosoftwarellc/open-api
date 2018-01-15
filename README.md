@@ -7,6 +7,8 @@
 * Extensively tested.
 * Unobtrusively opinionated.
 * Stays as close to `express` as possible.
+* Write API documentation in JSON or Yaml
+  * See [args.apiDoc](#argsapidoc)
 * Supports Promise based middleware and response handlers.
   * See [args.promiseMode](#argspromisemode)
 * Leverages openapi parameter lists for parameter defaults, type coercion,
@@ -74,6 +76,7 @@ https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-proje
 * [Using with TypeScript](#using-with-typescript)
   * [Prerequisites](#prerequisites)
   * [TypeScript Example](#typescript-example)
+* [Supported Versions of Node](#supported-version-of-node)
 * [License](#license)
 
 ## What is OpenAPI?
@@ -127,6 +130,27 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     This is all that is required for our API's main apiDoc.  To see the full list of values
     and options for the main apiDoc you can view [The Schema](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schema).
 
+    **Note:** You can also use a YAML string instead of javascript objects e.g.
+
+    ```yaml
+    # ./api-v1/api-doc.yml
+    swagger: '2.0'
+    basePath: '/v1'
+    info:
+      title: 'A getting started API.'
+      version: '1.0.0'
+    definitions:
+      World:
+        type: 'object'
+        properties:
+          name:
+            description: 'The name of this world.'
+            type: 'string'
+        required:
+          - 'name'
+    paths: {}
+    ```
+
 1. Create path handlers.
 
     Our `paths` object was empty in the main apiDoc because `express-openapi` generates
@@ -146,6 +170,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
         res.status(200).json(worldsService.getWorlds(req.query.worldName));
       }
 
+      // NOTE: We could also use a YAML string here.
       GET.apiDoc = {
         summary: 'Returns worlds by name.',
         operationId: 'getWorlds',
@@ -232,6 +257,8 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     const app = express();
     openapi.initialize({
       app,
+      // NOTE: If using yaml it's necessary to use "fs" e.g.
+      // apiDoc: fs.readFilesync(path.resolve(__dirname, './api-v1/api-doc.yml'), 'utf8'),
       apiDoc: v1ApiDoc,
       dependencies: {
         worldsService: v1WorldsService
@@ -319,7 +346,7 @@ api.  An initialized api contains the following properties:
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Object|Y|This is an OpenAPI (swagger 2.0) compliant document.  See the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) for more details.|
+|Object or String|Y|This is an OpenAPI (swagger 2.0) compliant document.  See the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) for more details.|
 
 `args.apiDoc.paths` should be an empty object.  `express-openapi` will populate this
 for you.  This prevents you from defining your paths in 2 places.
@@ -328,6 +355,8 @@ for you.  This prevents you from defining your paths in 2 places.
 
 `args.apiDoc.definitions` will be used for de-referencing `$ref` properties in
 parameters.
+
+You may pass a javascript object or a YAML string.
 
 #### args.app
 
@@ -914,6 +943,11 @@ post.apiDoc = {
     /* ... */
 };
 ```
+
+## Supported Versions of Node
+
+* `node@<=0.12.x` => `express-openapi@<=1.3.x`
+* `node@>0.12.x` => `express-openapi@*`
 
 ## LICENSE
 ``````

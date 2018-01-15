@@ -12,6 +12,7 @@ var buildResponseValidationMiddleware = require('express-openapi-response-valida
 var buildSecurityMiddleware = require('express-openapi-security');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
+var jsYaml = require('js-yaml');
 var validateSchema = require('openapi-schema-validation').validate;
 var normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 var METHOD_ALIASES = {
@@ -67,8 +68,12 @@ function initialize(args) {
       !!args.validateApiDoc :
       true;
 
+  var originalApiDoc = handleYaml(args.apiDoc);
+  // Make a copy of the apiDoc that we can safely modify.
+  var apiDoc = copy(originalApiDoc);
+
   if (validateApiDoc) {
-    var apiDocValidation = validateSchema(args.apiDoc);
+    var apiDocValidation = validateSchema(apiDoc);
 
     if (apiDocValidation.errors.length) {
       console.error(loggingKey, 'Validating schema before populating paths');
@@ -104,9 +109,6 @@ function initialize(args) {
 
   var app = args.app;
   // Do not make modifications to this.
-  var originalApiDoc = args.apiDoc;
-  // Make a copy of the apiDoc that we can safely modify.
-  var apiDoc = copy(args.apiDoc);
   var docsPath = args.docsPath || '/api-docs';
   var basePath = apiDoc.basePath || '';
   var errorTransformer = args.errorTransformer;
@@ -184,7 +186,7 @@ function initialize(args) {
     Object.keys(pathModule).filter(byMethods).forEach(function(methodName) {
       // operationHandler may be an array or a function.
       var operationHandler = pathModule[methodName];
-      var operationDoc = getMethodDoc(operationHandler);
+      var operationDoc = handleYaml(getMethodDoc(operationHandler));
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
             pathModule, operationDoc));
       (operationDoc && operationDoc.tags || []).forEach(addOperationTagToApiDoc
@@ -481,6 +483,12 @@ function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
       return tuple[1];
     }
   }
+}
+
+function handleYaml(apiDoc) {
+  return typeof apiDoc === 'string' ?
+    jsYaml.safeLoad(apiDoc, {json: true}) :
+    apiDoc;
 }
 
 function optionallyAddQueryNormalizationMiddleware(middleware, methodParameters) {

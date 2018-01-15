@@ -266,7 +266,7 @@ export declare module OpenApi {
 }
 
 export interface Args {
-    apiDoc: OpenApi.ApiDefinition
+    apiDoc: OpenApi.ApiDefinition | string
     app: express.Application
     routes?: string | string[]
     paths: string | string[] | OpenApi.RouteSpecification[]
@@ -275,6 +275,7 @@ export interface Args {
     errorMiddleware?: express.ErrorRequestHandler,
     errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
     exposeApiDocs?: boolean
+    promiseMode?: boolean
     validateApiDoc?: boolean
     consumesMiddleware?: {[mimeType: string]: express.RequestHandler}
     customFormats?: CustomFormats
