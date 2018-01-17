@@ -186,7 +186,7 @@ function initialize(args) {
     Object.keys(pathModule).filter(byMethods).forEach(function(methodName) {
       // operationHandler may be an array or a function.
       var operationHandler = pathModule[methodName];
-      var operationDoc = handleYaml(getMethodDoc(operationHandler));
+      var operationDoc = handleYaml(getMethodDoc(operationHandler)) || pathItem[METHOD_ALIASES[methodName]];
       var middleware = [].concat(getAdditionalMiddleware(originalApiDoc, originalPathItem,
             pathModule, operationDoc));
       (operationDoc && operationDoc.tags || []).forEach(addOperationTagToApiDoc
