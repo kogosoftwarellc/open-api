@@ -126,7 +126,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     export default apiDoc;
     ```
 
-    You may be wondering why `paths` is an empty object literal.  We'll get to that in a second.
+    You may be wondering why `paths` can be an empty object literal.  We'll get to that in a second.
 
     This is all that is required for our API's main apiDoc.  To see the full list of values
     and options for the main apiDoc you can view [The Schema](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schema).
@@ -154,8 +154,8 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
 
 1. Create path handlers.
 
-    Our `paths` object was empty in the main apiDoc because `express-openapi` generates
-    it for us based on the location of our path handlers.  For this example we'll place
+    Our `paths` object was empty in the main apiDoc because `express-openapi` allows to
+    generate it for us based on the location of our path handlers.  For this example we'll place
     our path handlers under `api-v1/paths/`.
 
     Let's create a `worlds` path:
@@ -349,8 +349,9 @@ api.  An initialized api contains the following properties:
 |----|--------|-----------|
 |Object or String|Y|This is an OpenAPI (swagger 2.0) compliant document.  See the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) for more details.|
 
-`args.apiDoc.paths` should be an empty object.  `express-openapi` will populate this
-for you.  This prevents you from defining your paths in 2 places.
+`args.apiDoc.paths` can be an empty object. In that case `express-openapi` will populate this
+for you based on your operation level apiDocs.
+But it is also possible to have just [one central apiDoc](test/sample-projects/basic-usage-with-central-apiDoc).
 
 `args.apiDoc.basePath` will add a prefix to all paths added by `express-openapi`.
 
