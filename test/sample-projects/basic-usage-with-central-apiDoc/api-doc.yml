@@ -1,0 +1,124 @@
+swagger: '2.0'
+host: test-host
+basePath: /v3
+info:
+  title: express-openapi sample project
+  version: '3.0.0'
+definitions:
+  Error:
+    additionalProperties: true
+  User:
+    properties:
+      name:
+        type: string
+      friends:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+    required:
+      - name
+paths:
+  /users:
+    delete:
+      description: Delete users.
+      operationId: deleteUsers
+      tags:
+        - users
+      parameters: []
+      responses:
+        204:
+          description: Users were successfully deleted.
+          # 204 should not return a body so not defining a schema.  This adds an implicit
+          # schema of {"type": "null"}.
+
+    # showing that if parameters are empty, express-openapi adds no input middleware.
+    # response middleware is always added.
+    post:
+      description: Create a new user.
+      operationId: createUser
+      tags:
+        - users
+        - creating
+      parameters: []
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users/{id}:
+    # parameters for all operations in this path
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+        description: Fred's age.
+    get:
+      description: Retrieve a user.
+      operationId: getUser
+      tags:
+        - users
+        - fooey
+      parameters:
+        - name: name
+          in: query
+          type: string
+          pattern: '^fred$'
+          description: The name of this person.  It may only be "fred".
+        # showing that operation parameters override path parameters
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Fred's age.
+        - name: age
+          in: query
+          type: integer
+          description: Fred's age.
+          default: 80
+      responses:
+        200:
+          description: Requested user
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Create a user.
+      operationId: createUser
+      tags:
+        - users
+      parameters:
+        - name: user
+          in: body
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /apiDocs:
+    get:
+      operationId: getApiDoc
+      description: Returns the requested apiDoc
+      parameters:
+        - description: The type of apiDoc to return.
+          in: query
+          name: type
+          type: string
+          enum:
+            - apiDoc
+            - operationDoc
+      responses:
+        200:
+          description: The requested apiDoc.
+          schema:
+            type: object
+        default:
+          description: The requested apiDoc.
+tags:
+  - description: Everything users
+    name: users
