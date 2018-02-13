@@ -177,9 +177,13 @@ function initialize(args) {
     // Do not make modifications to this.
     var originalPathItem = originalApiDoc.paths[openapiPath] || {};
     var pathItem = apiDoc.paths[openapiPath] || {};
-    var pathParameters = Array.isArray(pathModule.parameters) ?
-        [].concat(pathModule.parameters) :
-        [];
+    var pathParameters = pathItem.parameters || [];
+
+    // push all parameters defined in the path module to the path parameter list
+    if (Array.isArray(pathModule.parameters)) {
+      Array.prototype.push.apply(pathParameters, pathModule.parameters);
+    }
+
     pathItem.parameters = pathParameters;
     apiDoc.paths[openapiPath] = pathItem;
 
