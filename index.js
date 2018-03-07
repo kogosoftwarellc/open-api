@@ -181,7 +181,7 @@ function initialize(args) {
 
     // push all parameters defined in the path module to the path parameter list
     if (Array.isArray(pathModule.parameters)) {
-      Array.prototype.push.apply(pathParameters, pathModule.parameters);
+      [].push.apply(pathParameters, pathModule.parameters);
     }
 
     pathItem.parameters = pathParameters;
