@@ -154,9 +154,9 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
 
 1. Create path handlers.
 
-    Our `paths` object was empty in the main apiDoc because `express-openapi` allows to
-    generate it for us based on the location of our path handlers.  For this example we'll place
-    our path handlers under `api-v1/paths/`.
+    Our `paths` object was empty in the main apiDoc because `express-openapi` will generate it for us
+    based on the location of our path handlers.
+    For this example we'll place our path handlers under `api-v1/paths/`.
 
     Let's create a `worlds` path:
 
@@ -351,7 +351,7 @@ api.  An initialized api contains the following properties:
 
 `args.apiDoc.paths` can be an empty object. In that case `express-openapi` will populate this
 for you based on your operation level apiDocs.
-But it is also possible to have just [one central apiDoc](test/sample-projects/basic-usage-with-central-apiDoc).
+It is also possible to have just [one central apiDoc](test/sample-projects/basic-usage-with-central-apiDoc).
 
 `args.apiDoc.basePath` will add a prefix to all paths added by `express-openapi`.
 
