@@ -6,7 +6,7 @@ before(function() {
   app = require('./app.js');
 });
 
-describe('with trailing slash in basePath', () => {
+describe('with trailing slash in basePath', function() {
   it('should expose api docs', function(done) {
     request(app)
       .get('/v3/api-docs')
