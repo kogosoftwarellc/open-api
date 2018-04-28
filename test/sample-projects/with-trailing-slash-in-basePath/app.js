@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 openapi.initialize({
-  apiDoc: fs.readFileSync(path.resolve(__dirname, './api-doc.yml'), 'utf8'),
+  apiDoc: require('./api-doc'),
   app: app,
   promiseMode: true,
   paths: path.resolve(__dirname, 'api-routes')
