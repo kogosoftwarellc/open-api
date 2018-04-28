@@ -24,6 +24,9 @@
         }
       }
     },
+    "/coo": {
+      "parameters": []
+    },
     "/foo": {
       "parameters": [],
       "get": {
