@@ -16,12 +16,7 @@ describe('with trailing slash in basePath', function() {
 
   it('should expose routes', function(done) {
     request(app)
-      .post('/v3/users')
-      .send({name: 'fred'})
-      .expect(400)
-      .end(function(err, res) {
-        expect(res.body).to.eql('something was missing');
-        done(err);
-      });
+      .get('/v3/users')
+      .expect(200, [{name: 'fred'}], done);
   });
 });
