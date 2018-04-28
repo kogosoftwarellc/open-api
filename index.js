@@ -110,7 +110,7 @@ function initialize(args) {
   var app = args.app;
   // Do not make modifications to this.
   var docsPath = args.docsPath || '/api-docs';
-  var basePath = apiDoc.basePath || '';
+  var basePath = (apiDoc.basePath || '').replace(/\/$/, '');
   var errorTransformer = args.errorTransformer;
   var customFormats = args.customFormats;
   var consumesMiddleware = args.consumesMiddleware;
