@@ -133,6 +133,9 @@ function initialize(args) {
   pathSecurity.forEach(assertRegExpAndSecurity);
 
   var injectDependencies = args.dependencies ? function (handlers) {
+    if (typeof handlers !== 'function') {
+      return handlers;
+    }
     return dependencyInjection(args.dependencies, handlers);
   } : function (handlers) {
     return handlers;
