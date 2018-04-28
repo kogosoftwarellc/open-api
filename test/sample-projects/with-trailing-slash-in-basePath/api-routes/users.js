@@ -28,16 +28,17 @@ module.exports = {
   }
 };
 
-module.exports.post.apiDoc = `
-  description: 'Create a new user.'
-  operationId: 'createUser'
-  tags:
-    - 'users'
-    - 'creating'
-  parameters: []
-  responses:
-    default:
-      description: 'Unexpected error'
-      schema:
+module.exports.post.apiDoc = {
+  description: 'Create a new user.',
+  operationId: 'createUser',
+  tags: [ 'users', 'creating' ],
+  parameters: [],
+  responses: {
+    default: {
+      description: 'Unexpected error',
+      schema: {
         $ref: '#/definitions/Error'
-`;
+      }
+    }
+  }
+};
