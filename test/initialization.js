@@ -29,8 +29,6 @@ describe(require('../package.json').name, function() {
         ['args.errorTransformer', {app: {}, apiDoc: validDocument, paths: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
         ['args.externalSchemas', {app: {}, apiDoc: validDocument, paths: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
         ['args.securityHandlers', {app: {}, apiDoc: validDocument, paths: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be an object when given/],
-        ['args.dependencies wrong type', {app: {}, dependencies: "foo", apiDoc: validDocument, paths: path.resolve(__dirname,"./sample-projects/with-routes-dependency-injection-object2/api-routes")}, /express-openapi: args.dependencies must be an object when given/],
-        ['args.dependencies wrong signature', {app: {}, dependencies: {iaminjected: {}}, apiDoc: validDocument, paths: path.resolve(__dirname,"./sample-projects/with-routes-dependency-injection-object2/api-routes")}, /express-openapi: a route function signature contains a parameter that was not found in args.dependencies/],
       ].forEach(function(test) {
         var description = test[0];
         var args = test[1];
