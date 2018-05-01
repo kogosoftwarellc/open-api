@@ -12,6 +12,7 @@ var buildResponseValidationMiddleware = require('express-openapi-response-valida
 var buildSecurityMiddleware = require('express-openapi-security');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
+var difunc = require('difunc');
 var validateSchema = require('openapi-schema-validation').validate;
 var normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 var METHOD_ALIASES = {
@@ -134,7 +135,7 @@ function initialize(args) {
     if (typeof handlers !== 'function') {
       return handlers;
     }
-    return dependencyInjection(args.dependencies, handlers);
+    return difunc(args.dependencies, handlers);
   } : function (handlers) {
     return handlers;
   };
@@ -596,29 +597,4 @@ function withNoDuplicates(arr) {
   }
 
   return parameters;
-}
-
-//http://stackoverflow.com/questions/1007981/how-to-get-function-parameter-names-values-dynamically-from-javascript
-var _DI_STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-var _DI_ARGUMENT_NAMES = /([^\s,]+)/g;
-function getParamNames(func) {
-  var fnStr = func.toString().replace(_DI_STRIP_COMMENTS, '');
-  var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(_DI_ARGUMENT_NAMES);
-  return result||[];
-}
-
-function dependencyInjection(dependencies, handler) {
-
-  if (typeof(dependencies) === "object") {
-    return handler.apply(null, getParamNames(handler).map(function (param) {
-      var dep = dependencies[param];
-      if(!dep){
-        throw new Error('express-openapi: a route function signature contains a parameter that was not found in args.dependencies: ' + param);
-      }
-      return dep;
-    }));
-  }
-
-  throw new Error('express-openapi: args.dependencies must be an object when given');
-
 }
