@@ -282,6 +282,7 @@ export interface Args {
     externalSchemas?: {[url:string]: any}
     pathSecurity?: PathSecurityTuple[]
     securityHandlers?: SecurityHandlers
+    securityFilter?: express.RequestHandler
     dependencies?: {[service:string]: any}
 }
 

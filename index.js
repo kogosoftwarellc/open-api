@@ -108,6 +108,11 @@ function initialize(args) {
         'args.securityHandlers must be an object when given');
   }
 
+  if ('securityFilter' in args && typeof args.securityFilter !== 'function') {
+    throw new Error(loggingKey +
+        'args.securityFilter must be a function when given');
+  }
+
   var app = args.app;
   // Do not make modifications to this.
   var docsPath = args.docsPath || '/api-docs';
@@ -130,6 +135,13 @@ function initialize(args) {
   var pathSecurity = Array.isArray(args.pathSecurity) ?
       args.pathSecurity :
       [];
+  var securityFilter = args.securityFilter ? (
+    args.promiseMode ?
+      toPromiseCompatibleMiddleware(args.securityFilter) :
+      args.securityFilter
+  ) : function(req, res, next) {
+    res.status(200).json(req.apiDoc);
+  };
 
   pathSecurity.forEach(assertRegExpAndSecurity);
 
@@ -317,10 +329,11 @@ function initialize(args) {
 
   if (exposeApiDocs) {
     // Swagger UI support
-    app.get(basePath + docsPath, function(req, res) {
-      apiDoc.host = req.headers.host;
-      apiDoc.basePath = req.baseUrl + basePath;
-      res.status(200).json(apiDoc);
+    app.get(basePath + docsPath, function(req, res, next) {
+      req.apiDoc = copy(apiDoc);
+      req.apiDoc.host = req.headers.host;
+      req.apiDoc.basePath = req.baseUrl + basePath;
+      securityFilter(req, res, next);
     });
   }
 

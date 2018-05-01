@@ -11,6 +11,8 @@
   * See [args.apiDoc](#argsapidoc)
 * Supports Promise based middleware and response handlers.
   * See [args.promiseMode](#argspromisemode)
+* Supports Security Filtering
+  * See [args.securityFilter](#argssecurityfilter)
 * Leverages openapi parameter lists for parameter defaults, type coercion,
 and validation.
   * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
@@ -778,6 +780,31 @@ export default function(worldsService) {
 
   return operations;
 }
+```
+
+#### args.securityFilter
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Function|N|null|Request handler for the api doc route.|
+
+`req.apiDoc` will be set to a copy of the generated api doc and the securityFilter is
+free to modify it.  This is useful if you're implementing [Security Filtering](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#security-filtering).
+
+**Note:** You must end the request inside the filter.
+
+```js
+openapi.initialize({
+  /* ... */
+  promiseMode: true,
+  securityFilter: async (req, res) => {
+    // do something, use await, whatever
+    if (!req.user) {
+      // only show paths to logged in users.
+      req.apiDoc.paths = {};
+    }
+    res.status(200).json(req.apiDoc);
+  }
+});
 ```
 
 #### args.securityHandlers

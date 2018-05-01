@@ -55,11 +55,13 @@ it('should use path parameters', function(done) {
 });
 
 it('should add apiDoc to req', function(done) {
+  var apiDocCopy = JSON.parse(JSON.stringify(expectedApiDoc));
+  delete apiDocCopy.host;
   request(app)
     .get('/v3/apiDocs?type=apiDoc')
     .expect(200)
     .end(function(err, result) {
-      expect(result.res.body).to.eql(expectedApiDoc);
+      expect(result.res.body).to.eql(apiDocCopy);
       done(err);
     });
 });
