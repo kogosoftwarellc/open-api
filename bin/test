@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export PATH="$PWD/node_modules/.bin:$PATH"
 for package in `ls packages`;do
   pushd "packages/$package" > /dev/null
   npm i

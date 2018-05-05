@@ -11,3 +11,5 @@ notifications:
     on_success: "never"
 script:
   - "./bin/test"
+  - "npm run combine-coverage"
+  - "npm run coveralls"

@@ -1,0 +1,39 @@
+{
+  "name": "@open-api/open-api",
+  "version": "0.0.0",
+  "description": "Various packages to build OpenAPI APIs in node",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "combine-coverage": "istanbul-combine packages/*/coverage/coverage.json",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kogosoftwarellc/open-api.git"
+  },
+  "keywords": [
+    "openapi",
+    "tools"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/open-api/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/open-api#readme",
+  "devDependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.14.2",
+    "chai": "^3.5.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "glob": "^6.0.3",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4",
+    "supertest": "^1.1.0",
+    "coveralls": "^3.0.1",
+    "istanbul-combine": "^0.3.0"
+  }
+}

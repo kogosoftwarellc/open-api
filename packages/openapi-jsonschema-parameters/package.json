@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "Converts openapi parameters to a jsonschema format.",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js && cat ./coverage/lcov.info | coveralls -v",
+    "cover": "istanbul cover _mocha -- ./test/*.js",
     "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
     "test": "mocha ./test/*.js",
     "travis-test": "npm run cover"
@@ -27,7 +27,6 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters#readme",
   "devDependencies": {
     "chai": "^3.4.1",
-    "coveralls": "^2.11.6",
     "glob": "^6.0.3",
     "istanbul": "^0.4.1",
     "mocha": "^2.3.4"
