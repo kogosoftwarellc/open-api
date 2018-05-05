@@ -1,0 +1,18 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/express-openapi-coercion/package.json",
+        "packages/express-openapi-defaults/package.json",
+        "packages/express-openapi-response-validation/package.json",
+        "packages/express-openapi-security/package.json",
+        "packages/express-openapi-validation/package.json",
+        "packages/express-openapi/package.json",
+        "packages/fetch-openapi/package.json",
+        "packages/openapi-jsonschema-parameters/package.json",
+        "packages/openapi-schema-validation/package.json"
+      ]
+    }
+  }
+}
