@@ -3,6 +3,7 @@
 
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
+* [fetch-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi)
 * [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters)
 
 ## LICENSE

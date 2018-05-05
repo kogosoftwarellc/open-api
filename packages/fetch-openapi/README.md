@@ -103,11 +103,11 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/fetch-openapi
 [npm-image]: http://img.shields.io/npm/v/fetch-openapi.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/fetch-openapi
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/fetch-openapi.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/fetch-openapi
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/fetch-openapi/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
 
-[gitter-url]: https://gitter.im/kogosoftwarellc/fetch-openapi
-[gitter-image]: https://badges.gitter.im/kogosoftwarellc/fetch-openapi.png
+[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
+[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
