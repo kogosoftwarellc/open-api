@@ -2,7 +2,8 @@
 > Various packages to build OpenAPI APIs in node.
 
 ## Packages
-* [express-openapi](https://github.com/kogosoftwarellc/open-api/packages/express-openapi)
+* [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
+* [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters)
 
 ## LICENSE
 
