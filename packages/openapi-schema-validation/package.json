@@ -1,0 +1,38 @@
+{
+  "name": "openapi-schema-validation",
+  "version": "0.3.0",
+  "description": "Validate openapi documents.",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
+    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
+    "test": "mocha ./test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kogosoftwarellc/openapi-schema-validation.git"
+  },
+  "keywords": [
+    "openapi",
+    "schema",
+    "validation"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/openapi-schema-validation/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/openapi-schema-validation#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "glob": "^6.0.3",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4"
+  },
+  "dependencies": {
+    "jsonschema": "1.0.2",
+    "jsonschema-draft4": "^1.0.0",
+    "swagger-schema-official": "2.0.0-bab6bed"
+  }
+}
