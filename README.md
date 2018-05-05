@@ -1,4 +1,6 @@
 # @open-api [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/kogosoftwarellc/open-api.svg)](https://greenkeeper.io/)
 > Various packages to build OpenAPI APIs in node.
 
 ## Packages
