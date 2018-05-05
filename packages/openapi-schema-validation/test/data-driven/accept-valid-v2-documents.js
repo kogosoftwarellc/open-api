@@ -1,5 +1,6 @@
 module.exports = {
-  validator: 2,
+  // it should default to 2
+  validator: null,
   apiDoc: {
     swagger: '2.0',
     info: {

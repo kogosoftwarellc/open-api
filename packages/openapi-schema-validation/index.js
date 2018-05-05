@@ -24,6 +24,6 @@ module.exports = {
  * @returns {object} results from the validator
  */
 function validate(openapiDoc, version) {
-  version = typeof version === "number" ? version : 2; // default to swagger 2.0 validation
-  return v.validate(openapiDoc, version === 2 || version === 2.0 ? swagger2Schema : swagger3Schema);
+  version = parseInt(version, 10) || 2; // default to swagger 2.0 validation
+  return v.validate(openapiDoc, version === 2 ? swagger2Schema : swagger3Schema);
 }
