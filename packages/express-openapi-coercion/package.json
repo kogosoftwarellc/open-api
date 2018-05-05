@@ -1,0 +1,39 @@
+{
+  "name": "express-openapi-coercion",
+  "version": "0.5.0",
+  "description": "Express middleware to coerce request properties according to an openapi parameter list.",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
+    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
+    "test": "mocha ./test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kogosoftwarellc/express-openapi-coercion.git"
+  },
+  "keywords": [
+    "openapi",
+    "coercion",
+    "jsonschema",
+    "express",
+    "middleware"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/express-openapi-coercion/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/express-openapi-coercion#readme",
+  "devDependencies": {
+    "body-parser": "^1.15.0",
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "express": "^4.13.3",
+    "glob": "^6.0.3",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4",
+    "supertest": "^1.1.0"
+  },
+  "dependencies": {}
+}
