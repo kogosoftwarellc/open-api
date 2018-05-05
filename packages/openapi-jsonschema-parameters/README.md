@@ -109,8 +109,8 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/openapi-jsonschema-parameters
 [npm-image]: http://img.shields.io/npm/v/openapi-jsonschema-parameters.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/openapi-jsonschema-parameters
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/openapi-jsonschema-parameters.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/openapi-jsonschema-parameters
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/openapi-jsonschema-parameters/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
