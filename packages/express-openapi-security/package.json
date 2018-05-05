@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security#readme",
   "dependencies": {
-    "async": "^1.5.2"
+    "async": "^2.6.0"
   }
 }
