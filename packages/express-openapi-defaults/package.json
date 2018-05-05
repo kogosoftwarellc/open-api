@@ -1,0 +1,37 @@
+{
+  "name": "express-openapi-defaults",
+  "version": "0.4.2",
+  "description": "Express middelware to set openapi parameter defaults in request properties.",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
+    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
+    "test": "mocha ./test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kogosoftwarellc/express-openapi-defaults.git"
+  },
+  "keywords": [
+    "openapi",
+    "defaults",
+    "express",
+    "middleware"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/express-openapi-defaults/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/express-openapi-defaults#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "express": "^4.13.3",
+    "glob": "^6.0.3",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4",
+    "supertest": "^1.1.0"
+  },
+  "dependencies": {}
+}
