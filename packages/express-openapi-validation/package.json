@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation#readme",
   "dependencies": {
-    "jsonschema": "^1.1.0",
-    "openapi-jsonschema-parameters": "^0.2.0"
+    "jsonschema": "1.2.4",
+    "openapi-jsonschema-parameters": "^0.3.1"
   }
 }
