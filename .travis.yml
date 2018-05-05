@@ -10,7 +10,4 @@ notifications:
   email:
     on_success: "never"
 script:
-  - "cd packages/express-openapi"
-  - "npm i"
-  - "npm run cover"
-  - "npm run coveralls"
+  - "./bin/test"

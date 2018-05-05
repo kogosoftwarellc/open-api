@@ -6,7 +6,8 @@
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
     "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js"
+    "test": "mocha ./test/*.js",
+    "travis-test": "npm run cover && npm run coveralls"
   },
   "repository": {
     "type": "git",

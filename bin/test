@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for package in `ls packages`;do
+  pushd "packages/$package" > /dev/null
+  npm i
+  npm run travis-test
+  popd > /dev/null
+done
