@@ -35,6 +35,6 @@
     "glob": "*",
     "is-dir": "^1.0.0",
     "js-yaml": "^3.10.0",
-    "openapi-schema-validation": "^0.2.0"
+    "openapi-schema-validation": "^0.4.0"
   }
 }
