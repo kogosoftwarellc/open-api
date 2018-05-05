@@ -1006,3 +1006,12 @@ THE SOFTWARE.
 [downloads-image]: http://img.shields.io/npm/dm/express-openapi.svg
 [npm-url]: https://npmjs.org/package/express-openapi
 [npm-image]: http://img.shields.io/npm/v/express-openapi.svg
+
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
+
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
+
+[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
+[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
