@@ -128,8 +128,8 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/express-openapi-validation
 [npm-image]: http://img.shields.io/npm/v/express-openapi-validation.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/express-openapi-validation
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/express-openapi-validation.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/express-openapi-validation
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/express-openapi-validation/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
