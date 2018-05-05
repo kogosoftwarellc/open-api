@@ -8,12 +8,12 @@ If validation errors occur, `next` is called with `{status: 400, errors: [<valid
 * Performant.
 * Extensively tested.
 * Small footprint.
-* Does not validate parameter input.  Converts parameter input to jsonschema using [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/openapi-jsonschema-parameters).
+* Does not validate parameter input.  Converts parameter input to jsonschema using [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters).
 * Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
 * Supports `$ref` in body schemas i.e. `#/definitions/SomeType`.
-* Does not supply default values (use [express-openapi-defaults](http://github.com/kogosoftwarellc/express-openapi-defaults)).
-* Does not handle type coercion (use [express-openapi-coercion](http://github.com/kogosoftwarellc/express-openapi-coercion)).
+* Does not supply default values (use [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)).
+* Does not handle type coercion (use [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)).
 
 ## Example
 

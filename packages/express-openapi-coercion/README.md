@@ -41,7 +41,7 @@ By default a boolean parameter is coerced to:
 * _false_ if the input value is "false"
 * _true_ for any other input value
 
-This behaviour is makes sense if you do not wish to validate the input fields. 
+This behaviour is makes sense if you do not wish to validate the input fields.
 
 If the opposite is the case, the behaviour can be changed by setting the "x-express-openapi-coercion-strict" to _true_ on the parameter in question as illustrated below.
 
@@ -101,8 +101,8 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/express-openapi-coercion
 [npm-image]: http://img.shields.io/npm/v/express-openapi-coercion.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/express-openapi-coercion
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/express-openapi-coercion.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/express-openapi-coercion
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/express-openapi-coercion/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg

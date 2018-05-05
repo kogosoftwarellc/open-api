@@ -15,15 +15,15 @@
   * See [args.securityFilter](#argssecurityfilter)
 * Leverages openapi parameter lists for parameter defaults, type coercion,
 and validation.
-  * See [express-openapi-defaults](https://github.com/kogosoftwarellc/express-openapi-defaults)
-  * See [express-openapi-coercion](https://github.com/kogosoftwarellc/express-openapi-coercion)
-  * See [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)
+  * See [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)
+  * See [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)
+  * See [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
 * Leverages OpenAPI response definitions to provide `res.validateResponse` tailored to a particular route.
-  * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation)
+  * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation)
 * Leverages security definitions for security management.
-  * See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
+  * See [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 * Validates api documents.
-  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/openapi-schema-validation)
+  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validation)
 * Configurable Middleware.
   * See [Configuring Middleware](#configuring-middleware)
 * Supports custom `format` validators.
@@ -37,14 +37,14 @@ and validation.
 * Adds a route for Swagger UI (`apiDoc.basePath` + `args.docsPath`).
 * Adds operation tags to your apiDoc.tags array and sorts them alphabetically for you.
   * See how it's done in the [basic-usage](
-https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects/basic-usage/api-doc.js#L37)
+https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects/basic-usage/api-doc.js#L37)
     sample project.
 * Supports TypeScript
   * See [Using with TypeScript](#using-with-typescript)
 * Supports external schema references
   * See [args.externalSchemas](#argsexternalschemas)
 * Client SDK generators available.
-  * See [fetch-openapi](https://github.com/kogosoftwarellc/fetch-openapi).
+  * See [fetch-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi).
 * Adds `apiDoc` and `operationDoc` to requests E.G. `req.apiDoc` and `req.operationDoc`
 * Handles request payloads with `consumes` mimeTypes.
   * See [args.consumesMiddleware](#argsconsumesmiddleware)
@@ -272,7 +272,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     app.listen(3000);
     ```
 Our paths are now active and we can test them out with [Swagger UI](http://petstore.swagger.io/).  This getting started guide
-didn't cover everything.  For more examples see the [sample projects](https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects) used in our
+didn't cover everything.  For more examples see the [sample projects](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects) used in our
 extensive test suite.
 
 ## Vendor extensions
@@ -312,7 +312,7 @@ if you use one as a root property of your API Document, all paths and operations
 be affected.  Similarly if you just want to configure middleware for an operation,
 you can use these properties in said operation's apiDoc.  See full examples in the
 [./test/sample-projects/](
-https://github.com/kogosoftwarellc/express-openapi/tree/master/test/sample-projects)
+https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects)
 directory.
 
 
@@ -515,7 +515,7 @@ openapi.initialize({
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer) and [express-openapi-response-validation](https://github.com/kogosoftwarellc/express-openapi-response-validation) for more info.|
+|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation#argserrortransformer) and [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation) for more info.|
 
 #### args.exposeApiDocs
 
@@ -881,7 +881,7 @@ post.apiDoc = {
 };
 ```
 
-See [express-openapi-security](https://github.com/kogosoftwarellc/express-openapi-security)
+See [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 for more details.
 
 #### args.validateApiDoc

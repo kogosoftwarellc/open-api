@@ -1,9 +1,8 @@
-/.git/
-/dist/
-/bower_components/
-/example/
-/coverage/
-/node_modules/
+dist/
+bower_components/
+example/
+coverage/
+node_modules/
 .gitignore
 .jshint*
 .travis.yml

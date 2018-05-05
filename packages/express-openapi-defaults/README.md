@@ -10,8 +10,8 @@ value.
 * Extensively tested.
 * Small footprint.
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
-* Does not perform type coercion (see [express-openapi-coercion](https://github.com/kogosoftwarellc/express-openapi-coercion)).
-* Does not perform validation (see [express-openapi-validation](https://github.com/kogosoftwarellc/express-openapi-validation)).
+* Does not perform type coercion (see [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)).
+* Does not perform validation (see [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)).
 
 ## Example
 
@@ -72,8 +72,8 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/express-openapi-defaults
 [npm-image]: http://img.shields.io/npm/v/express-openapi-defaults.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/express-openapi-defaults
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/express-openapi-defaults.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/express-openapi-defaults
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/express-openapi-defaults/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
