@@ -4,7 +4,7 @@
 > Various packages to build OpenAPI APIs in node.
 
 ## Packages
-* [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) [![NPM version][http://img.shields.io/npm/v/express-openapi.svg]][https://npmjs.org/package/express-openapi] [![Downloads][http://img.shields.io/npm/dm/express-openapi.svg]][https://npmjs.org/package/express-openapi]
+* [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) [![NPM version][express-openapi-npm-image]][express-openapi-npm-url] [![Downloads][express-openapi-downloads-image]][express-openapi-npm-url]
 * [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)
 * [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)
 * [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation)
@@ -48,3 +48,15 @@ THE SOFTWARE.
 
 [gitter-url]: https://gitter.im/kogosoftwarellc/open-api
 [gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
+
+[express-openapi-downloads-image]: http://img.shields.io/npm/dm/express-openapi.svg
+[express-openapi-npm-url]: https://npmjs.org/package/express-openapi
+[express-openapi-npm-image]: http://img.shields.io/npm/v/express-openapi.svg
+
+
+
+
+
+
+
+
