@@ -3,8 +3,8 @@
 
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) [![NPM version][express-openapi-npm-image]][express-openapi-npm-url] [![Downloads][express-openapi-downloads-image]][express-openapi-npm-url]
-* [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)
-* [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)
+* [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion) [![NPM version][express-openapi-coercion-npm-image]][express-openapi-coercion-npm-url] [![Downloads][express-openapi-coercion-downloads-image]][express-openapi-coercion-npm-url]
+* [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults) [![NPM version][express-openapi-defaults-npm-image]][express-openapi-defaults-npm-url] [![Downloads][express-openapi-defaults-downloads-image]][express-openapi-defaults-npm-url]
 * [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation)
 * [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 * [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
@@ -50,6 +50,14 @@ THE SOFTWARE.
 [express-openapi-downloads-image]: http://img.shields.io/npm/dm/express-openapi.svg
 [express-openapi-npm-url]: https://npmjs.org/package/express-openapi
 [express-openapi-npm-image]: http://img.shields.io/npm/v/express-openapi.svg
+
+[express-openapi-coercion-downloads-image]: http://img.shields.io/npm/dm/express-openapi-coercion.svg
+[express-openapi-coercion-npm-url]: https://npmjs.org/package/express-openapi-coercion
+[express-openapi-coercion-npm-image]: http://img.shields.io/npm/v/express-openapi-coercion.svg
+
+[express-openapi-defaults-downloads-image]: http://img.shields.io/npm/dm/express-openapi-defaults.svg
+[express-openapi-defaults-npm-url]: https://npmjs.org/package/express-openapi-defaults
+[express-openapi-defaults-npm-image]: http://img.shields.io/npm/v/express-openapi-defaults.svg
 
 
 
