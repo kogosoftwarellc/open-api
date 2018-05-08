@@ -21,6 +21,10 @@ function assertRoutes(routes) {
     {
       path: __dirname + '/test-dir/users/:id.js',
       route: '/users/:id'
+    },
+    {
+      path: __dirname + '/test-dir/users/index.js',
+      route: '/users/'
     }
   ];
 

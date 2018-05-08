@@ -37,7 +37,7 @@ function fsRoutes(dir) {
     memo[dir] = glob.sync('**/*.js', {cwd: dir}).sort(compare).map(function(file) {
       return {
         path: path.resolve(dir, file),
-        route: '/' + file.replace(/\.js$/, '')
+        route: '/' + file.replace(/(?:index)?\.js$/, '')
       };
     });
   }

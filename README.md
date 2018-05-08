@@ -20,6 +20,7 @@ routes/
       |
       `users/
             `:id.js
+            `index.js
 ```
 
 when passed to `fs-routes`
@@ -41,6 +42,10 @@ var output = [
   {
     path: '/my/project/path/routes/users/:id.js',
     route: '/users/:id'
+  },
+  {
+    path: '/my/project/path/routes/users/index.js',
+    route: '/users/'
   }
 ];
 ```
