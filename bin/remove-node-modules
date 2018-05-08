@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export PATH="$PWD/node_modules/.bin:$PATH"
+
+function remove_node_modules() {
+  pushd "$1" > /dev/null
+  rm -rf node_modules
+  popd > /dev/null
+}
+
+if [[ -n "$1" ]]; then
+  remove_node_modules "$1"
+else
+  for package in `ls packages`;do
+    remove_node_modules "packages/$package"
+  done
+fi
