@@ -24,11 +24,5 @@
   "bugs": {
     "url": "https://github.com/kogosoftwarellc/open-api/issues"
   },
-  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters#readme",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "glob": "^7.1.2",
-    "istanbul": "^0.4.1",
-    "mocha": "^5.1.1"
-  }
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters#readme"
 }
