@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export PATH="$PWD/node_modules/.bin:$PATH"
+
+args="$@"
+
+function run_in_package() {
+  pushd "$1" > /dev/null
+  $args
+  popd > /dev/null
+}
+
+for package in `ls packages`;do
+  run_in_package "packages/$package"
+done

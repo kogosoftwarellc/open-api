@@ -1,6 +1,6 @@
 {
   "name": "openapi-schema-validation",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Validate openapi documents.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
@@ -8,10 +8,7 @@
     "test": "mocha ./test/*.js",
     "travis-test": "npm run cover"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kogosoftwarellc/open-api.git"
-  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validation",
   "keywords": [
     "openapi",
     "schema",

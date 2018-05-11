@@ -1,6 +1,6 @@
 {
   "name": "express-openapi-validation",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Express middleware for openapi parameter validation.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
@@ -8,10 +8,7 @@
     "test": "mocha ./test/*.js",
     "travis-test": "npm run cover"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kogosoftwarellc/open-api.git"
-  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation",
   "keywords": [
     "openapi",
     "validation",

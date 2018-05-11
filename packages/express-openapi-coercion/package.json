@@ -1,6 +1,6 @@
 {
   "name": "express-openapi-coercion",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Express middleware to coerce request properties according to an openapi parameter list.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
@@ -8,10 +8,7 @@
     "test": "mocha ./test/*.js",
     "travis-test": "npm run cover"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kogosoftwarellc/open-api.git"
-  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion",
   "keywords": [
     "openapi",
     "coercion",

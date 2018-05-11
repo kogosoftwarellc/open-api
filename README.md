@@ -2,9 +2,9 @@
 > Various packages to build OpenAPI APIs in node.
 
 ## Packages
-* [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) [![NPM version][express-openapi-npm-image]][express-openapi-npm-url] [![Downloads][express-openapi-downloads-image]][express-openapi-npm-url]
-* [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion) [![NPM version][express-openapi-coercion-npm-image]][express-openapi-coercion-npm-url] [![Downloads][express-openapi-coercion-downloads-image]][express-openapi-coercion-npm-url]
-* [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults) [![NPM version][express-openapi-defaults-npm-image]][express-openapi-defaults-npm-url] [![Downloads][express-openapi-defaults-downloads-image]][express-openapi-defaults-npm-url]
+* [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
+* [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)
+* [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)
 * [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation)
 * [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 * [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
