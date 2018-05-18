@@ -388,6 +388,29 @@ openapi.initialize({
 });
 ```
 
+By adding a middleware handler for 'multipart/form-data' file uploads can be processed. For example, using [multer](https://github.com/expressjs/multer):
+
+```javascript
+var multer = require('multer');
+openapi.initialize({
+  /*...*/
+  consumesMiddleware: {
+    'multipart/form-data': function(req, res, next) {
+      multer().any()(req, res, function(err) {
+        if (err) return next(err);
+        req.files.forEach(function(f) {
+          req.body[f.fieldname] = f;
+        });
+        return next();
+      });
+    }
+  }
+  /*...*/
+});
+```
+
+All file parameters will now be available to be destructured from `req.body`
+
 #### args.customFormats
 
 |Type|Required|Default Value|Description|
