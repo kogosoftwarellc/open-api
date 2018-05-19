@@ -54,7 +54,7 @@ var output = [
 ``````
 The MIT License (MIT)
 
-Copyright (c) 2015 Joseph Spencer
+Copyright (c) 2018 Kogo Software LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
