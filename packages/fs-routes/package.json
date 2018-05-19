@@ -4,23 +4,22 @@
   "description": "Scan a filesystem for route files.",
   "author": "Joseph Spencer",
   "scripts": {
-    "cover": "istanbul cover ./test.js && cat ./coverage/lcov.info | coveralls -v",
-    "test": "node ./test.js"
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "test": "node ./test.js",
+    "travis-test": "npm run cover"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jsdevel/node-fs-routes.git"
-  },
-  "keywords": [],
-  "contributors": [],
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes",
+  "keywords": [
+    "filesystem",
+    "routes",
+    "paths",
+    "api"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jsdevel/node-fs-routes/issues"
+    "url": "https://github.com/kogosoftwarellc/open-api/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Afs-routes"
   },
-  "devDependencies": {
-    "coveralls": "^2.11.6",
-    "istanbul": "^0.4.1"
-  },
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes#readme",
   "peerDependencies": {
     "glob": "*"
   }

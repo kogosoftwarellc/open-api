@@ -9,6 +9,7 @@
 * [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 * [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
 * [fetch-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi)
+* [fs-routes](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes)
 * [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters)
 * [openapi-schema-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validation)
 
@@ -46,23 +47,3 @@ THE SOFTWARE.
 
 [gitter-url]: https://gitter.im/kogosoftwarellc/open-api
 [gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
-
-[express-openapi-downloads-image]: http://img.shields.io/npm/dm/express-openapi.svg
-[express-openapi-npm-url]: https://npmjs.org/package/express-openapi
-[express-openapi-npm-image]: http://img.shields.io/npm/v/express-openapi.svg
-
-[express-openapi-coercion-downloads-image]: http://img.shields.io/npm/dm/express-openapi-coercion.svg
-[express-openapi-coercion-npm-url]: https://npmjs.org/package/express-openapi-coercion
-[express-openapi-coercion-npm-image]: http://img.shields.io/npm/v/express-openapi-coercion.svg
-
-[express-openapi-defaults-downloads-image]: http://img.shields.io/npm/dm/express-openapi-defaults.svg
-[express-openapi-defaults-npm-url]: https://npmjs.org/package/express-openapi-defaults
-[express-openapi-defaults-npm-image]: http://img.shields.io/npm/v/express-openapi-defaults.svg
-
-
-
-
-
-
-
-
