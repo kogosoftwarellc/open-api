@@ -79,8 +79,8 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/fs-routes
 [npm-image]: http://img.shields.io/npm/v/fs-routes.svg
 
-[travis-url]: https://travis-ci.org/jsdevel/node-fs-routes
-[travis-image]: http://img.shields.io/travis/jsdevel/node-fs-routes.svg
+[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
+[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
 
-[coveralls-url]: https://coveralls.io/r/jsdevel/node-fs-routes
-[coveralls-image]: http://img.shields.io/coveralls/jsdevel/node-fs-routes/master.svg
+[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
+[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
