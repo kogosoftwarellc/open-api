@@ -523,6 +523,8 @@ This is just standard express error middleware (I.E. it has 4 arguments `err, re
 When an error occurs in your API's handlers, it'll be passed to this middleware.  The
 rest of your app is unaffected.
 
+**Note:** 4 arguments (no more, no less) must be defined in your errorMiddleware function. Otherwise the function will be silently ignored.
+
 ```javascript
 openapi.initialize({
   apiDoc: require('v3-api-doc'),
