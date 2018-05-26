@@ -3,6 +3,9 @@
 
 ## Highlights
 
+* Supported versions:
+  * OpenAPI 2.0 (f.k.a. swagger 2.0)
+  * OpenAPI 3.0 (beta until the official JSONSchema is releases https://github.com/OAI/OpenAPI-Specification/issues/1301)
 * Performant.
 * Extensively tested.
 * Unobtrusively opinionated.
@@ -29,7 +32,6 @@ and validation.
 * Supports custom `format` validators.
   * See [args.customFormats](#argscustomformats)
 * Supports `collectionFormat` for `formData` `array` parameters.
-* Currently supports OpenAPI 2.0 (f.k.a. swagger 2.0) documents.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
 * Supports error middleware scoped to your API's `basePath`.

@@ -1,5 +1,9 @@
 # @open-api [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url] [![Greenkeeper badge](https://badges.greenkeeper.io/kogosoftwarellc/open-api.svg)](https://greenkeeper.io/)
-> Various packages to build OpenAPI APIs in node.
+> A Monorepo of various packages to power OpenAPI in node.
+
+## Quick Start Express
+
+* See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
 
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
