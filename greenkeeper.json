@@ -10,6 +10,7 @@
         "packages/express-openapi-validation/package.json",
         "packages/express-openapi/package.json",
         "packages/fetch-openapi/package.json",
+        "packages/fs-routes/package.json",
         "packages/openapi-jsonschema-parameters/package.json",
         "packages/openapi-schema-validation/package.json"
       ]
