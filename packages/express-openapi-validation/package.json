@@ -1,6 +1,6 @@
 {
   "name": "express-openapi-validation",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Express middleware for openapi parameter validation.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
@@ -24,6 +24,6 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation#readme",
   "dependencies": {
     "jsonschema": "1.2.4",
-    "openapi-jsonschema-parameters": "^0.3.1"
+    "openapi-jsonschema-parameters": "0.3.2"
   }
 }

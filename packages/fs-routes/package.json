@@ -4,7 +4,7 @@
   "description": "Scan a filesystem for route files.",
   "author": "Joseph Spencer",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "cover": "istanbul cover ./test.js",
     "test": "node ./test.js",
     "travis-test": "npm run cover"
   },

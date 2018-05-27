@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export PATH="$PWD/node_modules/.bin:$PATH"
 
 function remove_node_modules() {

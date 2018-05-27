@@ -61,7 +61,7 @@ it('should add apiDoc to req', function(done) {
     .get('/v3/apiDocs?type=apiDoc')
     .expect(200)
     .end(function(err, result) {
-      expect(result.res.body).to.eql(apiDocCopy);
+      expect(result.body).to.eql(apiDocCopy);
       done(err);
     });
 });
@@ -71,7 +71,7 @@ it('should add operationDoc to req', function(done) {
     .get('/v3/apiDocs?type=operationDoc')
     .expect(200)
     .end(function(err, result) {
-      expect(result.res.body.operationId).to.equal('getApiDoc');
+      expect(result.body.operationId).to.equal('getApiDoc');
       done(err);
     });
 });

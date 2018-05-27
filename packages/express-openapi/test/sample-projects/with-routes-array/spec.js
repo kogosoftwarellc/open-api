@@ -24,7 +24,7 @@ it('should be added to the apiDoc', function(done) {
     .set("Host", "test-host")
     .expect(200)
     .end(function(err, result) {
-      expect(result.res.body).to.eql(require('./fixtures/expected-api-doc.json'));
+      expect(result.body).to.eql(require('./fixtures/expected-api-doc.json'));
       done(err);
     });
 });
