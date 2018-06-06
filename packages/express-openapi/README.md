@@ -94,7 +94,7 @@ To study the current specification [view the docs](https://github.com/OAI/OpenAP
 
 ## Getting Started
 
-*To see example projects, look at our [test suite](./test/sample-projects/).*
+*To see example projects, look at our [test suite](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects).*
 
 This getting started guide will use the most fundamental concepts of OpenAPI and
 `express-openapi`.
