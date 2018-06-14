@@ -5,7 +5,7 @@
 
 * Supported versions:
   * OpenAPI 2.0 (f.k.a. swagger 2.0)
-  * OpenAPI 3.0 (beta until the official JSONSchema is releases https://github.com/OAI/OpenAPI-Specification/issues/1301)
+  * OpenAPI 3.0 (beta until the official JSONSchema is released https://github.com/OAI/OpenAPI-Specification/issues/1301)
 * Performant.
 * Extensively tested.
 * Unobtrusively opinionated.
