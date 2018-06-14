@@ -442,8 +442,7 @@ See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom
 |----|--------|-----------|
 |Object|N|Mapping from keys to dependency objects that can be injected as named parameters into path handlers exported as functions |
 
-If not set, then all path handlers export an object. If set, then all path handlers export a constructor function whose signature may contain
-any of the keys in args.dependencies
+For path handlers that export a function instead of an object.  The parameter names of the exported function directly map to keys listed in this object.
 
 Example
 ```javascript

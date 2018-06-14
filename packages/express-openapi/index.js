@@ -145,15 +145,6 @@ function initialize(args) {
 
   pathSecurity.forEach(assertRegExpAndSecurity);
 
-  var injectDependencies = args.dependencies ? function (handlers) {
-    if (typeof handlers !== 'function') {
-      return handlers;
-    }
-    return difunc(args.dependencies, handlers);
-  } : function (handlers) {
-    return handlers;
-  };
-
   var routes = [];
   paths.forEach(function(pathItem) {
     if (byString(pathItem)) {
@@ -186,7 +177,7 @@ function initialize(args) {
 
   routes.forEach(function(routeItem) {
     var route = routeItem.path;
-    var pathModule = injectDependencies(routeItem.module);
+    var pathModule = injectDependencies(routeItem.module.default || routeItem.module, args.dependencies);
     // express path params start with :paramName
     // openapi path params use {paramName}
     var openapiPath = route;
@@ -346,6 +337,13 @@ function initialize(args) {
   };
 
   return initializedApi;
+}
+
+function injectDependencies(handlers, dependencies) {
+  if (typeof handlers !== 'function') {
+    return handlers;
+  }
+  return difunc(dependencies || {}, handlers);
 }
 
 function addConsumesMiddleware(middleware, consumesMiddleware, consumes) {

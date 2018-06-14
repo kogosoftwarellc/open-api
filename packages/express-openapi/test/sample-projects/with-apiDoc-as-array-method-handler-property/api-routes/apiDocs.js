@@ -1,4 +1,5 @@
-module.exports = {
+// ensuring that default exports are handled
+module.exports.default = {
   get: get
 };
 
