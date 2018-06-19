@@ -1,0 +1,23 @@
+{
+  "name": "koa-openapi",
+  "version": "0.0.2",
+  "description": "An unopinionated OpenAPI framework for koa",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
+    "test": "mocha ./test/*.js",
+    "travis-test": "true || npm run cover"
+  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi",
+  "keywords": [
+    "openapi",
+    "swagger",
+    "koa"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/open-api/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Akoa-openapi"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi#readme"
+}
