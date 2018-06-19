@@ -1,3 +1,5 @@
+# Note: This has been deprecated in favor of [openapi-request-coercer](https://www.npmjs.com/package/openapi-request-coercer).
+
 # express-openapi-coercion [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Express middleware to coerce request properties according to an openapi parameter list.
 
