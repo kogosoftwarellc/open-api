@@ -5,6 +5,9 @@
 
 * See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
 
+## Quick Start Koa (Coming Soon!)
+* See [koa-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi)
+
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
 * [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)
