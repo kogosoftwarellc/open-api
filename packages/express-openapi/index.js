@@ -1,6 +1,6 @@
 var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
 var buildDefaultsMiddleware = require('express-openapi-defaults');
-var buildCoercionMiddleware = require('express-openapi-coercion');
+var OpenapiRequestCoercer = require('openapi-request-coercer');
 var fsRoutes = require('fs-routes');
 var INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-inherit-additional-middleware';
 var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
@@ -250,7 +250,16 @@ function initialize(args) {
           }
 
           if (allowsCoercionMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
-            var coercionMiddleware = buildCoercionMiddleware({parameters: methodParameters});
+            var coercer = new OpenapiRequestCoercer({
+              extensionBase: 'x-express-openapi-coercion',
+              loggingKey: 'express-openapi-coercion',
+              parameters: methodParameters
+            });
+
+            var coercionMiddleware = function(req, res, next) {
+              coercer.coerce(req);
+              next();
+            };
             middleware.unshift(coercionMiddleware);
           }
 
