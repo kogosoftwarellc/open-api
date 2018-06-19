@@ -23,7 +23,7 @@
   "dependencies": {
     "difunc": "0.0.4",
     "express-normalize-query-params-middleware": "^0.5.0",
-    "express-openapi-coercion": "0.5.2",
+    "openapi-request-coercer": "1.0.0",
     "express-openapi-defaults": "0.4.4",
     "express-openapi-response-validation": "0.3.2",
     "express-openapi-security": "0.2.2",
