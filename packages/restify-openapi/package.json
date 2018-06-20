@@ -1,0 +1,23 @@
+{
+  "name": "restify-openapi",
+  "version": "0.0.0",
+  "description": "An unopinionated OpenAPI framework for restify",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
+    "test": "mocha ./test/*.js",
+    "travis-test": "true || npm run cover"
+  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/restify-openapi",
+  "keywords": [
+    "openapi",
+    "swagger",
+    "restify"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/open-api/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Arestify-openapi"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/restify-openapi#readme"
+}
