@@ -1,6 +1,7 @@
 var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
-var buildDefaultsMiddleware = require('express-openapi-defaults');
+var OpenapiDefaultSetter = require('openapi-default-setter');
 var OpenapiRequestCoercer = require('openapi-request-coercer');
+var OpenapiResponseValidator = require('openapi-response-validator');
 var fsRoutes = require('fs-routes');
 var INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-inherit-additional-middleware';
 var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
@@ -8,7 +9,6 @@ var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
 var buildValidationMiddleware = require('express-openapi-validation');
-var buildResponseValidationMiddleware = require('express-openapi-response-validation');
 var buildSecurityMiddleware = require('express-openapi-security');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
@@ -222,13 +222,20 @@ function initialize(args) {
           // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
           // validation will pick it up, so this is almost always going to be added.
-          middleware.unshift(buildResponseValidationMiddleware({
+          var responseValidator = new OpenapiResponseValidator({
+            loggingKey: 'express-openapi-response-validation',
             definitions: apiDoc.definitions,
             externalSchemas: externalSchemas,
             errorTransformer: errorTransformer,
             responses: resolveResponseRefs(operationDoc.responses, apiDoc, route),
             customFormats: customFormats
-          }));
+          });
+          middleware.unshift(function(req, res, next) {
+            res.validateResponse = function(statusCode, response) {
+              return responseValidator.validateResponse(statusCode, response);
+            };
+            next();
+          });
         }
 
         var methodParameters = withNoDuplicates(resolveParameterRefs(
@@ -266,8 +273,11 @@ function initialize(args) {
           // no point in default middleware if we don't have any parameters with defaults.
           if (methodParameters.filter(byDefault).length &&
               allowsDefaultsMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
-            var defaultsMiddleware = buildDefaultsMiddleware({parameters: methodParameters});
-            middleware.unshift(defaultsMiddleware);
+            var defaultSetter = new OpenapiDefaultSetter({parameters: methodParameters});
+            middleware.unshift(function(req, res, next) {
+              defaultSetter.handle(req);
+              next();
+            });
           }
         }
 
