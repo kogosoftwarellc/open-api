@@ -1,3 +1,7 @@
+# Note: This project has been deprecated in favor of openapi-default-setter
+
+Moving forward you can use [openapi-default-setter](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter).  See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) for an example.
+
 # express-openapi-defaults [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Express middelware to set openapi parameter defaults in request properties.
 

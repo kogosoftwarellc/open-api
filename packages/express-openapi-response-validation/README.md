@@ -1,3 +1,7 @@
+# Note: This project has been deprecated in favor of openapi-response-validator
+
+Moving forward you can use [openapi-response-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator).  See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) for an example.
+
 # express-openapi-response-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Express middleware for openapi response validation.
 
