@@ -23,7 +23,6 @@
   "dependencies": {
     "difunc": "0.0.4",
     "express-normalize-query-params-middleware": "^0.5.0",
-    "express-openapi-security": "0.2.2",
     "express-openapi-validation": "0.9.3",
     "fs-routes": "1.2.2",
     "glob": "*",
@@ -32,6 +31,7 @@
     "openapi-default-setter": "1.0.0",
     "openapi-request-coercer": "1.0.0",
     "openapi-response-validator": "1.0.0",
-    "openapi-schema-validation": "0.4.1"
+    "openapi-schema-validation": "0.4.1",
+    "openapi-security-handler": "1.0.0"
   }
 }

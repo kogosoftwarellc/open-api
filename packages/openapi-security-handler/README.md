@@ -1,9 +1,5 @@
-# Note: This project has been deprecated in favor of openapi-security-handler
-
-Moving forward you can use [openapi-security-handler](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler). See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) for an example.
-
-# express-openapi-security [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
-> Express middleware to handle openapi security.
+# openapi-security-handler [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
+> A library to process OpenAPI security definitions in parallel.
 
 ## Highlights
 
@@ -18,72 +14,76 @@ Moving forward you can use [openapi-security-handler](https://github.com/kogosof
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var app = require('express')();
-var securityDefinitions = {
-  keyScheme: {
-    type: 'apiKey',
-    name: 'api_key',
-    in: 'header'
+var OpenapiSecurityHandler = require('openapi-security-handler');
+var handler = new OpenapiSecurityHandler({
+  // these are typically taken from the global api doc
+  securityDefinitions: {
+    keyScheme: {
+      type: 'apiKey',
+      name: 'api_key',
+      in: 'header'
+    },
+    passwordScheme: {
+      type: 'basic'
+    }
   },
-  passwordScheme: {
-    type: 'basic'
-  }
-};
-var securityHandlers = {
-  keyScheme: function(req, scopes, securityDefinition, cb) {
-    req.user = {name: 'fred'};
-    cb(null, true);// pass true if validation succeeds, false otherwise.
+  // these handle the operation security reference
+  securityHandlers: {
+    keyScheme: function(req, scopes, securityDefinition, cb) {
+      req.user = {name: 'fred'};
+      cb(null, true);// pass true if validation succeeds, false otherwise.
+    },
+    passwordScheme: function(req, scopes, securityDefinition, cb) {
+      req.user = {name: 'fred'};
+      cb(null, true);
+    }
   },
-  passwordScheme: function(req, scopes, securityDefinition, cb) {
-    req.user = {name: 'fred'};
-    cb(null, true);
-  }
-};
-var operationSecurity = [
-  // we'll execute all the schemes in the object.  If any fail, we'll move to the
-  // next object.
-  {
-    keyScheme: ['write']
-  },
-  {
-    passwordScheme: ['write']
-  }
-];
-var security = require('express-openapi-security')(securityDefinition,
-    securityHandlers, operationSecurity);
-
-app.get('/something', security, function(req, res) {
-  console.log(req.user.name); //=> 'fred'
+  // These are typically defined on an operation's openapi document.
+  operationSecurity: [
+    // we'll execute all the schemes in the object.  If any fail, we'll move to the
+    // next object.
+    {
+      keyScheme: ['write']
+    },
+    {
+      passwordScheme: ['write']
+    }
+  ],
+});
+var request = {};
+handler.handle(request, (err, result) => {
+  console.log(result); // => true
 });
 ```
 
 ## Response
 
-`express-openapi-security` will respond in the following ways:
+`openapi-security-handler#handle` will return the following errors:
 
 * `401`
-  * This status code is sent if:
+  * This error is returned if:
     * `cb(null, false)` is called from all `securityHandlers`.
     * `cb({status: 401, challange: 'a challenge string like "Basic"'})` is called
       from at least one of the handlers in the last set of security handlers.
 * `403`
-  * This status code is sent if:
+  * This error is returned if:
     * `cb({status: 403, message: 'some message'})` is called
       from at least one of the handlers in the last set of security handlers.
 * `500`
-  * This status code is sent if:
+  * This error is returned if:
     * An unknown `status` is passed to `cb`.
     * No security handlers yield `true`.
 
 ## Successful Authentication
 
-Upon successful authentication, `next()` is called.
+Upon successful authentication the `cb` is called with `null, true`.  Handlers should
+assign credentials to the request object.
 
 ## LICENSE
 ``````
 The MIT License (MIT)
 
-Copyright (c) 2016 Kogo Software LLC
+Copyright (c) 2018 Kogo Software LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -104,9 +104,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ``````
 
-[downloads-image]: http://img.shields.io/npm/dm/express-openapi-security.svg
-[npm-url]: https://npmjs.org/package/express-openapi-security
-[npm-image]: http://img.shields.io/npm/v/express-openapi-security.svg
+[downloads-image]: http://img.shields.io/npm/dm/openapi-security-handler.svg
+[npm-url]: https://npmjs.org/package/openapi-security-handler
+[npm-image]: http://img.shields.io/npm/v/openapi-security-handler.svg
 
 [travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
 [travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg

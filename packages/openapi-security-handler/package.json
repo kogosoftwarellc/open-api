@@ -1,27 +1,26 @@
 {
-  "name": "express-openapi-security",
-  "version": "0.2.3",
-  "description": "Express middleware to handle openapi security.",
+  "name": "openapi-security-handler",
+  "version": "1.0.0",
+  "description": "A library to process OpenAPI security definitions in parallel.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
     "test": "mocha ./test/*.js",
     "travis-test": "npm run cover"
   },
-  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security",
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler",
   "keywords": [
     "openapi",
     "security",
-    "jsonschema",
-    "express",
-    "middleware"
+    "handler",
+    "jsonschema"
   ],
   "author": "Joseph Spencer",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kogosoftwarellc/open-api/issues"
   },
-  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security#readme",
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler#readme",
   "dependencies": {
     "async": "^2.6.0"
   }
