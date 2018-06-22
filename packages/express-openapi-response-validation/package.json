@@ -1,0 +1,28 @@
+{
+  "name": "express-openapi-response-validation",
+  "version": "0.4.0",
+  "description": "Express middleware for openapi response validation.",
+  "scripts": {
+    "cover": "istanbul cover _mocha -- ./test/*.js",
+    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
+    "test": "mocha ./test/*.js",
+    "travis-test": "npm run cover"
+  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation",
+  "keywords": [
+    "openapi",
+    "validation",
+    "jsonschema",
+    "express",
+    "middleware"
+  ],
+  "author": "Joseph Spencer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/open-api/issues"
+  },
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation#readme",
+  "dependencies": {
+    "jsonschema": "1.2.4"
+  }
+}
