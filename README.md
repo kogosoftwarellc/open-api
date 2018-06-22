@@ -10,7 +10,6 @@
 
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
-* [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 * [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
 * [fetch-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi)
 * [fs-routes](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes)
