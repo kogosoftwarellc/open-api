@@ -2,6 +2,7 @@ var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
 var OpenapiDefaultSetter = require('openapi-default-setter');
 var OpenapiRequestCoercer = require('openapi-request-coercer');
 var OpenapiResponseValidator = require('openapi-response-validator');
+var OpenapiSecurityHandler = require('openapi-security-handler');
 var fsRoutes = require('fs-routes');
 var INHERIT_ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-inherit-additional-middleware';
 var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
@@ -9,7 +10,6 @@ var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
 var buildValidationMiddleware = require('express-openapi-validation');
-var buildSecurityMiddleware = require('express-openapi-security');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var jsYaml = require('js-yaml');
@@ -129,8 +129,11 @@ function initialize(args) {
   var apiSecurityMiddleware = securityHandlers &&
                               apiDoc.security &&
                               apiDoc.securityDefinitions ?
-      buildSecurityMiddleware(apiDoc.securityDefinitions, securityHandlers,
-          apiDoc.security) :
+      createSecurityMiddleware({
+        securityDefinitions: apiDoc.securityDefinitions,
+        securityHandlers: securityHandlers,
+        operationSecurity: apiDoc.security
+      }) :
       null;
   var pathSecurity = Array.isArray(args.pathSecurity) ?
       args.pathSecurity :
@@ -294,8 +297,11 @@ function initialize(args) {
 
         if (securityDefinition) {
           pathItem[methodName].security = securityDefinition;
-          securityMiddleware = buildSecurityMiddleware(apiDoc.securityDefinitions,
-              securityHandlers, securityDefinition);
+          securityMiddleware = createSecurityMiddleware({
+            securityDefinitions: apiDoc.securityDefinitions,
+            securityHandlers: securityHandlers,
+            operationSecurity: securityDefinition
+          });
         } else if (apiSecurityMiddleware) {
           securityMiddleware = apiSecurityMiddleware;
         }
@@ -472,6 +478,35 @@ function createAssignApiDocMiddleware(apiDoc, operationDoc) {
     req.apiDoc = apiDoc;
     req.operationDoc = operationDoc;
     next();
+  };
+}
+
+function createSecurityMiddleware(args) {
+  var handler = new OpenapiSecurityHandler({
+    securityDefinitions: args.securityDefinitions,
+    securityHandlers: args.securityHandlers,
+    operationSecurity: args.operationSecurity,
+    loggingKey: 'express-openapi-security'
+  });
+
+  return function(req, res, next) {
+    handler.handle(req, function(err, result) {
+      if (err) {
+        if (err.challenge) {
+          res.set('www-authenticate', err.challenge);
+        }
+        res.status(err.status);
+
+        if (typeof err.message === 'string') {
+          res.send(err.message);
+        } else {
+          res.json(err.message);
+        }
+
+        return;
+      }
+      next();
+    });
   };
 }
 
