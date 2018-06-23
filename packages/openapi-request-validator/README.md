@@ -1,8 +1,6 @@
 # openapi-request-validator [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Validate request properties against an OpenAPI spec.
 
-If validation errors occur, `next` is called with `{status: 400, errors: [<validation errors>]}`.
-
 ## Highlights
 
 * Performant.

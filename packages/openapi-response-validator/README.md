@@ -175,8 +175,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ``````
 
-[downloads-image]: http://img.shields.io/npm/dm/eopenapi-response-validator.svg
-[npm-url]: https://npmjs.org/package/eopenapi-response-validator
+[downloads-image]: http://img.shields.io/npm/dm/openapi-response-validator.svg
+[npm-url]: https://npmjs.org/package/openapi-response-validator
 [npm-image]: http://img.shields.io/npm/v/openapi-response-validator.svg
 
 [travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
