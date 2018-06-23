@@ -18,13 +18,13 @@
   * See [args.securityFilter](#argssecurityfilter)
 * Leverages openapi parameter lists for parameter defaults, type coercion,
 and validation.
-  * See [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)
-  * See [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)
-  * See [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
+  * See [openapi-default-setter](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter)
+  * See [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)
+  * See [openapi-request-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator)
 * Leverages OpenAPI response definitions to provide `res.validateResponse` tailored to a particular route.
-  * See [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation)
+  * See [openapi-response-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator)
 * Leverages security definitions for security management.
-  * See [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
+  * See [openapi-security-handler](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler)
 * Validates api documents.
   * See [openapi-schema-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator)
 * Supports schema extension.
@@ -568,7 +568,7 @@ openapi.initialize({
 
 |Type|Required|Description|
 |----|--------|-----------|
-|Function|N|Transforms errors to a standard format as defined by the application.  See [express-openapi-validation#args.errorTransformer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation#argserrortransformer) and [express-openapi-response-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-response-validation) for more info.|
+|Function|N|Transforms errors to a standard format as defined by the application.  See [openapi-request-validator#args.errorTransformer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator#argserrortransformer) and [openapi-response-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator) for more info.|
 
 #### args.exposeApiDocs
 
@@ -934,7 +934,7 @@ post.apiDoc = {
 };
 ```
 
-See [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
+See [openapi-security-handler](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler)
 for more details.
 
 #### args.validateApiDoc
