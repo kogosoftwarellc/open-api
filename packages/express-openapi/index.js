@@ -2,6 +2,7 @@ var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
 var SCHEMA_EXTENSION_PROPERTY = 'x-express-openapi-schema-extension';
 var OpenapiDefaultSetter = require('openapi-default-setter');
 var OpenapiRequestCoercer = require('openapi-request-coercer');
+var OpenapiRequestValidator = require('openapi-request-validator');
 var OpenapiResponseValidator = require('openapi-response-validator');
 var OpenapiSecurityHandler = require('openapi-security-handler');
 var fsRoutes = require('fs-routes');
@@ -10,7 +11,6 @@ var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 var isDir = require('is-dir');
 var loggingKey = require('./package.json').name + ': ';
 var path = require('path');
-var buildValidationMiddleware = require('express-openapi-validation');
 var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var jsYaml = require('js-yaml');
@@ -254,14 +254,16 @@ function initialize(args) {
         if (methodParameters.length) {
           // defaults, coercion, and parameter validation middleware
           if (allowsValidationMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {
-            var validationMiddleware = buildValidationMiddleware({
+            var requestValidator = new OpenapiRequestValidator({
               errorTransformer: errorTransformer,
               parameters: methodParameters,
               schemas: apiDoc.definitions,
               externalSchemas: externalSchemas,
               customFormats: customFormats
             });
-            middleware.unshift(validationMiddleware);
+            middleware.unshift(function(req, res, next) {
+              next(requestValidator.validate(req));
+            });
           }
 
           if (allowsCoercionMiddleware(apiDoc, pathModule, pathItem, operationDoc)) {

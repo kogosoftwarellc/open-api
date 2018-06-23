@@ -1,27 +1,25 @@
 {
-  "name": "express-openapi-validation",
-  "version": "0.9.4",
-  "description": "Express middleware for openapi parameter validation.",
+  "name": "openapi-request-validator",
+  "version": "1.0.0",
+  "description": "Validate request properties against an OpenAPI spec.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
     "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
     "test": "mocha ./test/*.js",
     "travis-test": "npm run cover"
   },
-  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation",
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator",
   "keywords": [
     "openapi",
-    "validation",
-    "jsonschema",
-    "express",
-    "middleware"
+    "validator",
+    "jsonschema"
   ],
   "author": "Joseph Spencer",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kogosoftwarellc/open-api/issues"
   },
-  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation#readme",
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator#readme",
   "dependencies": {
     "jsonschema": "1.2.4",
     "openapi-jsonschema-parameters": "0.3.2"

@@ -73,6 +73,7 @@ describe(require('../package.json').name, function() {
     });
 
     it('should return the built apiDoc', function() {
+      this.timeout(3000);
       var expectedApiDoc = require(
           './fixtures/basic-usage-api-doc-after-initialization.json');
       var initializedApp = expressOpenapi.initialize({

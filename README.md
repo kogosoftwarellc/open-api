@@ -10,12 +10,12 @@
 
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
-* [express-openapi-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-validation)
 * [fetch-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi)
 * [fs-routes](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes)
 * [openapi-default-setter](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter)
 * [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters)
 * [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)
+* [openapi-request-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator)
 * [openapi-response-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator)
 * [openapi-schema-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator)
 
