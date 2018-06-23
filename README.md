@@ -17,7 +17,7 @@
 * [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters)
 * [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)
 * [openapi-response-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator)
-* [openapi-schema-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validation)
+* [openapi-schema-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator)
 
 ## LICENSE
 

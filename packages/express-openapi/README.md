@@ -26,7 +26,9 @@ and validation.
 * Leverages security definitions for security management.
   * See [express-openapi-security](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-security)
 * Validates api documents.
-  * See [openapi-schema-validation](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validation)
+  * See [openapi-schema-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator)
+* Supports schema extension.
+  * See [Extending OpenAPI Schema](#extending-openapi-schema)
 * Configurable Middleware.
   * See [Configuring Middleware](#configuring-middleware)
 * Supports custom `format` validators.
@@ -305,6 +307,31 @@ OpenAPI allows vendor extensions to be used throughout your api doc.
 
   Calling this operation with `paramname=5` will not affect the validity of the request
   and your path handler will receive `paramName=5`.
+
+### Extending OpenAPI Schema
+
+* `x-express-openapi-schema-extension: {}` - Use this to extend the schema being used.  An
+  example use case can be allowing `oneOf` with version 2.0 documents.
+
+  i.e.
+
+  ```
+  x-express-openapi-schema-extension: {
+    definitions: {
+      schema: {
+        properties: {
+          oneOf: {
+            type: "array",
+            minItems: 1,
+            items: {
+              $ref: "#/definitions/schema"
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
 
 ### Configuring Middleware
 

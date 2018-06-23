@@ -1,4 +1,5 @@
 var ADDITIONAL_MIDDLEWARE_PROPERTY = 'x-express-openapi-additional-middleware';
+var SCHEMA_EXTENSION_PROPERTY = 'x-express-openapi-schema-extension';
 var OpenapiDefaultSetter = require('openapi-default-setter');
 var OpenapiRequestCoercer = require('openapi-request-coercer');
 var OpenapiResponseValidator = require('openapi-response-validator');
@@ -14,7 +15,7 @@ var PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 var RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
 var jsYaml = require('js-yaml');
 var difunc = require('difunc');
-var validateSchema = require('openapi-schema-validation').validate;
+var OpenapiSchemaValidator = require('openapi-schema-validator');
 var normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 var METHOD_ALIASES = {
   // HTTP style
@@ -72,9 +73,13 @@ function initialize(args) {
   var originalApiDoc = handleYaml(args.apiDoc);
   // Make a copy of the apiDoc that we can safely modify.
   var apiDoc = copy(originalApiDoc);
+  var validator = new OpenapiSchemaValidator({
+    version: apiDoc.openapi || apiDoc.swagger,
+    extensions: apiDoc[SCHEMA_EXTENSION_PROPERTY]
+  });
 
   if (validateApiDoc) {
-    var apiDocValidation = validateSchema(apiDoc);
+    var apiDocValidation = validator.validate(apiDoc);
 
     if (apiDocValidation.errors.length) {
       console.error(loggingKey, 'Validating schema before populating paths');
@@ -332,7 +337,7 @@ function initialize(args) {
   sortApiDocTags(apiDoc);
 
   if (validateApiDoc) {
-    var apiDocValidation = validateSchema(apiDoc);
+    var apiDocValidation = validator.validate(apiDoc);
 
     if (apiDocValidation.errors.length) {
       console.error(loggingKey, 'Validating schema after populating paths');
