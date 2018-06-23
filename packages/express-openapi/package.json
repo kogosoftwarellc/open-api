@@ -1,6 +1,6 @@
 {
   "name": "express-openapi",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "An unopinionated OpenAPI framework for express",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
@@ -23,13 +23,13 @@
   "dependencies": {
     "difunc": "0.0.4",
     "express-normalize-query-params-middleware": "^0.5.0",
-    "express-openapi-validation": "0.9.3",
     "fs-routes": "1.2.2",
     "glob": "*",
     "is-dir": "^1.0.0",
     "js-yaml": "^3.10.0",
     "openapi-default-setter": "1.0.0",
     "openapi-request-coercer": "1.0.0",
+    "openapi-request-validator": "1.0.0",
     "openapi-response-validator": "1.0.0",
     "openapi-schema-validator": "1.0.0",
     "openapi-security-handler": "1.0.0"

@@ -1,9 +1,5 @@
-# Note: This project has been deprecated in favor of openapi-request-validator
-
-Moving forward you can use [openapi-request-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator). See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi) for an example.
-
-# express-openapi-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
-> Express middleware for openapi parameter validation.
+# openapi-request-validator [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
+> Validate request properties against an OpenAPI spec.
 
 If validation errors occur, `next` is called with `{status: 400, errors: [<validation errors>]}`.
 
@@ -16,16 +12,16 @@ If validation errors occur, `next` is called with `{status: 400, errors: [<valid
 * Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
 * Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
 * Supports `$ref` in body schemas i.e. `#/definitions/SomeType`.
-* Does not supply default values (use [express-openapi-defaults](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-defaults)).
-* Does not handle type coercion (use [express-openapi-coercion](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi-coercion)).
+* Does not supply default values (use [openapi-default-setter](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter)).
+* Does not handle type coercion (use [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)).
 
 ## Example
 
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var app = require('express')();
-var validate = require('express-openapi-validation')({
+var OpenapiRequestValidator = require('openapi-request-validator');
+var validator = new OpenapiRequestValidator({
   parameters: [
     {
       in: 'query',
@@ -45,12 +41,13 @@ var validate = require('express-openapi-validation')({
   }
 });
 
-app.get('/something', validate, function(req, res) {
-  res.status(200).json('woohoo');
-});
-
-// GET /something => 400
-// GET /something?foo=asdf => 200
+var request = {
+  body: {},
+  params: {},
+  query: {foo: 'wow'}
+};
+var errors = validator.validate(request);
+console.log(errors); // => null
 ```
 
 ## API
@@ -107,7 +104,7 @@ See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom
 ``````
 The MIT License (MIT)
 
-Copyright (c) 2016 Kogo Software LLC
+Copyright (c) 2018 Kogo Software LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -128,9 +125,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ``````
 
-[downloads-image]: http://img.shields.io/npm/dm/express-openapi-validation.svg
-[npm-url]: https://npmjs.org/package/express-openapi-validation
-[npm-image]: http://img.shields.io/npm/v/express-openapi-validation.svg
+[downloads-image]: http://img.shields.io/npm/dm/openapi-request-validator.svg
+[npm-url]: https://npmjs.org/package/openapi-request-validator
+[npm-image]: http://img.shields.io/npm/v/openapi-request-validator.svg
 
 [travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
 [travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
