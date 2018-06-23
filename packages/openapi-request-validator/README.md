@@ -99,7 +99,7 @@ An object of formatters to use for the `format` keyword.
 See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
 
 ## LICENSE
-``````
+```
 The MIT License (MIT)
 
 Copyright (c) 2018 Kogo Software LLC
@@ -121,7 +121,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-``````
+```
 
 [downloads-image]: http://img.shields.io/npm/dm/openapi-request-validator.svg
 [npm-url]: https://npmjs.org/package/openapi-request-validator

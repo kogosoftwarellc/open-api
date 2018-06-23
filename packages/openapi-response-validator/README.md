@@ -75,7 +75,7 @@ var validationError = instance.validateResponse(200, someResource);
     ]
   }
 */
-``
+```
 
 ## API
 
@@ -95,8 +95,6 @@ var validationError = instance.validateResponse(200, someResource);
 
 Keys may be any HTTP status code or `default` (for all HTTP status codes).  See
 http://swagger.io/specification/#responsesObject.
-
-
 
 #### args.responses
 
@@ -151,7 +149,7 @@ is a function that accepts an input and returns a boolean value.
 See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
 
 ## LICENSE
-``````
+```
 The MIT License (MIT)
 
 Copyright (c) 2018 Kogo Software LLC
@@ -173,7 +171,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-``````
+```
 
 [downloads-image]: http://img.shields.io/npm/dm/openapi-response-validator.svg
 [npm-url]: https://npmjs.org/package/openapi-response-validator
