@@ -55,13 +55,11 @@ var VALIDATION_KEYWORDS = [
 
 function copyValidationKeywords(src) {
   var dst = {};
-  if (src) {
-    for (var i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
-      var keyword = keys[i];
+  for (var i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
+    var keyword = keys[i];
 
-      if (VALIDATION_KEYWORDS.indexOf(keyword) > -1 || keyword.slice(0,2) === 'x-') {
-        dst[keyword] = src[keyword];
-      }
+    if (VALIDATION_KEYWORDS.indexOf(keyword) > -1 || keyword.slice(0,2) === 'x-') {
+      dst[keyword] = src[keyword];
     }
   }
   return dst;
@@ -94,6 +92,7 @@ function getBodySchema(parameters) {
 function getSchema(parameters, type) {
   var params = parameters.filter(byIn(type));
   var schema;
+
 
   if (params.length) {
     schema = {properties: {}};
