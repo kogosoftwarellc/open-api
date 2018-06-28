@@ -53,8 +53,9 @@ var VALIDATION_KEYWORDS = [
   'uniqueItems'
 ];
 
-function copyValidationKeywords(src, dst) {
-  if (src && dst) {
+function copyValidationKeywords(src) {
+  var dst = {};
+  if (src) {
     for (var i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
       var keyword = keys[i];
 
@@ -63,6 +64,19 @@ function copyValidationKeywords(src, dst) {
       }
     }
   }
+  return dst;
+}
+
+function handleNullable(params, paramSchema) {
+  if (params.nullable) {
+    return {
+      anyOf: [
+        paramSchema,
+        { type: 'null' }
+      ]
+    };
+  }
+  return paramSchema;
 }
 
 function getBodySchema(parameters) {
@@ -85,11 +99,9 @@ function getSchema(parameters, type) {
     schema = {properties: {}};
 
     params.forEach(function(param) {
-      var paramSchema = {};
+      var paramSchema = copyValidationKeywords(param);
 
-      schema.properties[param.name] = paramSchema;
-
-      copyValidationKeywords(param, paramSchema);
+      schema.properties[param.name] = handleNullable(param, paramSchema);
     });
 
     schema.required = getRequiredParams(params);
