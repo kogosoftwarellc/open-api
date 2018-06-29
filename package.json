@@ -34,6 +34,7 @@
     "mocha": "^5.1.1",
     "supertest": "^3.0.0",
     "coveralls": "^3.0.1",
-    "istanbul-combine": "^0.3.0"
+    "istanbul-combine": "^0.3.0",
+    "typescript": "^2.9.2"
   }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "openapi-types",
+  "version": "1.0.1",
+  "description": "Types for OpenAPI documents.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prepublish": "tsc",
+    "travis-test": "npm run prepublish"
+  },
+  "keywords": [
+    "openapi",
+    "swagger",
+    "types",
+    "typescript"
+  ],
+  "author": "Joseph Spencer",
+  "bugs": {
+    "url": "https://github.com/kogosoftwarellc/open-api/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Aopenapi-types"
+  },
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-types",
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-types#readme",
+  "license": "MIT"
+}

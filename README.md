@@ -18,6 +18,7 @@
 * [openapi-request-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator)
 * [openapi-response-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator)
 * [openapi-schema-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator)
+* [openapi-types](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-types)
 
 ## LICENSE
 
