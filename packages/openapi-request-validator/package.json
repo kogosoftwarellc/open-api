@@ -22,6 +22,6 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator#readme",
   "dependencies": {
     "jsonschema": "1.2.4",
-    "openapi-jsonschema-parameters": "0.3.2"
+    "openapi-jsonschema-parameters": "0.4.0"
   }
 }
