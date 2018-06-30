@@ -1,3 +1,7 @@
+export namespace OpenAPI {
+  export type Document = OpenAPIV2.Document | OpenAPIV3.Document
+}
+
 export namespace OpenAPIV3 {
   export interface Document {
   }
