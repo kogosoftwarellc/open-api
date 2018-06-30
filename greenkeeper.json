@@ -5,14 +5,23 @@
         "package.json",
         "packages/express-openapi-coercion/package.json",
         "packages/express-openapi-defaults/package.json",
+        "packages/express-openapi/package.json",
         "packages/express-openapi-response-validation/package.json",
         "packages/express-openapi-security/package.json",
         "packages/express-openapi-validation/package.json",
-        "packages/express-openapi/package.json",
         "packages/fetch-openapi/package.json",
         "packages/fs-routes/package.json",
+        "packages/koa-openapi/package.json",
+        "packages/openapi-default-setter/package.json",
         "packages/openapi-jsonschema-parameters/package.json",
-        "packages/openapi-schema-validation/package.json"
+        "packages/openapi-request-coercer/package.json",
+        "packages/openapi-request-validator/package.json",
+        "packages/openapi-response-validator/package.json",
+        "packages/openapi-schema-validation/package.json",
+        "packages/openapi-schema-validator/package.json",
+        "packages/openapi-security-handler/package.json",
+        "packages/openapi-types/package.json",
+        "packages/restify-openapi/package.json"
       ]
     }
   }
