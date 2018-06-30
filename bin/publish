@@ -10,6 +10,8 @@ function publish() {
   npm i
   npm version "$2"
   npm pu
+  git add .
+  git commit -m "$3 `node -e "process.stdout.write(require('./package.json').version);"`"
   popd > /dev/null
 }
 
@@ -40,4 +42,4 @@ case "$bump" in
     exit 1;;
 esac
 
-publish "$package_dir" "$bump"
+publish "$package_dir" "$bump" "$package"
