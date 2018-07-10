@@ -3,6 +3,16 @@ var fsRoutes = require('./');
 
 assertRoutes(fsRoutes('test-dir'));
 assertRoutes(fsRoutes('test-dir'));// caching
+assert.deepEqual(fsRoutes('test-dir', {glob: '**/*.ts', indexFileRegExp: /(?:query)?\.ts$/}), [
+  {
+    path: __dirname + '/test-dir/home.ts',
+    route: '/home'
+  },
+  {
+    path: __dirname + '/test-dir/users/query.ts',
+    route: '/users/'
+  }
+]);
 
 function assertRoutes(routes) {
   var output = [
