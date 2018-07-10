@@ -30,17 +30,21 @@ function compare(a, b) {
   return result
 }
 
-function fsRoutes(dir) {
+function fsRoutes(dir, options) {
   dir = path.resolve(process.cwd(), dir);
+  options = options || {};
+  options.glob = options.glob || '**/*.js';
+  options.indexFileRegExp = options.indexFileRegExp || /(?:index)?\.js$/;
+  var cacheKey = dir + options.glob;
 
-  if (!memo[dir]) {
-    memo[dir] = glob.sync('**/*.js', {cwd: dir}).sort(compare).map(function(file) {
+  if (!memo[cacheKey]) {
+    memo[cacheKey] = glob.sync(options.glob, {cwd: dir}).sort(compare).map(function(file) {
       return {
         path: path.resolve(dir, file),
-        route: '/' + file.replace(/(?:index)?\.js$/, '')
+        route: '/' + file.replace(options.indexFileRegExp, '')
       };
     });
   }
 
-  return memo[dir];
+  return memo[cacheKey];
 }
