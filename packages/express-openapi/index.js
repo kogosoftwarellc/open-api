@@ -160,7 +160,7 @@ function initialize(args) {
       if (!byDirectory(pathItem)) {
         throw new Error(loggingKey + 'args.paths contained a value that was not a path to a directory');
       }
-      routes = routes.concat(fsRoutes(pathItem)
+      routes = routes.concat(fsRoutes(pathItem, {glob: args.routesGlob, indexFileRegExp: args.routesIndexFileRegExp})
         .filter(function(fsRoutesItem) {
           return args.pathsIgnore ? !args.pathsIgnore.test(fsRoutesItem.route) : true;
         })
