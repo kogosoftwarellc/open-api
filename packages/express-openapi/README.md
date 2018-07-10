@@ -78,6 +78,8 @@ https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi
     * [args.paths](#argspaths)
     * [args.pathsIgnore](#argspathsignore)
     * [args.promiseMode](#argspromisemode)
+    * [args.routesGlob](#argsroutesglob)
+    * [args.routesIndexFileRegExp](#argsroutesindexfileregexp)
     * [args.securityHandlers](#argssecurityhandlers)
     * [args.validateApiDoc](#argsvalidateapidoc)
 * [Using with TypeScript](#using-with-typescript)
@@ -834,6 +836,18 @@ export default function(worldsService) {
   return operations;
 }
 ```
+
+#### args.routesGlob
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|String|N|`**/*.js`|Allows different file extensions.|
+
+#### args.routesIndexFileRegExp
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|RegExp|N|`/(?:index)?\.js$/`|Allows index files to be named differently.|
 
 #### args.securityFilter
 |Type|Required|Default Value|Description|
