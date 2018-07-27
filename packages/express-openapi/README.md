@@ -384,7 +384,7 @@ api.  An initialized api contains the following properties:
 
 `args.apiDoc.paths` can be an empty object. In that case `express-openapi` will populate this
 for you based on your operation level apiDocs.
-It is also possible to have just [one central apiDoc](test/sample-projects/basic-usage-with-central-apiDoc).
+It is also possible to have just [one central apiDoc](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects/basic-usage-with-central-apiDoc).
 
 `args.apiDoc.basePath` will add a prefix to all paths added by `express-openapi`.
 

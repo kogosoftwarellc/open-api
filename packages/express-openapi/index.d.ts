@@ -116,7 +116,7 @@ export interface SecurityHandler {
 }
 
 export interface SecurityHandlerCallback {
-    (error: SecurityHandlerError, result: boolean): void;
+    (error: SecurityHandlerError | null, result: boolean): void;
 }
 
 export interface SecurityHandlerError {
