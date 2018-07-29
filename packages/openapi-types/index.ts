@@ -4,6 +4,7 @@ export namespace OpenAPI {
 
 export namespace OpenAPIV3 {
   export interface Document {
+    openapi: string
   }
 }
 
