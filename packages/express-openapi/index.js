@@ -354,8 +354,10 @@ function initialize(args) {
     // Swagger UI support
     app.get(basePath + docsPath, function(req, res, next) {
       req.apiDoc = copy(apiDoc);
-      req.apiDoc.host = req.headers.host;
-      req.apiDoc.basePath = req.baseUrl + basePath;
+      if (apiDoc.swagger) {
+        req.apiDoc.host = req.headers.host;
+        req.apiDoc.basePath = req.baseUrl + basePath;
+      }
       securityFilter(req, res, next);
     });
   }
