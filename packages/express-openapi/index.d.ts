@@ -14,7 +14,7 @@ export interface Args {
     paths: string | string[] | { path: string, module: any }[]
     pathsIgnore?: RegExp
     routesGlob?: string;
-    routesIndexFileRegExp: RegExp;
+    routesIndexFileRegExp?: RegExp;
     docsPath?: string
     errorMiddleware?: express.ErrorRequestHandler,
     errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
