@@ -34,6 +34,6 @@
     "openapi-response-validator": "1.0.2",
     "openapi-schema-validator": "1.0.0",
     "openapi-security-handler": "1.0.0",
-    "openapi-types": "^1.0.2"
+    "openapi-types": "^1.0.4"
   }
 }
