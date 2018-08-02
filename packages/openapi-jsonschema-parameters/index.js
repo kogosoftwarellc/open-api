@@ -6,7 +6,7 @@ function convert(parameters) {
   var formDataSchema = getSchema(parameters, 'formData');
   var headerSchema = getSchema(parameters, 'header');
   var pathSchema = getSchema(parameters, 'path');
-  var querySchema = getSchema(parameters, 'query');
+  var querySchema = getQuerySchema(parameters);
 
   if (bodySchema) {
     parametersSchema.body = bodySchema;
@@ -87,6 +87,25 @@ function getBodySchema(parameters) {
   }
 
   return bodySchema;
+}
+
+function getQuerySchema(parameters) {
+  var params = parameters.filter(byIn('query'));
+  var schema;
+
+  if (params.length) {
+    schema = {properties: {}};
+
+    params.forEach(function(param) {
+      var paramSchema = copyValidationKeywords(param.schema || param);
+
+      schema.properties[param.name] = handleNullable(param.schema || param, paramSchema);
+    });
+
+    schema.required = getRequiredParams(params);
+  }
+
+  return schema;
 }
 
 function getSchema(parameters, type) {
