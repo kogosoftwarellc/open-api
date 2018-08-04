@@ -10,4 +10,4 @@ src/
 .travis.yml
 *.swp
 *.spec.js
-index.js
+index.ts
