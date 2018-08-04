@@ -6,15 +6,18 @@ export PATH="$PWD/node_modules/.bin:$PATH"
 
 function test_package() {
   pushd "$1" > /dev/null
+  shift
   npm i
-  npm run travis-test
+  npm run "$@"
   popd > /dev/null
 }
 
-if [[ -n "$1" ]]; then
-  test_package "$1"
+dir="$1"
+if [[ -n "$dir" ]]; then
+  shift
+  test_package "$dir" test-watch "$@"
 else
   for package in `ls packages`;do
-    test_package "packages/$package"
+    test_package "packages/$package" travis-test
   done
 fi
