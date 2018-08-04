@@ -13,6 +13,7 @@
 * [fetch-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi)
 * [fs-routes](https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes)
 * [openapi-default-setter](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter)
+* [openapi-framework](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework)
 * [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters)
 * [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)
 * [openapi-request-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-validator)
