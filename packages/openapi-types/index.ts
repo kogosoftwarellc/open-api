@@ -107,16 +107,17 @@ export namespace OpenAPIV3 {
     examples?: { [media: string]: ReferenceObject | ExampleObject }
     content?: { [media: string]: MediaTypeObject }
   }
-
+  export type NonArraySchemaObjectType = 'null' | 'boolean' | 'object' | 'number' | 'string' | 'integer'
+  export type ArraySchemaObjectType = 'array'
   export type SchemaObject = ArraySchemaObject | NonArraySchemaObject
 
   interface ArraySchemaObject extends BaseSchemaObject {
-    type: 'array'
+    type: ArraySchemaObjectType
     items: ReferenceObject | SchemaObject
   }
 
   interface NonArraySchemaObject extends BaseSchemaObject {
-    type: 'null' | 'boolean' | 'object' | 'number' | 'string' | 'integer'
+    type: NonArraySchemaObjectType
   }
 
   interface BaseSchemaObject {
