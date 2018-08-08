@@ -1,6 +1,5 @@
 var OpenapiFramework = require('openapi-framework').default;
 var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
-var loggingKey = require('./package.json').name + ': ';
 var normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 
 module.exports = {
@@ -30,39 +29,19 @@ function initialize(args) {
       true;
 
   if (args.docsPath && typeof args.docsPath !== 'string') {
-    throw new Error(loggingKey + 'args.docsPath must be a string when given');
-  }
-
-  if ('errorTransformer' in args && typeof args.errorTransformer !== 'function') {
-    throw new Error(loggingKey +
-        'args.errorTransformer must be a function when given');
-  }
-
-  if ('externalSchemas' in args && typeof args.externalSchemas !== 'object') {
-    throw new Error(loggingKey +
-        'args.externalSchemas must be a object when given');
-  }
-
-  if ('securityHandlers' in args && typeof args.securityHandlers !== 'object') {
-    throw new Error(loggingKey +
-        'args.securityHandlers must be an object when given');
+    throw new Error(`${loggingPrefix}: args.docsPath must be a string when given`);
   }
 
   if ('securityFilter' in args && typeof args.securityFilter !== 'function') {
-    throw new Error(loggingKey +
-        'args.securityFilter must be a function when given');
+    throw new Error(`${loggingPrefix}: args.securityFilter must be a function when given`);
   }
 
   var app = args.app;
   // Do not make modifications to this.
   var docsPath = args.docsPath || '/api-docs';
-  var errorTransformer = args.errorTransformer;
-  var customFormats = args.customFormats;
   var consumesMiddleware = args.consumesMiddleware;
   var errorMiddleware = typeof args.errorMiddleware === 'function' &&
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
-  var externalSchemas = args.externalSchemas || {};
-  var securityHandlers = args.securityHandlers;
   var promiseMode = !!args.promiseMode;
   var securityFilter = args.securityFilter ? (
     args.promiseMode ?
@@ -74,24 +53,28 @@ function initialize(args) {
 
   // TODO: Use spread once on typescript.
   var frameworkArgs = {
-    apiDoc: args.apiDoc,
-    customFormats,
-    dependencies: args.dependencies,
-    errorTransformer,
-    externalSchemas,
     featureType: 'middleware',
     name: loggingPrefix,
-    paths: args.paths,
-    pathSecurity: args.pathSecurity,
-    pathsIgnore: args.pathsIgnore,
-    routesGlob: args.routesGlob,
-    routesIndexFileRegExp: args.routesIndexFileRegExp,
-    securityHandlers,
   };
 
-  if ('validateApiDoc' in args) {
-    frameworkArgs.validateApiDoc = args.validateApiDoc;
-  }
+  [
+    'apiDoc',
+    'customFormats',
+    'dependencies',
+    'errorTransformer',
+    'externalSchemas',
+    'pathSecurity',
+    'paths',
+    'pathsIgnore',
+    'routesGlob',
+    'routesIndexFileRegExp',
+    'securityHandlers',
+    'validateApiDoc'
+  ].forEach(arg => {
+    if (arg in args) {
+      frameworkArgs[arg] = args[arg];
+    }
+  });
 
   var framework = new OpenapiFramework(frameworkArgs);
 
