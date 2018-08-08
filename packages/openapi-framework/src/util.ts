@@ -1,5 +1,6 @@
 import { IOpenapiFramework } from './types';
 const difunc = require('difunc');
+const fs = require('fs');
 const isDir = require('is-dir');
 const jsYaml = require('js-yaml');
 const PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
@@ -162,6 +163,20 @@ export function getMethodDoc(operationHandler) {
   return operationHandler.apiDoc || (Array.isArray(operationHandler) ?
     operationHandler.slice(-1)[0].apiDoc :
     null);
+}
+
+export function handleFilePath(filePath) {
+  if (typeof filePath === 'string') {
+    const absolutePath = path.resolve(process.cwd(), filePath);
+    if (fs.existsSync(absolutePath)) {
+      try { // json or module
+        return require(absolutePath);
+      } catch (e) {
+        return fs.readFileSync(absolutePath, 'utf8');
+      }
+    }
+  }
+  return filePath;
 }
 
 export function handleYaml(apiDoc) {
