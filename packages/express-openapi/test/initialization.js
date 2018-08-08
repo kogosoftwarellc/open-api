@@ -20,7 +20,7 @@ describe(require('../package.json').name, function() {
         ['args is not an object', null, /express-openapi: args must be an object/],
         ['args.app must be an express app', {}, /express-openapi: args.app must be an express app/],
         ['args.apiDoc required', {app: {}}, /express-openapi: args.apiDoc is required/],
-        ['args.apiDoc not valid', {app: {}, apiDoc: {}}, /express-openapi: args.apiDoc was invalid.  See the output./],
+        ['args.apiDoc not valid', {app: {}, apiDoc: {}, paths: []}, /express-openapi: args.apiDoc was invalid.  See the output./],
         ['args.paths required', {app: {}, apiDoc: validDocument}, /express-openapi: args.paths is required/],
         ['args.paths non directory', {app: {}, apiDoc: validDocument, paths: 'asdasdfasdf'}, /express-openapi: args.paths contained a value that was not a path to a directory/],
         ['args.paths non directory', {app: {}, apiDoc: validDocument, paths: routesDir, docsPath: true}, /express-openapi: args.docsPath must be a string when given/],
@@ -28,7 +28,7 @@ describe(require('../package.json').name, function() {
         ['args.paths with duplicates', {app: {}, apiDoc: validDocument, paths: [{path: '/foo', module: {}}, {path: '/foo', module:{}}]}, /express-openapi: args.paths produced duplicate urls/],
         ['args.errorTransformer', {app: {}, apiDoc: validDocument, paths: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
         ['args.externalSchemas', {app: {}, apiDoc: validDocument, paths: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
-        ['args.securityHandlers', {app: {}, apiDoc: validDocument, paths: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be an object when given/],
+        ['args.securityHandlers', {app: {}, apiDoc: validDocument, paths: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be a object when given/],
       ].forEach(function(test) {
         var description = test[0];
         var args = test[1];
