@@ -50,7 +50,7 @@ module.exports = {
       {
         path: 'test1.recursive.foo',
         errorCode: 'type.openapi.validation',
-        message: 'instance.test1.recursive.foo is not of a type(s) string',
+        message: 'should be string',
         location: 'body'
       }
     ]

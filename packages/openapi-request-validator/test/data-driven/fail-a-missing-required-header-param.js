@@ -17,7 +17,7 @@ module.exports = {
       {
         "path": "foo",
         "errorCode": "required.openapi.validation",
-        "message": "instance requires property \"foo\"",
+        "message": "should have required property 'foo'",
         "location": "headers"
       }
     ]

@@ -1,7 +1,5 @@
 var convert = require('openapi-jsonschema-parameters');
-var jsonschema = require('jsonschema');
-var SchemaError = jsonschema.SchemaError;
-var JsonschemaValidator = jsonschema.Validator;
+var Ajv = require('ajv');
 var LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 function OpenapiRequestValidator(args) {
@@ -26,7 +24,7 @@ function OpenapiRequestValidator(args) {
   var formDataSchema = schemas.formData;
   var pathSchema = schemas.path;
   var querySchema = schemas.query;
-  var v = new JsonschemaValidator();
+  var v = new Ajv({allErrors: true, unknownFormats: 'ignore', missingRefs: 'fail', logger: false});
   var isBodyRequired = args.parameters.filter(byRequiredBodyParameters).length > 0;
 
   if (args.customFormats) {
@@ -34,7 +32,7 @@ function OpenapiRequestValidator(args) {
     Object.keys(args.customFormats).forEach(function(format) {
       var func = args.customFormats[format];
       if (typeof func === 'function') {
-        v.customFormats[format] = func;
+        v.addFormat(format, func);
       } else {
         hasNonFunctionProperty = true;
       }
@@ -86,16 +84,14 @@ function OpenapiRequestValidator(args) {
     });
   }
 
-  this.v = v;
   this.bodySchema = bodySchema;
-  this.bodyValidationSchema = bodyValidationSchema;
   this.errorMapper = errorMapper;
-  this.formDataSchema = formDataSchema;
-  this.headersSchema = headersSchema;
   this.isBodyRequired = isBodyRequired;
-  this.pathSchema = pathSchema;
-  this.pathSchema = pathSchema;
-  this.querySchema = querySchema;
+  this.validateBody = bodyValidationSchema && v.compile(bodyValidationSchema);
+  this.validateFormData = formDataSchema && v.compile(formDataSchema);
+  this.validateHeaders = headersSchema && v.compile(headersSchema);
+  this.validatePath = pathSchema && v.compile(pathSchema);
+  this.validateQuery = querySchema && v.compile(querySchema);
 }
 
 OpenapiRequestValidator.prototype.validate = function validate(request) {
@@ -105,12 +101,8 @@ OpenapiRequestValidator.prototype.validate = function validate(request) {
 
   if (this.bodySchema) {
     if (request.body) {
-      try {
-        var validation = this.v.validate({body: request.body}, this.bodyValidationSchema);
-        errors.push.apply(errors, withAddedLocation('body', validation.errors));
-      } catch(e) {
-        e.location = 'body';
-        schemaError = e;
+      if (!this.validateBody({body: request.body})) {
+        errors.push.apply(errors, withAddedLocation('body', this.validateBody.errors));
       }
     } else if (this.isBodyRequired) {
       schemaError = {
@@ -121,24 +113,28 @@ OpenapiRequestValidator.prototype.validate = function validate(request) {
     }
   }
 
-  if (this.formDataSchema && !schemaError) {
-    errors.push.apply(errors, withAddedLocation('formData', this.v.validate(
-        request.body, this.formDataSchema).errors));
+  if (this.validateFormData && !schemaError) {
+    if (!this.validateFormData(request.body)) {
+      errors.push.apply(errors, withAddedLocation('formData', this.validateFormData.errors));
+    }
   }
 
-  if (this.pathSchema) {
-    errors.push.apply(errors, withAddedLocation('path', this.v.validate(
-        request.params || {}, this.pathSchema).errors));
+  if (this.validatePath) {
+    if (!this.validatePath(request.params || {})) {
+      errors.push.apply(errors, withAddedLocation('path', this.validatePath.errors));
+    }
   }
 
-  if (this.headersSchema) {
-    errors.push.apply(errors, withAddedLocation('headers', this.v.validate(
-        lowercaseRequestHeaders(request.headers || {}), this.headersSchema).errors));
+  if (this.validateHeaders) {
+    if (!this.validateHeaders(lowercaseRequestHeaders(request.headers || {}))) {
+      errors.push.apply(errors, withAddedLocation('headers', this.validateHeaders.errors));
+    }
   }
 
-  if (this.querySchema) {
-    errors.push.apply(errors, withAddedLocation('query', this.v.validate(
-        request.query || {}, this.querySchema).errors));
+  if (this.validateQuery) {
+    if (!this.validateQuery(request.query || {})) {
+      errors.push.apply(errors, withAddedLocation('query', this.validateQuery.errors));
+    }
   }
 
   if (errors.length) {
@@ -161,8 +157,8 @@ function byRequiredBodyParameters(param) {
 }
 
 function extendedErrorMapper(mapper) {
-  return function(jsonSchemaError) {
-    return mapper(toOpenapiValidationError(jsonSchemaError), jsonSchemaError);
+  return function(ajvError) {
+    return mapper(toOpenapiValidationError(ajvError), ajvError);
   };
 }
 
@@ -194,15 +190,32 @@ function lowercasedHeaders(headersSchema) {
 }
 
 function toOpenapiValidationError(error) {
-  return stripBodyInfo({
-    path: error.property.replace(
-              error.location === 'body' ?
-              /^instance\.body\.?/ :
-              /^instance\.?/, '') || error.argument,
-    errorCode: error.name + '.openapi.validation',
-    message: error.stack,
+  var validationError = {
+    path: 'instance' + error.dataPath,
+    errorCode: error.keyword + '.openapi.validation',
+    message: error.message,
     location: error.location
-  });
+  };
+
+  if (error.keyword === '$ref') {
+    delete validationError.errorCode;
+    validationError.schema = {'$ref': error.params.ref};
+  }
+
+  if (error.params.missingProperty) {
+    validationError.path += '.' + error.params.missingProperty;
+  }
+
+  validationError.path = validationError.path.replace(
+      error.location === 'body' ?
+      /^instance\.body\.?/ :
+      /^instance\.?/, '');
+
+  if (!validationError.path) {
+    delete validationError.path;
+  }
+
+  return stripBodyInfo(validationError);
 }
 
 function stripBodyInfo(error) {

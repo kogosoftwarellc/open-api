@@ -18,7 +18,7 @@ module.exports = {
     "status": 400,
     "errors": [
       {
-        "message": "no such schema #/definitions/TestBody located in </>",
+        "message": "can't resolve reference #/definitions/TestBody",
         "schema": {
           "$ref": "#/definitions/TestBody"
         },

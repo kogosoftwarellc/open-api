@@ -19,7 +19,7 @@ module.exports = {
     "errors": [
       {
         "errorCode": "type.openapi.validation",
-        "message": "instance is not of a type(s) array",
+        "message": "should be array",
         "location": "body"
       }
     ]

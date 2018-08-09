@@ -31,13 +31,13 @@ module.exports = {
       {
         "path": "path1",
         "errorCode": "pattern.openapi.validation",
-        "message": "instance.path1 does not match pattern \"^a$\"",
+        "message": "should match pattern \"^a$\"",
         "location": "path"
       },
       {
         "path": "path2",
         "errorCode": "pattern.openapi.validation",
-        "message": "instance.path2 does not match pattern \"^f$\"",
+        "message": "should match pattern \"^f$\"",
         "location": "path"
       }
     ]
