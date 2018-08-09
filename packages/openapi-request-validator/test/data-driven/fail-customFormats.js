@@ -28,7 +28,7 @@ module.exports = {
       {
         "path": "foo",
         "errorCode": "format.openapi.validation",
-        "message": "instance.foo does not conform to the \"foo\" format",
+        "message": "should match format \"foo\"",
         "location": "query"
       }
     ]
