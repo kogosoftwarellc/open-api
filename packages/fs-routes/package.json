@@ -6,7 +6,7 @@
   "scripts": {
     "cover": "istanbul cover ./test.js",
     "test": "node ./test.js",
-    "travis-test": "npm run cover"
+    "travis-test": "touch test-dir/users/:id.js; npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes",
   "keywords": [
