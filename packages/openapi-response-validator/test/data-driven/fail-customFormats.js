@@ -33,12 +33,7 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'foo is not of a type(s) string'
-      },
-      {
-        errorCode: 'format.openapi.responseValidation',
-        message: 'foo does not conform to the "foo" format',
-        path: 'foo'
+        message: 'foo should be string'
       }
     ]
   }

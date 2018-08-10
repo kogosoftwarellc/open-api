@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/eopenapi-response-validator#readme",
   "dependencies": {
-    "jsonschema": "1.2.4"
+    "ajv": "^6.5.2"
   }
 }

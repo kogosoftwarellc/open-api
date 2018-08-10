@@ -25,7 +25,7 @@ module.exports = {
     errors: [
       {
         errorCode: 'type.openapi.responseValidation',
-        message: 'response is not of a type(s) object'
+        message: 'response should be object'
       }
     ]
   }

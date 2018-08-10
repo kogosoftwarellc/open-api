@@ -1,4 +1,4 @@
-var JsonschemaValidator = require('jsonschema').Validator;
+var Ajv = require('ajv');
 var LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 function OpenapiResponseValidator(args) {
@@ -17,20 +17,17 @@ function OpenapiResponseValidator(args) {
 
   var errorTransformer = typeof args.errorTransformer === 'function' &&
       args.errorTransformer;
-  var v = new JsonschemaValidator();
+  var v = new Ajv({allErrors: true, logger: false});
 
-  this.schemas = getSchemas(args.responses, args.definitions);
   this.errorMapper = errorTransformer ?
       makeErrorMapper(errorTransformer) :
       toOpenapiValidationError;
-  this.v = v;
-
 
   if (args.customFormats) {
     Object.keys(args.customFormats).forEach(function(format) {
       var func = args.customFormats[format];
       if (typeof func === 'function') {
-        v.customFormats[format] = func;
+        v.addFormat(format, func);
       }
     });
   }
@@ -40,6 +37,9 @@ function OpenapiResponseValidator(args) {
       v.addSchema(args.externalSchemas[id], id);
     });
   }
+
+  var schemas = getSchemas(args.responses, args.definitions);
+  this.validators = compileValidators(v, schemas);
 }
 
 OpenapiResponseValidator.prototype.validateResponse = validateResponse;
@@ -52,12 +52,12 @@ OpenapiResponseValidator.prototype.validateResponse = validateResponse;
  * @return {Object}
  */
 function validateResponse(statusCode, response) {
-  var schema;
+  var validator;
 
-  if (statusCode && statusCode in this.schemas) {
-    schema = this.schemas[statusCode];
-  } else if (this.schemas.default) {
-    schema = this.schemas.default;
+  if (statusCode && statusCode in this.validators) {
+    validator = this.validators[statusCode];
+  } else if (this.validators.default) {
+    validator = this.validators.default;
   } else {
     return {
       status: 500,
@@ -65,18 +65,27 @@ function validateResponse(statusCode, response) {
     };
   }
 
-  var errors = this.v.validate({
-      response: response === undefined ? null : response
-    },
-    schema).errors;
+  var isValid = validator({
+    response: response === undefined ? null : response
+  });
 
-  if (errors.length) {
+  if (!isValid) {
     return {
       status: 500,
       message: 'The response was not valid.',
-      errors: errors.map(this.errorMapper)
+      errors: validator.errors.map(this.errorMapper)
     };
   }
+}
+
+function compileValidators(v, schemas) {
+  var validators = {};
+
+  Object.keys(schemas).forEach(function(name) {
+    validators[name] = v.compile(schemas[name]);
+  });
+
+  return validators;
 }
 
 function getSchemas(responses, definitions) {
@@ -92,7 +101,7 @@ function getSchemas(responses, definitions) {
       properties: {
         response: schema || {type: "null"}
       },
-      definitions: definitions
+      definitions: definitions || {}
     };
   });
 
@@ -100,24 +109,27 @@ function getSchemas(responses, definitions) {
 }
 
 function makeErrorMapper(mapper) {
-  return function(jsonschemaError) {
-    return mapper(toOpenapiValidationError(jsonschemaError), jsonschemaError);
+  return function(ajvError) {
+    return mapper(toOpenapiValidationError(ajvError), ajvError);
   };
 }
 
 function toOpenapiValidationError(error) {
-  var path = error.property.replace(/^instance\.(?:response\.)?/, '') || error.argument;
-  var error = {
-    path: path,
-    errorCode: error.name + '.openapi.responseValidation',
-    message: path + ' ' + error.message
+  var validationError = {
+    path: 'instance' + error.dataPath,
+    errorCode: error.keyword + '.openapi.responseValidation',
+    message: error.message
   };
 
-  if (error.path === 'response') {
-    delete error.path;
+  validationError.path = validationError.path.replace(/^instance\.(?:response\.)?/, '');
+
+  validationError.message = validationError.path + ' ' + validationError.message;
+
+  if (validationError.path === 'response') {
+    delete validationError.path;
   }
 
-  return error;
+  return validationError;
 }
 
 module.exports = OpenapiResponseValidator;
