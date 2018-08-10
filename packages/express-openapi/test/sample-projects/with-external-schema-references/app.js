@@ -25,7 +25,7 @@ openapi.initialize({
       required: ['name'],
       properties: {
         name: { type: "string" },
-        age: { type: "integer", format: 'int32'}
+        age: { type: "integer", format: 'int32' }
       }
     },
     'http://example.com/tea-pod': {

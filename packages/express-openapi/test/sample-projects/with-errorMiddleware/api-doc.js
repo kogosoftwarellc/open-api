@@ -11,7 +11,11 @@ module.exports = {
     version: '3.0.0'
   },
 
-  definitions: {},
+  definitions: {
+    Foo: {
+      type: 'string'
+    }
+  },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
   paths: {}

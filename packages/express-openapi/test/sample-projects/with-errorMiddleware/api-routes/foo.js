@@ -10,10 +10,7 @@ module.exports.get.apiDoc = {
   parameters: [],
   responses: {
     200: {
-      description: 'testing error handler',
-      schema: {
-        $ref: '#/definitions/Foo'
-      }
+      description: 'testing error handler'
     }
   }
 };

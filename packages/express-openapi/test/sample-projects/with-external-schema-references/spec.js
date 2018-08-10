@@ -24,7 +24,7 @@ it('should use direct references in parameter', function(done) {
         {
           path: 'name',
           errorCode: 'required.openapi.validation',
-          message: 'instance requires property \"name\"',
+          message: 'should have required property \'name\'',
           location:'body'
         }
       ]
@@ -41,7 +41,7 @@ it('should use external references through local schema definition', function(do
         {
           path: 'name',
           errorCode: 'required.openapi.validation',
-          message: 'instance requires property \"name\"',
+          message: 'should have required property \'name\'',
           location:'body'
         }
       ]
@@ -58,7 +58,7 @@ it('should use external references through local parameters definition', functio
         {
           path: 'name',
           errorCode: 'required.openapi.validation',
-          message: 'instance requires property \"name\"',
+          message: 'should have required property \'name\'',
           location:'body'
         }
       ]
@@ -72,7 +72,7 @@ it('should use schema references through local schema definition reference in ch
       errors: [
         {
           errorCode: "required.openapi.responseValidation",
-          message: "response[0] requires property \"name\"",
+          message: "response[0] should have required property \'name\'",
           path: "response[0]"
         }
       ],
@@ -88,11 +88,11 @@ it('should use schema references through local schema definition reference in re
       errors: [
         {
           errorCode: "type.openapi.responseValidation",
-          message: "response is not of a type(s) string"
+          message: "response should be string"
         },
         {
           errorCode: 'enum.openapi.responseValidation',
-          message: 'response is not one of enum values: error'
+          message: 'response should be equal to one of the allowed values'
         }
       ],
       message: 'The response was not valid.',
@@ -107,11 +107,11 @@ it('should use schema references through local response definition reference', f
       errors: [
         {
           errorCode: "type.openapi.responseValidation",
-          message: "response is not of a type(s) string"
+          message: "response should be string"
         },
         {
           errorCode: 'enum.openapi.responseValidation',
-          message: 'response is not one of enum values: error'
+          message: 'response should be equal to one of the allowed values'
         }
       ],
       message: 'The response was not valid.',
@@ -125,12 +125,8 @@ it('should use schema references in child schema of response', function(done) {
     .expect(500, {
       errors: [
         {
-          errorCode: "allOf.openapi.responseValidation",
-          message: "response does not match allOf schema <http://example.com/tea-pod> with 1 error[s]:"
-        },
-        {
           errorCode: "required.openapi.responseValidation",
-          message: "response requires property \"content\""
+          message: "response should have required property \'content\'"
         }
       ],
       message: 'The response was not valid.',
@@ -145,11 +141,11 @@ it('should use schema references in response', function(done) {
       errors: [
         {
           errorCode: "type.openapi.responseValidation",
-          message: "response is not of a type(s) string"
+          message: "response should be string"
         },
         {
           errorCode: 'enum.openapi.responseValidation',
-          message: 'response is not one of enum values: error'
+          message: 'response should be equal to one of the allowed values'
         }
       ],
       message: 'The response was not valid.',

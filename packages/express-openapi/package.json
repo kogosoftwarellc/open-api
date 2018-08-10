@@ -23,6 +23,6 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi#readme",
   "dependencies": {
     "express-normalize-query-params-middleware": "^0.5.0",
-    "openapi-framework": "0.1.0"
+    "openapi-framework": "0.2.1"
   }
 }

@@ -14,7 +14,7 @@ describe('input validation', function() {
         {
          errorCode: 'format.openapi.validation',
          location: 'query',
-         message: 'instance.foo does not conform to the "foo" format',
+         message: 'should match format "foo"',
          path: 'foo'
         }
       ], status: 400}, done);
@@ -34,7 +34,7 @@ describe('response validation', function() {
       .expect(400, {errors: [
         {
          errorCode: 'format.openapi.responseValidation',
-         message: 'name does not conform to the "foo" format',
+         message: 'name should match format "foo"',
          path: 'name'
         }
       ]}, done);
