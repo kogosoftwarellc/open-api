@@ -17,7 +17,7 @@ export interface Args {
     routesIndexFileRegExp?: RegExp;
     docsPath?: string
     errorMiddleware?: express.ErrorRequestHandler,
-    errorTransformer?(openapiError: OpenapiError, jsonschemaError: JsonschemaError): any
+    errorTransformer?(openapiError: OpenapiError, ajvError: AjvError): any
     exposeApiDocs?: boolean
     promiseMode?: boolean
     validateApiDoc?: boolean
@@ -84,16 +84,17 @@ export interface CustomFormats {
     [index: string]: CustomFormatValidator
 }
 
-// Following 2 interfaces are part of jsonschema package.
-interface JsonschemaError {
-    property: string
-    message: string
-    schema: string|IJsonSchema
-    instance: any
-    name: string
-    argument: any
-    stack: string
-    toString(): string
+// The following interface is part of the ajv package.
+interface AjvError {
+    keyword: string;
+    dataPath: string;
+    schemaPath: string;
+    params: object;
+    propertyName?: string;
+    message?: string;
+    schema?: any;
+    parentSchema?: object;
+    data?: any;
 }
 
 interface CustomFormatValidator {
