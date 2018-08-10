@@ -11,7 +11,7 @@ describe(require('../package.json').name + 'sample-projects', function() {
         {
           errorCode: 'type.openapi.validation',
           location: 'path',
-          message: 'instance.id is not of a type(s) integer',
+          message: 'should be integer',
           path: 'id'
         }
       ],

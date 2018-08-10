@@ -15,13 +15,13 @@ it('should use parameter references', function(done) {
         {
           path: 'boo',
           errorCode: 'required.openapi.validation',
-          message: 'instance requires property \"boo\"',
+          message: 'should have required property \'boo\'',
           location:'query'
         },
         {
           path: 'foo',
           errorCode: 'required.openapi.validation',
-          message: 'instance requires property \"foo\"',
+          message: 'should have required property \'foo\'',
           location: 'query'
         }
       ]
@@ -35,7 +35,7 @@ it('should use response references', function(done) {
       errors: [
         {
           errorCode: 'enum.openapi.responseValidation',
-          message: 'response is not one of enum values: error'
+          message: 'response should be equal to one of the allowed values'
         }
       ],
       message: 'The response was not valid.',

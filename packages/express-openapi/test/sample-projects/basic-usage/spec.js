@@ -37,7 +37,7 @@ it('should validate input', function(done) {
       {
         errorCode: 'pattern.openapi.validation',
         location: 'query',
-        message: 'instance.name does not match pattern \"^fred$\"',
+        message: 'should match pattern \"^fred$\"',
         path: 'name'
       }
     ], status: 400}, done);
@@ -84,7 +84,7 @@ it('should dereference #/definitions/ for validation', function(done) {
       {
         errorCode: 'required.openapi.validation',
         location: 'body',
-        message: 'instance requires property "name"',
+        message: 'should have required property \'name\'',
         path: 'name'
       }
     ], status: 400}, done);
