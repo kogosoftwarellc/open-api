@@ -1,3 +1,7 @@
+# Note: This has been deprecated in favor of openapi-schema-validator
+
+Moving forward you can use [openapi-schema-validator](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator).  See [openapi-framework](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework) for an example.
+
 # openapi-schema-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Validate openapi documents.
 
