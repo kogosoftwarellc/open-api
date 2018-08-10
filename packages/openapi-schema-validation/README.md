@@ -5,8 +5,8 @@ Moving forward you can use [openapi-schema-validator](https://github.com/kogosof
 # openapi-schema-validation [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Validate openapi documents.
 
-##For OpenAPI v2.0 (a.k.a. swagger 2.0) and OpenAPI v3.0.0
-####Document examples and full specs:
+## For OpenAPI v2.0 (a.k.a. swagger 2.0) and OpenAPI v3.0.0
+#### Document examples and full specs:
 * [Official 2.0 docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#itemsObject)
 * [Official 3.0.0 docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 
