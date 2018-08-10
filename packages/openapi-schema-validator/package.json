@@ -21,8 +21,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator#readme",
   "dependencies": {
-    "jsonschema": "1.2.4",
-    "jsonschema-draft4": "^1.0.0",
+    "ajv": "^6.5.2",
     "lodash.merge": "^4.6.1",
     "swagger-schema-official": "2.0.0-bab6bed"
   }

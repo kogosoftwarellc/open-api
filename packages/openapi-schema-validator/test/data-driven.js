@@ -11,8 +11,7 @@ describe(require('../package.json').name, function() {
     it('should ' + testName, function() {
       var sut = new Sut(fixture.constructorArgs);
       var errors = sut.validate(fixture.apiDoc).errors;
-      expect(JSON.stringify(errors, null, '  '))
-          .to.equal(JSON.stringify(fixture.errors, null, '  '));
+      expect(errors).to.deep.equal(fixture.errors);
     });
   });
 });
