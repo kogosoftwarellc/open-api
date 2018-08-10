@@ -4,11 +4,14 @@
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "cover": "istanbul cover _mocha -- -r ts-node/register ./test/*.ts",
+    "cover": "nyc",
     "prepublishOnly": "tsc",
-    "test-watch": "npm run test -- --watch-extensions ts -w",
-    "test": "mocha -r ts-node/register ./index.ts ./test/*.ts ./test/**/*.ts",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework",

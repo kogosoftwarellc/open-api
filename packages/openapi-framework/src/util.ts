@@ -196,7 +196,7 @@ export function isDynamicRoute(route) {
   return route.indexOf("{")>0;
 }
 
-export function resolveParameterRefs(parameters, definitions) {
+export function resolveParameterRefs(framework: IOpenapiFramework, parameters, definitions) {
   return parameters.map(parameter => {
     if (typeof parameter.$ref === 'string') {
       const match = PARAMETER_REF_REGEX.exec(parameter.$ref);
@@ -204,8 +204,8 @@ export function resolveParameterRefs(parameters, definitions) {
 
       if (!definition) {
         throw new Error(
-            'Invalid parameter $ref or definition not found in apiDoc.parameters: ' +
-            parameter.$ref);
+          `${framework.name}: Invalid parameter $ref or definition not found in apiDoc.parameters: ${parameter.$ref}`
+        );
       }
 
       return definition;
@@ -215,7 +215,7 @@ export function resolveParameterRefs(parameters, definitions) {
   });
 }
 
-export function resolveResponseRefs(responses, apiDoc, route) {
+export function resolveResponseRefs(framework: IOpenapiFramework, responses, apiDoc, route) {
   return Object.keys(responses).reduce((resolvedResponses, responseCode) => {
     const response = responses[responseCode];
 
@@ -225,14 +225,14 @@ export function resolveResponseRefs(responses, apiDoc, route) {
 
       if (!definition) {
         throw new Error(
-            'Invalid response $ref or definition not found in apiDoc.responses: ' +
-            response.$ref);
+          `${framework.name}: Invalid response $ref or definition not found in apiDoc.responses: ${response.$ref}`
+        );
       }
 
       if (match[1] === 'definitions') {
-        console.warn('Using "$ref: \'#/definitions/...\'" for responses has been deprecated.');
-        console.warn('Please switch to "$ref: \'#/responses/...\'" in handler(s) for ' + route + '.');
-        console.warn('Future versions of express-openapi will no longer support this.');
+        console.warn(`${framework.name}: Using "$ref: \'#/definitions/...\'" for responses has been deprecated.`);
+        console.warn(`${framework.name}: Please switch to "$ref: \'#/responses/...\'" in handler(s) for ${route}.`);
+        console.warn(`${framework.name}: Future versions of express-openapi will no longer support this.`);
       }
 
       resolvedResponses[responseCode] = definition;
