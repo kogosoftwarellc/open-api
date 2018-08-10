@@ -1,6 +1,6 @@
 {
   "name": "openapi-response-validator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Validate a response according to an openapi schema.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
