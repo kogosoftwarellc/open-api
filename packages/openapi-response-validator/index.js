@@ -17,7 +17,7 @@ function OpenapiResponseValidator(args) {
 
   var errorTransformer = typeof args.errorTransformer === 'function' &&
       args.errorTransformer;
-  var v = new Ajv({allErrors: true, logger: false});
+  var v = new Ajv({allErrors: true, unknownFormats: 'ignore', missingRefs: 'fail', logger: false});
 
   this.errorMapper = errorTransformer ?
       makeErrorMapper(errorTransformer) :
