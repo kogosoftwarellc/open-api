@@ -1,6 +1,10 @@
 var Ajv = require('ajv');
 var LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
+// Source: https://swagger.io/specification/#dataTypes
+// TODO: implement custom format validators for these data types
+var OPENAPI_FORMATS = ['int32', 'int64', 'float', 'double', 'byte', 'binary', 'date', 'date-time', 'password'];
+
 function OpenapiResponseValidator(args) {
   var loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
   if (!args) {
@@ -17,7 +21,7 @@ function OpenapiResponseValidator(args) {
 
   var errorTransformer = typeof args.errorTransformer === 'function' &&
       args.errorTransformer;
-  var v = new Ajv({allErrors: true, unknownFormats: 'ignore', missingRefs: 'fail', logger: false});
+  var v = new Ajv({allErrors: true, unknownFormats: OPENAPI_FORMATS, missingRefs: 'fail', logger: false});
 
   this.errorMapper = errorTransformer ?
       makeErrorMapper(errorTransformer) :
