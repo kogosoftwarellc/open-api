@@ -8,10 +8,10 @@ export {
 // TODO move this to openapi-request-validator
 type OpenAPIErrorTransformer = ({}, {}) => Object
 
-type PathSecurityTuple = [RegExp, SecurityRequirement]
+type PathSecurityTuple = [RegExp, SecurityRequirement[]]
 
 interface SecurityRequirement {
-  string: SecurityScope[]
+  [name: string]: SecurityScope[]
 }
 
 type SecurityScope = string
@@ -50,7 +50,7 @@ interface OpenapiFrameworkOptions {
   featureType: string
   name: string
   pathSecurity?: PathSecurityTuple[]
-  paths: string | [Object]
+  paths: string | Object[]
   pathsIgnore?: RegExp
   routesGlob?: string;
   routesIndexFileRegExp?: RegExp;
@@ -65,7 +65,10 @@ export interface OpenapiFrameworkAPIContext {
 }
 
 export interface OpenapiFrameworkPathContext {
-
+  basePath: string
+  // TODO fill this out
+  getApiDoc(): any
+  getPathDoc(): any
 }
 
 export interface OpenapiFrameworkOperationContext {

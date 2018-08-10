@@ -2,7 +2,7 @@
 
 set -e
 
-export PATH="$PWD/node_modules/.bin:$PATH"
+export PATH="$PWD/bin/dev-tools:$PWD/node_modules/.bin:$PATH"
 
 args="$@"
 
@@ -12,6 +12,13 @@ function run_in_package() {
   popd > /dev/null
 }
 
-for package in `ls packages`;do
-  run_in_package "packages/$package"
-done
+if [[ "$1" == '-p' ]]; then
+  packagePath="$2"
+  shift 2
+  args="$@"
+  run_in_package $packagePath
+else
+  for package in `ls packages`;do
+    run_in_package "packages/$package"
+  done
+fi

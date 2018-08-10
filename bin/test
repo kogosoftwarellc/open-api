@@ -2,7 +2,7 @@
 
 set -e
 
-export PATH="$PWD/node_modules/.bin:$PATH"
+export PATH="$PWD/bin/dev-tools:$PWD/node_modules/.bin:$PATH"
 
 function test_package() {
   pushd "$1" > /dev/null

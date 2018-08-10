@@ -72,6 +72,16 @@ describe('OpenapiFramework', () => {
       });
     });
 
+    describe('when apiDoc is an object representing a valid apiDoc', () => {
+      beforeEach(function() {
+        options.apiDoc = require('./fixtures/apiDoc-valid.js');
+      });
+
+      it('should not throw an error', () => {
+        new OpenapiFramework(options);
+      });
+    });
+
     [
       'yml',
       'js',

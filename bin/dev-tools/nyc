@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+nyc="$(dirname $(dirname $(dirname $0)))/node_modules/.bin/nyc"
+mocha="$(dirname $0)/mocha"
+
+$nyc \
+  -n src/**/*.ts \
+  -n index.ts \
+  -e .ts \
+  -i ts-node/register \
+  -r text-summary \
+  -r html \
+  -r json \
+  --source-map \
+  --instrument \
+  $mocha
