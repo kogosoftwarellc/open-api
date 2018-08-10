@@ -28,7 +28,7 @@ module.exports = {
     errors: [
       {
         errorCode: 'type.openapi.responseValidation',
-        message: 'response is not of a type(s) null'
+        message: 'response should be null'
       }
     ]
   }
