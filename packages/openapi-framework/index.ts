@@ -23,6 +23,7 @@ import {
   resolveParameterRefs,
   resolveResponseRefs,
   sortApiDocTags,
+  sortOperationDocTags,
   toAbsolutePath,
   withNoDuplicates,
 } from './src/util';
@@ -231,7 +232,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
           pathDoc[methodName] = copy(operationDoc);
 
           if (operationDoc.tags) {
-            operationDoc.tags.sort();
+            sortOperationDocTags(operationDoc);
             operationDoc.tags.forEach(addOperationTagToApiDoc.bind(null, this.apiDoc));
           }
 

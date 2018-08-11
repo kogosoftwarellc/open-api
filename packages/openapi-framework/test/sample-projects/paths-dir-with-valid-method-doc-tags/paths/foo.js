@@ -12,5 +12,5 @@ GET.apiDoc = {
       schema: {}
     }
   },
-  tags: [ 'testing', 'example' ],
+  tags: [ 'pets', 'testing', 'example', 'examples' ],
 };

@@ -24,13 +24,15 @@ describe(path.basename(__dirname), () => {
               schema: {}
             }
           },
-          tags: [ 'example', 'testing' ],
+          tags: [ 'example', 'examples', 'pets', 'testing' ],
         });
       },
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
         expect(apiDoc.tags).to.eql([
           { name: 'example' },
+          { name: 'examples' },
+          { name: 'pets' },
           { name: 'testing' }
         ]);
       }

@@ -246,6 +246,15 @@ export function sortApiDocTags(apiDoc) {
   }
 }
 
+export function sortOperationDocTags(operationDoc) {
+  operationDoc.tags.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    return 1;
+  });
+}
+
 export function toAbsolutePath(part) {
   return path.resolve(process.cwd(), part);
 }
