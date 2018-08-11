@@ -101,7 +101,7 @@ interface CustomFormatValidator {
     (input: any): boolean
 }
 
-export type PathSecurityTuple = [RegExp, SecurityRequirement]
+export type PathSecurityTuple = [RegExp, SecurityRequirement[]]
 
 export interface SecurityRequirement {
     [name: string]: SecurityScope[]
