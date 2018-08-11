@@ -80,7 +80,7 @@ THE SOFTWARE.
 [npm-image]: http://img.shields.io/npm/v/fs-routes.svg
 
 [travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: http://img.shields.io/travis/kogosoftwarellc/open-api.svg
+[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
-[coveralls-image]: http://img.shields.io/coveralls/kogosoftwarellc/open-api/master.svg
+[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
