@@ -1,6 +1,6 @@
 {
   "name": "openapi-security-handler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library to process OpenAPI security definitions in parallel.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
