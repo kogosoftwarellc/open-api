@@ -1,6 +1,6 @@
 {
   "name": "openapi-request-coercer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Coerce request properties according to an openapi parameter list.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
