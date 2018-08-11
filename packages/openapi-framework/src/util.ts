@@ -5,7 +5,7 @@ const isDir = require('is-dir');
 const jsYaml = require('js-yaml');
 const PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 const path = require('path');
-const RESPONSE_REF_REGEX = /^#\/(definitions|responses)\/(.+)$/;
+const RESPONSE_REF_REGEX = /^#\/responses\/(.+)$/;
 
 export const METHOD_ALIASES = {
   // HTTP style
@@ -221,18 +221,12 @@ export function resolveResponseRefs(framework: IOpenapiFramework, responses, api
 
     if (typeof response.$ref === 'string') {
       const match = RESPONSE_REF_REGEX.exec(response.$ref);
-      const definition = match && (apiDoc[match[1]] || {})[match[2]];
+      const definition = match && (apiDoc.responses || {})[match[1]];
 
       if (!definition) {
         throw new Error(
           `${framework.name}: Invalid response $ref or definition not found in apiDoc.responses: ${response.$ref}`
         );
-      }
-
-      if (match[1] === 'definitions') {
-        console.warn(`${framework.name}: Using "$ref: \'#/definitions/...\'" for responses has been deprecated.`);
-        console.warn(`${framework.name}: Please switch to "$ref: \'#/responses/...\'" in handler(s) for ${route}.`);
-        console.warn(`${framework.name}: Future versions of express-openapi will no longer support this.`);
       }
 
       resolvedResponses[responseCode] = definition;
