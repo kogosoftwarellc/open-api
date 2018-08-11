@@ -78,8 +78,8 @@
         "description": "Create a new user.",
         "operationId": "createUser",
         "tags": [
-          "users",
-          "creating"
+          "creating",
+          "users"
         ],
         "parameters": [],
         "responses": {
@@ -143,8 +143,8 @@
           }
         },
         "tags": [
-          "users",
-          "fooey"
+          "fooey",
+          "users"
         ]
       },
       "post": {

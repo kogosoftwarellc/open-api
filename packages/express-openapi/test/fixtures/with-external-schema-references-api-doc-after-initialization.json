@@ -160,6 +160,9 @@
   "swagger": "2.0",
   "tags": [
     {
+      "name": "fooey"
+    },
+    {
       "name": "users"
     }
   ]

@@ -51,8 +51,7 @@ module.exports = {
   // tags is optional, and is generated / sorted by the tags defined in your path
   // docs.  This API also defines 2 tags in operations: "creating" and "fooey".
   tags: [
-    // {name: 'creating'} will be inserted by ./api-routes/users.js
-    // {name: 'fooey'} will be inserted by ./api-routes/users/{id}.js
+    {name: 'fooey'},
     {name: 'users'}
   ]
 };
