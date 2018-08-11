@@ -16,14 +16,6 @@ function initialize(args) {
     throw new Error(`${loggingPrefix}: args.app must be an express app`);
   }
 
-  if (args.routes) {
-    console.warn(`${loggingPrefix}: args.routes has been deprecated.  Please use args.paths instead.`);
-    if (!args.paths) {
-      args.paths = args.routes;
-      delete args.routes;
-    }
-  }
-
  var exposeApiDocs = 'exposeApiDocs' in args ?
       !!args.exposeApiDocs :
       true;

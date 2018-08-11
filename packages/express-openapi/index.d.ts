@@ -10,7 +10,6 @@ export interface InitializedApi {
 export interface Args {
     apiDoc: OpenAPI.Document | string
     app: express.Application
-    routes?: string | string[]
     paths: string | string[] | { path: string, module: any }[]
     pathsIgnore?: RegExp
     routesGlob?: string;
