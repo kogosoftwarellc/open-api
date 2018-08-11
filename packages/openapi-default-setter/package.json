@@ -1,6 +1,6 @@
 {
   "name": "openapi-default-setter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sets default values in request properties according to defaults defined in openapi parameter lists.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
