@@ -15,11 +15,15 @@ function publish() {
   popd > /dev/null
 }
 
-ls -1 packages
+if [[ -n "$1" ]]; then
+  package="$1"
+else
+  ls -1 packages
 
-echo ''
+  echo ''
 
-read -p 'Which package would you like to publish? ' package
+  read -p 'Which package would you like to publish? ' package
+fi
 
 package_dir="packages/$package"
 if [[ ! -d "$package_dir" ]]; then
@@ -27,13 +31,17 @@ if [[ ! -d "$package_dir" ]]; then
   exit 1
 fi
 
-echo '
-major
-minor
-patch
-'
+if [[ -n "$2" ]]; then
+  bump="$2"
+else
+  echo '
+  major
+  minor
+  patch
+  '
 
-read -p 'Which version bump to use? ' bump
+  read -p 'Which version bump to use? ' bump
+fi
 
 case "$bump" in
   major|minor|patch);;
