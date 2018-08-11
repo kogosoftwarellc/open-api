@@ -160,9 +160,15 @@ export function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
 }
 
 export function getMethodDoc(operationHandler) {
-  return operationHandler.apiDoc || (Array.isArray(operationHandler) ?
+  const doc = operationHandler.apiDoc || (Array.isArray(operationHandler) ?
     operationHandler.slice(-1)[0].apiDoc :
     null);
+
+  if (doc) {
+    return copy(doc);
+  }
+
+  return null;
 }
 
 export function handleFilePath(filePath) {

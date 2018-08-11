@@ -229,7 +229,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
         };
 
         if (operationDoc) {
-          pathDoc[methodName] = copy(operationDoc);
+          pathDoc[methodName] = operationDoc;
 
           if (operationDoc.tags) {
             sortOperationDocTags(operationDoc);
