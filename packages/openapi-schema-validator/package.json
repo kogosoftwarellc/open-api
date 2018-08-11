@@ -1,6 +1,6 @@
 {
   "name": "openapi-schema-validator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A validator for OpenAPI documents.",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
