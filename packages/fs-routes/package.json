@@ -5,8 +5,10 @@
   "author": "Joseph Spencer",
   "scripts": {
     "cover": "istanbul cover ./test.js",
+    "pretest": "touch test-dir/users/:id.js",
     "test": "node ./test.js",
-    "travis-test": "touch test-dir/users/:id.js; npm run cover"
+    "test-watch": "npm run pretest && node ./test.js",
+    "travis-test": "npm run pretest && npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes",
   "keywords": [

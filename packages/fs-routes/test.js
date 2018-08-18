@@ -5,6 +5,10 @@ assertRoutes(fsRoutes('test-dir'));
 assertRoutes(fsRoutes('test-dir'));// caching
 assert.deepEqual(fsRoutes('test-dir', {glob: '**/*.ts', indexFileRegExp: /(?:query)?\.ts$/}), [
   {
+    path: __dirname + '/test-dir/hom.a.ts',
+    route: '/hom.a'
+  },
+  {
     path: __dirname + '/test-dir/home.ts',
     route: '/home'
   },

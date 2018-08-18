@@ -7,12 +7,12 @@ module.exports = fsRoutes;
 function compare(a, b) {
   var result;
   a = {
-    dirname: path.dirname(a).replace(/^\./i, ''),
-    basename: path.basename(a).replace(/\:/i, '~')
+    dirname: path.dirname(a).replace(/^\./g, ''),
+    basename: path.basename(a).replace(/\:/g, '~')
   };
   b = {
-    dirname: path.dirname(b).replace(/^\./i, ''),
-    basename: path.basename(b).replace(/\:/i, '~')
+    dirname: path.dirname(b).replace(/^\./g, ''),
+    basename: path.basename(b).replace(/\:/g, '~')
   };
 
   if(a.dirname === b.dirname) {
