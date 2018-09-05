@@ -267,7 +267,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     openapi.initialize({
       app,
       // NOTE: If using yaml it's necessary to use "fs" e.g.
-      // apiDoc: fs.readFilesync(path.resolve(__dirname, './api-v1/api-doc.yml'), 'utf8'),
+      // apiDoc: fs.readFileSync(path.resolve(__dirname, './api-v1/api-doc.yml'), 'utf8'),
       apiDoc: v1ApiDoc,
       dependencies: {
         worldsService: v1WorldsService
