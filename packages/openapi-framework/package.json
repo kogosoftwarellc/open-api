@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -38,6 +38,6 @@
     "openapi-response-validator": "2.0.1",
     "openapi-schema-validator": "2.0.0",
     "openapi-security-handler": "1.0.0",
-    "openapi-types": "^1.0.4"
+    "openapi-types": "^1.0.7"
   }
 }
