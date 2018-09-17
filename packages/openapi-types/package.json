@@ -1,6 +1,6 @@
 {
   "name": "openapi-types",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Types for OpenAPI documents.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
