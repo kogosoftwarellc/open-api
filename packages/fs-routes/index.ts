@@ -38,11 +38,7 @@ interface FsRoute {
   route: string
 }
 
-interface FsRoutes {
-  [index: number]: FsRoute
-}
-
-function fsRoutes(dir: string, options: FsRoutesOptions = {}): FsRoutes {
+function fsRoutes(dir: string, options: FsRoutesOptions = {}): FsRoute[] {
   dir = path.resolve(process.cwd(), dir);
   options.glob = options.glob || '**/*.js';
   options.indexFileRegExp = options.indexFileRegExp || /(?:index)?\.js$/;
