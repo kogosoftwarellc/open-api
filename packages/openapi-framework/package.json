@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
