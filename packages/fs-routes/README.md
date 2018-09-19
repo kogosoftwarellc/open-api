@@ -25,10 +25,10 @@ routes/
 
 when passed to `fs-routes`
 
-```javascript
-var fsRoutes = require('fs-routes');
+```typescript
+import fsRoutes, { FsRoute } from 'fs-routes';
 
-var output = fsRoutes('routes');
+const output: FsRoute[] = fsRoutes('routes');
 ```
 
 returns the following:
