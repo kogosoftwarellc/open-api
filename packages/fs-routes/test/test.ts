@@ -1,5 +1,5 @@
+import fsRoutes from '../';
 const assert = require('assert');
-const fsRoutes = require('../');
 const path = require('path');
 const testDir = path.resolve(__dirname, '..', 'test-dir');
 

@@ -1,6 +1,5 @@
 const glob = require('glob');
 const path = require('path');
-import { FsRoutesOptions, FsRoute } from './types';
 const memo = {};
 
 function compare(a: string, b: string) {
@@ -29,7 +28,17 @@ function compare(a: string, b: string) {
   return result
 }
 
-function fsRoutes(dir: string, options: FsRoutesOptions = {}): FsRoute[] {
+export interface FsRoutesOptions {
+  glob?: string
+  indexFileRegExp?: RegExp
+}
+
+export interface FsRoute {
+  path: string
+  route: string
+}
+
+export default function fsRoutes(dir: string, options: FsRoutesOptions = {}): FsRoute[] {
   dir = path.resolve(process.cwd(), dir);
   options.glob = options.glob || '**/*.js';
   options.indexFileRegExp = options.indexFileRegExp || /(?:index)?\.js$/;
@@ -44,5 +53,3 @@ function fsRoutes(dir: string, options: FsRoutesOptions = {}): FsRoute[] {
 
   return memo[cacheKey];
 }
-
-export = fsRoutes;
