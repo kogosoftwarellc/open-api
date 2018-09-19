@@ -1,5 +1,6 @@
 const glob = require('glob');
 const path = require('path');
+import { FsRoutesOptions, FsRoute } from './types';
 const memo = {};
 
 function compare(a: string, b: string) {
@@ -26,16 +27,6 @@ function compare(a: string, b: string) {
   }
 
   return result
-}
-
-interface FsRoutesOptions {
-  glob?: string
-  indexFileRegExp?: RegExp
-}
-
-interface FsRoute {
-  path: string
-  route: string
 }
 
 function fsRoutes(dir: string, options: FsRoutesOptions = {}): FsRoute[] {
