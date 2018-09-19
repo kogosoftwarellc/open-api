@@ -33,7 +33,7 @@ import {
   OpenapiFrameworkVisitor,
   IOpenapiFramework
 } from './src/types';
-const fsRoutes = require('fs-routes');
+import fsRoutes from 'fs-routes';
 const OpenapiDefaultSetter = require('openapi-default-setter');
 const OpenapiSchemaValidator = require('openapi-schema-validator');
 const OpenapiRequestCoercer = require('openapi-request-coercer');

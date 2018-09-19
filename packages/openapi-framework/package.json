@@ -28,7 +28,7 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework#readme",
   "dependencies": {
     "difunc": "0.0.4",
-    "fs-routes": "1.3.0",
+    "fs-routes": "2.0.0",
     "glob": "*",
     "is-dir": "^1.0.0",
     "js-yaml": "^3.10.0",
