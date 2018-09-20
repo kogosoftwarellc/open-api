@@ -1,5 +1,11 @@
 export namespace OpenAPI {
   export type Document = OpenAPIV2.Document | OpenAPIV3.Document
+  export interface Request {
+    body?: any
+    headers?: object
+    params?: object
+    query?: object
+  }
 }
 
 export namespace OpenAPIV3 {
