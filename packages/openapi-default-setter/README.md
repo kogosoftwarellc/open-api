@@ -17,9 +17,9 @@ value.
 
 See `./test/data-driven/*.js` for more examples.
 
-```javascript
-var OpenapiDefaultSetter = require('openapi-default-setter');
-var defaultSetter = new OpenapiDefaultSetter({
+```typescript
+import OpenapiDefaultSetter from 'openapi-default-setter';
+const defaultSetter = new OpenapiDefaultSetter({
   parameters: [
     {
       in: 'query',
@@ -29,7 +29,7 @@ var defaultSetter = new OpenapiDefaultSetter({
     }
   ]
 });
-var request = {query: {} };
+const request = {query: {} };
 
 defaultSetter.handle(request);
 
@@ -38,7 +38,7 @@ console.log(req.query.foo); //=> 5
 
 ## API
 
-### defaults(args)
+### constructor(args)
 #### args.loggingKey
 
 A string used as a prefix for error messages and logs.  Defaults to an empty string.
