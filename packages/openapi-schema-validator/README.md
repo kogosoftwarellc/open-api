@@ -27,6 +27,8 @@ provided openapi document.
 ```javascript
 var OpenapiSchemaValidator = require('openapi-schema-validator');
 var validator = new OpenapiSchemaValidator({
+  //optional
+  version: 2,
   // optional
   version2Extensions: {
     /* place any properties here to extend the schema. */
@@ -36,17 +38,20 @@ var validator = new OpenapiSchemaValidator({
     /* place any properties here to extend the schema. */
   }
 });
-console.log(validator.validate(apiDoc, version));
+console.log(validator.validate(apiDoc));
 ```
+
+* `version` _optional number_ openapi document schema version to use (2 or 3).
+    * 2 - `openapi-2.0.0` (default)
+    * 3 - `openapi-3.0.0`
+
 [see here](https://github.com/tdegrunt/jsonschema#results) for example results.
 
 
 ## API
-### .validate(apiDoc, version)
+### .validate(apiDoc)
 * `apiDoc` _object_ is any api document you wish to validate.
-* `version` _optional number_ openapi document schema version to use (2 or 3).
-    * 2 - `openapi-2.0.0` (default)
-    * 3 - `openapi-3.0.0`
+
 
 ## LICENSE
 ``````
