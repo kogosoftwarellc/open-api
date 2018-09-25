@@ -1,5 +1,5 @@
 var expectedError = {
-  status: 403,
+  status: 401,
   message: {a:1}
 };
 
@@ -21,7 +21,7 @@ module.exports = {
 
     securityHandlers: {
       keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb(expectedError, false);
+        throw expectedError;
       }
     },
 

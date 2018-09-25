@@ -3,9 +3,10 @@
   "version": "1.0.1",
   "description": "A library to process OpenAPI security definitions in parallel.",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
+    "cover": "nyc",
+    "prepublishOnly": "tsc",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler",
@@ -22,6 +23,9 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler#readme",
   "dependencies": {
-    "async": "^2.6.0"
+    "openapi-types": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/es6-shim": "^0.31.37"
   }
 }

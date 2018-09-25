@@ -25,14 +25,14 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       },
-      keyScheme1: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme1: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       },
-      keyScheme2: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme2: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       }
     },
 

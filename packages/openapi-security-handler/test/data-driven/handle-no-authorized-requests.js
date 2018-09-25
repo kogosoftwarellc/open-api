@@ -22,14 +22,14 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       },
-      keyScheme1: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme1: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       },
-      keyScheme2: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme2: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       }
     },
 
@@ -46,7 +46,7 @@ module.exports = {
   },
 
   expectedError: {
-    status: 500,
+    status: 401,
     message: 'No security handlers returned an acceptable response: keyScheme AND keyScheme1 OR keyScheme2 AND keyScheme1',
     errorCode: 'authentication.openapi.security'
   },

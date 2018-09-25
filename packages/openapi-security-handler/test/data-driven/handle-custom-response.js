@@ -15,11 +15,11 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb({
+      keyScheme: function(req, scopes, securityDefinition) {
+        throw {
           status: 403,
           message: 'afafaf'
-        }, false);
+        };
       }
     },
 

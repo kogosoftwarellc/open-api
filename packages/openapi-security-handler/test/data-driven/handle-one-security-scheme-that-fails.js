@@ -15,12 +15,12 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme: function(req, scopes, securityDefinition) {
+        return false;
       },
-      passwordScheme: function(req, scopes, securityDefinition, cb) {
+      passwordScheme: function(req, scopes, securityDefinition) {
         req.user = {name: 'fred'};
-        cb(null, true);
+        return true;
       }
     },
 
@@ -34,7 +34,7 @@ module.exports = {
     ],
   },
 
-  expectedError: null,
+  expectedError: void 0,
   expectedResult: true,
   expectedUser: {name: 'fred'}
 };

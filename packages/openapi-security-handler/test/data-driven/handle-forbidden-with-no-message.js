@@ -15,10 +15,10 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb({
+      keyScheme: function(req, scopes, securityDefinition) {
+        throw {
           status: 403
-        }, false);
+        };
       }
     },
 
@@ -30,7 +30,6 @@ module.exports = {
   },
 
   expectedError: {
-    message: 'Your access to this resource is forbidden.',
     status: 403
   },
   expectedResult: false
