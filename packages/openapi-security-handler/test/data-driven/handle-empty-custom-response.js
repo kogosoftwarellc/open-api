@@ -15,8 +15,8 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme: function(req, scopes, securityDefinition) {
+        return false;
       }
     },
 
@@ -30,7 +30,7 @@ module.exports = {
   expectedError: {
     errorCode: "authentication.openapi.security",
     message: "No security handlers returned an acceptable response: keyScheme",
-    status: 500
+    status: 401
   },
 
   expectedResult: false

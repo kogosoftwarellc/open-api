@@ -7,15 +7,15 @@
 * Performant.
 * Extensively tested.
 * Small footprint.
-* Currently supports openapi 2.0 (f.k.a. swagger 2.0) security definitions.
+* Promise based interface.
 
 ## Example
 
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var OpenapiSecurityHandler = require('openapi-security-handler');
-var handler = new OpenapiSecurityHandler({
+import OpenapiSecurityHandler from 'openapi-security-handler';
+const handler = new OpenapiSecurityHandler({
   // these are typically taken from the global api doc
   securityDefinitions: {
     keyScheme: {
@@ -29,13 +29,13 @@ var handler = new OpenapiSecurityHandler({
   },
   // these handle the operation security reference
   securityHandlers: {
-    keyScheme: function(req, scopes, securityDefinition, cb) {
+    keyScheme: function(req, scopes, securityDefinition) {
       req.user = {name: 'fred'};
-      cb(null, true);// pass true if validation succeeds, false otherwise.
+      return true; // could also throw or return a Promise.
     },
-    passwordScheme: function(req, scopes, securityDefinition, cb) {
+    passwordScheme: function(req, scopes, securityDefinition) {
       req.user = {name: 'fred'};
-      cb(null, true);
+      return true;
     }
   },
   // These are typically defined on an operation's openapi document.
@@ -50,34 +50,24 @@ var handler = new OpenapiSecurityHandler({
     }
   ],
 });
-var request = {};
-handler.handle(request, (err, result) => {
+const request = {};
+handler.handle(request).then(result => {
   console.log(result); // => true
 });
 ```
 
-## Response
+## handler.handle
+### Return Value
 
-`openapi-security-handler#handle` will return the following errors:
+`openapi-security-handler#handle` returns a `Promise`.
 
-* `401`
-  * This error is returned if:
-    * `cb(null, false)` is called from all `securityHandlers`.
-    * `cb({status: 401, challange: 'a challenge string like "Basic"'})` is called
-      from at least one of the handlers in the last set of security handlers.
-* `403`
-  * This error is returned if:
-    * `cb({status: 403, message: 'some message'})` is called
-      from at least one of the handlers in the last set of security handlers.
-* `500`
-  * This error is returned if:
-    * An unknown `status` is passed to `cb`.
-    * No security handlers yield `true`.
+* If any of the `securityHandlers` throw an error, the error will be available with `.catch`.
+* If all of the `securityHandlers` for the given `operationSecurity` scheme resolve with `true`, then `true` will be resolved.
+* If none of the `securityHandlers` resolve with `true` for _all_ of the `operationSecurity` schemes, then a 401 error will be thrown.
 
 ## Successful Authentication
 
-Upon successful authentication the `cb` is called with `null, true`.  Handlers should
-assign credentials to the request object.
+Handlers should assign credentials to the request object.
 
 ## LICENSE
 ``````

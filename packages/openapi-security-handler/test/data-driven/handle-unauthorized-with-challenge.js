@@ -15,11 +15,11 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb({
+      keyScheme: function(req, scopes, securityDefinition) {
+        throw {
           status: 401,
           challenge: 'Basic asdf'
-        }, false);
+        };
       }
     },
 
@@ -32,7 +32,6 @@ module.exports = {
 
   expectedError: {
     status: 401,
-    message: '',
     challenge: 'Basic asdf'
   },
   expectedResult: false

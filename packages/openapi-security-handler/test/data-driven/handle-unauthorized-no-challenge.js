@@ -15,10 +15,10 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb({
+      keyScheme: function(req, scopes, securityDefinition) {
+        throw {
           status: 401
-        }, false);
+        };
       }
     },
 
@@ -30,8 +30,7 @@ module.exports = {
   },
 
   expectedError: {
-    message: 'Challenge is a required header with 401 status codes.',
-    status: 500,
+    status: 401
   },
   expectedResult: false
 };

@@ -25,21 +25,20 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      keyScheme: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       },
-      passwordScheme: function(req, scopes, securityDefinition, cb) {
-        cb(null, false);
+      passwordScheme: function(req, scopes, securityDefinition) {
+        return Promise.resolve(false);
       },
 
-      keyScheme1: function(req, scopes, securityDefinition, cb) {
+      keyScheme1: function(req, scopes, securityDefinition) {
         req.user = {name: 'fred'};
-        cb(null, true);
+        return Promise.resolve(true);
       },
-      passwordScheme1: function(req, scopes, securityDefinition, cb) {
-        cb(null, true);
+      passwordScheme1: function(req, scopes, securityDefinition) {
+        return Promise.resolve(true);
       }
-
     },
 
     operationSecurity: [
@@ -54,7 +53,7 @@ module.exports = {
     ],
   },
 
-  expectedError: null,
+  expectedError: void 0,
   expectedResult: true,
   expectedUser: {name: 'fred'}
 };

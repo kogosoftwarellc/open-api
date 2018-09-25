@@ -12,12 +12,12 @@ module.exports = {
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
-        cb({
+      keyScheme: function(req, scopes, securityDefinition) {
+        throw {
           status: 400,
           challenge: 'Bearer error="invalid_request"',
           message: 'foo',
-        }, false);
+        };
       }
     },
 
