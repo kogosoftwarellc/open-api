@@ -2,11 +2,17 @@
   "name": "koa-openapi",
   "version": "0.0.3",
   "description": "An unopinionated OpenAPI framework for koa",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
-    "travis-test": "true || npm run cover"
+    "cover": "nyc",
+    "prepublishOnly": "tsc",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
+    "travis-test": "echo 'todo write tests'"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi",
   "keywords": [
@@ -19,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/kogosoftwarellc/open-api/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Akoa-openapi"
   },
-  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi#readme"
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi#readme",
+  "dependencies": {
+    "openapi-framework": "^0.4.1"
+  }
 }
