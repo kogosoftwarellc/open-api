@@ -2,10 +2,13 @@
   "name": "openapi-jsonschema-parameters",
   "version": "0.5.1",
   "description": "Converts openapi parameters to a jsonschema format.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
+    "cover": "nyc",
+    "prepublishOnly": "tsc",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters",
@@ -21,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/kogosoftwarellc/open-api/issues"
   },
-  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters#readme"
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters#readme",
+  "dependencies": {
+    "openapi-types": "^1.1.0"
+  }
 }

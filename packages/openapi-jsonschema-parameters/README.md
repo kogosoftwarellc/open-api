@@ -8,16 +8,15 @@ some other library.
 * Performant.
 * Extensively tested.
 * Small footprint.
-* Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
 
 ## Example
 
 See `./test/data-driven` for more examples.
 
 ```javascript
-var convert = require('openapi-jsonschema-parameters');
+import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters');
 
-var jsonschema = convert([
+const parametersSchemas = convertParametersToJSONSchema([
   {
     in: 'body',
     name: 'wow',
@@ -46,7 +45,7 @@ var jsonschema = convert([
   }
 ]);
 
-console.log(jsonschema); //=>
+console.log(parametersSchema); //=>
 // {
 //   body: {
 //     $ref: '#/definitions/SomeDefinition'
