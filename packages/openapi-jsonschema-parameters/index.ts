@@ -1,12 +1,22 @@
-module.exports = convert;
+import { OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
 
-function convert(parameters) {
-  var parametersSchema = {};
-  var bodySchema = getBodySchema(parameters);
-  var formDataSchema = getSchema(parameters, 'formData');
-  var headerSchema = getSchema(parameters, 'header');
-  var pathSchema = getSchema(parameters, 'path');
-  var querySchema = getQuerySchema(parameters);
+export interface OpenAPIParametersAsJSONSchema {
+  body?: IJsonSchema
+  formData?: IJsonSchema
+  headers?: IJsonSchema
+  path?: IJsonSchema
+  query?: IJsonSchema
+}
+
+export function convertParametersToJSONSchema(parameters:
+  Array<OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject> |
+  Array<OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter>): OpenAPIParametersAsJSONSchema {
+  const parametersSchema: OpenAPIParametersAsJSONSchema = {};
+  const bodySchema = getBodySchema(parameters);
+  const formDataSchema = getSchema(parameters, 'formData');
+  const headerSchema = getSchema(parameters, 'header');
+  const pathSchema = getSchema(parameters, 'path');
+  const querySchema = getQuerySchema(parameters);
 
   if (bodySchema) {
     parametersSchema.body = bodySchema;
@@ -31,7 +41,7 @@ function convert(parameters) {
   return parametersSchema;
 }
 
-var VALIDATION_KEYWORDS = [
+const VALIDATION_KEYWORDS = [
   'additionalItems',
   'default',
   'description',
@@ -54,9 +64,9 @@ var VALIDATION_KEYWORDS = [
 ];
 
 function copyValidationKeywords(src) {
-  var dst = {};
-  for (var i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
-    var keyword = keys[i];
+  const dst = {};
+  for (let i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
+    const keyword = keys[i];
 
     if (VALIDATION_KEYWORDS.indexOf(keyword) > -1 || keyword.slice(0,2) === 'x-') {
       dst[keyword] = src[keyword];
@@ -78,7 +88,7 @@ function handleNullable(params, paramSchema) {
 }
 
 function getBodySchema(parameters) {
-  var bodySchema = parameters.filter(function(param) {
+  let bodySchema = parameters.filter(param => {
     return param.in === 'body' && param.schema;
   })[0];
 
@@ -90,14 +100,14 @@ function getBodySchema(parameters) {
 }
 
 function getQuerySchema(parameters) {
-  var params = parameters.filter(byIn('query'));
-  var schema;
+  const params = parameters.filter(byIn('query'));
+  let schema;
 
   if (params.length) {
     schema = {properties: {}};
 
-    params.forEach(function(param) {
-      var paramSchema = copyValidationKeywords(param.schema || param);
+    params.forEach(param => {
+      const paramSchema = copyValidationKeywords(param.schema || param);
 
       schema.properties[param.name] = handleNullable(param.schema || param, paramSchema);
     });
@@ -109,15 +119,14 @@ function getQuerySchema(parameters) {
 }
 
 function getSchema(parameters, type) {
-  var params = parameters.filter(byIn(type));
-  var schema;
-
+  const params = parameters.filter(byIn(type));
+  let schema;
 
   if (params.length) {
     schema = {properties: {}};
 
-    params.forEach(function(param) {
-      var paramSchema = copyValidationKeywords(param);
+    params.forEach(param => {
+      const paramSchema = copyValidationKeywords(param);
 
       schema.properties[param.name] = handleNullable(param, paramSchema);
     });
@@ -133,9 +142,7 @@ function getRequiredParams(parameters) {
 }
 
 function byIn(str) {
-  return function(param) {
-    return param.in === str;
-  };
+  return param => param.in === str;
 }
 
 function byRequired(param) {
