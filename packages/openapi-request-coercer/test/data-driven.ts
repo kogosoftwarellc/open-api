@@ -1,24 +1,24 @@
-var expect = require('chai').expect;
-var glob = require('glob');
-var path = require('path');
-var baseDir = path.resolve(__dirname, 'data-driven');
-var Sut = require('../');
+const expect = require('chai').expect;
+const glob = require('glob');
+const path = require('path');
+const baseDir = path.resolve(__dirname, 'data-driven');
+import Sut from '../';
 
-describe(require('../package.json').name, function() {
-  glob.sync('*.js', {cwd: baseDir}).forEach(function(fixture) {
-    var testName = path.basename(fixture, '.js').replace(/-/g, ' ');
+describe(require('../package.json').name, () => {
+  glob.sync('*.js', {cwd: baseDir}).forEach(fixture => {
+    const testName = path.basename(fixture, '.js').replace(/-/g, ' ');
     fixture = require(path.resolve(baseDir, fixture));
 
-    it('should ' + testName, function() {
+    it(`should ${testName}`, () => {
       if (fixture.constructorError) {
-        expect(function() {
+        expect(() => {
           new Sut(fixture.args);
         }).to.throw(fixture.constructorError);
         return;
       }
 
-      var instance = new Sut(fixture.args);
-      var request = fixture.request;
+      const instance = new Sut(fixture.args);
+      const request = fixture.request;
       instance.coerce(request);
 
       if (fixture.headers) {

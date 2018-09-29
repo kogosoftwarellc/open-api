@@ -2,10 +2,13 @@
   "name": "openapi-request-coercer",
   "version": "1.0.1",
   "description": "Coerce request properties according to an openapi parameter list.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
+    "cover": "nyc",
+    "prepublishOnly": "tsc",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer",
@@ -21,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/kogosoftwarellc/open-api/issues"
   },
-  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer#readme"
+  "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer#readme",
+  "dependencies": {
+    "openapi-types": "^1.2.0"
+  }
 }
