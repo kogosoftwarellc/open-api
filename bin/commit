@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+function commit_package() {
+  git add "$1"
+  git commit -m "`basename $1`: $2"
+}
+
+dir="$1"
+msg="$2"
+
+if [[ ! -d "$dir" ]]; then
+  echo "The first argument must be a directory path!" >&2
+  exit 1
+fi
+
+if [[ -z "$msg" ]]; then
+  echo "A commit message is required (it'll be prefixed with the package name." >&2
+  exit 1
+fi
+
+commit_package "$dir" "$msg"
