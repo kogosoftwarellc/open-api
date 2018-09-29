@@ -1,6 +1,6 @@
 {
   "name": "openapi-jsonschema-parameters",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Converts openapi parameters to a jsonschema format.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
