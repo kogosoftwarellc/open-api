@@ -1,5 +1,9 @@
 export namespace OpenAPI {
   export type Document = OpenAPIV2.Document | OpenAPIV3.Document
+  export type Parameters =
+    Array<OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject> |
+    Array<OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter>;
+
   export interface Request {
     body?: any
     headers?: object
@@ -452,9 +456,9 @@ export namespace OpenAPIV2 {
     'default': Response
   }
 
-  type Parameters = (ReferenceObject|Parameter)[]
+  export type Parameters = (ReferenceObject|Parameter)[]
 
-  type Parameter = (InBodyParameterObject|GeneralParameterObject);
+  export type Parameter = (InBodyParameterObject|GeneralParameterObject);
 
   export interface InBodyParameterObject extends ParameterObject {
     schema: Schema
