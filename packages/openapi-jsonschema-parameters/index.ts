@@ -1,4 +1,4 @@
-import { OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
+import { OpenAPI, OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
 
 export interface OpenAPIParametersAsJSONSchema {
   body?: IJsonSchema
@@ -8,9 +8,7 @@ export interface OpenAPIParametersAsJSONSchema {
   query?: IJsonSchema
 }
 
-export function convertParametersToJSONSchema(parameters:
-  Array<OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject> |
-  Array<OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter>): OpenAPIParametersAsJSONSchema {
+export function convertParametersToJSONSchema(parameters: OpenAPI.Parameters) : OpenAPIParametersAsJSONSchema {
   const parametersSchema: OpenAPIParametersAsJSONSchema = {};
   const bodySchema = getBodySchema(parameters);
   const formDataSchema = getSchema(parameters, 'formData');
