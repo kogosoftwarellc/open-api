@@ -16,8 +16,8 @@ an openapi parameters list.
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var OpenapiRequestCoercer = require('openapi-request-coercer');
-var coercer = new OpenapiRequestCoercer({
+import OpenapiRequestCoercer from 'openapi-request-coercer';
+const coercer = new OpenapiRequestCoercer({
   parameters: [
     {
       in: 'query',
@@ -28,7 +28,7 @@ var coercer = new OpenapiRequestCoercer({
   ]
 });
 
-var request = {
+const request = {
   query: {
     foo: '5'
   }
@@ -49,8 +49,8 @@ This behaviour is makes sense if you do not wish to validate the input fields.
 If the opposite is the case, the behaviour can be changed by setting the "x-openapi-coercion-strict" to _true_ on the parameter in question as illustrated below.
 
 ```javascript
-var OpenapiRequestCoercer = require('openapi-request-coercer');
-var coercer = new OpenapiRequestCoercer({
+import OpenapiRequestCoercer from 'openapi-request-coercer';
+const coercer = new OpenapiRequestCoercer({
   parameters: [
     {
       in: 'query',
