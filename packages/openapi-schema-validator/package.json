@@ -2,10 +2,16 @@
   "name": "openapi-schema-validator",
   "version": "2.0.1",
   "description": "A validator for OpenAPI documents.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
+    "cover": "nyc",
+    "prepublishOnly": "tsc",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator",
@@ -23,6 +29,7 @@
   "dependencies": {
     "ajv": "^6.5.2",
     "lodash.merge": "^4.6.1",
+    "openapi-types": "^1.2.0",
     "swagger-schema-official": "2.0.0-bab6bed"
   }
 }
