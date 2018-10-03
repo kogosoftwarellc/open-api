@@ -1,5 +1,6 @@
 export namespace OpenAPI {
   export type Document = OpenAPIV2.Document | OpenAPIV3.Document
+  export type Parameter = OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject | OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter;
   export type Parameters =
     Array<OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject> |
     Array<OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter>;
