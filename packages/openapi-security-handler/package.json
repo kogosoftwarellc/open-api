@@ -1,6 +1,6 @@
 {
   "name": "openapi-security-handler",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A library to process OpenAPI security definitions in parallel.",
   "scripts": {
     "cover": "nyc",
