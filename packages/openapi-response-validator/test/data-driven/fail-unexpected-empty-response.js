@@ -20,7 +20,6 @@ module.exports = {
   inputResponseBody: undefined,
 
   expectedValidationError: {
-    status: 500,
     message: 'The response was not valid.',
     errors: [
       {

@@ -2,10 +2,16 @@
   "name": "openapi-response-validator",
   "version": "2.0.2",
   "description": "Validate a response according to an openapi schema.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
+    "cover": "nyc",
+    "prepublishOnly": "tsc",
+    "test-watch": "mocha --watch-extensions ts -w",
+    "test": "mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/eopenapi-response-validator",
@@ -22,6 +28,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/eopenapi-response-validator#readme",
   "dependencies": {
-    "ajv": "^6.5.2"
+    "ajv": "^6.5.4",
+    "openapi-types": "^1.2.0"
   }
 }

@@ -9,7 +9,6 @@ module.exports = {
   inputResponseBody: {foo: 'asdf'},
 
   expectedValidationError: {
-    status: 500,
     message: 'The response was not valid.',
     errors: [
       {
