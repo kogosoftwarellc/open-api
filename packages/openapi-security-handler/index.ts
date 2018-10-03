@@ -1,10 +1,10 @@
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
-export interface IOpenapiSecurityHandler {
+export interface IOpenAPISecurityHandler {
   handle(request: OpenAPI.Request): Promise<void>
 }
 
-export interface OpenapiSecurityHandlerArgs {
+export interface OpenAPISecurityHandlerArgs {
   loggingKey: string
   operationSecurity: Array<OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject>
   securityDefinitions: OpenAPIV2.SecurityDefinitionsObject
@@ -28,11 +28,11 @@ interface SecuritySet {
   scopes: string[]
 }
 
-export default class OpenapiSecurityHandler implements IOpenapiSecurityHandler {
+export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
   private operationSecurity: Array<OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject>;
   private securitySets: Array<Array<SecuritySet>>;
 
-  constructor(args: OpenapiSecurityHandlerArgs) {
+  constructor(args: OpenAPISecurityHandlerArgs) {
     const loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
     if (!args) {
       throw new Error(loggingKey + 'missing args argument');
