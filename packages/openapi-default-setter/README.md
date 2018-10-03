@@ -18,8 +18,8 @@ value.
 See `./test/data-driven/*.js` for more examples.
 
 ```typescript
-import OpenapiDefaultSetter from 'openapi-default-setter';
-const defaultSetter = new OpenapiDefaultSetter({
+import OpenAPIDefaultSetter from 'openapi-default-setter';
+const defaultSetter = new OpenAPIDefaultSetter({
   parameters: [
     {
       in: 'query',

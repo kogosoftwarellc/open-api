@@ -3,16 +3,20 @@ interface DefaultMap {
   [paramName: string]: any
 }
 
-export interface OpenapiDefaultSetterArgs {
+export interface IOpenAPIDefaultSetter {
+  handle(request: OpenAPI.Request): void;
+}
+
+export interface OpenAPIDefaultSetterArgs {
   loggingKey?: string
   parameters: OpenAPIV2.ParameterObject[] | OpenAPIV3.ParameterObject[]
 }
 
-export default class OpenapiDefaultSetter {
+export default class OpenAPIDefaultSetter implements IOpenAPIDefaultSetter {
   private headersDefaults: DefaultMap;
   private queryDefaults: DefaultMap;
 
-  constructor(args: OpenapiDefaultSetterArgs) {
+  constructor(args: OpenAPIDefaultSetterArgs) {
     const loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
     if (!args) {
       throw new Error(loggingKey + 'missing args argument');
@@ -26,7 +30,7 @@ export default class OpenapiDefaultSetter {
     this.queryDefaults = getDefaults('query', args.parameters);
   }
 
-  handle(request: OpenAPI.Request) {
+  handle(request: OpenAPI.Request): void {
     if (request.headers && this.headersDefaults) {
       setDefaults(request.headers, this.headersDefaults);
     }
