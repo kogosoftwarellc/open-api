@@ -14,8 +14,8 @@
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-import OpenapiSecurityHandler from 'openapi-security-handler';
-const handler = new OpenapiSecurityHandler({
+import OpenAPISecurityHandler from 'openapi-security-handler';
+const handler = new OpenAPISecurityHandler({
   // these are typically taken from the global api doc
   securityDefinitions: {
     keyScheme: {
