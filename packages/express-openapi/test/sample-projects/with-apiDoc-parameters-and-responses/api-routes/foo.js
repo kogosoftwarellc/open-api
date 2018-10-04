@@ -9,7 +9,10 @@ module.exports = {
       200 :
       500;
     var errors = res.validateResponse(statusCode, req.query.boo);
-    res.status(statusCode).json(errors);
+    if (errors) {
+      errors.status = 500;
+      throw errors;
+    }
   },
   // handling no method doc
   post: function() {}

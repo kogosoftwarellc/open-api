@@ -1,12 +1,12 @@
-var expect = require('chai').expect;
-var fs = require('fs');
-var glob = require('glob');
-var path = require('path');
-var request = require('supertest');
+const expect = require('chai').expect;
+const fs = require('fs');
+const glob = require('glob');
+const path = require('path');
+const request = require('supertest');
 
-describe(require('../package.json').name + 'sample-projects', function() {
-  describe('configuring middleware', function() {
-    var coercionMissingBody = {
+describe(require('../package.json').name + 'sample-projects', () => {
+  describe('configuring middleware', () => {
+    const coercionMissingBody = {
       errors: [
         {
           errorCode: 'type.openapi.validation',
@@ -87,19 +87,19 @@ describe(require('../package.json').name + 'sample-projects', function() {
           expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
       {name: 'with-middleware-disabled-in-the-apiDoc', url: '/v3/users/asdf?name=fred',
           expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}}
-    ].forEach(function(test) {
-      describe(test.name, function() {
-        var app;
+    ].forEach(test => {
+      describe(test.name, () => {
+        let app;
 
-        before(function() {
+        before(() => {
           app = require('./sample-projects/' + test.name + '/app.js');
         });
 
-        it('should meet expectations', function(done) {
+        it('should meet expectations', done => {
           request(app)
             .get(test.url)
             .expect(test.expectedStatus)
-            .end(function(err, res) {
+            .end((err, res) => {
               expect(res.body).to.eql(test.expectedBody);
               done(err);
             });
@@ -117,19 +117,19 @@ describe(require('../package.json').name + 'sample-projects', function() {
           url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
       {name: 'with-response-validation-middleware-disabled-in-the-apiDoc',
           url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true}
-    ].forEach(function(test) {
-      describe(test.name, function() {
-        var app;
+    ].forEach(test => {
+      describe(test.name, () => {
+        let app;
 
-        before(function() {
+        before(() => {
           app = require('./sample-projects/' + test.name + '/app.js');
         });
 
-        it('should not expose res.validateResponse in the app', function(done) {
+        it('should not expose res.validateResponse in the app', done => {
           request(app)
             .get(test.url)
             .expect(test.expectedStatus)
-            .end(function(err, res) {
+            .end((err, res) => {
               expect(res.body).to.eql(test.expectedBody);
               done(err);
             });
@@ -138,12 +138,12 @@ describe(require('../package.json').name + 'sample-projects', function() {
     });
   });
 
-  glob.sync('./sample-projects/*', {cwd: __dirname}).forEach(function(sampleProjectPath) {
-    var specName = path.basename(sampleProjectPath);
-    var specPath = path.resolve(__dirname, sampleProjectPath, 'spec.js');
+  glob.sync('./sample-projects/*', {cwd: __dirname}).forEach(sampleProjectPath => {
+    const specName = path.basename(sampleProjectPath);
+    const specPath = path.resolve(__dirname, sampleProjectPath, 'spec.js');
 
     if (fs.existsSync(specPath)) {
-      describe(specName, function() {
+      describe(specName, () => {
         require(specPath);
       });
     }

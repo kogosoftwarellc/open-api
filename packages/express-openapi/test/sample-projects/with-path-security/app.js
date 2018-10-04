@@ -13,25 +13,34 @@ openapi.initialize({
   ],
   paths: path.resolve(__dirname, 'api-routes'),
   securityHandlers: {
-    auth1: function(req, scopes, definition, cb) {
-      cb({
+    auth1: function(req, scopes, definition) {
+      throw {
         status: 401,
         message: 'failed auth1',
         challenge: 'Basic realm=foo'
-      });
+      };
     },
-    auth2: function(req, scopes, definition, cb) {
-      cb({
+    auth2: function(req, scopes, definition) {
+      throw {
         status: 401,
         message: 'failed auth2',
         challenge: 'Basic realm=foo'
-      });
+      };
     }
   }
 });
 
 app.use(function(err, req, res, next) {
-  console.log(err);
+  if (err.challenge) {
+    res.set('www-authenticate', err.challenge);
+  }
+  res.status(err.status || 500);
+
+  if (typeof err.message === 'string') {
+    res.send(err.message);
+  } else {
+    res.json(err.message);
+  }
 });
 
 module.exports = app;

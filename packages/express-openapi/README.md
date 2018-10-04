@@ -63,7 +63,7 @@ https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi
   * [Operation parameters](#operation-parameters)
   * [Configuring Middleware](#configuring-middleware)
 * [API](#api)
-  * [.initialize(args)](#initializeargs)
+  * [initialize(args)](#initializeargs)
     * [args.apiDoc](#argsapidoc)
     * [args.app](#argsapp)
     * [args.consumesMiddleware](#argsconsumesmiddleware)
@@ -259,12 +259,12 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     ```javascript
     // ./app.js
     import express from 'express';
-    import openapi from 'express-openapi';
+    import { initialize } from 'express-openapi';
     import v1WorldsService from './api-v1/services/worldsService';
     import v1ApiDoc from './api-v1/api-doc';
 
     const app = express();
-    openapi.initialize({
+    initialize({
       app,
       // NOTE: If using yaml it's necessary to use "fs" e.g.
       // apiDoc: fs.readFileSync(path.resolve(__dirname, './api-v1/api-doc.yml'), 'utf8'),
@@ -369,7 +369,7 @@ validation middleware.
 
 ## API
 
-### .initialize(args)
+### initialize(args)
 
 Initializes paths and middleware on an express app, and returns an initialized
 api.  An initialized api contains the following properties:
@@ -409,7 +409,7 @@ Each key is the mime type from the consumes array of either the apiDoc or the op
 
 ```javascript
 var bodyParser = require('body-parser');
-openapi.initialize({
+initialize({
   /*...*/
   consumesMiddleware: {
     'application/json': bodyParser.json(),
@@ -423,7 +423,7 @@ By adding a middleware handler for 'multipart/form-data' file uploads can be pro
 
 ```javascript
 var multer = require('multer');
-openapi.initialize({
+initialize({
   /*...*/
   consumesMiddleware: {
     'multipart/form-data': function(req, res, next) {
@@ -452,7 +452,7 @@ Each key is the name of the format to be used with the `format` keyword.  Each v
 is a function that accepts an input and returns a boolean value.
 
 ```javascript
-openapi.initialize({
+initialize({
   /*...*/
   customFormats: {
     myFormat: function(input) {
@@ -491,7 +491,7 @@ var mockDataProvider = require("custom-mock-data-provider");
 // a pretend geo service, as an example of allowing route handlers to perform external interactions
 var geoService = require("awesome-geo-service")({url: "http.example.com/geoservice"});
 
-openapi.initialize({
+initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
     paths: [
@@ -556,7 +556,7 @@ rest of your app is unaffected.
 **Note:** 4 arguments (no more, no less) must be defined in your errorMiddleware function. Otherwise the function will be silently ignored.
 
 ```javascript
-openapi.initialize({
+initialize({
   apiDoc: require('v3-api-doc'),
   /*...*/
   errorMiddleware: function(err, req, res, next) { // only handles errors for /v3/*
@@ -587,7 +587,7 @@ openapi.initialize({
 This is used to resolve a schema reference `$ref`. Id can be a URL or relative path from `args.docPath`.
 
 ```javascript
-openapi.initialize({
+initialize({
   apiDoc: require('v3-api-doc'),
   /*...*/
   externalSchemas: {
@@ -649,7 +649,7 @@ had no `security` defined, it is added to the `operationDoc` and security middle
 is applied.
 
 ```javascript
-openapi.initialize({
+initialize({
   apiDoc: require('v3-api-doc'),
   /*...*/
   pathSecurity: [
@@ -782,7 +782,7 @@ module method, then `express-openapi` will add no additional middleware.
 A common use for this is to ignore spec or test files located in the same folder than the paths, like:
 
 ```javascript
-openapi.initialize({
+initialize({
   apiDoc: apiDoc,
   app: app,
   paths: './api-v1/paths',
@@ -860,7 +860,7 @@ free to modify it.  This is useful if you're implementing [Security Filtering](h
 **Note:** You must end the request inside the filter.
 
 ```js
-openapi.initialize({
+initialize({
   /* ... */
   promiseMode: true,
   securityFilter: async (req, res) => {
@@ -902,22 +902,22 @@ var apiDoc = {
 Next you can define your security handlers in the OpenAPI initialization args:
 
 ```javascript
-openapi.initialize({
+initialize({
   apiDoc: apiDoc,
   app: app,
   securityHandlers: {
-    keyScheme: function(req, scopes, definition, cb) {
+    keyScheme: function(req, scopes, definition) {
       /* do something.  You can assign values to req to make them available in
       operation handlers. */
-      cb(null, true);
+      return Promise.resolve(true);
     },
-    passwordScheme: function(req, scopes, definition, cb) {
+    passwordScheme: function(req, scopes, definition) {
       /* do something */
-      cb({
+      throw {
         status: 401,
         challenge: 'Basic realm=foo',
         message: 'You must authenticate to access foo.'
-      });
+      };
     }
   }
 });
@@ -951,6 +951,8 @@ post.apiDoc = {
 See [openapi-security-handler](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler)
 for more details.
 
+Also see the sample usage in https://github.com/kogosoftwarellc/open-api/blob/master/packages/express-openapi/test/sample-projects/with-securityHandlers/app.js
+
 #### args.validateApiDoc
 
 |Type|Required|Default Value|Description|
@@ -978,7 +980,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
-openapi.initialize({
+initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
     paths: './built/api-paths'
