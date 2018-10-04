@@ -2,6 +2,11 @@
   "name": "openapi-security-handler",
   "version": "2.0.2",
   "description": "A library to process OpenAPI security definitions in parallel.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "cover": "nyc",
     "prepare": "tsc",
