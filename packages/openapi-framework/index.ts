@@ -28,20 +28,20 @@ import {
   withNoDuplicates,
 } from './src/util';
 import {
-  OpenapiFrameworkOperationContext,
-  OpenapiFrameworkOptions,
-  OpenapiFrameworkVisitor,
-  IOpenapiFramework
+  OpenAPIFrameworkOperationContext,
+  OpenAPIFrameworkOptions,
+  OpenAPIFrameworkVisitor,
+  IOpenAPIFramework
 } from './src/types';
 import fsRoutes from 'fs-routes';
-import OpenapiDefaultSetter from 'openapi-default-setter';
-const OpenapiSchemaValidator = require('openapi-schema-validator');
-const OpenapiRequestCoercer = require('openapi-request-coercer');
-const OpenapiRequestValidator = require('openapi-request-validator');
-const OpenapiResponseValidator = require('openapi-response-validator');
-const OpenapiSecurityHandler = require('openapi-security-handler');
+import OpenAPIDefaultSetter from 'openapi-default-setter';
+import OpenAPISchemaValidator from 'openapi-schema-validator';
+import OpenAPIRequestCoercer from 'openapi-request-coercer';
+import OpenAPIRequestValidator from 'openapi-request-validator';
+import OpenAPIResponseValidator from 'openapi-response-validator';
+import OpenAPISecurityHandler from 'openapi-security-handler';
 
-export default class OpenapiFramework implements IOpenapiFramework {
+export default class OpenAPIFramework implements IOpenAPIFramework {
   private apiDoc;
   readonly basePath;
   private customFormats;
@@ -61,7 +61,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
   private validateApiDoc;
   private validator;
 
-  constructor(protected args = {} as OpenapiFrameworkOptions){
+  constructor(protected args = {} as OpenAPIFrameworkOptions){
     this.name = args.name;
     this.featureType = args.featureType;
     this.loggingPrefix = args.name ?
@@ -97,7 +97,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
     this.validateApiDoc = 'validateApiDoc' in args ?
         !!args.validateApiDoc :
         true;
-    this.validator = new OpenapiSchemaValidator({
+    this.validator = new OpenAPISchemaValidator({
       version: (<OpenAPIV3.Document>this.apiDoc).openapi || (<OpenAPIV2.Document>this.apiDoc).swagger,
       extensions: this.apiDoc[`x-${this.name}-schema-extension`]
     });
@@ -127,12 +127,12 @@ export default class OpenapiFramework implements IOpenapiFramework {
     }
   }
 
-  initialize(visitor: OpenapiFrameworkVisitor) {
+  initialize(visitor: OpenAPIFrameworkVisitor) {
     const parameterDefinitions = this.apiDoc.parameters || {};
     const apiSecurityMiddleware = this.securityHandlers &&
                                 this.apiDoc.security &&
                                 this.apiDoc.securityDefinitions ?
-        new OpenapiSecurityHandler({
+        new OpenAPISecurityHandler({
           securityDefinitions: this.apiDoc.securityDefinitions,
           securityHandlers: this.securityHandlers,
           operationSecurity: this.apiDoc.security,
@@ -213,7 +213,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
             Array.isArray(this.apiDoc.consumes) ?
             this.apiDoc.consumes :
             [];
-        const operationContext: OpenapiFrameworkOperationContext = {
+        const operationContext: OpenAPIFrameworkOperationContext = {
           additionalFeatures: getAdditionalFeatures(this, this.originalApiDoc,
             originalPathItem, pathModule, operationDoc),
           allowsFeatures: allowsFeatures(this, this.apiDoc, pathModule, pathDoc, operationDoc),
@@ -243,7 +243,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
               // add response validation feature
               // it's invalid for a method doc to not have responses, but the post
               // validation will pick it up, so this is almost always going to be added.
-              const responseValidator = new OpenapiResponseValidator({
+              const responseValidator = new OpenAPIResponseValidator({
                 loggingKey: `${this.name}-response-validation`,
                 definitions: this.apiDoc.definitions,
                 externalSchemas: this.externalSchemas,
@@ -265,7 +265,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
             if (methodParameters.length) {
               // defaults, coercion, and parameter validation middleware
               if (allowsValidationFeature(this, this.apiDoc, pathModule, pathDoc, operationDoc)) {
-                const requestValidator = new OpenapiRequestValidator({
+                const requestValidator = new OpenAPIRequestValidator({
                   errorTransformer: this.errorTransformer,
                   parameters: methodParameters,
                   schemas: this.apiDoc.definitions,
@@ -276,7 +276,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
               }
 
               if (allowsCoercionFeature(this, this.apiDoc, pathModule, pathDoc, operationDoc)) {
-                const coercer = new OpenapiRequestCoercer({
+                const coercer = new OpenAPIRequestCoercer({
                   extensionBase: `x-${this.name}-coercion`,
                   loggingKey: `${this.name}-coercion`,
                   parameters: methodParameters
@@ -288,7 +288,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
               // no point in default feature if we don't have any parameters with defaults.
               if (methodParameters.filter(byDefault).length &&
                   allowsDefaultsFeature(this, this.apiDoc, pathModule, pathDoc, operationDoc)) {
-                const defaultSetter = new OpenapiDefaultSetter({parameters: methodParameters});
+                const defaultSetter = new OpenAPIDefaultSetter({parameters: methodParameters});
                 operationContext.features.defaultSetter = defaultSetter;
               }
             }
@@ -306,7 +306,7 @@ export default class OpenapiFramework implements IOpenapiFramework {
 
             if (securityDefinition) {
               pathDoc[methodName].security = securityDefinition;
-              securityFeature = new OpenapiSecurityHandler({
+              securityFeature = new OpenAPISecurityHandler({
                 securityDefinitions: this.apiDoc.securityDefinitions,
                 securityHandlers: this.securityHandlers,
                 operationSecurity: securityDefinition,

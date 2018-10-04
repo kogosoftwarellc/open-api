@@ -1,7 +1,12 @@
 import { OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
+import { IOpenAPIDefaultSetter } from 'openapi-default-setter';
+import { IOpenAPIRequestCoercer } from 'openapi-request-coercer';
+import { IOpenAPIRequestValidator } from 'openapi-request-validator';
+import { IOpenAPIResponseValidator } from 'openapi-response-validator';
+import { IOpenAPISecurityHandler } from 'openapi-security-handler';
 
 export {
-  OpenapiFrameworkOptions,
+  OpenAPIFrameworkOptions,
   OpenAPIErrorTransformer
 };
 
@@ -35,13 +40,13 @@ interface SecurityHandlerError {
   message?: any;
 }
 
-export interface IOpenapiFramework {
+export interface IOpenAPIFramework {
   featureType: string
   loggingPrefix: string
   name: string
 }
 
-interface OpenapiFrameworkOptions {
+interface OpenAPIFrameworkOptions {
   apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string
   customFormats?: {string: (any) => boolean}
   dependencies?: {[service:string]: any}
@@ -58,20 +63,20 @@ interface OpenapiFrameworkOptions {
   validateApiDoc?: boolean
 }
 
-export interface OpenapiFrameworkAPIContext {
+export interface OpenAPIFrameworkAPIContext {
   basePath: string
   // TODO fill this out
   getApiDoc(): any
 }
 
-export interface OpenapiFrameworkPathContext {
+export interface OpenAPIFrameworkPathContext {
   basePath: string
   // TODO fill this out
   getApiDoc(): any
   getPathDoc(): any
 }
 
-export interface OpenapiFrameworkOperationContext {
+export interface OpenAPIFrameworkOperationContext {
   additionalFeatures: Array<any>
   allowsFeatures: boolean
   apiDoc: any
@@ -79,11 +84,11 @@ export interface OpenapiFrameworkOperationContext {
   consumes: Array<String>
   // TODO define these
   features: {
-    coercer?: any
-    defaultSetter?: any
-    requestValidator?: any
-    responseValidator?: any
-    securityHandler?: any
+    coercer?: IOpenAPIRequestCoercer
+    defaultSetter?: IOpenAPIDefaultSetter
+    requestValidator?: IOpenAPIRequestValidator
+    responseValidator?: IOpenAPIResponseValidator
+    securityHandler?: IOpenAPISecurityHandler
   }
   methodName: string
   methodParameters: Array<any>
@@ -93,8 +98,8 @@ export interface OpenapiFrameworkOperationContext {
 }
 
 // TODO define this better
-export interface OpenapiFrameworkVisitor {
-  visitApi?(context: OpenapiFrameworkAPIContext): void;
-  visitPath?(context: OpenapiFrameworkPathContext): void;
-  visitOperation?(context: OpenapiFrameworkOperationContext): void;
+export interface OpenAPIFrameworkVisitor {
+  visitApi?(context: OpenAPIFrameworkAPIContext): void;
+  visitPath?(context: OpenAPIFrameworkPathContext): void;
+  visitOperation?(context: OpenAPIFrameworkOperationContext): void;
 }

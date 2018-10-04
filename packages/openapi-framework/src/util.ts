@@ -1,4 +1,4 @@
-import { IOpenapiFramework } from './types';
+import { IOpenAPIFramework } from './types';
 const difunc = require('difunc');
 const fs = require('fs');
 const isDir = require('is-dir');
@@ -48,24 +48,24 @@ function allows(docs, prop, val) {
     .length;
 }
 
-export function allowsCoercionFeature(framework: IOpenapiFramework, ...docs) {
+export function allowsCoercionFeature(framework: IOpenAPIFramework, ...docs) {
   return allows(arguments, `x-${framework.name}-disable-coercion-${framework.featureType}`, true);
 }
 
-export function allowsDefaultsFeature(framework: IOpenapiFramework, ...docs) {
+export function allowsDefaultsFeature(framework: IOpenAPIFramework, ...docs) {
   return allows(arguments, `x-${framework.name}-disable-defaults-${framework.featureType}`, true);
 }
 
-export function allowsFeatures(framework: IOpenapiFramework, ...docs) {
+export function allowsFeatures(framework: IOpenAPIFramework, ...docs) {
   return allows(docs, `x-${framework.name}-disable-${framework.featureType}`, true);
 }
 
-export function allowsResponseValidationFeature(framework: IOpenapiFramework, ...docs) {
+export function allowsResponseValidationFeature(framework: IOpenAPIFramework, ...docs) {
   return allows(arguments, `x-${framework.name}-disable-response-validation-${framework.featureType}`,
       true);
 }
 
-export function allowsValidationFeature(framework: IOpenapiFramework, ...docs) {
+export function allowsValidationFeature(framework: IOpenAPIFramework, ...docs) {
   return allows(docs, `x-${framework.name}-disable-validation-${framework.featureType}`, true);
 }
 
@@ -114,7 +114,7 @@ export function copy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export function getAdditionalFeatures(framework: IOpenapiFramework, ...docs) {
+export function getAdditionalFeatures(framework: IOpenAPIFramework, ...docs) {
   const additionalFeatures = [];
   let index = docs.length - 1;
   const inheritProperty = `x-${framework.name}-inherit-additional-${framework.featureType}`;
@@ -202,7 +202,7 @@ export function isDynamicRoute(route) {
   return route.indexOf("{")>0;
 }
 
-export function resolveParameterRefs(framework: IOpenapiFramework, parameters, definitions) {
+export function resolveParameterRefs(framework: IOpenAPIFramework, parameters, definitions) {
   return parameters.map(parameter => {
     if (typeof parameter.$ref === 'string') {
       const match = PARAMETER_REF_REGEX.exec(parameter.$ref);
@@ -221,7 +221,7 @@ export function resolveParameterRefs(framework: IOpenapiFramework, parameters, d
   });
 }
 
-export function resolveResponseRefs(framework: IOpenapiFramework, responses, apiDoc, route) {
+export function resolveResponseRefs(framework: IOpenAPIFramework, responses, apiDoc, route) {
   return Object.keys(responses).reduce((resolvedResponses, responseCode) => {
     const response = responses[responseCode];
 
