@@ -1,6 +1,6 @@
 {
   "name": "openapi-default-setter",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Sets default values in request properties according to defaults defined in openapi parameter lists.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "cover": "nyc",
-    "prepublishOnly": "tsc",
+    "prepare": "tsc",
     "test-watch": "mocha --watch-extensions ts -w",
     "test": "mocha",
     "travis-test": "npm run cover"
@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter#readme",
   "dependencies": {
-    "openapi-types": "^1.2.0"
+    "openapi-types": "^1.3.1"
   }
 }

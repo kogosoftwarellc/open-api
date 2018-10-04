@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "cover": "nyc",
-    "prepublishOnly": "tsc",
+    "prepare": "tsc",
     "pretest": "touch test-dir/users/:id.js",
     "test-watch": "npm run pretest && mocha --watch-extensions ts -w",
     "test": "mocha",

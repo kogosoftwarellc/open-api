@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "cover": "nyc",
-    "prepublishOnly": "tsc",
+    "prepare": "tsc",
     "test-watch": "mocha --watch-extensions ts -w",
     "test": "mocha",
     "travis-test": "echo 'todo write tests'"

@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "cover": "nyc",
-    "prepublishOnly": "tsc",
+    "prepare": "tsc",
     "test-watch": "mocha --watch-extensions ts -w",
     "test": "mocha",
     "travis-test": "npm run cover"

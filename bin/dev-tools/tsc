@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+tsc="$(dirname $(dirname $(dirname $0)))/node_modules/.bin/tsc"
+
+$tsc $@
+
+if [[ -d resources ]]; then
+  cp -R resources dist/
+fi
