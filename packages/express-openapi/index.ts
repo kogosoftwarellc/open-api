@@ -1,13 +1,48 @@
-var OpenapiFramework = require('openapi-framework').default;
-var CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
-var normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
+import OpenAPIFramework from 'openapi-framework';
+import { OpenAPI } from 'openapi-types';
+import { Application, ErrorRequestHandler, RequestHandler } from 'express';
+import { ErrorObject, FormatDefinition, FormatValidator } from 'ajv';
+import { SecurityHandlers } from 'openapi-security-handler';
+import { OpenAPIRequestValidatorError } from 'openapi-request-validator';
+import { OpenAPIResponseValidatorError } from 'openapi-response-validator';
+const CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
+const normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
+const loggingPrefix = 'express-openapi';
 
-module.exports = {
-  initialize: initialize
-};
+export type PathSecurityTuple = [RegExp, SecurityRequirement[]]
 
-var loggingPrefix = 'express-openapi';
-function initialize(args) {
+export interface SecurityRequirement {
+    [name: string]: SecurityScope[]
+}
+
+type SecurityScope = string
+export interface ExpressOpenAPIArgs {
+    apiDoc: OpenAPI.Document | string
+    app: Application
+    paths: string | string[] | { path: string, module: any }[]
+    pathsIgnore?: RegExp
+    routesGlob?: string;
+    routesIndexFileRegExp?: RegExp;
+    docsPath?: string
+    errorMiddleware?: ErrorRequestHandler,
+    errorTransformer?(
+      openapiError: OpenAPIRequestValidatorError | OpenAPIResponseValidatorError,
+      ajvError: ErrorObject): any
+    exposeApiDocs?: boolean
+    promiseMode?: boolean
+    validateApiDoc?: boolean
+    consumesMiddleware?: {[mimeType: string]: RequestHandler}
+    customFormats?: {
+      [formatName: string]: FormatValidator | FormatDefinition;
+    }
+    externalSchemas?: {[url:string]: any}
+    pathSecurity?: PathSecurityTuple[]
+    securityHandlers?: SecurityHandlers
+    securityFilter?: RequestHandler
+    dependencies?: {[service:string]: any}
+}
+
+export function initialize(args: ExpressOpenAPIArgs) {
   if (!args) {
     throw new Error(`${loggingPrefix}: args must be an object`);
   }
@@ -16,7 +51,7 @@ function initialize(args) {
     throw new Error(`${loggingPrefix}: args.app must be an express app`);
   }
 
- var exposeApiDocs = 'exposeApiDocs' in args ?
+ const exposeApiDocs = 'exposeApiDocs' in args ?
       !!args.exposeApiDocs :
       true;
 
@@ -28,14 +63,14 @@ function initialize(args) {
     throw new Error(`${loggingPrefix}: args.securityFilter must be a function when given`);
   }
 
-  var app = args.app;
+  const app = args.app;
   // Do not make modifications to this.
-  var docsPath = args.docsPath || '/api-docs';
-  var consumesMiddleware = args.consumesMiddleware;
-  var errorMiddleware = typeof args.errorMiddleware === 'function' &&
+  const docsPath = args.docsPath || '/api-docs';
+  const consumesMiddleware = args.consumesMiddleware;
+  const errorMiddleware = typeof args.errorMiddleware === 'function' &&
       args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
-  var promiseMode = !!args.promiseMode;
-  var securityFilter = args.securityFilter ? (
+  const promiseMode = !!args.promiseMode;
+  const securityFilter = args.securityFilter ? (
     args.promiseMode ?
       toPromiseCompatibleMiddleware(args.securityFilter) :
       args.securityFilter
@@ -43,41 +78,27 @@ function initialize(args) {
     res.status(200).json(req.apiDoc);
   };
 
-  // TODO: Use spread once on typescript.
-  var frameworkArgs = {
+  const frameworkArgs = {
     featureType: 'middleware',
     name: loggingPrefix,
+    ...args
   };
 
-  [
-    'apiDoc',
-    'customFormats',
-    'dependencies',
-    'errorTransformer',
-    'externalSchemas',
-    'pathSecurity',
-    'paths',
-    'pathsIgnore',
-    'routesGlob',
-    'routesIndexFileRegExp',
-    'securityHandlers',
-    'validateApiDoc'
-  ].forEach(arg => {
-    if (arg in args) {
-      frameworkArgs[arg] = args[arg];
-    }
-  });
-
-  var framework = new OpenapiFramework(frameworkArgs);
+  //@ts-ignore TODO
+  const framework = new OpenAPIFramework(frameworkArgs);
 
   framework.initialize({
-    visitApi: function(ctx) {
+    visitApi: ctx => {
       if (exposeApiDocs) {
         // Swagger UI support
-        app.get(ctx.basePath + docsPath, function(req, res, next) {
+        app.get(ctx.basePath + docsPath, (req, res, next) => {
+          // @ts-ignore
           req.apiDoc = ctx.getApiDoc();
+          // @ts-ignore
           if (req.apiDoc.swagger) {
+            // @ts-ignore
             req.apiDoc.host = req.headers.host;
+            // @ts-ignore
             req.apiDoc.basePath = req.baseUrl + ctx.basePath;
           }
           securityFilter(req, res, next);
@@ -89,12 +110,12 @@ function initialize(args) {
       }
     },
 
-    visitOperation: function(ctx) {
-      var apiDoc = ctx.apiDoc;
-      var methodName = ctx.methodName;
-      var middleware = [].concat(ctx.additionalFeatures);
-      var operationDoc = ctx.operationDoc;
-      var operationHandler = ctx.operationHandler;
+    visitOperation: ctx => {
+      const apiDoc = ctx.apiDoc;
+      const methodName = ctx.methodName;
+      const operationDoc = ctx.operationDoc;
+      const operationHandler = ctx.operationHandler;
+      let middleware = [].concat(ctx.additionalFeatures);
 
 
       if (operationDoc && ctx.allowsFeatures) {
@@ -105,7 +126,7 @@ function initialize(args) {
           // it's invalid for a method doc to not have responses, but the post
           // validation will pick it up, so this is almost always going to be added.
           middleware.unshift(function responseValidatorMiddleware(req, res, next) {
-            res.validateResponse = function(statusCode, response) {
+            res.validateResponse = (statusCode, response) => {
               return ctx.features.responseValidator.validateResponse(statusCode, response);
             };
             next();
@@ -133,7 +154,9 @@ function initialize(args) {
         }
 
         if (ctx.features.securityHandler) {
-          middleware.push(createSecurityMiddleware(ctx.features.securityHandler));
+          middleware.push((req, res, next) => {
+            ctx.features.securityHandler.handle(req).then(next).catch(next);
+          });
         }
 
         if (consumesMiddleware && ctx.consumes) {
@@ -149,7 +172,7 @@ function initialize(args) {
         middleware = [].concat.apply([], middleware).map(toPromiseCompatibleMiddleware);
       }
 
-      var expressPath = ctx.basePath + '/' +
+      const expressPath = ctx.basePath + '/' +
           ctx.path.substring(1).split('/').map(toExpressParams).join('/');
       app[methodName].apply(app, [expressPath].concat(middleware));
     }
@@ -160,10 +183,10 @@ function initialize(args) {
 
 
 function addConsumesMiddleware(middleware, consumesMiddleware, consumes) {
-  for (var i = consumes.length - 1; i >= 0; --i) {
-    var mimeType = consumes[i];
+  for (let i = consumes.length - 1; i >= 0; --i) {
+    const mimeType = consumes[i];
     if (mimeType in consumesMiddleware) {
-      var middlewareToAdd = consumesMiddleware[mimeType];
+      const middlewareToAdd = consumesMiddleware[mimeType];
       middleware.unshift(middlewareToAdd);
     }
   }
@@ -177,35 +200,13 @@ function createAssignApiDocMiddleware(apiDoc, operationDoc) {
   };
 }
 
-function createSecurityMiddleware(handler) {
-  return function securityMiddleware(req, res, next) {
-    handler.handle(req, function(err, result) {
-      if (err) {
-        if (err.challenge) {
-          res.set('www-authenticate', err.challenge);
-        }
-        res.status(err.status);
-
-        if (typeof err.message === 'string') {
-          res.send(err.message);
-        } else {
-          res.json(err.message);
-        }
-
-        return;
-      }
-      next();
-    });
-  };
-}
-
 function optionallyAddQueryNormalizationMiddleware(middleware, methodParameters) {
   if (!methodParameters) {
     return;
   }
-  var queryParamsNeedingNormalization = methodParameters.filter(function(param) {
+  const queryParamsNeedingNormalization = methodParameters.filter(param => {
     return param.in === 'query' && param[CASE_SENSITIVE_PARAM_PROPERTY] === false;
-  }).map(function(param) {
+  }).map(param => {
     return param.name;
   });
   if (queryParamsNeedingNormalization.length) {
@@ -220,7 +221,7 @@ function toExpressParams(part) {
 function toPromiseCompatibleMiddleware(fn) {
   if (typeof fn === 'function' && fn.name !== 'expressOpenapiPromiseMiddleware') {
     return function expressOpenapiPromiseMiddleware(req, res, next) {
-      var potentialPromise = fn(req, res, next);
+      const potentialPromise = fn(req, res, next);
       if (potentialPromise && typeof potentialPromise.catch === 'function') {
         potentialPromise.catch(next);
       }

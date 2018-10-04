@@ -1,10 +1,9 @@
-var expect = require('chai').expect;
-var express = require('express');
-var expressOpenapi = require('../');
-var path = require('path');
-var routesDir = path.resolve(__dirname, './sample-projects/basic-usage/api-routes');
-var sut = require('../');
-var validDocument = {
+import { initialize } from '../';
+const expect = require('chai').expect;
+const express = require('express');
+const path = require('path');
+const routesDir = path.resolve(__dirname, './sample-projects/basic-usage/api-routes');
+const validDocument = {
   swagger: '2.0',
   info: {
     title: 'some api',
@@ -13,9 +12,9 @@ var validDocument = {
   paths: {}
 };
 
-describe(require('../package.json').name, function() {
-  describe('.initialize()', function() {
-    describe('args validation', function() {
+describe(require('../package.json').name, () => {
+  describe('.initialize()', () => {
+    describe('args validation', () => {
       [
         ['args is not an object', null, /express-openapi: args must be an object/],
         ['args.app must be an express app', {}, /express-openapi: args.app must be an express app/],
@@ -29,15 +28,16 @@ describe(require('../package.json').name, function() {
         ['args.errorTransformer', {app: {}, apiDoc: validDocument, paths: routesDir, errorTransformer: 'asdf'}, /express-openapi: args.errorTransformer must be a function when given/],
         ['args.externalSchemas', {app: {}, apiDoc: validDocument, paths: routesDir, externalSchemas: 'asdf'}, /express-openapi: args.externalSchemas must be a object when given/],
         ['args.securityHandlers', {app: {}, apiDoc: validDocument, paths: routesDir, securityHandlers: 'asdf'}, /express-openapi: args.securityHandlers must be a object when given/],
-      ].forEach(function(test) {
-        var description = test[0];
-        var args = test[1];
-        var expectedError = test[2];
+      ].forEach((test: [string, object, RegExp]) => {
+        const description: string = test[0];
+        const args = test[1];
+        const expectedError = test[2];
 
-        describe(description, function() {
-          it('should throw an error', function() {
-            expect(function() {
-              sut.initialize(args);
+        describe(description, () => {
+          it('should throw an error', () => {
+            expect(() => {
+              // @ts-ignore
+              initialize(args);
             }).to.throw(expectedError);
           });
         });
@@ -45,10 +45,10 @@ describe(require('../package.json').name, function() {
     });
 
     it('should throw an error when a route method apiDoc is invalid', function() {
-      expect(function() {
-        var app = express();
+      expect(() => {
+        const app = express();
 
-        expressOpenapi.initialize({
+        initialize({
           apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
           app: app,
           docsPath: '/api-docs',
@@ -60,10 +60,10 @@ describe(require('../package.json').name, function() {
       }).to.throw(/express-openapi: args.apiDoc was invalid after populating paths.  See the output./);
     });
 
-    it('should not throw an error when args.validateApiDoc is false and a route method apiDoc is invalid', function() {
-      var app = express();
+    it('should not throw an error when args.validateApiDoc is false and a route method apiDoc is invalid', () => {
+      const app = express();
 
-      expressOpenapi.initialize({
+      initialize({
         apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
         app: app,
         docsPath: '/api-docs',
@@ -72,11 +72,10 @@ describe(require('../package.json').name, function() {
       });
     });
 
-    it('should return the built apiDoc', function() {
-      this.timeout(3000);
-      var expectedApiDoc = require(
+    it('should return the built apiDoc', () => {
+      const expectedApiDoc = require(
           './fixtures/basic-usage-api-doc-after-initialization.json');
-      var initializedApp = expressOpenapi.initialize({
+      const initializedApp = initialize({
         apiDoc: require('./sample-projects/basic-usage/api-doc.js'),
         app: express(),
         paths: routesDir
@@ -85,21 +84,21 @@ describe(require('../package.json').name, function() {
       expect(initializedApp.apiDoc).to.eql(expectedApiDoc);
     });
 
-    it('should require referenced parameter to exist', function() {
-      expect(function() {
+    it('should require referenced parameter to exist', () => {
+      expect(() => {
         require('./sample-projects/with-referenced-parameter-missing/app.js');
       }).to.throw(/Invalid parameter \$ref or definition not found in apiDoc\.parameters: #\/parameters\/Boo/);
 
     });
 
-    it('should require referenced response to exist', function() {
-      expect(function() {
+    it('should require referenced response to exist', () => {
+      expect(() => {
         require('./sample-projects/with-referenced-response-missing/app.js');
       }).to.throw(/Invalid response \$ref or definition not found in apiDoc.responses: #\/responses\/SuccessResponse/);
 
     });
 
-    it('should not throw when security handlers are defined and no method doc exists on a handler', function() {
+    it('should not throw when security handlers are defined and no method doc exists on a handler', () => {
       require('./sample-projects/securityHandlers-without-a-method-doc/app.js');
     });
   });

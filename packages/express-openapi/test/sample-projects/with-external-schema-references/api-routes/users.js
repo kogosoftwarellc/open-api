@@ -20,7 +20,9 @@ module.exports = {
     }
 
     var errors = res.validateResponse(statusCode, statusCode == 200 ? [{}] : {});
-    res.status(500).json(errors);
+    if (errors) {
+      throw errors;
+    }
   },
   // handling no method doc
   post: function() {}
