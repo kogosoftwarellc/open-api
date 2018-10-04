@@ -1,12 +1,12 @@
-import { OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
+import { OpenAPI, OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
 import { IOpenAPIDefaultSetter } from 'openapi-default-setter';
 import { IOpenAPIRequestCoercer } from 'openapi-request-coercer';
 import { IOpenAPIRequestValidator } from 'openapi-request-validator';
 import { IOpenAPIResponseValidator } from 'openapi-response-validator';
-import { IOpenAPISecurityHandler } from 'openapi-security-handler';
+import { IOpenAPISecurityHandler, SecurityHandlers } from 'openapi-security-handler';
 
 export {
-  OpenAPIFrameworkOptions,
+  OpenAPIFrameworkArgs,
   OpenAPIErrorTransformer
 };
 
@@ -20,15 +20,6 @@ interface SecurityRequirement {
 }
 
 type SecurityScope = string
-
-interface SecurityHandlers {
-  [name: string]: SecurityHandler
-}
-
-interface SecurityHandler {
-  // TODO: Add OpenAPIV3 SecuritySchemeObject equivalent in openapi-types
-  (req: Request, scopes: SecurityScope[], definition: OpenAPIV2.SecuritySchemeObject, cb: SecurityHandlerCallback): void;
-}
 
 interface SecurityHandlerCallback {
   (error: SecurityHandlerError, result: boolean): void;
@@ -46,7 +37,7 @@ export interface IOpenAPIFramework {
   name: string
 }
 
-interface OpenAPIFrameworkOptions {
+interface OpenAPIFrameworkArgs {
   apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string
   customFormats?: {string: (any) => boolean}
   dependencies?: {[service:string]: any}
@@ -59,7 +50,7 @@ interface OpenAPIFrameworkOptions {
   pathsIgnore?: RegExp
   routesGlob?: string;
   routesIndexFileRegExp?: RegExp;
-  securityHandlers?: SecurityHandlers // TODO define the handlers more here
+  securityHandlers?: SecurityHandlers;// TODO define the handlers more here
   validateApiDoc?: boolean
 }
 
@@ -82,7 +73,6 @@ export interface OpenAPIFrameworkOperationContext {
   apiDoc: any
   basePath: string
   consumes: Array<String>
-  // TODO define these
   features: {
     coercer?: IOpenAPIRequestCoercer
     defaultSetter?: IOpenAPIDefaultSetter
@@ -97,7 +87,6 @@ export interface OpenAPIFrameworkOperationContext {
   path: string
 }
 
-// TODO define this better
 export interface OpenAPIFrameworkVisitor {
   visitApi?(context: OpenAPIFrameworkAPIContext): void;
   visitPath?(context: OpenAPIFrameworkPathContext): void;
