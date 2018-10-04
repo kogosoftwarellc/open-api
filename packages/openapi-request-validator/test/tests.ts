@@ -1,9 +1,10 @@
-var expect = require('chai').expect;
-var Sut = require('../');
+const expect = require('chai').expect;
+import Sut from '../';
 
-describe(require('../package.json').name, function() {
-  it('should not modify the input parameters', function() {
-    var initialArguments = createArguments();
+describe(require('../package.json').name, () => {
+  it('should not modify the input parameters', () => {
+    const initialArguments = createArguments();
+    //@ts-ignore
     new Sut(initialArguments);
     expect(initialArguments).to.eql(createArguments());
   });

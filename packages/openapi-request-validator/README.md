@@ -8,7 +8,6 @@
 * Small footprint.
 * Does not validate parameter input.  Converts parameter input to jsonschema using [openapi-jsonschema-parameters](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters).
 * Leverages [jsonschema](https://www.npmjs.com/package/jsonschema).
-* Currently supports openapi 2.0 (a.k.a. swagger 2.0) parameter lists.
 * Supports `$ref` in body schemas i.e. `#/definitions/SomeType`.
 * Does not supply default values (use [openapi-default-setter](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter)).
 * Does not handle type coercion (use [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)).
@@ -18,8 +17,8 @@
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var OpenapiRequestValidator = require('openapi-request-validator');
-var validator = new OpenapiRequestValidator({
+var OpenAPIRequestValidator = require('openapi-request-validator');
+var validator = new OpenAPIRequestValidator({
   parameters: [
     {
       in: 'query',
