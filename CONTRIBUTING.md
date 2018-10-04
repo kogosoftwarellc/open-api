@@ -20,7 +20,7 @@ but not yet in a JSON Schema file.  See
 https://github.com/OAI/OpenAPI-Specification/issues/1032.
 
 If you're expecting to have fast resolution of issues relating to V3 then you'll have
-to [open a Pull Request](https://github.com/kogosoftwarellc/open-api).  The reason for this is that the schema is still in flux and the Maintainer[s] must focus their time of reviewing and publishing code.
+to [open a Pull Request](https://github.com/kogosoftwarellc/open-api).  The reason for this is that the schema is still in flux and the Maintainer[s] must focus their time on reviewing and publishing code.
 
 ## Status of OpenAPI V2
 
