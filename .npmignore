@@ -1,11 +1,13 @@
-dist/
-bower_components/
 example/
 coverage/
 node_modules/
+docs/
 test/
+src/
+/*.ts
+test-dir/
+tsconfig.json
 .gitignore
-.jshint*
-.travis.yml
+.eslintrc.js
 *.swp
 *.spec.js

@@ -1,9 +1,0 @@
-/test/
-/integration/
-/nbproject/
-/coverage/
-.gitignore
-.jshint*
-.travis.yml
-*.swp
-/test-dir/

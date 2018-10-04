@@ -1,9 +1,8 @@
-bower_components/
 coverage/
 node_modules/
 .nyc_output/
-dist/
 npm-debug.log
+packages/*/.npmignore
 *.swp
 *.swo
 packages/*/dist

@@ -6,6 +6,7 @@ export PATH="$PWD/bin/dev-tools:$PWD/node_modules/.bin:$PATH"
 
 function publish() {
   pushd "$1" > /dev/null
+  cp ../../.npmignore .
   rm -rf node_modules
   npm i
   npm version "$2"
