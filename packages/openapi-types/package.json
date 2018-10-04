@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "tsc",
     "test-watch": "tsc",
-    "travis-test": "npm run prepublishOnly"
+    "travis-test": "tsc"
   },
   "keywords": [
     "openapi",
