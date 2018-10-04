@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.0.2 - 2018-10-03
 ### Fixed
-- Prepublish script didn't run on previous publish.
+- Updating .npmignore to publish `dist`
 
 ## 1.0.1 - 2018-09-29
 ### Fixed
