@@ -6,3 +6,4 @@ dist/
 npm-debug.log
 *.swp
 *.swo
+packages/*/dist
