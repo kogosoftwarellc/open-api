@@ -1,6 +1,6 @@
 import * as Ajv from 'ajv';
 const openapi2Schema = require('swagger-schema-official/schema.json');
-const openapi3Schema = require('./schema/openapi-3.0.json');
+const openapi3Schema = require('./resources/openapi-3.0.json');
 const merge = require('lodash.merge');
 import { OpenAPI, IJsonSchema } from 'openapi-types';
 

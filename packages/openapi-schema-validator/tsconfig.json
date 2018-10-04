@@ -5,6 +5,9 @@
     "outDir": "dist",
     "sourceMap": true
   },
+  "include": [
+    "schema/*.json"
+  ],
   "files": [
     "index.ts"
   ]
