@@ -1,6 +1,6 @@
 {
   "name": "openapi-schema-validator",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "A validator for OpenAPI documents.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
