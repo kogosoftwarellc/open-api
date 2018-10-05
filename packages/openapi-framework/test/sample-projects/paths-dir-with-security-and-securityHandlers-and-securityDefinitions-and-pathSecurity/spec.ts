@@ -16,7 +16,7 @@ describe(path.basename(__dirname), () => {
         [/^awes/, [{ basic: [] }]]
       ],
       securityHandlers: {
-        basic: function() {}
+        basic: function() {return true;}
       }
     });
   });

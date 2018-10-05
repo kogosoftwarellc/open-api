@@ -12,7 +12,7 @@ describe(path.basename(__dirname), () => {
       name: 'some-framework',
       paths: path.resolve(__dirname, 'paths'),
       securityHandlers: {
-        basic: function() {}
+        basic: function() {return true;}
       }
     });
   });
