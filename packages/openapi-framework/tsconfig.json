@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "lib": ["es6"],
     "module": "CommonJS",
     "outDir": "dist",
     "sourceMap": true
