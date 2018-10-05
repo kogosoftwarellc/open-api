@@ -1,4 +1,4 @@
-import OpenapiFramework from '../../../index';
+import OpenapiFramework from '../../../';
 import { expect } from 'chai';
 const path = require('path');
 

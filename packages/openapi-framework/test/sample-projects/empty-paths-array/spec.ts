@@ -1,4 +1,4 @@
-import OpenapiFramework from '../../../index';
+import OpenapiFramework from '../../../';
 const path = require('path');
 
 describe(path.basename(__dirname), () => {

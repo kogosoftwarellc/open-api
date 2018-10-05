@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import OpenapiFramework from '../index';
+import OpenapiFramework from '../';
 const fs = require('fs');
 const path = require('path');
 
