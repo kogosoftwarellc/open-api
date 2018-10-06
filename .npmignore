@@ -11,3 +11,4 @@ tsconfig.json
 .eslintrc.js
 *.swp
 *.spec.js
+.nyc_output
