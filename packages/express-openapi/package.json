@@ -1,6 +1,6 @@
 {
   "name": "express-openapi",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "An unopinionated OpenAPI framework for express",
   "main": "./dist/index.js",
   "types": "./index.d.ts",
