@@ -34,7 +34,7 @@
     "js-yaml": "^3.10.0",
     "openapi-default-setter": "2.0.3",
     "openapi-request-coercer": "2.0.1",
-    "openapi-request-validator": "3.0.0",
+    "openapi-request-validator": "3.0.1",
     "openapi-response-validator": "3.0.1",
     "openapi-schema-validator": "3.0.2",
     "openapi-security-handler": "2.0.3",
