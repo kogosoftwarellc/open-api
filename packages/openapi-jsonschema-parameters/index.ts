@@ -140,7 +140,7 @@ function getRequiredParams(parameters) {
 }
 
 function byIn(str) {
-  return param => param.in === str;
+  return param => param.in === str && param.type !== 'file';
 }
 
 function byRequired(param) {
