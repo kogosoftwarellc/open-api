@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi#readme",
   "dependencies": {
-    "openapi-framework": "^0.4.1"
+    "openapi-framework": "^0.5.3"
   }
 }
