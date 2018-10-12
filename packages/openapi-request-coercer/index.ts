@@ -58,6 +58,11 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
   }
 }
 
+var OBJECT_FORMAT_COERCER = {
+  default: function (input) { return JSON.parse(input) }
+  //other formats
+}
+
 var COERCION_STRATEGIES = {
   array: (itemCoercer, collectionFormat, input) => {
     if (!Array.isArray(input)) {
@@ -70,6 +75,10 @@ var COERCION_STRATEGIES = {
     });
 
     return input;
+  },
+
+  object: function (format, input) {
+    return (OBJECT_FORMAT_COERCER[format] || OBJECT_FORMAT_COERCER['default'])(input);
   },
 
   boolean: input => {
@@ -107,12 +116,12 @@ var STRICT_COERCION_STRATEGIES = {
 
 function buildCoercer(params, property, isHeaders, loggingKey, strictExtensionName) {
   const l = isHeaders ?
-      name => {
-        return name.toLowerCase();
-      } :
-      name => {
-        return name;
-      };
+    name => {
+      return name.toLowerCase();
+    } :
+    name => {
+      return name;
+    };
   let coercion;
 
   if (params.length) {
@@ -136,8 +145,16 @@ function buildCoercer(params, property, isHeaders, loggingKey, strictExtensionNa
 
         itemCoercer = getCoercer(param.items.type, strict);
 
+        if (param.items.type === 'object') {
+          itemCoercer = itemCoercer.bind(null, param.items.format);
+        }
+
         coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
-      } else {
+      }
+      else if (type === 'object') {
+        coercer = getCoercer(param.type, strict).bind(null, param.format);
+      }
+      else {
         coercer = getCoercer(param.type, strict);
       }
 
