@@ -1,0 +1,169 @@
+{
+  "host": "test-host",
+  "basePath": "/v3",
+  "definitions": {
+    "Error": {
+      "$ref": "http://example.com/error#/schema"
+    },
+    "User": {
+      "$ref": "http://example.com/user"
+    }
+  },
+  "info": {
+    "title": "express-openapi sample project",
+    "version": "3.0.0"
+  },
+  "parameters": {
+    "User": {
+      "in": "body",
+      "name": "user",
+      "schema": {
+        "$ref": "http://example.com/user"
+      }
+    },
+    "userId": {
+      "in": "path",
+      "name": "userId",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "description": "List user",
+        "operationId": "listUser",
+        "parameters": [
+          {
+            "enum": [
+              "success",
+              "method-not-allowed",
+              "forbidden",
+              "tea-pod",
+              "error"
+            ],
+            "in": "query",
+            "name": "status",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/User"
+              },
+              "type": "array"
+            }
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "405": {
+            "description": "Method not allowed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "418": {
+            "description": "I am a tea pod",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "http://example.com/tea-pod"
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "http://example.com/error#/schema"
+            }
+          }
+        }
+      },
+      "parameters": [],
+      "post": {
+        "description": "Create new user",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "http://example.com/user"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/User"
+        },
+        {
+          "$ref": "#/parameters/userId"
+        }
+      ],
+      "delete": {
+        "description": "Delete a user",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      },
+      "put": {
+        "description": "Update a user.",
+        "operationId": "updateUser",
+        "responses": {
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "Forbidden": {
+      "description": "Access denied",
+      "schema": {
+        "$ref": "http://example.com/error#/schema"
+      }
+    },
+    "Error": {
+      "description": "Error",
+      "schema": {
+        "$ref": "http://example.com/error#/schema"
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "fooey"
+    },
+    {
+      "name": "users"
+    }
+  ]
+}
