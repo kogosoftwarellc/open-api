@@ -74,7 +74,7 @@ describe(require('../package.json').name, () => {
 
     it('should return the built apiDoc', () => {
       const expectedApiDoc = require(
-          './fixtures/basic-usage-api-doc-after-initialization.json');
+          './../../../test/fixtures/basic-usage-api-doc-after-initialization.json');
       const initializedApp = initialize({
         apiDoc: require('./sample-projects/basic-usage/api-doc.js'),
         app: express(),

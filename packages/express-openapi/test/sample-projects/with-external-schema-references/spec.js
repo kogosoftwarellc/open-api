@@ -1,6 +1,6 @@
 var app;
 var expect = require('chai').expect;
-var expectedApiDoc = require('../../fixtures/with-external-schema-references-api-doc-after-initialization.json');
+var expectedApiDoc = require('../../../../../test/fixtures/with-external-schema-references-api-doc-after-initialization.json');
 var request = require('supertest');
 
 before(function() {

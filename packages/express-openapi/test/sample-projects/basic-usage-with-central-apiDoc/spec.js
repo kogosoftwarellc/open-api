@@ -1,6 +1,6 @@
 const app = require('./app');
 const expect = require('chai').expect;
-const expectedApiDoc = require('../../fixtures/basic-usage-api-doc-after-initialization.json');
+const expectedApiDoc = require('../../../../../test/fixtures/basic-usage-api-doc-after-initialization.json');
 const request = require('supertest');
 
 it('should expose <apiDoc>.basePath/api-docs', function(done) {
