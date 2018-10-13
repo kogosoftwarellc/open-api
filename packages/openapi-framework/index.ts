@@ -29,6 +29,8 @@ import {
 } from './src/util';
 import {
   OpenAPIFrameworkOperationContext,
+  OpenAPIFrameworkPathContext,
+  OpenAPIFrameworkAPIContext,
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkVisitor,
   IOpenAPIFramework
@@ -41,7 +43,12 @@ import OpenAPIRequestValidator from 'openapi-request-validator';
 import OpenAPIResponseValidator from 'openapi-response-validator';
 import OpenAPISecurityHandler from 'openapi-security-handler';
 
-export { OpenAPIFrameworkArgs };
+export {
+  OpenAPIFrameworkArgs,
+  OpenAPIFrameworkPathContext,
+  OpenAPIFrameworkAPIContext,
+  OpenAPIFrameworkOperationContext
+};
 export default class OpenAPIFramework implements IOpenAPIFramework {
   private apiDoc;
   readonly basePath;
