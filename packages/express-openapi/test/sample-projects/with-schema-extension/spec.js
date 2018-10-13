@@ -1,6 +1,6 @@
 var app;
 var expect = require('chai').expect;
-var expectedApiDoc = require('../../fixtures/basic-usage-api-doc-with-extension.json');
+var expectedApiDoc = require('../../../../../test/fixtures/basic-usage-api-doc-with-extension.json');
 var request = require('supertest');
 
 before(function() {
