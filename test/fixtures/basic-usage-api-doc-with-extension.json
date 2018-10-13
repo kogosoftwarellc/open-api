@@ -1,0 +1,204 @@
+{
+  "host": "test-host",
+  "basePath": "/v3",
+  "definitions": {
+    "Error": {
+      "additionalProperties": true
+    },
+    "User": {
+      "properties": {
+        "name": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "null" }
+          ]
+        },
+        "friends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "info": {
+    "title": "express-openapi sample project",
+    "version": "3.0.0"
+  },
+  "paths": {
+    "/apiDocs": {
+      "get": {
+        "description": "Returns the requested apiDoc",
+        "operationId": "getApiDoc",
+        "parameters": [
+          {
+            "description": "The type of apiDoc to return.",
+            "enum": [
+              "apiDoc",
+              "operationDoc"
+            ],
+            "in": "query",
+            "name": "type",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested apiDoc.",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "The requested apiDoc."
+          }
+        }
+      },
+      "parameters": []
+    },
+    "/users": {
+      "parameters": [],
+      "delete": {
+        "description": "Delete users.",
+        "operationId": "deleteUsers",
+        "tags": ["users"],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Users were successfully deleted."
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new user.",
+        "operationId": "createUser",
+        "tags": [
+          "creating",
+          "users"
+        ],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "parameters": [
+        {
+          "description": "Fred's age.",
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "description": "Retrieve a user.",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "description": "The name of this person.  It may only be \"fred\".",
+            "in": "query",
+            "name": "name",
+            "pattern": "^fred$",
+            "type": "string"
+          },
+          {
+            "description": "Fred's age.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "default": 80,
+            "description": "Fred's age.",
+            "in": "query",
+            "name": "age",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requested user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "tags": [
+          "fooey",
+          "users"
+        ]
+      },
+      "post": {
+        "description": "Create a user.",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "creating"
+    },
+    {
+      "name": "fooey"
+    },
+    {
+      "description": "Everything users",
+      "name": "users"
+    }
+  ],
+  "x-express-openapi-schema-extension": {
+    "definitions": {
+      "schema": {
+        "properties": {
+          "oneOf": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/definitions/schema"
+            }
+          }
+        }
+      }
+    }
+  }
+}
