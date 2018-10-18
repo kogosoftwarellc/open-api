@@ -974,15 +974,15 @@ In server script:
 ```typescript
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import * as openapi from "express-openapi";
+import { initialize } from "express-openapi";
 
-var app = express();
+const app = express();
 
 app.use(bodyParser.json());
 
 initialize({
-    apiDoc: require('./api-doc.js'),
-    app: app,
+    apiDoc: './api-doc.js',
+    app,
     paths: './built/api-paths'
 });
 
@@ -996,9 +996,9 @@ app.listen(3000);
 In route handler file like `<project>/src/api-paths/users/{id}.ts`:
 ```typescript
 
-import {Operation} from "express-openapi";
+import { Operation } from "express-openapi";
 
-export var parameters = [
+export const parameters = [
   {
     in: 'path',
     name: 'id',
@@ -1007,14 +1007,14 @@ export var parameters = [
   }
  ];
 
-export var get: Operation = [
+export const GET: Operation = [
     /* business middleware not expressible by OpenAPI documentation goes here */
     (req, res, next) => {
         res.status(200).json(/* return the user */);
     }
 ];
 
-get.apiDoc = {
+GET.apiDoc = {
   description: 'A description for retrieving a user.',
   tags: ['users'],
   operationId: 'getUser',
@@ -1033,11 +1033,11 @@ get.apiDoc = {
   }
 };
 
-export var post: Operation = (req, res, next) => {
+export const POST: Operation = (req, res, next) => {
     /* ... */
 }
 
-post.apiDoc = {
+POST.apiDoc = {
     /* ... */
 };
 ```
