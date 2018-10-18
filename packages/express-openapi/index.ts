@@ -9,6 +9,14 @@ const CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 const normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 const loggingPrefix = 'express-openapi';
 
+export interface OperationFunction extends RequestHandler {
+    apiDoc?: OpenAPI.Operation;
+}
+
+export type OperationHandlerArray  = Array<OperationFunction>;
+
+export type Operation = OperationFunction | OperationHandlerArray;
+
 export type PathSecurityTuple = [RegExp, SecurityRequirement[]]
 
 export interface SecurityRequirement {
