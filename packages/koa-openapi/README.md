@@ -169,7 +169,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     import Koa from 'koa';
     import Router from 'koa-router';
     import bodyParser from 'koa-bodyparser';
-    import { initialize } from 'express-openapi';
+    import { initialize } from 'koa-openapi';
     import v1WorldsService from './api-v1/services/worldsService';
     import v1ApiDoc from './api-v1/api-doc';
 
