@@ -54,6 +54,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   readonly basePath;
   private customFormats;
   private dependencies;
+  private enableObjectCoercion;
   private errorTransformer;
   private externalSchemas;
   readonly featureType;
@@ -99,6 +100,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       }
     });
 
+    this.enableObjectCoercion = !!args.enableObjectCoercion;
     this.originalApiDoc = handleYaml(handleFilePath(args.apiDoc));
     this.apiDoc = copy(this.originalApiDoc);
     this.basePath =  (this.apiDoc.basePath || '').replace(/\/$/, '');
@@ -287,7 +289,8 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 const coercer = new OpenAPIRequestCoercer({
                   extensionBase: `x-${this.name}-coercion`,
                   loggingKey: `${this.name}-coercion`,
-                  parameters: methodParameters
+                  parameters: methodParameters,
+                  enableObjectCoercion: this.enableObjectCoercion,
                 });
 
                 operationContext.features.coercer = coercer;

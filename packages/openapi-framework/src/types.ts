@@ -41,6 +41,7 @@ interface OpenAPIFrameworkArgs {
   apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string
   customFormats?: {string: (any) => boolean}
   dependencies?: {[service:string]: any}
+  enableObjectCoercion?: boolean
   errorTransformer?: OpenAPIErrorTransformer
   externalSchemas?: {string: IJsonSchema}
   featureType: string
