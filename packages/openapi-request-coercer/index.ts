@@ -6,6 +6,7 @@ export interface IOpenAPIRequestCoercer {
 
 export interface OpenAPIRequestCoercerArgs {
   loggingKey?: string;
+  enableObjectCoercion?: boolean;
   extensionBase?: string;
   parameters: OpenAPI.Parameters;
 }
@@ -15,16 +16,12 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
   private coerceParams;
   private coerceQuery;
   private coerceFormData;
+  private enableObjectCoercion;
 
   constructor(args: OpenAPIRequestCoercerArgs) {
     const loggingKey = args && args.loggingKey ?
       `${args.loggingKey}: ` :
       '';
-    const extensionBase = args && args.extensionBase ?
-      args.extensionBase :
-      'x-openapi-coercion';
-    const strictExtension = `${extensionBase}-strict`;
-
     if (!args) {
       throw new Error(`${loggingKey}missing args argument`);
     }
@@ -33,10 +30,44 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       throw new Error(`${loggingKey}args.parameters must be an Array`);
     }
 
-    this.coerceHeaders = buildCoercer(args.parameters, 'header', true, loggingKey, strictExtension);
-    this.coerceParams = buildCoercer(args.parameters, 'path', false, loggingKey, strictExtension);
-    this.coerceQuery = buildCoercer(args.parameters, 'query', false, loggingKey, strictExtension);
-    this.coerceFormData = buildCoercer(args.parameters, 'formData', false, loggingKey, strictExtension);
+    const extensionBase = args && args.extensionBase ?
+      args.extensionBase :
+      'x-openapi-coercion';
+    const strictExtensionName = `${extensionBase}-strict`;
+    const enableObjectCoercion = !!args.enableObjectCoercion;
+
+    this.coerceHeaders = buildCoercer({
+      params: args.parameters,
+      property: 'header',
+      isHeaders: true,
+      loggingKey,
+      strictExtensionName,
+      enableObjectCoercion,
+    });
+    this.coerceParams = buildCoercer({
+      params: args.parameters,
+      property: 'path',
+      isHeaders: false,
+      loggingKey,
+      strictExtensionName,
+      enableObjectCoercion,
+    });
+    this.coerceQuery = buildCoercer({
+      params: args.parameters,
+      property: 'query',
+      isHeaders: false,
+      loggingKey,
+      strictExtensionName,
+      enableObjectCoercion,
+    });
+    this.coerceFormData = buildCoercer({
+      params: args.parameters,
+      property: 'formData',
+      isHeaders: false,
+      loggingKey,
+      strictExtensionName,
+      enableObjectCoercion,
+    });
   }
 
   coerce(request) {
@@ -114,8 +145,8 @@ var STRICT_COERCION_STRATEGIES = {
   },
 };
 
-function buildCoercer(params, property, isHeaders, loggingKey, strictExtensionName) {
-  const l = isHeaders ?
+function buildCoercer(args) {
+  const l = args.isHeaders ?
     name => {
       return name.toLowerCase();
     } :
@@ -124,37 +155,44 @@ function buildCoercer(params, property, isHeaders, loggingKey, strictExtensionNa
     };
   let coercion;
 
-  if (params.length) {
+  if (args.params.length) {
     const coercers = {};
 
-    params.filter(byLocation(property)).forEach(function(param) {
+    args.params.filter(byLocation(args.property)).forEach(function(param) {
       const name = param.name;
       const type = param.type;
-      const strict = !!param[strictExtensionName];
+      const strict = !!param[args.strictExtensionName];
       let coercer;
       let itemCoercer;
 
       if (type === 'array') {
+        let disableCoercer;
         if (!param.items) {
-          throw new Error(loggingKey + 'items is a required property with type array');
+          throw new Error(`${args.loggingKey}items is a required property with type array`);
         }
 
         if (param.items.type === 'array') {
-          throw new Error(loggingKey + 'nested arrays are not allowed (items was of type array)');
+          throw new Error(`${args.loggingKey}nested arrays are not allowed (items was of type array)`);
         }
 
         itemCoercer = getCoercer(param.items.type, strict);
 
         if (param.items.type === 'object') {
-          itemCoercer = itemCoercer.bind(null, param.items.format);
+          if (!args.enableObjectCoercion) {
+            disableCoercer = true;
+          } else {
+            itemCoercer = itemCoercer.bind(null, param.items.format);
+          }
         }
 
-        coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
-      }
-      else if (type === 'object') {
-        coercer = getCoercer(param.type, strict).bind(null, param.format);
-      }
-      else {
+        if (!disableCoercer) {
+          coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
+        }
+      } else if (type === 'object') {
+        if (args.enableObjectCoercion) {
+          coercer = getCoercer(param.type, strict).bind(null, param.format);
+        }
+      } else {
         coercer = getCoercer(param.type, strict);
       }
 

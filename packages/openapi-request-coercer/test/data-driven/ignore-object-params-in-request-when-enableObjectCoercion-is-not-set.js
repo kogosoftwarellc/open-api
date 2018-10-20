@@ -1,6 +1,5 @@
 module.exports = {
   args: {
-    enableObjectCoercion: true,
     parameters: [
       {
         in: 'query',
@@ -33,7 +32,10 @@ module.exports = {
   },
 
   query: {
-    include: [{ association: 'lines', include: ['status'] }, { association: 'people', include: ['hairColor'] }],
-    query: { where: { $status: 2 } }
+    include: [
+      JSON.stringify({ association: 'lines', include: ['status'] }),
+      JSON.stringify({ association: 'people', include: ['hairColor'] })
+    ],
+    query: JSON.stringify({ where: { $status: 2 } })
   }
 };
