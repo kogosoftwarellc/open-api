@@ -32,6 +32,7 @@ import {
   OpenAPIFrameworkPathContext,
   OpenAPIFrameworkAPIContext,
   OpenAPIFrameworkArgs,
+  OpenAPIFrameworkPathObject,
   OpenAPIFrameworkVisitor,
   IOpenAPIFramework
 } from './src/types';
@@ -46,6 +47,7 @@ import OpenAPISecurityHandler from 'openapi-security-handler';
 export {
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkPathContext,
+  OpenAPIFrameworkPathObject,
   OpenAPIFrameworkAPIContext,
   OpenAPIFrameworkOperationContext
 };

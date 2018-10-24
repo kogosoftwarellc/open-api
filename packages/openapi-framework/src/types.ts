@@ -31,6 +31,11 @@ interface SecurityHandlerError {
   message?: any;
 }
 
+export interface OpenAPIFrameworkPathObject {
+  path?: string
+  module?: any
+}
+
 export interface IOpenAPIFramework {
   featureType: string
   loggingPrefix: string
@@ -47,7 +52,7 @@ interface OpenAPIFrameworkArgs {
   featureType: string
   name: string
   pathSecurity?: PathSecurityTuple[]
-  paths: string | Object[]
+  paths: string | Array<OpenAPIFrameworkPathObject>
   pathsIgnore?: RegExp
   routesGlob?: string;
   routesIndexFileRegExp?: RegExp;
