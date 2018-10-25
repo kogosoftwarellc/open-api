@@ -1,4 +1,4 @@
-import OpenAPIFramework from 'openapi-framework';
+import OpenAPIFramework, { OpenAPIFrameworkArgs, OpenAPIFrameworkConstructorArgs } from 'openapi-framework';
 import { OpenAPI } from 'openapi-types';
 import { Application, ErrorRequestHandler, RequestHandler } from 'express';
 import { ErrorObject, FormatDefinition, FormatValidator } from 'ajv';
@@ -17,40 +17,17 @@ export type OperationHandlerArray  = Array<OperationFunction>;
 
 export type Operation = OperationFunction | OperationHandlerArray;
 
-export type PathSecurityTuple = [RegExp, SecurityRequirement[]]
-
-export interface SecurityRequirement {
-    [name: string]: SecurityScope[]
-}
-
-type SecurityScope = string
-export interface ExpressOpenAPIArgs {
-    apiDoc: OpenAPI.Document | string
+export interface ExpressOpenAPIArgs extends OpenAPIFrameworkArgs {
     app: Application
-    paths: string | string[] | { path: string, module: any }[]
-    pathsIgnore?: RegExp
-    routesGlob?: string;
-    routesIndexFileRegExp?: RegExp;
+    consumesMiddleware?: {[mimeType: string]: RequestHandler}
     docsPath?: string
-    errorMiddleware?: ErrorRequestHandler,
-    errorTransformer?(
-      openapiError: OpenAPIRequestValidatorError | OpenAPIResponseValidatorError,
-      ajvError: ErrorObject): any
+    errorMiddleware?: ErrorRequestHandler
     exposeApiDocs?: boolean
     promiseMode?: boolean
-    validateApiDoc?: boolean
-    consumesMiddleware?: {[mimeType: string]: RequestHandler}
-    customFormats?: {
-      [formatName: string]: FormatValidator | FormatDefinition;
-    }
-    externalSchemas?: {[url:string]: any}
-    pathSecurity?: PathSecurityTuple[]
-    securityHandlers?: SecurityHandlers
     securityFilter?: RequestHandler
-    dependencies?: {[service:string]: any}
 }
 
-export function initialize(args: ExpressOpenAPIArgs) {
+export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
   if (!args) {
     throw new Error(`${loggingPrefix}: args must be an object`);
   }
@@ -72,7 +49,6 @@ export function initialize(args: ExpressOpenAPIArgs) {
   }
 
   const app = args.app;
-  // Do not make modifications to this.
   const docsPath = args.docsPath || '/api-docs';
   const consumesMiddleware = args.consumesMiddleware;
   const errorMiddleware = typeof args.errorMiddleware === 'function' &&
@@ -86,13 +62,12 @@ export function initialize(args: ExpressOpenAPIArgs) {
     res.status(200).json(req.apiDoc);
   };
 
-  const frameworkArgs = {
+  const frameworkArgs: OpenAPIFrameworkConstructorArgs = {
     featureType: 'middleware',
     name: loggingPrefix,
-    ...args
+    ...(args as OpenAPIFrameworkArgs)
   };
 
-  //@ts-ignore TODO
   const framework = new OpenAPIFramework(frameworkArgs);
 
   framework.initialize({

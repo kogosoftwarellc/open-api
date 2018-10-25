@@ -70,6 +70,7 @@ https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi
     * [args.customFormats](#argscustomformats)
     * [args.dependencies](#argsdependencies)
     * [args.docsPath](#argsdocspath)
+    * [args.enableObjectCoercion](#argsenableobjectcoercion)
     * [args.errorMiddleware](#argserrormiddleware)
     * [args.errorTransformer](#argserrortransformer)
     * [args.exposeApiDocs](#argsexposeapidocs)
@@ -542,6 +543,14 @@ module.exports = function(geoservice) {
 |Type|Required|Default Value|Description|
 |----|--------|-----------|----|
 |String|N|/api&#8209;docs|Sets the path that Swagger UI will use to request `args.apiDoc` with populated paths.  You can use this to support multiple versions of your app.|
+
+#### args.enableObjectCoercion
+
+|Type|Required|Default Value|Description|
+|----|--------|-----------|----|
+|Boolean|N|false|Enables object coercion in requests.|
+
+See [openapi-request-coercer](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer)
 
 #### args.errorMiddleware
 
