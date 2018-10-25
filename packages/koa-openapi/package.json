@@ -1,6 +1,6 @@
 {
   "name": "koa-openapi",
-  "version": "0.0.6",
+  "version": "0.2.0",
   "description": "An unopinionated OpenAPI framework for koa",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
