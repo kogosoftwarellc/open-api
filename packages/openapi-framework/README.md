@@ -1,7 +1,11 @@
 # openapi-framework [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > An OpenAPI framework for any web framework
 
-## TODO finish this
+## Example Usages
+
+* [Test Cases](https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework/test/sample-projects)
+* [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
+* [koa-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi)
 
 ## LICENSE
 ``````

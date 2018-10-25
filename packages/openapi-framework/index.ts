@@ -32,6 +32,7 @@ import {
   OpenAPIFrameworkPathContext,
   OpenAPIFrameworkAPIContext,
   OpenAPIFrameworkArgs,
+  OpenAPIFrameworkConstructorArgs,
   OpenAPIFrameworkPathObject,
   OpenAPIFrameworkVisitor,
   IOpenAPIFramework
@@ -72,7 +73,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   private validateApiDoc;
   private validator;
 
-  constructor(protected args = {} as OpenAPIFrameworkArgs){
+  constructor(protected args = {} as OpenAPIFrameworkConstructorArgs){
     this.name = args.name;
     this.featureType = args.featureType;
     this.loggingPrefix = args.name ?

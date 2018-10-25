@@ -7,6 +7,7 @@ import { IOpenAPISecurityHandler, SecurityHandlers } from 'openapi-security-hand
 
 export {
   OpenAPIFrameworkArgs,
+  OpenAPIFrameworkConstructorArgs,
   OpenAPIErrorTransformer
 };
 
@@ -42,6 +43,11 @@ export interface IOpenAPIFramework {
   name: string
 }
 
+interface OpenAPIFrameworkConstructorArgs extends OpenAPIFrameworkArgs {
+  featureType: string
+  name: string
+}
+
 interface OpenAPIFrameworkArgs {
   apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string
   customFormats?: {string: (any) => boolean}
@@ -49,8 +55,6 @@ interface OpenAPIFrameworkArgs {
   enableObjectCoercion?: boolean
   errorTransformer?: OpenAPIErrorTransformer
   externalSchemas?: {string: IJsonSchema}
-  featureType: string
-  name: string
   pathSecurity?: PathSecurityTuple[]
   paths: string | Array<OpenAPIFrameworkPathObject>
   pathsIgnore?: RegExp
