@@ -54,7 +54,7 @@ export {
   OpenAPIFrameworkOperationContext
 };
 export default class OpenAPIFramework implements IOpenAPIFramework {
-  private apiDoc;
+  readonly apiDoc;
   readonly basePath;
   private customFormats;
   private dependencies;
