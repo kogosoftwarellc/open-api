@@ -1,5 +1,6 @@
-import OpenapiFramework, {
+import OpenAPIFramework, {
   OpenAPIFrameworkArgs,
+  OpenAPIFrameworkConstructorArgs,
   OpenAPIFrameworkPathContext,
   OpenAPIFrameworkOperationContext,
   OpenAPIFrameworkAPIContext
@@ -25,7 +26,7 @@ export interface KoaOpenAPIInitializeArgs extends OpenAPIFrameworkArgs {
   securityFilter: Middleware,
 }
 
-export function initialize(args: KoaOpenAPIInitializeArgs) {
+export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
   if (!args) {
     throw new Error(`${loggingPrefix}: args must be an object`);
   }
@@ -58,15 +59,15 @@ export function initialize(args: KoaOpenAPIInitializeArgs) {
       ctx.body = ctx.state.apiDoc;
     };
 
-  const frameworkArgs = {
+  const frameworkArgs: OpenAPIFrameworkConstructorArgs = {
     apiDoc: args.apiDoc,
     featureType: 'middleware',
     name: loggingPrefix,
     paths: args.paths,
-    ...args
+    ...(args as OpenAPIFrameworkArgs)
   };
 
-  const framework = new OpenapiFramework(frameworkArgs);
+  const framework = new OpenAPIFramework(frameworkArgs);
 
   framework.initialize({
     visitApi: function(apiCtx: OpenAPIFrameworkAPIContext) {
