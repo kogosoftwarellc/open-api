@@ -47,6 +47,7 @@ import OpenAPISecurityHandler from 'openapi-security-handler';
 
 export {
   OpenAPIFrameworkArgs,
+  OpenAPIFrameworkConstructorArgs,
   OpenAPIFrameworkPathContext,
   OpenAPIFrameworkPathObject,
   OpenAPIFrameworkAPIContext,
