@@ -1,4 +1,4 @@
-# openapi-response-validator [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
+# openapi-response-validator [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > Validate a response according to an openapi schema.
 
 ## Highlights
@@ -182,3 +182,6 @@ THE SOFTWARE.
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
+
+[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
+[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
