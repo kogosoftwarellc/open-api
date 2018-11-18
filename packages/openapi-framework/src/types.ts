@@ -61,7 +61,8 @@ interface OpenAPIFrameworkArgs {
   routesGlob?: string;
   routesIndexFileRegExp?: RegExp;
   securityHandlers?: SecurityHandlers;// TODO define the handlers more here
-  validateApiDoc?: boolean
+  validateApiDoc?: boolean;
+  basePath?: string;
 }
 
 export interface OpenAPIFrameworkAPIContext {
