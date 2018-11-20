@@ -180,20 +180,20 @@ function buildCoercer(args) {
           throw new Error(`${args.loggingKey}nested arrays are not allowed (items was of type array)`);
         }
 
-        var itemsType = (schema.items.schema && schema.items.schema.type) ? schema.items.schema.type : schema.items.type;
+        const itemsType = (schema.items.schema && schema.items.schema.type) ? schema.items.schema.type : schema.items.type;
         itemCoercer = getCoercer(itemsType, strict);
 
         if (itemsType === 'object') {
           if (!args.enableObjectCoercion) {
             disableCoercer = true;
           } else {
-            var itemsFormat = (schema.items.schema) ? schema.items.schema.format : schema.format;
+            const itemsFormat = (schema.items.schema) ? schema.items.schema.format : schema.format;
             itemCoercer = itemCoercer.bind(null, itemsFormat);
           }
         }
 
         if (!disableCoercer) {
-          var collectionFormat = param.collectionFormat;
+          let collectionFormat = param.collectionFormat;
           // OpenAPI 3.0 has replaced collectionFormat with a style property
           // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#style-values
           if (param.style) {
