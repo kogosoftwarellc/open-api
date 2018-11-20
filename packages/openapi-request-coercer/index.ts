@@ -159,41 +159,64 @@ function buildCoercer(args) {
     const coercers = {};
 
     args.params.filter(byLocation(args.property)).forEach(function(param) {
+      // OpenAPI (Swagger) 2.0 has type and format information as direct properties
+      // of the param object. OpenAPI 3.0 has type and format information in a
+      // schema object property. Use a schema value to normalize the change across
+      // both versions so coercer works properly.
+      const schema = param.schema || param; 
       const name = param.name;
-      const type = param.type;
+      const type = schema.type;
       const strict = !!param[args.strictExtensionName];
       let coercer;
       let itemCoercer;
 
       if (type === 'array') {
         let disableCoercer;
-        if (!param.items) {
+        if (!schema.items) {
           throw new Error(`${args.loggingKey}items is a required property with type array`);
         }
 
-        if (param.items.type === 'array') {
+        if (schema.items.type === 'array' || (schema.items.schema && schema.items.schema.type === 'array')) {
           throw new Error(`${args.loggingKey}nested arrays are not allowed (items was of type array)`);
         }
 
-        itemCoercer = getCoercer(param.items.type, strict);
+        var itemsType = (schema.items.schema && schema.items.schema.type) ? schema.items.schema.type : schema.items.type;
+        itemCoercer = getCoercer(itemsType, strict);
 
-        if (param.items.type === 'object') {
+        if (itemsType === 'object') {
           if (!args.enableObjectCoercion) {
             disableCoercer = true;
           } else {
-            itemCoercer = itemCoercer.bind(null, param.items.format);
+            var itemsFormat = (schema.items.schema) ? schema.items.schema.format : schema.format;
+            itemCoercer = itemCoercer.bind(null, itemsFormat);
           }
         }
 
         if (!disableCoercer) {
-          coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, param.collectionFormat);
+          var collectionFormat = param.collectionFormat;
+          // OpenAPI 3.0 has replaced collectionFormat with a style property
+          // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#style-values
+          if (param.style) {
+            if (param.style === 'form' && param.in === 'query') {
+              collectionFormat = (param.explodes) ? 'multi' : 'csv'; 
+            } else if (param.style === 'simple' &&
+              (param.in === 'path' || param.in === 'header')) {
+              collectionFormat = 'csv';
+            } else if (param.style === 'spaceDelimited' && param.in === 'query') {
+              collectionFormat = 'ssv';
+            } else if (param.style === 'pipeDelimited' && param.in === 'query') {
+              collectionFormat = 'pipes';
+            } 
+          }
+          
+          coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, collectionFormat);
         }
       } else if (type === 'object') {
         if (args.enableObjectCoercion) {
-          coercer = getCoercer(param.type, strict).bind(null, param.format);
+          coercer = getCoercer(schema.type, strict).bind(null, schema.format);
         }
       } else {
-        coercer = getCoercer(param.type, strict);
+        coercer = getCoercer(schema.type, strict);
       }
 
       if (coercer) {
