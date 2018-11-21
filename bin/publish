@@ -17,7 +17,7 @@ function publish() {
 }
 
 if [[ -n "$1" ]]; then
-  package="$1"
+  package="`basename $1`"
 else
   ls -1 packages
 
