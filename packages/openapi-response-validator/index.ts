@@ -119,7 +119,7 @@ function compileValidators(v, schemas) {
   const validators = {};
 
   Object.keys(schemas).forEach(name => {
-    validators[name] = v.compile(schemas[name]);
+    validators[name] = v.compile(transformOpenAPIV3Definitions(schemas[name]));
   });
 
   return validators;
@@ -167,4 +167,28 @@ function toOpenapiValidationError(error: Ajv.ErrorObject): OpenAPIResponseValida
   }
 
   return validationError;
+}
+
+function recursiveTransformOpenAPIV3Definitions(object) {
+    // Transformations //
+    // OpenAPIV3 nullable
+    if (object.type && object.nullable == true) {
+        object.type = [object.type, "null"];
+        delete object.nullable;
+    }
+
+    Object.keys(object).forEach(attr => {
+        if (typeof object[attr] == 'object') {
+            recursiveTransformOpenAPIV3Definitions(object[attr]);
+        }
+    });
+};
+
+function transformOpenAPIV3Definitions(schema) {
+    if (typeof schema != 'object') {
+        return schema;
+    }
+    const res = {...schema};
+    recursiveTransformOpenAPIV3Definitions(res);
+    return res;
 }
