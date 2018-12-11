@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.3.0 - 2018-12-11
+### Added
+- Updated openapi-framework to 0.12.0 for OpenAPI V3 response nullable support.
+
 ## 3.2.0 - 2018-11-21
 ### Added
 - Updated openapi-framework to 0.10.0 for OpenAPI V3 request coercion support.
