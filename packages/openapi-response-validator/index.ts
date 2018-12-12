@@ -130,9 +130,18 @@ function getSchemas(responses, definitions) {
 
   Object.keys(responses).forEach(name => {
     const response = responses[name];
-    const schema = response && response.schema && typeof response.schema === 'object' ?
-      response.schema :
-      {type: "null"};
+    const schema = response ?
+        (
+            typeof response.schema === 'object' ?
+            response.schema
+            :
+            typeof response.content === 'object' &&
+            typeof response.content['application/json'] === 'object' &&
+            typeof response.content['application/json'].schema === 'object' ?
+            response.content['application/json'].schema :
+            {type: "null"}
+        ) :
+        {type: "null"};
 
     schemas[name] = {
       $schema: 'http://json-schema.org/schema#',
