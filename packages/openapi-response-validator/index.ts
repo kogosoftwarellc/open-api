@@ -13,6 +13,11 @@ export interface OpenAPIResponseValidatorArgs {
   definitions: {
     [definitionName: string]: IJsonSchema,
   };
+  components: {
+    schemas: {
+      [schemaName: string]: IJsonSchema,
+    }
+  };
   errorTransformer?(
     openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
     ajvError: Ajv.ErrorObject,
@@ -83,7 +88,7 @@ export default class OpenAPIResponseValidator implements IOpenAPIResponseValidat
       });
     }
 
-    const schemas = getSchemas(args.responses, args.definitions);
+    const schemas = getSchemas(args.responses, args.definitions, args.components);
     this.validators = compileValidators(v, schemas);
   }
 
@@ -125,7 +130,7 @@ function compileValidators(v, schemas) {
   return validators;
 }
 
-function getSchemas(responses, definitions) {
+function getSchemas(responses, definitions, components) {
   const schemas = {};
 
   Object.keys(responses).forEach(name => {
@@ -149,7 +154,8 @@ function getSchemas(responses, definitions) {
       properties: {
         response: schema
       },
-      definitions: definitions || {}
+      definitions: definitions || {},
+      components: components || {}
     };
   });
 
