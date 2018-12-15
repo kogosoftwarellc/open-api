@@ -228,8 +228,13 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
         const operationHandler = pathModule[methodName];
         methodName = METHOD_ALIASES[methodName];
         const operationDoc = handleYaml(getMethodDoc(operationHandler)) || pathDoc[methodName];
+        // consumes is defined as property of each operation or entire document
+        // in Swagger 2.0. For OpenAPI 3.0 consumes mime types are defined as the
+        // key value(s) for each operation requestBody.content object.
         const consumes = operationDoc && Array.isArray(operationDoc.consumes) ?
           operationDoc.consumes :
+            operationDoc && operationDoc.requestBody && operationDoc.requestBody.content ?
+            Object.keys(operationDoc.requestBody.content) :
             Array.isArray(this.apiDoc.consumes) ?
             this.apiDoc.consumes :
             [];

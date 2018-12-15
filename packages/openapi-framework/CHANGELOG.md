@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.13.0 - 2018-12-12
+## Fixed
+* Updating openapi-response-validator to handle V3 application/json content.
+
+## 0.12.0 - 2018-12-11
+## Fixed
+* Updating openapi-response-validator to handle V3 nullable in responses.
+
+## 0.10.0 - 2018-11-21
+## Added
+* Updating openapi-request-coercer to 2.2.0 for OpenAPI V3 support.
+
+## 0.9.0 - 2018-11-20
+## Added
+* Support for OpenAPI V3 requestBody.consumes.
+
 ## 0.8.2 - 2018-10-25
 ## Added
 * Making `apiDoc` readonly on `OpenAPIFramework`.

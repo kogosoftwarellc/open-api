@@ -119,7 +119,7 @@ function compileValidators(v, schemas) {
   const validators = {};
 
   Object.keys(schemas).forEach(name => {
-    validators[name] = v.compile(schemas[name]);
+    validators[name] = v.compile(transformOpenAPIV3Definitions(schemas[name]));
   });
 
   return validators;
@@ -130,9 +130,18 @@ function getSchemas(responses, definitions) {
 
   Object.keys(responses).forEach(name => {
     const response = responses[name];
-    const schema = response && response.schema && typeof response.schema === 'object' ?
-      response.schema :
-      {type: "null"};
+    const schema = response ?
+        (
+            typeof response.schema === 'object' ?
+            response.schema
+            :
+            typeof response.content === 'object' &&
+            typeof response.content['application/json'] === 'object' &&
+            typeof response.content['application/json'].schema === 'object' ?
+            response.content['application/json'].schema :
+            {type: "null"}
+        ) :
+        {type: "null"};
 
     schemas[name] = {
       $schema: 'http://json-schema.org/schema#',
@@ -167,4 +176,28 @@ function toOpenapiValidationError(error: Ajv.ErrorObject): OpenAPIResponseValida
   }
 
   return validationError;
+}
+
+function recursiveTransformOpenAPIV3Definitions(object) {
+    // Transformations //
+    // OpenAPIV3 nullable
+    if (object.type && object.nullable == true) {
+        object.type = [object.type, "null"];
+        delete object.nullable;
+    }
+
+    Object.keys(object).forEach(attr => {
+        if (typeof object[attr] == 'object') {
+            recursiveTransformOpenAPIV3Definitions(object[attr]);
+        }
+    });
+};
+
+function transformOpenAPIV3Definitions(schema) {
+    if (typeof schema != 'object') {
+        return schema;
+    }
+    const res = {...schema};
+    recursiveTransformOpenAPIV3Definitions(res);
+    return res;
 }
