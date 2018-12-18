@@ -27,6 +27,17 @@ var validator = new OpenAPIRequestValidator({
       required: true
     }
   ],
+  requestBody: { // optional OpenApi v3 requestBodyObject
+    contents: {
+      'application/json': {
+        schema: {
+          properties:
+            name:
+              type: 'string'
+        }
+      }
+    }
+  },
   schemas: null, // an optional array or object of jsonschemas used to dereference $ref
   version: 'swagger-2.0', // default optional value for future versions of openapi
   errorTransformer: null, // an optional transformer function to format errors
