@@ -1,30 +1,33 @@
-import OpenAPIFramework, { OpenAPIFrameworkArgs, OpenAPIFrameworkConstructorArgs } from 'openapi-framework';
-import { OpenAPI } from 'openapi-types';
-import { Application, ErrorRequestHandler, RequestHandler } from 'express';
 import { ErrorObject, FormatDefinition, FormatValidator } from 'ajv';
-import { SecurityHandlers } from 'openapi-security-handler';
+import { Application, ErrorRequestHandler, RequestHandler } from 'express';
+import OpenAPIFramework, {
+  OpenAPIFrameworkArgs,
+  OpenAPIFrameworkConstructorArgs
+} from 'openapi-framework';
 import { OpenAPIRequestValidatorError } from 'openapi-request-validator';
 import { OpenAPIResponseValidatorError } from 'openapi-response-validator';
+import { SecurityHandlers } from 'openapi-security-handler';
+import { OpenAPI } from 'openapi-types';
 const CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 const normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 const loggingPrefix = 'express-openapi';
 
 export interface OperationFunction extends RequestHandler {
-    apiDoc?: OpenAPI.Operation;
+  apiDoc?: OpenAPI.Operation;
 }
 
-export type OperationHandlerArray  = Array<OperationFunction>;
+export type OperationHandlerArray = OperationFunction[];
 
 export type Operation = OperationFunction | OperationHandlerArray;
 
 export interface ExpressOpenAPIArgs extends OpenAPIFrameworkArgs {
-    app: Application
-    consumesMiddleware?: {[mimeType: string]: RequestHandler}
-    docsPath?: string
-    errorMiddleware?: ErrorRequestHandler
-    exposeApiDocs?: boolean
-    promiseMode?: boolean
-    securityFilter?: RequestHandler
+  app: Application;
+  consumesMiddleware?: { [mimeType: string]: RequestHandler };
+  docsPath?: string;
+  errorMiddleware?: ErrorRequestHandler;
+  exposeApiDocs?: boolean;
+  promiseMode?: boolean;
+  securityFilter?: RequestHandler;
 }
 
 export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
@@ -36,31 +39,36 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
     throw new Error(`${loggingPrefix}: args.app must be an express app`);
   }
 
- const exposeApiDocs = 'exposeApiDocs' in args ?
-      !!args.exposeApiDocs :
-      true;
+  const exposeApiDocs = 'exposeApiDocs' in args ? !!args.exposeApiDocs : true;
 
   if (args.docsPath && typeof args.docsPath !== 'string') {
-    throw new Error(`${loggingPrefix}: args.docsPath must be a string when given`);
+    throw new Error(
+      `${loggingPrefix}: args.docsPath must be a string when given`
+    );
   }
 
   if ('securityFilter' in args && typeof args.securityFilter !== 'function') {
-    throw new Error(`${loggingPrefix}: args.securityFilter must be a function when given`);
+    throw new Error(
+      `${loggingPrefix}: args.securityFilter must be a function when given`
+    );
   }
 
   const app = args.app;
   const docsPath = args.docsPath || '/api-docs';
   const consumesMiddleware = args.consumesMiddleware;
-  const errorMiddleware = typeof args.errorMiddleware === 'function' &&
-      args.errorMiddleware.length === 4 ? args.errorMiddleware : null;
+  const errorMiddleware =
+    typeof args.errorMiddleware === 'function' &&
+    args.errorMiddleware.length === 4
+      ? args.errorMiddleware
+      : null;
   const promiseMode = !!args.promiseMode;
-  const securityFilter = args.securityFilter ? (
-    args.promiseMode ?
-      toPromiseCompatibleMiddleware(args.securityFilter) :
-      args.securityFilter
-  ) : function defaultSecurityFilter(req, res, next) {
-    res.status(200).json(req.apiDoc);
-  };
+  const securityFilter = args.securityFilter
+    ? args.promiseMode
+      ? toPromiseCompatibleMiddleware(args.securityFilter)
+      : args.securityFilter
+    : function defaultSecurityFilter(req, res, next) {
+        res.status(200).json(req.apiDoc);
+      };
 
   const frameworkArgs: OpenAPIFrameworkConstructorArgs = {
     featureType: 'middleware',
@@ -100,7 +108,6 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
       const operationHandler = ctx.operationHandler;
       let middleware = [].concat(ctx.additionalFeatures);
 
-
       if (operationDoc && ctx.allowsFeatures) {
         middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
 
@@ -108,16 +115,27 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
           // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
           // validation will pick it up, so this is almost always going to be added.
-          middleware.unshift(function responseValidatorMiddleware(req, res, next) {
+          middleware.unshift(function responseValidatorMiddleware(
+            req,
+            res,
+            next
+          ) {
             res.validateResponse = (statusCode, response) => {
-              return ctx.features.responseValidator.validateResponse(statusCode, response);
+              return ctx.features.responseValidator.validateResponse(
+                statusCode,
+                response
+              );
             };
             next();
           });
         }
 
         if (ctx.features.requestValidator) {
-          middleware.unshift(function requestValidatorMiddleware(req, res, next) {
+          middleware.unshift(function requestValidatorMiddleware(
+            req,
+            res,
+            next
+          ) {
             next(ctx.features.requestValidator.validate(req));
           });
         }
@@ -138,7 +156,10 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
 
         if (ctx.features.securityHandler) {
           middleware.push((req, res, next) => {
-            ctx.features.securityHandler.handle(req).then(next).catch(next);
+            ctx.features.securityHandler
+              .handle(req)
+              .then(next)
+              .catch(next);
           });
         }
 
@@ -149,21 +170,31 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
 
       middleware.push(operationHandler);
 
-      optionallyAddQueryNormalizationMiddleware(middleware, ctx.methodParameters);
+      optionallyAddQueryNormalizationMiddleware(
+        middleware,
+        ctx.methodParameters
+      );
 
       if (promiseMode) {
-        middleware = [].concat.apply([], middleware).map(toPromiseCompatibleMiddleware);
+        middleware = [].concat
+          .apply([], middleware)
+          .map(toPromiseCompatibleMiddleware);
       }
 
-      const expressPath = ctx.basePath + '/' +
-          ctx.path.substring(1).split('/').map(toExpressParams).join('/');
+      const expressPath =
+        ctx.basePath +
+        '/' +
+        ctx.path
+          .substring(1)
+          .split('/')
+          .map(toExpressParams)
+          .join('/');
       app[methodName].apply(app, [expressPath].concat(middleware));
     }
   });
 
   return framework;
 }
-
 
 function addConsumesMiddleware(middleware, consumesMiddleware, consumes) {
   for (let i = consumes.length - 1; i >= 0; --i) {
@@ -183,17 +214,26 @@ function createAssignApiDocMiddleware(apiDoc, operationDoc) {
   };
 }
 
-function optionallyAddQueryNormalizationMiddleware(middleware, methodParameters) {
+function optionallyAddQueryNormalizationMiddleware(
+  middleware,
+  methodParameters
+) {
   if (!methodParameters) {
     return;
   }
-  const queryParamsNeedingNormalization = methodParameters.filter(param => {
-    return param.in === 'query' && param[CASE_SENSITIVE_PARAM_PROPERTY] === false;
-  }).map(param => {
-    return param.name;
-  });
+  const queryParamsNeedingNormalization = methodParameters
+    .filter(param => {
+      return (
+        param.in === 'query' && param[CASE_SENSITIVE_PARAM_PROPERTY] === false
+      );
+    })
+    .map(param => {
+      return param.name;
+    });
   if (queryParamsNeedingNormalization.length) {
-    middleware.unshift(normalizeQueryParamsMiddleware(queryParamsNeedingNormalization));
+    middleware.unshift(
+      normalizeQueryParamsMiddleware(queryParamsNeedingNormalization)
+    );
   }
 }
 
@@ -202,7 +242,10 @@ function toExpressParams(part) {
 }
 
 function toPromiseCompatibleMiddleware(fn) {
-  if (typeof fn === 'function' && fn.name !== 'expressOpenapiPromiseMiddleware') {
+  if (
+    typeof fn === 'function' &&
+    fn.name !== 'expressOpenapiPromiseMiddleware'
+  ) {
     return function expressOpenapiPromiseMiddleware(req, res, next) {
       const potentialPromise = fn(req, res, next);
       if (potentialPromise && typeof potentialPromise.catch === 'function') {

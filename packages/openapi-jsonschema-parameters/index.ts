@@ -1,14 +1,16 @@
-import { OpenAPI, OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
+import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
 export interface OpenAPIParametersAsJSONSchema {
-  body?: IJsonSchema
-  formData?: IJsonSchema
-  headers?: IJsonSchema
-  path?: IJsonSchema
-  query?: IJsonSchema
+  body?: IJsonSchema;
+  formData?: IJsonSchema;
+  headers?: IJsonSchema;
+  path?: IJsonSchema;
+  query?: IJsonSchema;
 }
 
-export function convertParametersToJSONSchema(parameters: OpenAPI.Parameters) : OpenAPIParametersAsJSONSchema {
+export function convertParametersToJSONSchema(
+  parameters: OpenAPI.Parameters
+): OpenAPIParametersAsJSONSchema {
   const parametersSchema: OpenAPIParametersAsJSONSchema = {};
   const bodySchema = getBodySchema(parameters);
   const formDataSchema = getSchema(parameters, 'formData');
@@ -66,7 +68,10 @@ function copyValidationKeywords(src) {
   for (let i = 0, keys = Object.keys(src), len = keys.length; i < len; i++) {
     const keyword = keys[i];
 
-    if (VALIDATION_KEYWORDS.indexOf(keyword) > -1 || keyword.slice(0,2) === 'x-') {
+    if (
+      VALIDATION_KEYWORDS.indexOf(keyword) > -1 ||
+      keyword.slice(0, 2) === 'x-'
+    ) {
       dst[keyword] = src[keyword];
     }
   }
@@ -76,10 +81,7 @@ function copyValidationKeywords(src) {
 function handleNullable(params, paramSchema) {
   if (params.nullable) {
     return {
-      anyOf: [
-        paramSchema,
-        { type: 'null' }
-      ]
+      anyOf: [paramSchema, { type: 'null' }]
     };
   }
   return paramSchema;
@@ -102,12 +104,15 @@ function getQuerySchema(parameters) {
   let schema;
 
   if (params.length) {
-    schema = {properties: {}};
+    schema = { properties: {} };
 
     params.forEach(param => {
       const paramSchema = copyValidationKeywords(param.schema || param);
 
-      schema.properties[param.name] = handleNullable(param.schema || param, paramSchema);
+      schema.properties[param.name] = handleNullable(
+        param.schema || param,
+        paramSchema
+      );
     });
 
     schema.required = getRequiredParams(params);
@@ -121,7 +126,7 @@ function getSchema(parameters, type) {
   let schema;
 
   if (params.length) {
-    schema = {properties: {}};
+    schema = { properties: {} };
 
     params.forEach(param => {
       const paramSchema = copyValidationKeywords(param);
