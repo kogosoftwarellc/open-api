@@ -1,6 +1,6 @@
-import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
-import { OpenAPI, IJsonSchema, OpenAPIV3 } from 'openapi-types';
 import * as Ajv from 'ajv';
+import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
+import { IJsonSchema, OpenAPI, OpenAPIV3 } from 'openapi-types';
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 export interface IOpenAPIRequestValidator {
@@ -9,19 +9,19 @@ export interface IOpenAPIRequestValidator {
 
 export interface OpenAPIRequestValidatorArgs {
   customFormats?: {
-    [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition,
+    [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition;
   };
-  errorTransformer?(
-    openAPIResponseValidatorValidationError: OpenAPIRequestValidatorError,
-    ajvError: Ajv.ErrorObject,
-  ): any;
   externalSchemas?: {
-    [index: string]: IJsonSchema,
+    [index: string]: IJsonSchema;
   };
   loggingKey?: string;
   parameters: OpenAPI.Parameters;
   requestBody?: OpenAPIV3.RequestBodyObject;
-  schemas?: Array<IJsonSchema>;
+  schemas?: IJsonSchema[];
+  errorTransformer?(
+    openAPIResponseValidatorValidationError: OpenAPIRequestValidatorError,
+    ajvError: Ajv.ErrorObject
+  ): any;
 }
 
 export interface OpenAPIRequestValidatorError {
@@ -32,7 +32,8 @@ export interface OpenAPIRequestValidatorError {
   schema?: any;
 }
 
-export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator {
+export default class OpenAPIRequestValidator
+  implements IOpenAPIRequestValidator {
   private bodySchema: IJsonSchema;
   private errorMapper: (ajvError: Ajv.ErrorObject) => any;
   private isBodyRequired: boolean;
@@ -55,26 +56,33 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
     }
 
     const schemas = convertParametersToJSONSchema(args.parameters);
-    const errorTransformer = typeof args.errorTransformer === 'function' &&
-                           args.errorTransformer;
-    const errorMapper = errorTransformer ?
-      extendedErrorMapper(errorTransformer) :
-      toOpenapiValidationError;
+    const errorTransformer =
+      typeof args.errorTransformer === 'function' && args.errorTransformer;
+    const errorMapper = errorTransformer
+      ? extendedErrorMapper(errorTransformer)
+      : toOpenapiValidationError;
     const bodySchema = schemas.body;
     let bodyValidationSchema;
     const headersSchema = lowercasedHeaders(schemas.headers);
     const formDataSchema = schemas.formData;
     const pathSchema = schemas.path;
     const querySchema = schemas.query;
-    // @ts-ignore TODO get Ajv updated to account for logger
-    const v = new Ajv({allErrors: true, unknownFormats: 'ignore', missingRefs: 'fail', logger: false});
-    
+
+    const v = new Ajv({
+      allErrors: true,
+      unknownFormats: 'ignore',
+      missingRefs: 'fail',
+      // @ts-ignore TODO get Ajv updated to account for logger
+      logger: false
+    });
+
     let isBodyRequired;
-    if(args.requestBody) {
+    if (args.requestBody) {
       isBodyRequired = args.requestBody.required || false;
-    }else {
-      //@ts-ignore
-      isBodyRequired = args.parameters.filter(byRequiredBodyParameters).length > 0;
+    } else {
+      isBodyRequired =
+        // @ts-ignore
+        args.parameters.filter(byRequiredBodyParameters).length > 0;
     }
 
     if (args.customFormats) {
@@ -88,7 +96,9 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
         }
       });
       if (hasNonFunctionProperty) {
-        throw new Error(`${loggingKey}args.customFormats properties must be functions`);
+        throw new Error(
+          `${loggingKey}args.customFormats properties must be functions`
+        );
       }
     }
 
@@ -134,8 +144,9 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
       });
     }
 
-    if(args.requestBody) {
-      for(let mediaTypeKey in args.requestBody.content) {
+    if (args.requestBody) {
+      /* tslint:disable-next-line:forin */
+      for (const mediaTypeKey in args.requestBody.content) {
         this.requestBodyValidators[mediaTypeKey] = v.compile({
           properties: {
             body: args.requestBody.content[mediaTypeKey].schema
@@ -155,7 +166,7 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
     this.validateQuery = querySchema && v.compile(querySchema);
   }
 
-  validate(request) {
+  public validate(request) {
     const errors = [];
     let err;
     let schemaError;
@@ -163,36 +174,47 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
 
     if (this.bodySchema) {
       if (request.body) {
-        if (!this.validateBody({body: request.body})) {
-          errors.push.apply(errors, withAddedLocation('body', this.validateBody.errors));
+        if (!this.validateBody({ body: request.body })) {
+          errors.push.apply(
+            errors,
+            withAddedLocation('body', this.validateBody.errors)
+          );
         }
       } else if (this.isBodyRequired) {
         schemaError = {
           location: 'body',
-          message: 'request.body was not present in the request.  Is a body-parser being used?',
+          message:
+            'request.body was not present in the request.  Is a body-parser being used?',
           schema: this.bodySchema
         };
       }
     }
 
-    if(this.requestBody) {
+    if (this.requestBody) {
       const contentType = request.headers['content-type'];
-      const mediaTypeMatch = getSchemaForMediaType(contentType, this.requestBody);
-      if(!mediaTypeMatch) {
+      const mediaTypeMatch = getSchemaForMediaType(
+        contentType,
+        this.requestBody
+      );
+      if (!mediaTypeMatch) {
         mediaTypeError = {
           message: `Unsupported Content-Type ${contentType}`
         };
       } else {
         const bodySchema = this.requestBody.content[mediaTypeMatch].schema;
-        if(request.body) {
+        if (request.body) {
           const validateBody = this.requestBodyValidators[mediaTypeMatch];
-          if(!validateBody({body: request.body})) {
-            errors.push.apply(errors, withAddedLocation('body', validateBody.errors));
+          if (!validateBody({ body: request.body })) {
+            errors.push.apply(
+              errors,
+              withAddedLocation('body', validateBody.errors)
+            );
           }
         } else if (this.isBodyRequired) {
           schemaError = {
             location: 'body',
-            message: 'request.body was not present in the request.  Is a body-parser being used?',
+            message:
+              'request.body was not present in the request.  Is a body-parser being used?',
             schema: bodySchema
           };
         }
@@ -201,25 +223,39 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
 
     if (this.validateFormData && !schemaError) {
       if (!this.validateFormData(request.body)) {
-        errors.push.apply(errors, withAddedLocation('formData', this.validateFormData.errors));
+        errors.push.apply(
+          errors,
+          withAddedLocation('formData', this.validateFormData.errors)
+        );
       }
     }
 
     if (this.validatePath) {
       if (!this.validatePath(request.params || {})) {
-        errors.push.apply(errors, withAddedLocation('path', this.validatePath.errors));
+        errors.push.apply(
+          errors,
+          withAddedLocation('path', this.validatePath.errors)
+        );
       }
     }
 
     if (this.validateHeaders) {
-      if (!this.validateHeaders(lowercaseRequestHeaders(request.headers || {}))) {
-        errors.push.apply(errors, withAddedLocation('headers', this.validateHeaders.errors));
+      if (
+        !this.validateHeaders(lowercaseRequestHeaders(request.headers || {}))
+      ) {
+        errors.push.apply(
+          errors,
+          withAddedLocation('headers', this.validateHeaders.errors)
+        );
       }
     }
 
     if (this.validateQuery) {
       if (!this.validateQuery(request.query || {})) {
-        errors.push.apply(errors, withAddedLocation('query', this.validateQuery.errors));
+        errors.push.apply(
+          errors,
+          withAddedLocation('query', this.validateQuery.errors)
+        );
       }
     }
 
@@ -245,11 +281,11 @@ export default class OpenAPIRequestValidator implements IOpenAPIRequestValidator
 }
 
 interface RequestBodyValidators {
-  [mediaType: string]: Ajv.ValidateFunction
+  [mediaType: string]: Ajv.ValidateFunction;
 }
 
 function byRequiredBodyParameters<T>(param: T): boolean {
-  //@ts-ignore
+  // @ts-ignore
   return (param.in === 'body' || param.in === 'formData') && param.required;
 }
 
@@ -257,26 +293,34 @@ function extendedErrorMapper(mapper) {
   return ajvError => mapper(toOpenapiValidationError(ajvError), ajvError);
 }
 
-function getSchemaForMediaType(contentType: string, requestBodySpec: OpenAPIV3.RequestBodyObject): string {
+function getSchemaForMediaType(
+  contentType: string,
+  requestBodySpec: OpenAPIV3.RequestBodyObject
+): string {
   const content = requestBodySpec.content;
   const subTypeWildCardPoints = 2;
   const wildcardMatchPoints = 1;
   let match: string;
   let matchPoints = 0;
-  for(let mediaTypeKey in content) {
-    if(contentType === mediaTypeKey) {
-      return mediaTypeKey;
-    } else if (mediaTypeKey === '*/*' && wildcardMatchPoints > matchPoints) {
-      match = mediaTypeKey;
-      matchPoints = wildcardMatchPoints;
-    }
-    const contentTypeParts = contentType.split('/');
-    const mediaTypeKeyParts = mediaTypeKey.split('/');
-    if(mediaTypeKeyParts[1] !== '*') {
-      continue;
-    } else if(contentTypeParts[0] === mediaTypeKeyParts[0] && subTypeWildCardPoints > matchPoints) {
-      match = mediaTypeKey;
-      matchPoints = subTypeWildCardPoints;
+  for (const mediaTypeKey in content) {
+    if (content.hasOwnProperty(mediaTypeKey)) {
+      if (contentType === mediaTypeKey) {
+        return mediaTypeKey;
+      } else if (mediaTypeKey === '*/*' && wildcardMatchPoints > matchPoints) {
+        match = mediaTypeKey;
+        matchPoints = wildcardMatchPoints;
+      }
+      const contentTypeParts = contentType.split('/');
+      const mediaTypeKeyParts = mediaTypeKey.split('/');
+      if (mediaTypeKeyParts[1] !== '*') {
+        continue;
+      } else if (
+        contentTypeParts[0] === mediaTypeKeyParts[0] &&
+        subTypeWildCardPoints > matchPoints
+      ) {
+        match = mediaTypeKey;
+        matchPoints = subTypeWildCardPoints;
+      }
     }
   }
   return match;
@@ -319,7 +363,7 @@ function toOpenapiValidationError(error): OpenAPIRequestValidatorError {
 
   if (error.keyword === '$ref') {
     delete validationError.errorCode;
-    validationError.schema = {'$ref': error.params.ref};
+    validationError.schema = { $ref: error.params.ref };
   }
 
   if (error.params.missingProperty) {
@@ -327,9 +371,9 @@ function toOpenapiValidationError(error): OpenAPIRequestValidatorError {
   }
 
   validationError.path = validationError.path.replace(
-      error.location === 'body' ?
-      /^instance\.body\.?/ :
-      /^instance\.?/, '');
+    error.location === 'body' ? /^instance\.body\.?/ : /^instance\.?/,
+    ''
+  );
 
   if (!validationError.path) {
     delete validationError.path;

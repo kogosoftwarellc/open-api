@@ -19,9 +19,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
   private enableObjectCoercion;
 
   constructor(args: OpenAPIRequestCoercerArgs) {
-    const loggingKey = args && args.loggingKey ?
-      `${args.loggingKey}: ` :
-      '';
+    const loggingKey = args && args.loggingKey ? `${args.loggingKey}: ` : '';
     if (!args) {
       throw new Error(`${loggingKey}missing args argument`);
     }
@@ -30,9 +28,8 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       throw new Error(`${loggingKey}args.parameters must be an Array`);
     }
 
-    const extensionBase = args && args.extensionBase ?
-      args.extensionBase :
-      'x-openapi-coercion';
+    const extensionBase =
+      args && args.extensionBase ? args.extensionBase : 'x-openapi-coercion';
     const strictExtensionName = `${extensionBase}-strict`;
     const enableObjectCoercion = !!args.enableObjectCoercion;
 
@@ -42,7 +39,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       isHeaders: true,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion,
+      enableObjectCoercion
     });
     this.coerceParams = buildCoercer({
       params: args.parameters,
@@ -50,7 +47,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       isHeaders: false,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion,
+      enableObjectCoercion
     });
     this.coerceQuery = buildCoercer({
       params: args.parameters,
@@ -58,7 +55,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       isHeaders: false,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion,
+      enableObjectCoercion
     });
     this.coerceFormData = buildCoercer({
       params: args.parameters,
@@ -66,11 +63,11 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       isHeaders: false,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion,
+      enableObjectCoercion
     });
   }
 
-  coerce(request) {
+  public coerce(request) {
     if (request.headers && this.coerceHeaders) {
       this.coerceHeaders(request.headers);
     }
@@ -89,15 +86,17 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
   }
 }
 
-var OBJECT_FORMAT_COERCER = {
-  default: function (input) { return JSON.parse(input) }
-  //other formats
-}
+const OBJECT_FORMAT_COERCER = {
+  default(input) {
+    return JSON.parse(input);
+  }
+  // other formats
+};
 
-var COERCION_STRATEGIES = {
+const COERCION_STRATEGIES = {
   array: (itemCoercer, collectionFormat, input) => {
     if (!Array.isArray(input)) {
-      var sep = pathsep(collectionFormat || 'csv');
+      const sep = pathsep(collectionFormat || 'csv');
       input = input.split(sep);
     }
 
@@ -108,8 +107,10 @@ var COERCION_STRATEGIES = {
     return input;
   },
 
-  object: function (format, input) {
-    return (OBJECT_FORMAT_COERCER[format] || OBJECT_FORMAT_COERCER['default'])(input);
+  object(format, input) {
+    return (OBJECT_FORMAT_COERCER[format] || OBJECT_FORMAT_COERCER.default)(
+      input
+    );
   },
 
   boolean: input => {
@@ -126,10 +127,10 @@ var COERCION_STRATEGIES = {
 
   integer: input => Math.floor(Number(input)),
   number: input => Number(input),
-  string: input => String(input),
+  string: input => String(input)
 };
 
-var STRICT_COERCION_STRATEGIES = {
+const STRICT_COERCION_STRATEGIES = {
   boolean: input => {
     if (typeof input === 'boolean') {
       return input;
@@ -142,28 +143,28 @@ var STRICT_COERCION_STRATEGIES = {
     } else {
       return null;
     }
-  },
+  }
 };
 
 function buildCoercer(args) {
-  const l = args.isHeaders ?
-    name => {
-      return name.toLowerCase();
-    } :
-    name => {
-      return name;
-    };
+  const l = args.isHeaders
+    ? name => {
+        return name.toLowerCase();
+      }
+    : name => {
+        return name;
+      };
   let coercion;
 
   if (args.params.length) {
     const coercers = {};
 
-    args.params.filter(byLocation(args.property)).forEach(function(param) {
+    args.params.filter(byLocation(args.property)).forEach(param => {
       // OpenAPI (Swagger) 2.0 has type and format information as direct properties
       // of the param object. OpenAPI 3.0 has type and format information in a
       // schema object property. Use a schema value to normalize the change across
       // both versions so coercer works properly.
-      const schema = param.schema || param; 
+      const schema = param.schema || param;
       const name = param.name;
       const type = schema.type;
       const strict = !!param[args.strictExtensionName];
@@ -173,21 +174,35 @@ function buildCoercer(args) {
       if (type === 'array') {
         let disableCoercer;
         if (!schema.items) {
-          throw new Error(`${args.loggingKey}items is a required property with type array`);
+          throw new Error(
+            `${args.loggingKey}items is a required property with type array`
+          );
         }
 
-        if (schema.items.type === 'array' || (schema.items.schema && schema.items.schema.type === 'array')) {
-          throw new Error(`${args.loggingKey}nested arrays are not allowed (items was of type array)`);
+        if (
+          schema.items.type === 'array' ||
+          (schema.items.schema && schema.items.schema.type === 'array')
+        ) {
+          throw new Error(
+            `${
+              args.loggingKey
+            }nested arrays are not allowed (items was of type array)`
+          );
         }
 
-        const itemsType = (schema.items.schema && schema.items.schema.type) ? schema.items.schema.type : schema.items.type;
+        const itemsType =
+          schema.items.schema && schema.items.schema.type
+            ? schema.items.schema.type
+            : schema.items.type;
         itemCoercer = getCoercer(itemsType, strict);
 
         if (itemsType === 'object') {
           if (!args.enableObjectCoercion) {
             disableCoercer = true;
           } else {
-            const itemsFormat = (schema.items.schema) ? schema.items.schema.format : schema.format;
+            const itemsFormat = schema.items.schema
+              ? schema.items.schema.format
+              : schema.format;
             itemCoercer = itemCoercer.bind(null, itemsFormat);
           }
         }
@@ -198,18 +213,30 @@ function buildCoercer(args) {
           // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#style-values
           if (param.style) {
             if (param.style === 'form' && param.in === 'query') {
-              collectionFormat = (param.explodes) ? 'multi' : 'csv'; 
-            } else if (param.style === 'simple' &&
-              (param.in === 'path' || param.in === 'header')) {
+              collectionFormat = param.explodes ? 'multi' : 'csv';
+            } else if (
+              param.style === 'simple' &&
+              (param.in === 'path' || param.in === 'header')
+            ) {
               collectionFormat = 'csv';
-            } else if (param.style === 'spaceDelimited' && param.in === 'query') {
+            } else if (
+              param.style === 'spaceDelimited' &&
+              param.in === 'query'
+            ) {
               collectionFormat = 'ssv';
-            } else if (param.style === 'pipeDelimited' && param.in === 'query') {
+            } else if (
+              param.style === 'pipeDelimited' &&
+              param.in === 'query'
+            ) {
               collectionFormat = 'pipes';
-            } 
+            }
           }
-          
-          coercer = COERCION_STRATEGIES.array.bind(null, itemCoercer, collectionFormat);
+
+          coercer = COERCION_STRATEGIES.array.bind(
+            null,
+            itemCoercer,
+            collectionFormat
+          );
         }
       } else if (type === 'object') {
         if (args.enableObjectCoercion) {

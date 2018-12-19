@@ -1,36 +1,41 @@
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
 export interface IOpenAPISecurityHandler {
-  handle(request: OpenAPI.Request): Promise<void>
+  handle(request: OpenAPI.Request): Promise<void>;
 }
 
 export interface OpenAPISecurityHandlerArgs {
-  loggingKey: string
-  operationSecurity: Array<OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject>
-  securityDefinitions: OpenAPIV2.SecurityDefinitionsObject
-  securityHandlers: SecurityHandlers
+  loggingKey: string;
+  operationSecurity: Array<
+    OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject
+  >;
+  securityDefinitions: OpenAPIV2.SecurityDefinitionsObject;
+  securityHandlers: SecurityHandlers;
 }
 
 export interface SecurityHandlers {
-  [name: string]: SecurityHandler
+  [name: string]: SecurityHandler;
 }
 
-export type SecurityScope = string
+export type SecurityScope = string;
 
-export interface SecurityHandler {
-  // TODO: Add OpenAPIV3 SecuritySchemeObject equivalent in openapi-types
-  (req: OpenAPI.Request, scopes: SecurityScope[], definition: OpenAPIV2.SecuritySchemeObject): Promise<boolean> | boolean;
-}
+export type SecurityHandler = (
+  req: OpenAPI.Request,
+  scopes: SecurityScope[],
+  definition: OpenAPIV2.SecuritySchemeObject
+) => Promise<boolean> | boolean;
 
 interface SecuritySet {
-  definition: OpenAPIV2.SecuritySchemeObject,
-  handler: SecurityHandler,
-  scopes: string[]
+  definition: OpenAPIV2.SecuritySchemeObject;
+  handler: SecurityHandler;
+  scopes: string[];
 }
 
 export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
-  private operationSecurity: Array<OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject>;
-  private securitySets: Array<Array<SecuritySet>>;
+  private operationSecurity: Array<
+    OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject
+  >;
+  private securitySets: SecuritySet[][];
 
   constructor(args: OpenAPISecurityHandlerArgs) {
     const loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
@@ -57,36 +62,51 @@ export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
     this.operationSecurity = operationSecurity;
     this.securitySets = operationSecurity
       .map(security => {
-        return Object.keys(security).map(function(scheme) {
-          if (!securityDefinitions[scheme]) {
-            throw new Error(loggingKey + 'Unknown security scheme "' + scheme +
-                '" used in operation.');
-          }
+        return Object.keys(security)
+          .map(scheme => {
+            if (!securityDefinitions[scheme]) {
+              throw new Error(
+                loggingKey +
+                  'Unknown security scheme "' +
+                  scheme +
+                  '" used in operation.'
+              );
+            }
 
-          if (!securityHandlers[scheme]) {
-            console.warn(loggingKey + 'No handler defined for security scheme "' +
-                scheme + '"');
-            return null;
-          }
+            if (!securityHandlers[scheme]) {
+              console.warn(
+                loggingKey +
+                  'No handler defined for security scheme "' +
+                  scheme +
+                  '"'
+              );
+              return null;
+            }
 
-          if (typeof securityHandlers[scheme] !== 'function') {
-            throw new Error(loggingKey +
-                'Security handlers must be functions.  Non function ' +
-                'given for scheme "' + scheme + '"');
+            if (typeof securityHandlers[scheme] !== 'function') {
+              throw new Error(
+                loggingKey +
+                  'Security handlers must be functions.  Non function ' +
+                  'given for scheme "' +
+                  scheme +
+                  '"'
+              );
+            }
 
-          }
-
-          return {
-            definition: securityDefinitions[scheme],
-            handler: securityHandlers[scheme],
-            scopes: security[scheme]
-          };
-        })
-        .filter(function(security) {
-          return !!security;
-        });
+            return {
+              definition: securityDefinitions[scheme],
+              handler: securityHandlers[scheme],
+              scopes: security[scheme]
+            };
+          })
+          .filter(
+            /* tslint:disable-next-line:no-shadowed-variable */
+            security => {
+              return !!security;
+            }
+          );
       })
-      .filter(function(set) {
+      .filter(set => {
         return set.length > 0;
       });
 
@@ -95,29 +115,38 @@ export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
     }
   }
 
-  async handle(request): Promise<void> {
-    let lastError;
-    let operationSecurity = this.operationSecurity;
+  public async handle(request): Promise<void> {
+    const operationSecurity = this.operationSecurity;
     return this.securitySets
-      .reduce((promiseChain: Promise<boolean>, currentTask: Array<SecuritySet>) => {
-        return promiseChain.then((result: boolean): Promise<boolean> => {
-          if (!result) {
-            let resultPromises: Array<Promise<boolean> | boolean> = currentTask.map((securitySet: SecuritySet) => {
-              return securitySet.handler(request, securitySet.scopes, securitySet.definition);
-            });
-            return Promise.all(resultPromises).then((results: Array<boolean>) => {
-              return results.filter(result => !result).length === 0;
-            });
+      .reduce((promiseChain: Promise<boolean>, currentTask: SecuritySet[]) => {
+        return promiseChain.then(
+          (result: boolean): Promise<boolean> => {
+            if (!result) {
+              const resultPromises: Array<
+                Promise<boolean> | boolean
+              > = currentTask.map((securitySet: SecuritySet) => {
+                return securitySet.handler(
+                  request,
+                  securitySet.scopes,
+                  securitySet.definition
+                );
+              });
+              return Promise.all(resultPromises).then((results: boolean[]) => {
+                /* tslint:disable-next-line:no-shadowed-variable */
+                return results.filter(result => !result).length === 0;
+              });
+            }
+            return Promise.resolve(result);
           }
-          return Promise.resolve(result);
-        });
+        );
       }, Promise.resolve(false))
       .then(result => {
         if (!result) {
           return Promise.reject({
             status: 401,
-            message: 'No security handlers returned an acceptable response: ' +
-                operationSecurity.map(toAuthenticationScheme).join(' OR '),
+            message:
+              'No security handlers returned an acceptable response: ' +
+              operationSecurity.map(toAuthenticationScheme).join(' OR '),
             errorCode: 'authentication.openapi.security'
           });
         }

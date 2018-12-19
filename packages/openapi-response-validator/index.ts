@@ -1,36 +1,39 @@
 import * as Ajv from 'ajv';
-import { OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
+import { IJsonSchema, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 export interface IOpenAPIResponseValidator {
-    validateResponse(statusCode: string, response: any): void |  OpenAPIResponseValidatorValidationError;
+  validateResponse(
+    statusCode: string,
+    response: any
+  ): void | OpenAPIResponseValidatorValidationError;
 }
 
 export interface OpenAPIResponseValidatorArgs {
   customFormats: {
-    [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition,
+    [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition;
   };
   definitions: {
-    [definitionName: string]: IJsonSchema,
+    [definitionName: string]: IJsonSchema;
   };
   components: {
     schemas: {
-      [schemaName: string]: IJsonSchema,
-    }
+      [schemaName: string]: IJsonSchema;
+    };
   };
-  errorTransformer?(
-    openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
-    ajvError: Ajv.ErrorObject,
-  ): any;
   externalSchemas: {
-    [index: string]: IJsonSchema,
+    [index: string]: IJsonSchema;
   };
   loggingKey: string;
   responses: {
     [responseCode: string]: {
-      schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject,
-    }
+      schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject;
+    };
   };
+  errorTransformer?(
+    openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
+    ajvError: Ajv.ErrorObject
+  ): any;
 }
 
 export interface OpenAPIResponseValidatorError {
@@ -40,14 +43,15 @@ export interface OpenAPIResponseValidatorError {
 }
 
 export interface OpenAPIResponseValidatorValidationError {
-  message: string,
-  errors?: Array<any>
+  message: string;
+  errors?: any[];
 }
 
-export default class OpenAPIResponseValidator implements IOpenAPIResponseValidator {
+export default class OpenAPIResponseValidator
+  implements IOpenAPIResponseValidator {
   private errorMapper: (ajvError: Ajv.ErrorObject) => any;
   private validators: {
-    [responseCode: string]: Ajv.ValidateFunction
+    [responseCode: string]: Ajv.ValidateFunction;
   };
 
   constructor(args: OpenAPIResponseValidatorArgs) {
@@ -61,17 +65,25 @@ export default class OpenAPIResponseValidator implements IOpenAPIResponseValidat
     }
 
     if (!Object.keys(args.responses).length) {
-      throw new Error(`${loggingKey}args.responses must contain at least 1 response object`);
+      throw new Error(
+        `${loggingKey}args.responses must contain at least 1 response object`
+      );
     }
 
-    const errorTransformer = typeof args.errorTransformer === 'function' &&
-        args.errorTransformer;
-    // @ts-ignore TODO get Ajv updated to account for logger
-    const v = new Ajv({allErrors: true, unknownFormats: 'ignore', missingRefs: 'fail', logger: false});
+    const errorTransformer =
+      typeof args.errorTransformer === 'function' && args.errorTransformer;
 
-    this.errorMapper = errorTransformer ?
-        makeErrorMapper(errorTransformer) :
-        toOpenapiValidationError;
+    const v = new Ajv({
+      allErrors: true,
+      unknownFormats: 'ignore',
+      missingRefs: 'fail',
+      // @ts-ignore TODO get Ajv updated to account for logger
+      logger: false
+    });
+
+    this.errorMapper = errorTransformer
+      ? makeErrorMapper(errorTransformer)
+      : toOpenapiValidationError;
 
     if (args.customFormats) {
       Object.keys(args.customFormats).forEach(format => {
@@ -88,11 +100,15 @@ export default class OpenAPIResponseValidator implements IOpenAPIResponseValidat
       });
     }
 
-    const schemas = getSchemas(args.responses, args.definitions, args.components);
+    const schemas = getSchemas(
+      args.responses,
+      args.definitions,
+      args.components
+    );
     this.validators = compileValidators(v, schemas);
   }
 
-  validateResponse(statusCode, response) {
+  public validateResponse(statusCode, response) {
     let validator;
 
     if (statusCode && statusCode in this.validators) {
@@ -101,7 +117,7 @@ export default class OpenAPIResponseValidator implements IOpenAPIResponseValidat
       validator = this.validators.default;
     } else {
       return {
-        message: 'An unknown status code was used and no default was provided.',
+        message: 'An unknown status code was used and no default was provided.'
       };
     }
 
@@ -135,18 +151,15 @@ function getSchemas(responses, definitions, components) {
 
   Object.keys(responses).forEach(name => {
     const response = responses[name];
-    const schema = response ?
-        (
-            typeof response.schema === 'object' ?
-            response.schema
-            :
-            typeof response.content === 'object' &&
-            typeof response.content['application/json'] === 'object' &&
-            typeof response.content['application/json'].schema === 'object' ?
-            response.content['application/json'].schema :
-            {type: "null"}
-        ) :
-        {type: "null"};
+    const schema = response
+      ? typeof response.schema === 'object'
+        ? response.schema
+        : typeof response.content === 'object' &&
+          typeof response.content['application/json'] === 'object' &&
+          typeof response.content['application/json'].schema === 'object'
+        ? response.content['application/json'].schema
+        : { type: 'null' }
+      : { type: 'null' };
 
     schemas[name] = {
       $schema: 'http://json-schema.org/schema#',
@@ -166,16 +179,22 @@ function makeErrorMapper(mapper): (ajvError: Ajv.ErrorObject) => any {
   return ajvError => mapper(toOpenapiValidationError(ajvError), ajvError);
 }
 
-function toOpenapiValidationError(error: Ajv.ErrorObject): OpenAPIResponseValidatorError {
+function toOpenapiValidationError(
+  error: Ajv.ErrorObject
+): OpenAPIResponseValidatorError {
   const validationError = {
     path: `instance${error.dataPath}`,
     errorCode: `${error.keyword}.openapi.responseValidation`,
     message: error.message
   };
 
-  validationError.path = validationError.path.replace(/^instance\.(?:response\.)?/, '');
+  validationError.path = validationError.path.replace(
+    /^instance\.(?:response\.)?/,
+    ''
+  );
 
-  validationError.message = validationError.path + ' ' + validationError.message;
+  validationError.message =
+    validationError.path + ' ' + validationError.message;
 
   if (validationError.path === 'response') {
     delete validationError.path;
@@ -185,25 +204,25 @@ function toOpenapiValidationError(error: Ajv.ErrorObject): OpenAPIResponseValida
 }
 
 function recursiveTransformOpenAPIV3Definitions(object) {
-    // Transformations //
-    // OpenAPIV3 nullable
-    if (object.type && object.nullable == true) {
-        object.type = [object.type, "null"];
-        delete object.nullable;
-    }
+  // Transformations //
+  // OpenAPIV3 nullable
+  if (object.type && object.nullable === true) {
+    object.type = [object.type, 'null'];
+    delete object.nullable;
+  }
 
-    Object.keys(object).forEach(attr => {
-        if (typeof object[attr] == 'object') {
-            recursiveTransformOpenAPIV3Definitions(object[attr]);
-        }
-    });
-};
+  Object.keys(object).forEach(attr => {
+    if (typeof object[attr] === 'object') {
+      recursiveTransformOpenAPIV3Definitions(object[attr]);
+    }
+  });
+}
 
 function transformOpenAPIV3Definitions(schema) {
-    if (typeof schema != 'object') {
-        return schema;
-    }
-    const res = {...schema};
-    recursiveTransformOpenAPIV3Definitions(res);
-    return res;
+  if (typeof schema !== 'object') {
+    return schema;
+  }
+  const res = { ...schema };
+  recursiveTransformOpenAPIV3Definitions(res);
+  return res;
 }

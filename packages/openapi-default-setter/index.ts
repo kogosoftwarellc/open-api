@@ -1,6 +1,6 @@
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 interface DefaultMap {
-  [paramName: string]: any
+  [paramName: string]: any;
 }
 
 export interface IOpenAPIDefaultSetter {
@@ -8,8 +8,8 @@ export interface IOpenAPIDefaultSetter {
 }
 
 export interface OpenAPIDefaultSetterArgs {
-  loggingKey?: string
-  parameters: OpenAPIV2.ParameterObject[] | OpenAPIV3.ParameterObject[]
+  loggingKey?: string;
+  parameters: OpenAPIV2.ParameterObject[] | OpenAPIV3.ParameterObject[];
 }
 
 export default class OpenAPIDefaultSetter implements IOpenAPIDefaultSetter {
@@ -30,7 +30,7 @@ export default class OpenAPIDefaultSetter implements IOpenAPIDefaultSetter {
     this.queryDefaults = getDefaults('query', args.parameters);
   }
 
-  handle(request: OpenAPI.Request): void {
+  public handle(request: OpenAPI.Request): void {
     if (request.headers && this.headersDefaults) {
       setDefaults(request.headers, this.headersDefaults);
     }
@@ -46,7 +46,7 @@ function byDefault(param) {
 }
 
 function byLocation(location) {
-  return function(param) {
+  return param => {
     return param.in === location;
   };
 }
@@ -55,21 +55,21 @@ function getDefaults(location, parameters) {
   let defaults;
 
   parameters
-      .filter(byDefault)
-      .filter(byLocation(location))
-      .forEach(function(param) {
-        let name = param.name;
+    .filter(byDefault)
+    .filter(byLocation(location))
+    .forEach(param => {
+      let name = param.name;
 
-        if (location === 'header') {
-          name = name.toLowerCase();
-        }
+      if (location === 'header') {
+        name = name.toLowerCase();
+      }
 
-        if (!defaults) {
-          defaults = {};
-        }
+      if (!defaults) {
+        defaults = {};
+      }
 
-        defaults[name] = param.default;
-      });
+      defaults[name] = param.default;
+    });
 
   return defaults;
 }
