@@ -8,6 +8,7 @@ notifications:
   email:
     on_success: "never"
 script:
+  - "npm run lint"
   - "./bin/test"
   - "npm run combine-coverage"
   - "npm run coveralls"
