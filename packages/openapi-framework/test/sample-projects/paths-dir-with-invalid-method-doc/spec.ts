@@ -1,16 +1,16 @@
-import OpenapiFramework from '../../../';
 import { expect } from 'chai';
+import OpenapiFramework from '../../../';
 const path = require('path');
 
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
 
-  beforeEach(function() {
+  beforeEach(() => {
     framework = new OpenapiFramework({
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths'),
+      paths: path.resolve(__dirname, 'paths')
     });
   });
 
@@ -22,6 +22,8 @@ describe(path.basename(__dirname), () => {
           expect(apiDoc.paths).to.have.property('/foo');
         }
       });
-    }).to.throw('some-framework: args.apiDoc was invalid after populating paths.  See the output.');
+    }).to.throw(
+      'some-framework: args.apiDoc was invalid after populating paths.  See the output.'
+    );
   });
 });

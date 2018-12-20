@@ -1,5 +1,6 @@
-import 'mocha';
+/* tslint:disable:no-unused-expression */
 import { expect } from 'chai';
+import 'mocha';
 import OpenapiFramework from '../';
 const fs = require('fs');
 const path = require('path');
@@ -12,9 +13,12 @@ describe('OpenapiFramework', () => {
   describe('instantiating', () => {
     let options;
 
-    beforeEach(function() {
+    beforeEach(() => {
       options = {
-        apiDoc: fs.readFileSync(path.resolve(__dirname, './fixtures/apiDoc-valid.yml'), 'utf8'),
+        apiDoc: fs.readFileSync(
+          path.resolve(__dirname, './fixtures/apiDoc-valid.yml'),
+          'utf8'
+        ),
         featureType: 'middleware',
         name: 'express-openapi',
         paths: './test/fixtures/paths'
@@ -35,14 +39,9 @@ describe('OpenapiFramework', () => {
       });
     });
 
-    [
-      'apiDoc',
-      'featureType',
-      'name',
-      'paths'
-    ].forEach(spec => {
+    ['apiDoc', 'featureType', 'name', 'paths'].forEach(spec => {
       describe(`when options.${spec} is missing`, () => {
-        beforeEach(function() {
+        beforeEach(() => {
           delete options[spec];
         });
 
@@ -60,7 +59,7 @@ describe('OpenapiFramework', () => {
       ['securityHandlers', 'object']
     ].forEach(spec => {
       describe(`when options.${spec[0]} is of the wrong type`, () => {
-        beforeEach(function() {
+        beforeEach(() => {
           options[spec[0]] = void 0;
         });
 
@@ -73,7 +72,7 @@ describe('OpenapiFramework', () => {
     });
 
     describe('when apiDoc is an object representing a valid apiDoc', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         options.apiDoc = require('./fixtures/apiDoc-valid.js');
       });
 
@@ -82,13 +81,9 @@ describe('OpenapiFramework', () => {
       });
     });
 
-    [
-      'yml',
-      'js',
-      'json'
-    ].forEach(file => {
+    ['yml', 'js', 'json'].forEach(file => {
       describe(`when apiDoc is a path to a valid ${file} file`, () => {
-        beforeEach(function() {
+        beforeEach(() => {
           options.apiDoc = `./test/fixtures/apiDoc-valid.${file}`;
         });
 
@@ -152,7 +147,7 @@ describe('OpenapiFramework', () => {
     describe('apiDoc validation', () => {
       describe('when enabled', () => {
         describe('when apiDoc is invalid', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             options.apiDoc = 'asdfasdf';
           });
 
@@ -171,12 +166,12 @@ describe('OpenapiFramework', () => {
       });
 
       describe('when disabled', () => {
-        beforeEach(function() {
+        beforeEach(() => {
           options.validateApiDoc = false;
         });
 
         describe('when apiDoc is invalid', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             options.apiDoc = 'asdfasdf';
           });
 

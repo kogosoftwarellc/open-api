@@ -1,9 +1,12 @@
-import { OpenAPI, OpenAPIV2, OpenAPIV3, IJsonSchema } from 'openapi-types';
 import { IOpenAPIDefaultSetter } from 'openapi-default-setter';
 import { IOpenAPIRequestCoercer } from 'openapi-request-coercer';
 import { IOpenAPIRequestValidator } from 'openapi-request-validator';
 import { IOpenAPIResponseValidator } from 'openapi-response-validator';
-import { IOpenAPISecurityHandler, SecurityHandlers } from 'openapi-security-handler';
+import {
+  IOpenAPISecurityHandler,
+  SecurityHandlers
+} from 'openapi-security-handler';
+import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
 export {
   OpenAPIFrameworkArgs,
@@ -12,19 +15,20 @@ export {
 };
 
 // TODO move this to openapi-request-validator
-type OpenAPIErrorTransformer = ({}, {}) => Object
+type OpenAPIErrorTransformer = ({}, {}) => object;
 
-type PathSecurityTuple = [RegExp, SecurityRequirement[]]
+type PathSecurityTuple = [RegExp, SecurityRequirement[]];
 
 interface SecurityRequirement {
-  [name: string]: SecurityScope[]
+  [name: string]: SecurityScope[];
 }
 
-type SecurityScope = string
+type SecurityScope = string;
 
-interface SecurityHandlerCallback {
-  (error: SecurityHandlerError, result: boolean): void;
-}
+type SecurityHandlerCallback = (
+  error: SecurityHandlerError,
+  result: boolean
+) => void;
 
 interface SecurityHandlerError {
   status?: number;
@@ -33,68 +37,68 @@ interface SecurityHandlerError {
 }
 
 export interface OpenAPIFrameworkPathObject {
-  path?: string
-  module?: any
+  path?: string;
+  module?: any;
 }
 
 export interface IOpenAPIFramework {
-  featureType: string
-  loggingPrefix: string
-  name: string
+  featureType: string;
+  loggingPrefix: string;
+  name: string;
 }
 
 interface OpenAPIFrameworkConstructorArgs extends OpenAPIFrameworkArgs {
-  featureType: string
-  name: string
+  featureType: string;
+  name: string;
 }
 
 interface OpenAPIFrameworkArgs {
-  apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string
-  customFormats?: {string: (any) => boolean}
-  dependencies?: {[service:string]: any}
-  enableObjectCoercion?: boolean
-  errorTransformer?: OpenAPIErrorTransformer
-  externalSchemas?: {string: IJsonSchema}
-  pathSecurity?: PathSecurityTuple[]
-  paths: string | Array<OpenAPIFrameworkPathObject>
-  pathsIgnore?: RegExp
+  apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string;
+  customFormats?: { string: (arg: any) => boolean };
+  dependencies?: { [service: string]: any };
+  enableObjectCoercion?: boolean;
+  errorTransformer?: OpenAPIErrorTransformer;
+  externalSchemas?: { string: IJsonSchema };
+  pathSecurity?: PathSecurityTuple[];
+  paths: string | OpenAPIFrameworkPathObject[];
+  pathsIgnore?: RegExp;
   routesGlob?: string;
   routesIndexFileRegExp?: RegExp;
-  securityHandlers?: SecurityHandlers;// TODO define the handlers more here
-  validateApiDoc?: boolean
+  securityHandlers?: SecurityHandlers; // TODO define the handlers more here
+  validateApiDoc?: boolean;
 }
 
 export interface OpenAPIFrameworkAPIContext {
-  basePath: string
+  basePath: string;
   // TODO fill this out
-  getApiDoc(): any
+  getApiDoc(): any;
 }
 
 export interface OpenAPIFrameworkPathContext {
-  basePath: string
+  basePath: string;
   // TODO fill this out
-  getApiDoc(): any
-  getPathDoc(): any
+  getApiDoc(): any;
+  getPathDoc(): any;
 }
 
 export interface OpenAPIFrameworkOperationContext {
-  additionalFeatures: Array<any>
-  allowsFeatures: boolean
-  apiDoc: any
-  basePath: string
-  consumes: Array<String>
+  additionalFeatures: any[];
+  allowsFeatures: boolean;
+  apiDoc: any;
+  basePath: string;
+  consumes: string[];
   features: {
-    coercer?: IOpenAPIRequestCoercer
-    defaultSetter?: IOpenAPIDefaultSetter
-    requestValidator?: IOpenAPIRequestValidator
-    responseValidator?: IOpenAPIResponseValidator
-    securityHandler?: IOpenAPISecurityHandler
-  }
-  methodName: string
-  methodParameters: Array<any>
-  operationDoc: any
-  operationHandler: any
-  path: string
+    coercer?: IOpenAPIRequestCoercer;
+    defaultSetter?: IOpenAPIDefaultSetter;
+    requestValidator?: IOpenAPIRequestValidator;
+    responseValidator?: IOpenAPIResponseValidator;
+    securityHandler?: IOpenAPISecurityHandler;
+  };
+  methodName: string;
+  methodParameters: any[];
+  operationDoc: any;
+  operationHandler: any;
+  path: string;
 }
 
 export interface OpenAPIFrameworkVisitor {

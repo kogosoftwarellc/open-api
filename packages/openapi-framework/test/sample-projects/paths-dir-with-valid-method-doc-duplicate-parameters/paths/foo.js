@@ -12,11 +12,11 @@ module.exports = {
       type: 'string'
     }
   ],
-  GET,
+  GET
 };
 
 function GET() {
-
+  return;
 }
 
 GET.apiDoc = {

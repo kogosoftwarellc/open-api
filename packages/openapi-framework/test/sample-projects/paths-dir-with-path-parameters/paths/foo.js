@@ -1,7 +1,9 @@
 module.exports = {
-  parameters: [{
-    name: 'color',
-    in: 'query',
-    type: 'string',
-  }]
+  parameters: [
+    {
+      name: 'color',
+      in: 'query',
+      type: 'string'
+    }
+  ]
 };

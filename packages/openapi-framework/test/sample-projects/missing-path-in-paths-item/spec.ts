@@ -1,22 +1,24 @@
-import OpenapiFramework from '../../../';
 import { expect } from 'chai';
+import OpenapiFramework from '../../../';
 const path = require('path');
 
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
 
-  beforeEach(function() {
+  beforeEach(() => {
     framework = new OpenapiFramework({
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: [{ module: true }],
+      paths: [{ module: true }]
     });
   });
 
   it('should throw an error', () => {
     expect(() => {
       framework.initialize({});
-    }).to.throw('some-framework: args.paths must consist of strings or valid route specifications');
+    }).to.throw(
+      'some-framework: args.paths must consist of strings or valid route specifications'
+    );
   });
 });

@@ -1,7 +1,7 @@
 module.exports = {
-  GET,
+  GET
 };
 
 function GET() {
-
+  return;
 }

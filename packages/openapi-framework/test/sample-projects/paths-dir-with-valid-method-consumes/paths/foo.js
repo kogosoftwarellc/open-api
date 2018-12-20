@@ -1,17 +1,17 @@
 module.exports = {
-  PUT,
+  PUT
 };
 
 function PUT() {
-
+  return;
 }
 PUT.apiDoc = {
-  consumes: [ 'application/json' ],
+  consumes: ['application/json'],
   responses: {
     default: {
       description: 'return foo',
       schema: {}
     }
   },
-  tags: [ 'testing', 'example' ],
+  tags: ['testing', 'example']
 };

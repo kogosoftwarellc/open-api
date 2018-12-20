@@ -1,9 +1,9 @@
 module.exports = {
-  GET,
+  GET
 };
 
 function GET() {
-
+  return;
 }
 GET.apiDoc = {
   responses: {
@@ -12,5 +12,5 @@ GET.apiDoc = {
       schema: {}
     }
   },
-  tags: [ 'pets', 'testing', 'example', 'examples' ],
+  tags: ['pets', 'testing', 'example', 'examples']
 };
