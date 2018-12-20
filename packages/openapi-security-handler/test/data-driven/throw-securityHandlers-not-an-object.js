@@ -33,6 +33,6 @@ module.exports = {
         keyScheme1: ['write'],
         passwordScheme1: ['write']
       }
-    ],
+    ]
   }
 };

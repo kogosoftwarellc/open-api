@@ -16,7 +16,7 @@ module.exports = {
         throw {
           status: 400,
           challenge: 'Bearer error="invalid_request"',
-          message: 'foo',
+          message: 'foo'
         };
       }
     },
@@ -25,13 +25,13 @@ module.exports = {
       {
         keyScheme: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: {
     status: 400,
     challenge: 'Bearer error="invalid_request"',
-    message: 'foo',
+    message: 'foo'
   },
   expectedResult: false
 };

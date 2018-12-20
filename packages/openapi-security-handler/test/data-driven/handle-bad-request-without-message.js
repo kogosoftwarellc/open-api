@@ -14,7 +14,7 @@ module.exports = {
     securityHandlers: {
       keyScheme: function(req, scopes, securityDefinition) {
         throw {
-          status: 400,
+          status: 400
         };
       }
     },
@@ -23,7 +23,7 @@ module.exports = {
       {
         keyScheme: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: {

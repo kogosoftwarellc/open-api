@@ -21,7 +21,6 @@ module.exports = {
       passwordScheme1: {
         type: 'basic'
       }
-
     },
 
     securityHandlers: {
@@ -33,7 +32,7 @@ module.exports = {
       },
 
       keyScheme1: function(req, scopes, securityDefinition) {
-        req.user = {name: 'fred'};
+        req.user = { name: 'fred' };
         return Promise.resolve(true);
       },
       passwordScheme1: function(req, scopes, securityDefinition) {
@@ -50,10 +49,10 @@ module.exports = {
         keyScheme1: ['write'],
         passwordScheme1: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: void 0,
   expectedResult: true,
-  expectedUser: {name: 'fred'}
+  expectedUser: { name: 'fred' }
 };

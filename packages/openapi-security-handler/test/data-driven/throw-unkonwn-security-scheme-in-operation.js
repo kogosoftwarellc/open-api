@@ -1,6 +1,5 @@
 module.exports = {
-  constructorError:
-      /openapi-security: Unknown security scheme "foo" used in operation/,
+  constructorError: /openapi-security: Unknown security scheme "foo" used in operation/,
   path: '/',
   headers: null,
 
@@ -45,6 +44,6 @@ module.exports = {
         keyScheme2: ['write'],
         keyScheme1: ['write']
       }
-    ],
+    ]
   }
 };
