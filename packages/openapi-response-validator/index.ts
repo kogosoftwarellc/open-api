@@ -16,11 +16,7 @@ export interface OpenAPIResponseValidatorArgs {
   definitions: {
     [definitionName: string]: IJsonSchema;
   };
-  components: {
-    schemas: {
-      [schemaName: string]: IJsonSchema;
-    };
-  };
+  components?: OpenAPIV3.ComponentsObject;
   externalSchemas: {
     [index: string]: IJsonSchema;
   };
