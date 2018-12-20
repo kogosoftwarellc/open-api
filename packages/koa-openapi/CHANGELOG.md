@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.5.0 - 2018-12-20
+### Added
+- Updated openapi-framework to handle OpenAPI V3 requestBody and components.
+
 ## 3.4.0 - 2018-12-12
 ### Added
 - Updated openapi-framework to 0.13.0 for OpenAPI V3 response application/json validation support.
