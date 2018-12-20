@@ -7,7 +7,7 @@
   "scripts": {
     "combine-coverage": "istanbul-combine packages/*/coverage/coverage*.json",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
-    "lint": "tslint ./packages/**/*.[j,t]s",
+    "lint": "tslint './packages/**/*.[j,t]s'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
