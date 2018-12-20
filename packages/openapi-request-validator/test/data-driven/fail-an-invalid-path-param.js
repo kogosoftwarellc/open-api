@@ -1,30 +1,30 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "path",
-        "name": "path1",
-        "type": "string",
-        "pattern": "^a$",
-        "required": true
+        in: 'path',
+        name: 'path1',
+        type: 'string',
+        pattern: '^a$',
+        required: true
       }
     ],
-    "schemas": null
+    schemas: null
   },
-  "request": {
-    "path": "/f",
-    "params": {
-      "path1": "f"
+  request: {
+    path: '/f',
+    params: {
+      path1: 'f'
     }
   },
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "path": "path1",
-        "errorCode": "pattern.openapi.validation",
-        "message": "should match pattern \"^a$\"",
-        "location": "path"
+        path: 'path1',
+        errorCode: 'pattern.openapi.validation',
+        message: 'should match pattern "^a$"',
+        location: 'path'
       }
     ]
   }

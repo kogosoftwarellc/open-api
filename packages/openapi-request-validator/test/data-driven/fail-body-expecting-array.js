@@ -1,26 +1,26 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "body",
-        "name": "foo",
-        "required": true,
-        "schema": {
-          "type": "array"
+        in: 'body',
+        name: 'foo',
+        required: true,
+        schema: {
+          type: 'array'
         }
       }
     ]
   },
-  "request": {
-    "body": {}
+  request: {
+    body: {}
   },
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "errorCode": "type.openapi.validation",
-        "message": "should be array",
-        "location": "body"
+        errorCode: 'type.openapi.validation',
+        message: 'should be array',
+        location: 'body'
       }
     ]
   }

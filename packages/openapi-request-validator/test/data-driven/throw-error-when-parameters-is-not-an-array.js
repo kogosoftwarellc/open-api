@@ -1,8 +1,8 @@
 module.exports = {
-  "validateArgs": {
+  validateArgs: {
     loggingKey: 'express-openapi-validation',
-    "parameters": null
+    parameters: null
   },
-  "request": {},
-  constructorError: /express-openapi-validation: args.parameters must be an Array/,
+  request: {},
+  constructorError: /express-openapi-validation: args.parameters must be an Array/
 };

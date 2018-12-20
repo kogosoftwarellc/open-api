@@ -3,8 +3,8 @@ module.exports = {
     parameters: [],
     schemas: [
       {
-        id: "#/definitions/SomeString",
-        type: "string"
+        id: '#/definitions/SomeString',
+        type: 'string'
       }
     ]
   },

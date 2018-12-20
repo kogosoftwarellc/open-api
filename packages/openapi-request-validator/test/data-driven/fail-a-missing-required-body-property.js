@@ -1,40 +1,38 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "body",
-        "name": "foo",
-        "required": true,
-        "schema": {
-          "$ref": "#/definitions/TestBody"
+        in: 'body',
+        name: 'foo',
+        required: true,
+        schema: {
+          $ref: '#/definitions/TestBody'
         }
       }
     ],
-    "schemas": [
+    schemas: [
       {
-        "id": "#/definitions/TestBody",
-        "properties": {
-          "foo": {
-            "type": "string"
+        id: '#/definitions/TestBody',
+        properties: {
+          foo: {
+            type: 'string'
           }
         },
-        "required": [
-          "foo"
-        ]
+        required: ['foo']
       }
     ]
   },
-  "request": {
-    "body": {}
+  request: {
+    body: {}
   },
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "path": "foo",
-        "errorCode": "required.openapi.validation",
-        "message": "should have required property 'foo'",
-        "location": "body"
+        path: 'foo',
+        errorCode: 'required.openapi.validation',
+        message: "should have required property 'foo'",
+        location: 'body'
       }
     ]
   }

@@ -2,7 +2,7 @@ module.exports = {
   validateArgs: {
     parameters: [],
     requestBody: {
-      description: "a test body",
+      description: 'a test body',
       content: {
         'application/json': {
           schema: {
@@ -20,7 +20,7 @@ module.exports = {
   },
   request: {
     body: {
-      "foo": "asdf"
+      foo: 'asdf'
     },
     headers: {
       'content-type': 'application/json'

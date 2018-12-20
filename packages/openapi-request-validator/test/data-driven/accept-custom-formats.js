@@ -2,19 +2,19 @@ module.exports = {
   validateArgs: {
     parameters: [
       {
-        in: "query",
-        name: "foo",
-        type: "string",
-        format: "foo"
+        in: 'query',
+        name: 'foo',
+        type: 'string',
+        format: 'foo'
       }
     ],
     schemas: null,
     customFormats: {}
   },
   request: {
-    path: "?foo=foo",
+    path: '?foo=foo',
     query: {
-      foo: "foo"
+      foo: 'foo'
     }
   }
 };

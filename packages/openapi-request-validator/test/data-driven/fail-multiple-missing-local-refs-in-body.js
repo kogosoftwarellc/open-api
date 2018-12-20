@@ -1,68 +1,61 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "body",
-        "name": "foo",
-        "required": true,
-        "schema": {
-          "properties": {
-            "test1": {
-              "$ref": "#/definitions/Test1"
+        in: 'body',
+        name: 'foo',
+        required: true,
+        schema: {
+          properties: {
+            test1: {
+              $ref: '#/definitions/Test1'
             },
-            "test2": {
-              "$ref": "#/definitions/Test2"
+            test2: {
+              $ref: '#/definitions/Test2'
             }
           },
-          "required": [
-            "test1",
-            "test2"
-          ]
+          required: ['test1', 'test2']
         }
       }
     ],
-    "schemas": [
+    schemas: [
       {
-        "id": "#/definitions/Test1",
-        "properties": {
-          "foo": {
-            "type": "string"
+        id: '#/definitions/Test1',
+        properties: {
+          foo: {
+            type: 'string'
           }
         },
-        "required": [
-          "test1"
-        ]
+        required: ['test1']
       },
       {
-        "id": "#/definitions/Test2",
-        "properties": {
-          "boo": {
-            "type": "string"
+        id: '#/definitions/Test2',
+        properties: {
+          boo: {
+            type: 'string'
           }
         },
-        "required": [
-          "test2"
-        ]
+        required: ['test2']
       }
     ]
   },
-  "request": {
-    "body": {}
+  request: {
+    body: {}
   },
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "path": "test1",
-        "errorCode": "required.openapi.validation",
-        "message": "should have required property 'test1'",
-        "location": "body"
+        path: 'test1',
+        errorCode: 'required.openapi.validation',
+        message: "should have required property 'test1'",
+        location: 'body'
       },
       {
-        "path": "test2",
-        "errorCode": "required.openapi.validation",
-        "message": "should have required property 'test2'",
-        "location": "body"
+        path: 'test2',
+        errorCode: 'required.openapi.validation',
+        message: "should have required property 'test2'",
+        location: 'body'
       }
     ]
   }

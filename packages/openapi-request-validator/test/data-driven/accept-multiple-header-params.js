@@ -1,25 +1,25 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "header",
-        "name": "X-foO",
-        "type": "string",
-        "required": true
+        in: 'header',
+        name: 'X-foO',
+        type: 'string',
+        required: true
       },
       {
-        "in": "header",
-        "name": "x-yoda",
-        "type": "string",
-        "required": true
+        in: 'header',
+        name: 'x-yoda',
+        type: 'string',
+        required: true
       }
     ],
-    "schemas": null
+    schemas: null
   },
-  "request": {
-    "headers": {
-      "x-foo": "asdf",
-      "X-Yoda": "Luke"
+  request: {
+    headers: {
+      'x-foo': 'asdf',
+      'X-Yoda': 'Luke'
     }
   }
 };

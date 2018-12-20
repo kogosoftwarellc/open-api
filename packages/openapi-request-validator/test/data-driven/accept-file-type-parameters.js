@@ -12,7 +12,7 @@ module.exports = {
   },
   request: {
     headers: {
-      "x-foo": "asdf"
+      'x-foo': 'asdf'
     }
   }
 };

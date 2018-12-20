@@ -1,37 +1,37 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "query",
-        "name": "foo",
-        "schema": {
-          "type": "string",
-          "format": "foo",
+        in: 'query',
+        name: 'foo',
+        schema: {
+          type: 'string',
+          format: 'foo'
         },
-        "required": true,
+        required: true
       }
     ],
-    "schemas": null,
-    "customFormats": {
+    schemas: null,
+    customFormats: {
       foo: function(input) {
-        return input === 'foo'
+        return input === 'foo';
       }
     }
   },
-  "request": {
-    "path": "?foo=boo",
-    "query": {
-      "foo": "boo"
+  request: {
+    path: '?foo=boo',
+    query: {
+      foo: 'boo'
     }
   },
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "path": "foo",
-        "errorCode": "format.openapi.validation",
-        "message": "should match format \"foo\"",
-        "location": "query"
+        path: 'foo',
+        errorCode: 'format.openapi.validation',
+        message: 'should match format "foo"',
+        location: 'query'
       }
     ]
   }

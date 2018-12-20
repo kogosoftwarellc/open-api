@@ -4,7 +4,8 @@ import Sut from '../';
 describe(require('../package.json').name, () => {
   it('should not modify the input parameters', () => {
     const initialArguments = createArguments();
-    //@ts-ignore
+    /* tslint:disable:no-unused-expression */
+    // @ts-ignore
     new Sut(initialArguments);
     expect(initialArguments).to.eql(createArguments());
   });

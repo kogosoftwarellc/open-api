@@ -1,11 +1,11 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [],
-    "schemas": [
+  validateArgs: {
+    parameters: [],
+    schemas: [
       {
-        "type": "string"
+        type: 'string'
       }
     ]
   },
-  "request": {}
+  request: {}
 };
