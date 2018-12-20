@@ -4,9 +4,9 @@ module.exports = {
 
 function get(ctx) {
   if (ctx.query.type === 'apiDoc') {
-    return ctx.body = ctx.state.apiDoc;
+    return (ctx.body = ctx.state.apiDoc);
   }
-  return ctx.body = ctx.state.operationDoc;
+  return (ctx.body = ctx.state.operationDoc);
 }
 
 get.apiDoc = {
@@ -18,10 +18,7 @@ get.apiDoc = {
       in: 'query',
       name: 'type',
       type: 'string',
-      enum: [
-        'apiDoc',
-        'operationDoc'
-      ]
+      enum: ['apiDoc', 'operationDoc']
     }
   ],
   responses: {
@@ -32,7 +29,7 @@ get.apiDoc = {
       }
     },
     default: {
-      description: 'The requested apiDoc.',
+      description: 'The requested apiDoc.'
     }
   }
 };

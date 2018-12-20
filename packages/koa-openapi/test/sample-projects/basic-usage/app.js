@@ -9,12 +9,12 @@ var openapi = require('../../../');
 app.use(async (ctx, next) => {
   try {
     await next();
-  } catch(e) {
+  } catch (e) {
     ctx.status = e.status;
     if (e.errors) {
       ctx.body = {
         status: e.status || 500,
-        errors: e.errors,
+        errors: e.errors
       };
     }
   }

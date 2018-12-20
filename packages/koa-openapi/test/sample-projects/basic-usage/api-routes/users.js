@@ -10,10 +10,12 @@ module.exports = {
 
     ctx.status = 204;
   },
-  get: [function(ctx, next) {
-    ctx.status = 200;
-    ctx.body = [{name: 'fred'}];
-  }],
+  get: [
+    function(ctx, next) {
+      ctx.status = 200;
+      ctx.body = [{ name: 'fred' }];
+    }
+  ],
 
   post: function(ctx, next) {
     ctx.throw();
@@ -43,7 +45,7 @@ module.exports.post.apiDoc = {
   parameters: [],
   responses: {
     default: {
-      description: "Unexpected error",
+      description: 'Unexpected error',
       schema: {
         $ref: '#/definitions/Error'
       }
