@@ -5,5 +5,5 @@ module.exports = {
     title: 'Testing case insensitive params.',
     version: '1.0.0'
   },
-  paths: {},
+  paths: {}
 };

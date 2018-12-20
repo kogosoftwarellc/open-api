@@ -5,14 +5,14 @@ module.exports = {
     }
   ],
   get: function(req, res, next) {
-    var statusCode = req.query.foo === 'success' ?
-      200 :
-      500;
+    var statusCode = req.query.foo === 'success' ? 200 : 500;
     var errors = res.validateResponse(statusCode, req.query.boo);
     res.status(statusCode).json(errors);
   },
   // handling no method doc
-  post: function() {}
+  post: function() {
+    return;
+  }
 };
 
 module.exports.get.apiDoc = {

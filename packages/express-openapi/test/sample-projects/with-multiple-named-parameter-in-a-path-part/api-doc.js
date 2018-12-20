@@ -47,7 +47,7 @@ module.exports = {
   // tags is optional, and is generated / sorted by the tags defined in your path
   // docs.  This API also defines 2 tags in operations: "creating" and "fooey".
   tags: [
-    {description: 'Everything users', name: 'users'},
-    {description: 'Everything virtual machines', name: 'vm'}
+    { description: 'Everything users', name: 'users' },
+    { description: 'Everything virtual machines', name: 'vm' }
   ]
 };

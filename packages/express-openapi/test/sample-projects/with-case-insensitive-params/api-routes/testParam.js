@@ -15,13 +15,13 @@ GET.apiDoc = {
       in: 'query',
       name: 'testParam',
       required: true,
-      type: 'string',
+      type: 'string'
     },
     {
       in: 'query',
       name: 'testParam1',
       required: true,
-      type: 'string',
+      type: 'string'
     }
   ],
   responses: {

@@ -1,12 +1,13 @@
 module.exports = {
   get: function(req, res) {
-    res.status(200).json({name: req.query.foo});
+    res.status(200).json({ name: req.query.foo });
   },
 
   post: function(req, res) {
-    var validationResult = res.validateResponse(200, {name: req.query.foo});
+    var validationResult = res.validateResponse(200, { name: req.query.foo });
     res.status(validationResult ? 400 : 200).json({
-      errors: (validationResult || {errors: []}).errors});
+      errors: (validationResult || { errors: [] }).errors
+    });
   }
 };
 

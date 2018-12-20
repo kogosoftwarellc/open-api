@@ -7,7 +7,9 @@ module.exports = {
       $ref: '#/parameters/userId'
     }
   ],
-  put: function(req, res, next) {},
+  put: function(req, res, next) {
+    return;
+  },
   delete: function(req, res, next) {
     res.status(500).end('error');
   }
@@ -28,9 +30,9 @@ module.exports.delete.apiDoc = {
   operationId: 'deleteUser',
   parameters: [
     {
-      in: "body",
-      name: "user",
-      schema: { $ref: "#/definitions/User"}
+      in: 'body',
+      name: 'user',
+      schema: { $ref: '#/definitions/User' }
     }
   ],
   responses: {

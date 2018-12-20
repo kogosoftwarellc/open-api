@@ -20,73 +20,153 @@ describe(require('../package.json').name + ' sample-projects', () => {
 
     [
       // adding additional middleware
-      {name: 'with-additional-middleware', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {
-            orderingApiDoc: 'pathModule',
-            apiDocAdded: true,
-            pathDocAdded: true,
-            pathModuleAdded: true
-          }},
+      {
+        name: 'with-additional-middleware',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: {
+          orderingApiDoc: 'pathModule',
+          apiDocAdded: true,
+          pathDocAdded: true,
+          pathModuleAdded: true
+        }
+      },
 
       // not inheriting additional middleware
-      {name: 'with-inherit-additional-middleware-false-at-methodDoc', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {
-            apiDocAdded: null,
-            pathDocAdded: null,
-            pathModuleAdded: null
-          }},
-      {name: 'with-inherit-additional-middleware-false-at-pathDoc', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {
-            apiDocAdded: null,
-            pathDocAdded: true,
-            pathModuleAdded: true
-          }},
-      {name: 'with-inherit-additional-middleware-false-at-pathModule', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {
-            apiDocAdded: null,
-            pathDocAdded: null,
-            pathModuleAdded: true
-          }},
+      {
+        name: 'with-inherit-additional-middleware-false-at-methodDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: {
+          apiDocAdded: null,
+          pathDocAdded: null,
+          pathModuleAdded: null
+        }
+      },
+      {
+        name: 'with-inherit-additional-middleware-false-at-pathDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: {
+          apiDocAdded: null,
+          pathDocAdded: true,
+          pathModuleAdded: true
+        }
+      },
+      {
+        name: 'with-inherit-additional-middleware-false-at-pathModule',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: {
+          apiDocAdded: null,
+          pathDocAdded: null,
+          pathModuleAdded: true
+        }
+      },
 
       // disable coercion
-      {name: 'with-coercion-middleware-disabled-in-methodDoc', url: '/v3/users/34?name=fred',
-          expectedStatus: 400, expectedBody: coercionMissingBody},
-      {name: 'with-coercion-middleware-disabled-in-pathItem', url: '/v3/users/34?name=fred',
-          expectedStatus: 400, expectedBody: coercionMissingBody},
-      {name: 'with-coercion-middleware-disabled-in-pathModule', url: '/v3/users/34?name=fred',
-          expectedStatus: 400, expectedBody: coercionMissingBody},
-      {name: 'with-coercion-middleware-disabled-in-the-apiDoc', url: '/v3/users/34?name=fred',
-          expectedStatus: 400, expectedBody: coercionMissingBody},
+      {
+        name: 'with-coercion-middleware-disabled-in-methodDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 400,
+        expectedBody: coercionMissingBody
+      },
+      {
+        name: 'with-coercion-middleware-disabled-in-pathItem',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 400,
+        expectedBody: coercionMissingBody
+      },
+      {
+        name: 'with-coercion-middleware-disabled-in-pathModule',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 400,
+        expectedBody: coercionMissingBody
+      },
+      {
+        name: 'with-coercion-middleware-disabled-in-the-apiDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 400,
+        expectedBody: coercionMissingBody
+      },
 
       // disable defaults
-      {name: 'with-defaults-middleware-disabled-in-methodDoc', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
-      {name: 'with-defaults-middleware-disabled-in-pathItem', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
-      {name: 'with-defaults-middleware-disabled-in-pathModule', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
-      {name: 'with-defaults-middleware-disabled-in-the-apiDoc', url: '/v3/users/34?name=fred',
-          expectedStatus: 200, expectedBody: {id: 34, name: 'fred'}},
+      {
+        name: 'with-defaults-middleware-disabled-in-methodDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 34, name: 'fred' }
+      },
+      {
+        name: 'with-defaults-middleware-disabled-in-pathItem',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 34, name: 'fred' }
+      },
+      {
+        name: 'with-defaults-middleware-disabled-in-pathModule',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 34, name: 'fred' }
+      },
+      {
+        name: 'with-defaults-middleware-disabled-in-the-apiDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 34, name: 'fred' }
+      },
 
       // disable validation
-      {name: 'with-validation-middleware-disabled-in-methodDoc', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
-      {name: 'with-validation-middleware-disabled-in-pathItem', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
-      {name: 'with-validation-middleware-disabled-in-pathModule', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
-      {name: 'with-validation-middleware-disabled-in-the-apiDoc', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {age: 80, id: null, name: 'fred'}},
+      {
+        name: 'with-validation-middleware-disabled-in-methodDoc',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { age: 80, id: null, name: 'fred' }
+      },
+      {
+        name: 'with-validation-middleware-disabled-in-pathItem',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { age: 80, id: null, name: 'fred' }
+      },
+      {
+        name: 'with-validation-middleware-disabled-in-pathModule',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { age: 80, id: null, name: 'fred' }
+      },
+      {
+        name: 'with-validation-middleware-disabled-in-the-apiDoc',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { age: 80, id: null, name: 'fred' }
+      },
 
       // disable all
-      {name: 'with-middleware-disabled-in-methodDoc', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
-      {name: 'with-middleware-disabled-in-pathItem', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
-      {name: 'with-middleware-disabled-in-pathModule', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}},
-      {name: 'with-middleware-disabled-in-the-apiDoc', url: '/v3/users/asdf?name=fred',
-          expectedStatus: 200, expectedBody: {id: 'asdf', name: 'fred'}}
+      {
+        name: 'with-middleware-disabled-in-methodDoc',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 'asdf', name: 'fred' }
+      },
+      {
+        name: 'with-middleware-disabled-in-pathItem',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 'asdf', name: 'fred' }
+      },
+      {
+        name: 'with-middleware-disabled-in-pathModule',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 'asdf', name: 'fred' }
+      },
+      {
+        name: 'with-middleware-disabled-in-the-apiDoc',
+        url: '/v3/users/asdf?name=fred',
+        expectedStatus: 200,
+        expectedBody: { id: 'asdf', name: 'fred' }
+      }
     ].forEach(test => {
       describe(test.name, () => {
         let app;
@@ -109,14 +189,30 @@ describe(require('../package.json').name + ' sample-projects', () => {
 
     [
       // disable response validation
-      {name: 'with-response-validation-middleware-disabled-in-methodDoc',
-          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
-      {name: 'with-response-validation-middleware-disabled-in-pathItem',
-          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
-      {name: 'with-response-validation-middleware-disabled-in-pathModule',
-          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true},
-      {name: 'with-response-validation-middleware-disabled-in-the-apiDoc',
-          url: '/v3/users/34?name=fred', expectedStatus: 200, expectedBody: true}
+      {
+        name: 'with-response-validation-middleware-disabled-in-methodDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: true
+      },
+      {
+        name: 'with-response-validation-middleware-disabled-in-pathItem',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: true
+      },
+      {
+        name: 'with-response-validation-middleware-disabled-in-pathModule',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: true
+      },
+      {
+        name: 'with-response-validation-middleware-disabled-in-the-apiDoc',
+        url: '/v3/users/34?name=fred',
+        expectedStatus: 200,
+        expectedBody: true
+      }
     ].forEach(test => {
       describe(test.name, () => {
         let app;
@@ -138,23 +234,30 @@ describe(require('../package.json').name + ' sample-projects', () => {
     });
   });
 
-  glob.sync('./sample-projects/*', {cwd: __dirname}).forEach(sampleProjectPath => {
-    const specName = path.basename(sampleProjectPath);
-    const specPath = path.resolve(__dirname, sampleProjectPath, 'spec.js');
+  glob
+    .sync('./sample-projects/*', { cwd: __dirname })
+    .forEach(sampleProjectPath => {
+      const specName = path.basename(sampleProjectPath);
+      const specPath = path.resolve(__dirname, sampleProjectPath, 'spec.js');
 
-    if ([
-      // progressively move sample project tests up
-      'basic-usage'
-    ].indexOf(specName) > -1) {
-      return;
-    }
+      if (
+        [
+          // progressively move sample project tests up
+          'basic-usage'
+        ].indexOf(specName) > -1
+      ) {
+        return;
+      }
 
-    if (fs.existsSync(specPath)) {
-      describe(specName, () => {
-        require(specPath);
-      });
-    }
-  });
+      if (fs.existsSync(specPath)) {
+        describe(specName, () => {
+          require(specPath);
+        });
+      }
+    });
 });
 
-require('../../../test/sample-projects.js')(require('../package.json').name, __dirname);
+require('../../../test/sample-projects.js')(
+  require('../package.json').name,
+  __dirname
+);

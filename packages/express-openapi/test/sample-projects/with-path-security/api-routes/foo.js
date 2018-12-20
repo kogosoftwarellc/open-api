@@ -9,6 +9,6 @@ module.exports.get.apiDoc = {
   operationId: 'getFoo',
   parameters: [],
   responses: {
-    204: {description: 'testing security'}
+    204: { description: 'testing security' }
   }
 };

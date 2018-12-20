@@ -18,10 +18,7 @@ get.apiDoc = {
       in: 'query',
       name: 'type',
       type: 'string',
-      enum: [
-        'apiDoc',
-        'operationDoc'
-      ]
+      enum: ['apiDoc', 'operationDoc']
     }
   ],
   responses: {
@@ -32,7 +29,7 @@ get.apiDoc = {
       }
     },
     default: {
-      description: 'The requested apiDoc.',
+      description: 'The requested apiDoc.'
     }
   }
 };

@@ -11,7 +11,7 @@ openapi.initialize({
   app: app,
   // See https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
   errorTransformer: function(error) {
-    return {fooError: 'oh yea'};
+    return { fooError: 'oh yea' };
   },
   // we could just pass in "api-routes" if process.cwd() was set to this directory.
   paths: path.resolve(__dirname, 'api-routes')

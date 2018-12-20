@@ -48,7 +48,7 @@ get.apiDoc = {
     },
 
     default: {
-      description: "Unexpected error",
+      description: 'Unexpected error',
       schema: {
         $ref: '#/definitions/Error'
       }

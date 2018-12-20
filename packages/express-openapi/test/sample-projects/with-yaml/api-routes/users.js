@@ -11,7 +11,7 @@ module.exports = {
     function(req, res, next) {
       return new Promise(function(resolve, reject) {
         setTimeout(function() {
-          resolve([{name: 'fred'}]);
+          resolve([{ name: 'fred' }]);
         }, 1000);
       }).then(function(people) {
         res.status(200).json(people);
