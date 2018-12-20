@@ -2,11 +2,11 @@ module.exports = {
   constructorArgs: {
     responses: {
       200: {
-        description: "Ok",
+        description: 'Ok',
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
-              '$ref': '#/components/schemas/Foo'
+              $ref: '#/components/schemas/Foo'
             }
           }
         }
@@ -24,12 +24,12 @@ module.exports = {
           }
         }
       }
-    },
+    }
   },
 
   inputStatusCode: 200,
 
-  inputResponseBody: {id: 'asdf'},
+  inputResponseBody: { id: 'asdf' },
 
   expectedValidationError: void 0
 };

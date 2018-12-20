@@ -1,34 +1,33 @@
 module.exports = {
-    constructorArgs: {
-        responses: {
-            200: {
-                schema: {
-                    type: 'object',
-                    properties: {
-                        foo: {
-                            $ref: '#/definitions/foo'
-                        }
-                    }
-                }
-            }
-        },
-
-        definitions: {
+  constructorArgs: {
+    responses: {
+      200: {
+        schema: {
+          type: 'object',
+          properties: {
             foo: {
-                $ref: 'http://example.com/schema'
+              $ref: '#/definitions/foo'
             }
-        },
-
-        externalSchemas: {
-            'http://example.com/schema': {
-                type: 'string'
-            }
+          }
         }
+      }
     },
 
-    inputStatusCode: 200,
-    inputResponseBody: {foo: 'asdf'},
+    definitions: {
+      foo: {
+        $ref: 'http://example.com/schema'
+      }
+    },
 
-    expectedValidationError: void 0
+    externalSchemas: {
+      'http://example.com/schema': {
+        type: 'string'
+      }
+    }
+  },
+
+  inputStatusCode: 200,
+  inputResponseBody: { foo: 'asdf' },
+
+  expectedValidationError: void 0
 };
-

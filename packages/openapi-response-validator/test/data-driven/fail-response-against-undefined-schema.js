@@ -6,7 +6,7 @@ module.exports = {
   },
 
   inputStatusCode: 200,
-  inputResponseBody: {foo: 'asdf'},
+  inputResponseBody: { foo: 'asdf' },
 
   expectedValidationError: {
     message: 'The response was not valid.',

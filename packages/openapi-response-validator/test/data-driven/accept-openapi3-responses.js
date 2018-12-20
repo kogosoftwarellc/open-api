@@ -2,9 +2,9 @@ module.exports = {
   constructorArgs: {
     responses: {
       200: {
-        description: "Ok",
+        description: 'Ok',
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
               type: 'object',
               properties: {
@@ -22,7 +22,7 @@ module.exports = {
 
   inputStatusCode: 200,
 
-  inputResponseBody: {foo: 'asdf'},
+  inputResponseBody: { foo: 'asdf' },
 
   expectedValidationError: void 0
 };
