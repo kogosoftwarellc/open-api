@@ -33,13 +33,13 @@ module.exports = {
         foo: {
           additionalItems: true,
           default: 5,
-          description: "asdfasdf",
+          description: 'asdfasdf',
           type: 'string',
           maximum: 0,
           exclusiveMaximum: true,
           minimum: 5,
           exclusiveMinimum: false,
-          format: "asdf",
+          format: 'asdf',
           items: [],
           maxLength: 5,
           minLength: 6,
@@ -55,4 +55,4 @@ module.exports = {
       required: ['foo']
     }
   }
-}
+};

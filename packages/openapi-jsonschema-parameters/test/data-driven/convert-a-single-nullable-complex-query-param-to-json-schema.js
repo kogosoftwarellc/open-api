@@ -32,32 +32,35 @@ module.exports = {
     query: {
       properties: {
         foo: {
-          anyOf: [{
-            additionalItems: true,
-            default: 5,
-            description: "asdfasdf",
-            type: 'string',
-            maximum: 0,
-            exclusiveMaximum: true,
-            minimum: 5,
-            exclusiveMinimum: false,
-            format: "asdf",
-            items: [],
-            maxLength: 5,
-            minLength: 6,
-            pattern: '^asdf$',
-            title: 'fffasdf',
-            maxItems: 5,
-            minItems: 7,
-            uniqueItems: false,
-            enum: ['1', '3'],
-            multipleOf: 57
-          }, {
-            type: 'null'
-          }]
+          anyOf: [
+            {
+              additionalItems: true,
+              default: 5,
+              description: 'asdfasdf',
+              type: 'string',
+              maximum: 0,
+              exclusiveMaximum: true,
+              minimum: 5,
+              exclusiveMinimum: false,
+              format: 'asdf',
+              items: [],
+              maxLength: 5,
+              minLength: 6,
+              pattern: '^asdf$',
+              title: 'fffasdf',
+              maxItems: 5,
+              minItems: 7,
+              uniqueItems: false,
+              enum: ['1', '3'],
+              multipleOf: 57
+            },
+            {
+              type: 'null'
+            }
+          ]
         }
       },
       required: ['foo']
     }
   }
-}
+};

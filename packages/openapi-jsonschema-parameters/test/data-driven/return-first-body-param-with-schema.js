@@ -24,7 +24,7 @@ module.exports = {
       schema: {
         $ref: 'foo'
       }
-    },
+    }
   ],
 
   outputSchema: {

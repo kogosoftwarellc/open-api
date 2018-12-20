@@ -13,12 +13,15 @@ module.exports = {
     query: {
       properties: {
         search: {
-          anyOf: [{
-            type: 'string',
-            'x-custom': 'value'
-          }, {
-            type: 'null'
-          }]
+          anyOf: [
+            {
+              type: 'string',
+              'x-custom': 'value'
+            },
+            {
+              type: 'null'
+            }
+          ]
         }
       },
       required: []
