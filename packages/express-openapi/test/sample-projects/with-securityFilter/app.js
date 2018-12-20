@@ -13,7 +13,7 @@ openapi.initialize({
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   securityFilter: function(req, res, next) {
-    if (req.headers['authorization'] !== 'Basic foo') {
+    if (req.headers.authorization !== 'Basic foo') {
       return next({
         message: 'not authenticated to view api docs',
         status: 400
@@ -29,7 +29,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var port = parseInt(process.argv[2]);
+var port = parseInt(process.argv[2], 10);
 if (port) {
   app.listen(port);
 }

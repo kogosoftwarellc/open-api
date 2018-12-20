@@ -25,10 +25,7 @@ module.exports = {
       type: 'string',
       name: 'foo',
       required: true,
-      enum: [
-        'success',
-        'error'
-      ]
+      enum: ['success', 'error']
     }
   },
 

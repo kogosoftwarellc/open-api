@@ -17,7 +17,7 @@ module.exports = {
   },
 
   inputStatusCode: 200,
-  inputResponseBody: {foo: 'asdf'},
+  inputResponseBody: { foo: 'asdf' },
 
   expectedValidationError: void 0
 };

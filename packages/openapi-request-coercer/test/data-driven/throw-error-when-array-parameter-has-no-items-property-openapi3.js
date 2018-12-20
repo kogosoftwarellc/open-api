@@ -8,8 +8,8 @@ module.exports = {
         name: 'foo',
         in: 'query',
         schema: {
-          type: 'array',
-        },
+          type: 'array'
+        }
       }
     ]
   },

@@ -3,7 +3,7 @@
 module.exports = {
   swagger: '2.0',
 
-  host: "test-host",
+  host: 'test-host',
   // all routes will now have /v3 prefixed.
   basePath: '/v3',
 
@@ -17,10 +17,10 @@ module.exports = {
       schema: {
         properties: {
           oneOf: {
-            type: "array",
+            type: 'array',
             minItems: 1,
             items: {
-              $ref: "#/definitions/schema"
+              $ref: '#/definitions/schema'
             }
           }
         }
@@ -35,10 +35,7 @@ module.exports = {
     User: {
       properties: {
         name: {
-          oneOf: [
-            { type: 'string' },
-            { type: 'null' }
-          ]
+          oneOf: [{ type: 'string' }, { type: 'null' }]
         },
         friends: {
           type: 'array',
@@ -59,6 +56,6 @@ module.exports = {
   tags: [
     // {name: 'creating'} will be inserted by ./api-routes/users.js
     // {name: 'fooey'} will be inserted by ./api-routes/users/{id}.js
-    {description: 'Everything users', name: 'users'}
+    { description: 'Everything users', name: 'users' }
   ]
 };

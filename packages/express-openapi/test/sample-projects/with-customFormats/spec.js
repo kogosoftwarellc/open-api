@@ -10,20 +10,27 @@ describe('input validation', function() {
   it('should fail input', function(done) {
     request(app)
       .get('/v3/foo?foo=barney')
-      .expect(400, {errors: [
+      .expect(
+        400,
         {
-         errorCode: 'format.openapi.validation',
-         location: 'query',
-         message: 'should match format "foo"',
-         path: 'foo'
-        }
-      ], status: 400}, done);
+          errors: [
+            {
+              errorCode: 'format.openapi.validation',
+              location: 'query',
+              message: 'should match format "foo"',
+              path: 'foo'
+            }
+          ],
+          status: 400
+        },
+        done
+      );
   });
 
   it('should accept input', function(done) {
     request(app)
       .get('/v3/foo?foo=foo')
-      .expect(200, {name: 'foo'}, done);
+      .expect(200, { name: 'foo' }, done);
   });
 });
 
@@ -31,18 +38,24 @@ describe('response validation', function() {
   it('should fail', function(done) {
     request(app)
       .post('/v3/foo?foo=barney')
-      .expect(400, {errors: [
+      .expect(
+        400,
         {
-         errorCode: 'format.openapi.responseValidation',
-         message: 'name should match format "foo"',
-         path: 'name'
-        }
-      ]}, done);
+          errors: [
+            {
+              errorCode: 'format.openapi.responseValidation',
+              message: 'name should match format "foo"',
+              path: 'name'
+            }
+          ]
+        },
+        done
+      );
   });
 
   it('should pass', function(done) {
     request(app)
       .post('/v3/foo?foo=foo')
-      .expect(200, {errors: []}, done);
+      .expect(200, { errors: [] }, done);
   });
 });

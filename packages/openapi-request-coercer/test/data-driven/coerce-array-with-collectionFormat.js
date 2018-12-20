@@ -39,7 +39,7 @@ module.exports = {
           type: 'string'
         },
         collectionFormat: 'pipes'
-      },
+      }
     ]
   },
 

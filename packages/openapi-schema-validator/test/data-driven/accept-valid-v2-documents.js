@@ -24,9 +24,7 @@ module.exports = {
           operationId: 'FormDraftFileUpload',
 
           tags: ['Drafts'],
-          consumes: [
-            'multipart/form-data'
-          ],
+          consumes: ['multipart/form-data'],
           parameters: [
             {
               name: 'process_intel',
@@ -58,10 +56,10 @@ module.exports = {
           ],
           responses: {
             200: {
-              'description': 'OK'
+              description: 'OK'
             },
             400: {
-              'description': 'BAD'
+              description: 'BAD'
             }
           }
         }

@@ -11,10 +11,10 @@ module.exports = {
           type: 'array',
           items: {
             schema: {
-              type: 'array',
-            },
-          },
-        },
+              type: 'array'
+            }
+          }
+        }
       }
     ]
   },

@@ -15,7 +15,7 @@ it('should expose the first set of routes', function(done) {
 it('should be added to the apiDoc', function(done) {
   request(app)
     .get('/v3/api-docs')
-    .set("Host", "test-host")
+    .set('Host', 'test-host')
     .expect(200)
     .end(function(err, result) {
       expect(result.body).to.eql(require('./fixtures/expected-api-doc.json'));

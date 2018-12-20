@@ -26,7 +26,7 @@ module.exports = {
       {
         keyScheme: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: {

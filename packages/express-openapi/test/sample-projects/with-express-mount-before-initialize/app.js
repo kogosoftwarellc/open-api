@@ -23,7 +23,7 @@ parentApp.use(function(err, req, res, next) {
 
 module.exports = parentApp;
 
-var port = parseInt(process.argv[2]);
+var port = parseInt(process.argv[2], 10);
 if (port) {
   parentApp.listen(port);
 }

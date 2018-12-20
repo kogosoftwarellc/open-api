@@ -33,7 +33,10 @@ module.exports = {
   },
 
   query: {
-    include: [{ association: 'lines', include: ['status'] }, { association: 'people', include: ['hairColor'] }],
+    include: [
+      { association: 'lines', include: ['status'] },
+      { association: 'people', include: ['hairColor'] }
+    ],
     query: { where: { $status: 2 } }
   }
 };

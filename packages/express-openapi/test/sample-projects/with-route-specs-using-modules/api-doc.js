@@ -39,6 +39,6 @@ module.exports = {
   tags: [
     // {name: 'creating'} will be inserted by ./api-routes/users.js
     // {name: 'fooey'} will be inserted by ./api-routes/users/{id}.js
-    {description: 'Everything users', name: 'users'}
+    { description: 'Everything users', name: 'users' }
   ]
 };

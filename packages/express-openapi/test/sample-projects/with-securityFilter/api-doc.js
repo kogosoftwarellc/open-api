@@ -21,8 +21,8 @@ module.exports = {
           }
         }
       },
-      required: [ 'name' ]
-    },
+      required: ['name']
+    }
   },
   paths: {},
   tags: [

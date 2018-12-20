@@ -6,17 +6,14 @@ module.exports = {
   // all routes will now have /v3 prefixed.
   basePath: '/v3',
 
-  consumes: [
-    'text/text'
-  ],
+  consumes: ['text/text'],
 
   info: {
     title: 'express-openapi sample project',
     version: '3.0.0'
   },
 
-  definitions: {
-  },
+  definitions: {},
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
   paths: {}

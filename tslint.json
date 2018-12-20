@@ -1,21 +1,31 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-config-prettier",
-        "tslint-plugin-prettier"
-    ],
-    "jsRules": {
-        "no-console": false,
-        "object-literal-sort-keys": false,
-        "prettier": true
-    },
-    "rules": {
-        "interface-name": false,
-        "no-console": false,
-        "no-var-requires": false,
-        "object-literal-sort-keys": false,
-        "prettier": true
-    },
-    "rulesDirectory": []
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "jsRules": {
+    "no-console": false,
+    "object-literal-sort-keys": false,
+    "prettier": true
+  },
+  "linterOptions": {
+    "exclude": [
+      "**/node_modules/**/*",
+      "**/coverage/**/*",
+      "**/.nyc_output/**/*",
+      "**/dist/**/*",
+      "**/docs/**/*",
+      "packages/fetch-openapi/test/**/output.js"
+    ]
+  },
+  "rules": {
+    "interface-name": false,
+    "no-console": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "prettier": true
+  },
+  "rulesDirectory": []
 }

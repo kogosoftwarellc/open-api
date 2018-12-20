@@ -24,8 +24,8 @@ module.exports = {
   request: {
     path: '/',
     query: {
-      'foo': ['5', '6'],
-      'boo': '34.2345'
+      foo: ['5', '6'],
+      boo: '34.2345'
     },
     headers: null
   },

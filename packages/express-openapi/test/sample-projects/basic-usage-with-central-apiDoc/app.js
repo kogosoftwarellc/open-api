@@ -21,7 +21,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-const port = parseInt(process.argv[2]);
+const port = parseInt(process.argv[2], 10);
 if (port) {
   app.listen(port);
 }

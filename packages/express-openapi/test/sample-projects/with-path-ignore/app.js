@@ -12,7 +12,7 @@ openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
-  pathsIgnore: new RegExp('\.(spec|test)$')
+  pathsIgnore: new RegExp('.(spec|test)$')
 });
 
 app.use(function(err, req, res, next) {
@@ -21,7 +21,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var port = parseInt(process.argv[2]);
+var port = parseInt(process.argv[2], 10);
 if (port) {
   app.listen(port);
 }

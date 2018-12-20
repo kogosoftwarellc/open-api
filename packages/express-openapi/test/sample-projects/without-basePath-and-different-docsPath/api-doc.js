@@ -25,7 +25,5 @@ module.exports = {
   // paths are derived from args.routes.  These are filled in by fs-routes.
   paths: {},
 
-  tags: [
-    {name: 'users'}
-  ]
+  tags: [{ name: 'users' }]
 };

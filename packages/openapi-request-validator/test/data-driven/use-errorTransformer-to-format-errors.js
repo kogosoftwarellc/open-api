@@ -2,9 +2,9 @@ module.exports = {
   validateArgs: {
     parameters: [
       {
-        in: "query",
-        name: "foo",
-        type: "string",
+        in: 'query',
+        name: 'foo',
+        type: 'string',
         required: true
       }
     ],
@@ -13,11 +13,9 @@ module.exports = {
       return arguments.length;
     }
   },
-  "request": {},
-  "expectedError": {
-    "status": 400,
-    "errors": [
-      2
-    ]
+  request: {},
+  expectedError: {
+    status: 400,
+    errors: [2]
   }
 };

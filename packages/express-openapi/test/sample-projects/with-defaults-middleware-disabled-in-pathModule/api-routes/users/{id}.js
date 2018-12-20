@@ -8,7 +8,7 @@ module.exports = {
       in: 'path',
       type: 'string',
       required: true,
-      description: 'Fred\'s age.'
+      description: "Fred's age."
     }
   ],
   // method handlers may just be the method handler...
@@ -17,9 +17,14 @@ module.exports = {
   // for flexible middleware management.  express-openapi middleware generated from
   // the <path>.parameters + <methodHandler>.apiDoc.parameters is prepended to this
   // array.
-  post: [function(req, res, next) {next();}, function(req, res) {
-    res.status(200).json({id: req.params.id});
-  }]
+  post: [
+    function(req, res, next) {
+      next();
+    },
+    function(req, res) {
+      res.status(200).json({ id: req.params.id });
+    }
+  ]
 };
 
 module.exports.post.apiDoc = {
@@ -38,7 +43,7 @@ module.exports.post.apiDoc = {
 
   responses: {
     default: {
-      description: "Unexpected error",
+      description: 'Unexpected error',
       schema: {
         $ref: '#/definitions/Error'
       }
@@ -72,27 +77,27 @@ get.apiDoc = {
       in: 'path',
       type: 'integer',
       required: true,
-      description: 'Fred\'s age.'
+      description: "Fred's age."
     },
     {
       name: 'age',
       in: 'query',
       type: 'integer',
-      description: 'Fred\'s age.',
+      description: "Fred's age.",
       default: 80
     }
   ],
 
   responses: {
     200: {
-      description: "Requested user",
+      description: 'Requested user',
       schema: {
         $ref: '#/definitions/User'
       }
     },
 
     default: {
-      description: "Unexpected error",
+      description: 'Unexpected error',
       schema: {
         $ref: '#/definitions/Error'
       }

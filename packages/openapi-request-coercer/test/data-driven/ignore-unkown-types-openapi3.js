@@ -5,16 +5,16 @@ module.exports = {
         in: 'path',
         name: 'path1',
         schema: {
-          type: 'asdfasdf',
-        },
+          type: 'asdfasdf'
+        }
       },
 
       {
         in: 'path',
         name: 'path2',
         schema: {
-          type: 'dddd',
-        },
+          type: 'dddd'
+        }
       }
     ]
   },

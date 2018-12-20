@@ -1,6 +1,8 @@
 module.exports = {
   'x-some-framework-additional-middleware': [
-    function() {}
+    function() {
+      return;
+    }
   ],
   parameters: [
     {
@@ -9,11 +11,11 @@ module.exports = {
       type: 'string'
     }
   ],
-  GET,
+  GET
 };
 
 function GET() {
-
+  return;
 }
 
 GET.apiDoc = {

@@ -1,36 +1,32 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [],
-    "schemas": {
-      "Test1": {
-        "properties": {
-          "foo": {
-            "type": "string"
+  validateArgs: {
+    parameters: [],
+    schemas: {
+      Test1: {
+        properties: {
+          foo: {
+            type: 'string'
           }
         },
-        "required": [
-          "foo"
-        ]
+        required: ['foo']
       },
-      "Test2": {
-        "properties": {
-          "boo": {
-            "type": "string"
+      Test2: {
+        properties: {
+          boo: {
+            type: 'string'
           }
         },
-        "required": [
-          "boo"
-        ]
+        required: ['boo']
       }
     }
   },
-  "request": {
-    "body": {
-      "test1": {
-        "foo": "asdf"
+  request: {
+    body: {
+      test1: {
+        foo: 'asdf'
       },
-      "test2": {
-        "boo": "ccccc"
+      test2: {
+        boo: 'ccccc'
       }
     }
   }

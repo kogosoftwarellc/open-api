@@ -12,15 +12,14 @@ module.exports = {
         }
       },
 
-      400: {
-      }
+      400: {}
     },
 
     definitions: null
   },
 
   inputStatusCode: 400,
-  inputResponseBody: {foo: 2345},
+  inputResponseBody: { foo: 2345 },
 
   expectedValidationError: {
     message: 'The response was not valid.',

@@ -7,8 +7,7 @@ openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
-  securityHandlers: {
-  }
+  securityHandlers: {}
 });
 
 app.use(function(err, req, res, next) {

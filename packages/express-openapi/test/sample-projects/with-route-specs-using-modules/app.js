@@ -9,8 +9,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 var paths = [
-  { path: '/apiDocs',    module: require('./api-routes/apiDocs') },
-  { path: '/users',      module: require('./api-routes/users') },
+  { path: '/apiDocs', module: require('./api-routes/apiDocs') },
+  { path: '/users', module: require('./api-routes/users') },
   { path: '/users/{id}', module: require('./api-routes/users/{id}') }
 ];
 
@@ -26,7 +26,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var port = parseInt(process.argv[2]);
+var port = parseInt(process.argv[2], 10);
 if (port) {
   app.listen(port);
 }

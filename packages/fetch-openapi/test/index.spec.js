@@ -5,7 +5,7 @@ var path = require('path');
 var sut = require('../index');
 
 describe('fetch-openapi', function() {
-  glob.sync('./fixtures/*', {cwd: __dirname}).forEach(function(dirPath) {
+  glob.sync('./fixtures/*', { cwd: __dirname }).forEach(function(dirPath) {
     var specName = path.basename(dirPath).replace(/-/g, ' ');
     var inputPath = path.resolve(__dirname, dirPath, './input.json');
     var optionsPath = path.resolve(__dirname, dirPath, './options.js');
@@ -24,7 +24,8 @@ describe('fetch-openapi', function() {
       } else {
         it('should output an api service factory', function() {
           expect(sut(require(inputPath), options)).to.equal(
-              fs.readFileSync(outputPath, 'utf8'));
+            fs.readFileSync(outputPath, 'utf8')
+          );
         });
 
         if (process.version.indexOf('v0.') !== 0 && options.preset === 'node') {
@@ -47,7 +48,7 @@ describe('fetch-openapi', function() {
   describe('when an unknown preset is used', function() {
     it('should throw an error', function() {
       expect(function() {
-        sut({}, {preset: 'asdf'});
+        sut({}, { preset: 'asdf' });
       }).to.throw(/preset/);
     });
   });

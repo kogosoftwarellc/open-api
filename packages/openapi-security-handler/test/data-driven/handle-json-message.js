@@ -1,6 +1,6 @@
 var expectedError = {
   status: 401,
-  message: {a:1}
+  message: { a: 1 }
 };
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
       {
         keyScheme: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: expectedError,

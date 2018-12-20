@@ -11,7 +11,9 @@ describe('when pathSecurity matches the path', function() {
     request(app)
       .get('/v3/fail')
       .expect(401, 'failed auth1', function(err, results) {
-        expect(results.res.headers['www-authenticate']).to.equal('Basic realm=foo');
+        expect(results.res.headers['www-authenticate']).to.equal(
+          'Basic realm=foo'
+        );
         done(err);
       });
   });
@@ -20,7 +22,9 @@ describe('when pathSecurity matches the path', function() {
     request(app)
       .get('/v3/foo')
       .expect(401, 'failed auth2', function(err, results) {
-        expect(results.res.headers['www-authenticate']).to.equal('Basic realm=foo');
+        expect(results.res.headers['www-authenticate']).to.equal(
+          'Basic realm=foo'
+        );
         done(err);
       });
   });
@@ -34,7 +38,7 @@ describe('when pathSecurity matches the path', function() {
   it('should be added to the apiDoc', function(done) {
     request(app)
       .get('/v3/api-docs')
-      .set("Host", "test-host")
+      .set('Host', 'test-host')
       .expect(200)
       .end(function(err, result) {
         expect(result.body).to.eql(require('./fixtures/expected-api-doc.json'));

@@ -16,11 +16,11 @@ module.exports = {
 
     securityHandlers: {
       keyScheme: function(req, scopes, securityDefinition) {
-        req.user = {name: 'fred'};
+        req.user = { name: 'fred' };
         return Promise.resolve(true);
       },
       passwordScheme: function(req, scopes, securityDefinition) {
-        req.user = {name: 'fred'};
+        req.user = { name: 'fred' };
         return Promise.resolve(true);
       }
     },
@@ -32,10 +32,10 @@ module.exports = {
       {
         passwordScheme: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: void 0,
   expectedResult: true,
-  expectedUser: {name: 'fred'}
+  expectedUser: { name: 'fred' }
 };

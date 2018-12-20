@@ -19,27 +19,27 @@ get.apiDoc = {
       in: 'path',
       type: 'string',
       required: true,
-      description: 'user\'s id'
+      description: "user's id"
     },
     {
       name: 'org',
       in: 'path',
       type: 'string',
       required: true,
-      description: 'user\'s organization.',
+      description: "user's organization.",
       default: 80
     }
   ],
 
   responses: {
     200: {
-      description: "Requested user",
+      description: 'Requested user',
       schema: {
         $ref: '#/definitions/User'
       }
     },
     default: {
-      description: "Unexpected error",
+      description: 'Unexpected error',
       schema: {
         $ref: '#/definitions/Error'
       }

@@ -1,14 +1,14 @@
 module.exports = {
-  GET,
+  GET
 };
 
 function GET() {
-
+  return;
 }
 GET.apiDoc = {
   parameters: [
     {
-      $ref: '#/parameters/Foo',
+      $ref: '#/parameters/Foo'
     }
   ],
 

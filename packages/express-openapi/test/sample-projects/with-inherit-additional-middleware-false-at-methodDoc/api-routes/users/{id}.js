@@ -1,8 +1,10 @@
 module.exports = {
-  'x-express-openapi-additional-middleware': [function(req, res, next) {
-    req.pathModuleAdded = true;
-    next();
-  }],
+  'x-express-openapi-additional-middleware': [
+    function(req, res, next) {
+      req.pathModuleAdded = true;
+      next();
+    }
+  ],
 
   // parameters for all operations in this path
   parameters: [
@@ -11,7 +13,7 @@ module.exports = {
       in: 'path',
       type: 'string',
       required: true,
-      description: 'Fred\'s age.'
+      description: "Fred's age."
     }
   ],
   get: get
@@ -44,20 +46,21 @@ get.apiDoc = {
       in: 'path',
       type: 'integer',
       required: true,
-      description: 'Fred\'s age.'
+      description: "Fred's age."
     },
     {
       name: 'age',
       in: 'query',
       type: 'integer',
-      description: 'Fred\'s age.',
+      description: "Fred's age.",
       default: 80
     }
   ],
 
   responses: {
     default: {
-      description: 'showing that additional middleware should have been added at all levels.',
+      description:
+        'showing that additional middleware should have been added at all levels.',
       schema: {
         properties: {
           apiDocAdded: {

@@ -1,7 +1,6 @@
 module.exports = {
   args: {
-    parameters: [
-    ]
+    parameters: []
   },
 
   request: {

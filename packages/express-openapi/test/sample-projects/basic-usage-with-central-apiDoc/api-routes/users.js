@@ -8,11 +8,16 @@ module.exports = {
       return next(validationError);
     }
 
-    res.status(204).send('').end();
+    res
+      .status(204)
+      .send('')
+      .end();
   },
-  get: [function(req, res, next) {
-    res.status(200).json([{name: 'fred'}]);
-  }],
+  get: [
+    function(req, res, next) {
+      res.status(200).json([{ name: 'fred' }]);
+    }
+  ],
 
   post: function(req, res, next) {
     res.status(500).json({});

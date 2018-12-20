@@ -21,13 +21,12 @@ parentApp.use(function(err, req, res, next) {
   res.status(err.status).json(err);
 });
 
-
 parentApp.use('/parent', app);
 grandparentApp.use('/grandparent', parentApp);
 
 module.exports = grandparentApp;
 
-var port = parseInt(process.argv[2]);
+var port = parseInt(process.argv[2], 10);
 if (port) {
   parentApp.listen(port);
 }

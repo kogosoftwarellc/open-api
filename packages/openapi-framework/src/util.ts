@@ -29,9 +29,9 @@ export const METHOD_ALIASES = {
 };
 
 export function addOperationTagToApiDoc(apiDoc, tag) {
-  const apiDocTags = (apiDoc.tags || []);
-  const availableTags = apiDocTags.map(tag => {
-    return tag && tag.name;
+  const apiDocTags = apiDoc.tags || [];
+  const availableTags = apiDocTags.map(t => {
+    return t && t.name;
   });
 
   if (availableTags.indexOf(tag) === -1) {
@@ -44,38 +44,69 @@ export function addOperationTagToApiDoc(apiDoc, tag) {
 }
 
 function allows(docs, prop, val) {
-  return ![].slice.call(docs).filter(byProperty(prop, val))
-    .length;
+  return ![].slice.call(docs).filter(byProperty(prop, val)).length;
 }
 
 export function allowsCoercionFeature(framework: IOpenAPIFramework, ...docs) {
-  return allows(arguments, `x-${framework.name}-disable-coercion-${framework.featureType}`, true);
+  return allows(
+    arguments,
+    `x-${framework.name}-disable-coercion-${framework.featureType}`,
+    true
+  );
 }
 
 export function allowsDefaultsFeature(framework: IOpenAPIFramework, ...docs) {
-  return allows(arguments, `x-${framework.name}-disable-defaults-${framework.featureType}`, true);
+  return allows(
+    arguments,
+    `x-${framework.name}-disable-defaults-${framework.featureType}`,
+    true
+  );
 }
 
 export function allowsFeatures(framework: IOpenAPIFramework, ...docs) {
-  return allows(docs, `x-${framework.name}-disable-${framework.featureType}`, true);
+  return allows(
+    docs,
+    `x-${framework.name}-disable-${framework.featureType}`,
+    true
+  );
 }
 
-export function allowsResponseValidationFeature(framework: IOpenAPIFramework, ...docs) {
-  return allows(arguments, `x-${framework.name}-disable-response-validation-${framework.featureType}`,
-      true);
+export function allowsResponseValidationFeature(
+  framework: IOpenAPIFramework,
+  ...docs
+) {
+  return allows(
+    arguments,
+    `x-${framework.name}-disable-response-validation-${framework.featureType}`,
+    true
+  );
 }
 
 export function allowsValidationFeature(framework: IOpenAPIFramework, ...docs) {
-  return allows(docs, `x-${framework.name}-disable-validation-${framework.featureType}`, true);
+  return allows(
+    docs,
+    `x-${framework.name}-disable-validation-${framework.featureType}`,
+    true
+  );
 }
 
 export function assertRegExpAndSecurity(framework, tuple) {
   if (!Array.isArray(tuple)) {
-    throw new Error(`${framework.name}args.pathSecurity expects an array of tuples.`);
+    throw new Error(
+      `${framework.name}args.pathSecurity expects an array of tuples.`
+    );
   } else if (!(tuple[0] instanceof RegExp)) {
-    throw new Error(`${framework.name}args.pathSecurity tuples expect the first argument to be a RegExp.`);
+    throw new Error(
+      `${
+        framework.name
+      }args.pathSecurity tuples expect the first argument to be a RegExp.`
+    );
   } else if (!Array.isArray(tuple[1])) {
-    throw new Error(`${framework.name}args.pathSecurity tuples expect the second argument to be a security Array.`);
+    throw new Error(
+      `${
+        framework.name
+      }args.pathSecurity tuples expect the second argument to be a security Array.`
+    );
   }
 }
 
@@ -99,8 +130,12 @@ function byProperty(property, value) {
 }
 
 export function byRoute(a, b) {
-  if(isDynamicRoute(a.path) && !isDynamicRoute(b.path)) return 1;
-  if(!isDynamicRoute(a.path) && isDynamicRoute(b.path)) return -1;
+  if (isDynamicRoute(a.path) && !isDynamicRoute(b.path)) {
+    return 1;
+  }
+  if (!isDynamicRoute(a.path) && isDynamicRoute(b.path)) {
+    return -1;
+  }
 
   // invert compare to keep that /{foo} does not beat /{foo}.{bar}
   return -1 * a.path.localeCompare(b.path);
@@ -117,8 +152,12 @@ export function copy(obj) {
 export function getAdditionalFeatures(framework: IOpenAPIFramework, ...docs) {
   const additionalFeatures = [];
   let index = docs.length - 1;
-  const inheritProperty = `x-${framework.name}-inherit-additional-${framework.featureType}`;
-  const additionalProperty = `x-${framework.name}-additional-${framework.featureType}`;
+  const inheritProperty = `x-${framework.name}-inherit-additional-${
+    framework.featureType
+  }`;
+  const additionalProperty = `x-${framework.name}-additional-${
+    framework.featureType
+  }`;
 
   while (index > 0) {
     --index;
@@ -137,7 +176,9 @@ export function getAdditionalFeatures(framework: IOpenAPIFramework, ...docs) {
       return true;
     } else {
       console.warn(
-        `${framework.loggingPrefix}Ignoring ${feature} as ${framework.featureType} in ${additionalProperty} array.`
+        `${framework.loggingPrefix}Ignoring ${feature} as ${
+          framework.featureType
+        } in ${additionalProperty} array.`
       );
       return false;
     }
@@ -151,7 +192,7 @@ export function getAdditionalFeatures(framework: IOpenAPIFramework, ...docs) {
 }
 
 export function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
-  for (let i = pathSecurity.length; i--;) {
+  for (let i = pathSecurity.length; i--; ) {
     const tuple = pathSecurity[i];
     if (tuple[0].test(openapiPath)) {
       return tuple[1];
@@ -160,9 +201,11 @@ export function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
 }
 
 export function getMethodDoc(operationHandler) {
-  const doc = operationHandler.apiDoc || (Array.isArray(operationHandler) ?
-    operationHandler.slice(-1)[0].apiDoc :
-    null);
+  const doc =
+    operationHandler.apiDoc ||
+    (Array.isArray(operationHandler)
+      ? operationHandler.slice(-1)[0].apiDoc
+      : null);
 
   if (doc) {
     return copy(doc);
@@ -175,7 +218,8 @@ export function handleFilePath(filePath) {
   if (typeof filePath === 'string') {
     const absolutePath = path.resolve(process.cwd(), filePath);
     if (fs.existsSync(absolutePath)) {
-      try { // json or module
+      try {
+        // json or module
         return require(absolutePath);
       } catch (e) {
         return fs.readFileSync(absolutePath, 'utf8');
@@ -186,9 +230,9 @@ export function handleFilePath(filePath) {
 }
 
 export function handleYaml(apiDoc) {
-  return typeof apiDoc === 'string' ?
-    jsYaml.safeLoad(apiDoc, {json: true}) :
-    apiDoc;
+  return typeof apiDoc === 'string'
+    ? jsYaml.safeLoad(apiDoc, { json: true })
+    : apiDoc;
 }
 
 export function injectDependencies(handlers, dependencies) {
@@ -199,10 +243,14 @@ export function injectDependencies(handlers, dependencies) {
 }
 
 export function isDynamicRoute(route) {
-  return route.indexOf("{")>0;
+  return route.indexOf('{') > 0;
 }
 
-export function resolveParameterRefs(framework: IOpenAPIFramework, parameters, definitions) {
+export function resolveParameterRefs(
+  framework: IOpenAPIFramework,
+  parameters,
+  definitions
+) {
   return parameters.map(parameter => {
     if (typeof parameter.$ref === 'string') {
       const match = PARAMETER_REF_REGEX.exec(parameter.$ref);
@@ -210,7 +258,11 @@ export function resolveParameterRefs(framework: IOpenAPIFramework, parameters, d
 
       if (!definition) {
         throw new Error(
-          `${framework.name}: Invalid parameter $ref or definition not found in apiDoc.parameters: ${parameter.$ref}`
+          `${
+            framework.name
+          }: Invalid parameter $ref or definition not found in apiDoc.parameters: ${
+            parameter.$ref
+          }`
         );
       }
 
@@ -221,7 +273,12 @@ export function resolveParameterRefs(framework: IOpenAPIFramework, parameters, d
   });
 }
 
-export function resolveResponseRefs(framework: IOpenAPIFramework, responses, apiDoc, route) {
+export function resolveResponseRefs(
+  framework: IOpenAPIFramework,
+  responses,
+  apiDoc,
+  route
+) {
   return Object.keys(responses).reduce((resolvedResponses, responseCode) => {
     const response = responses[responseCode];
 
@@ -231,7 +288,11 @@ export function resolveResponseRefs(framework: IOpenAPIFramework, responses, api
 
       if (!definition) {
         throw new Error(
-          `${framework.name}: Invalid response $ref or definition not found in apiDoc.responses: ${response.$ref}`
+          `${
+            framework.name
+          }: Invalid response $ref or definition not found in apiDoc.responses: ${
+            response.$ref
+          }`
         );
       }
 

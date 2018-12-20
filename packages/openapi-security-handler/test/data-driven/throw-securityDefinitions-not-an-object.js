@@ -15,13 +15,12 @@ module.exports = {
       },
 
       keyScheme1: function(req, scopes, securityDefinition) {
-        req.user = {name: 'fred'};
+        req.user = { name: 'fred' };
         return Promise.resolve(true);
       },
       passwordScheme1: function(req, scopes, securityDefinition) {
         return Promise.resolve(true);
       }
-
     },
 
     operationSecurity: [
@@ -33,6 +32,6 @@ module.exports = {
         keyScheme1: ['write'],
         passwordScheme1: ['write']
       }
-    ],
-  },
+    ]
+  }
 };

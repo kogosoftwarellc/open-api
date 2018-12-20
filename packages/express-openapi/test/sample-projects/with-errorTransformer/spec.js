@@ -9,7 +9,5 @@ before(function() {
 it('should transform errors', function(done) {
   request(app)
     .get('/v3/users/34?name=barney')
-    .expect(400, {errors: [
-      {fooError: 'oh yea'}
-    ], status: 400}, done);
+    .expect(400, { errors: [{ fooError: 'oh yea' }], status: 400 }, done);
 });

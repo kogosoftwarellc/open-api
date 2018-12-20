@@ -1,28 +1,28 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "body",
-        "name": "foo",
-        "required": true,
-        "schema": {
-          "$ref": "#/definitions/TestBody"
+        in: 'body',
+        name: 'foo',
+        required: true,
+        schema: {
+          $ref: '#/definitions/TestBody'
         }
       }
     ]
   },
-  "request": {
-    "body": {}
+  request: {
+    body: {}
   },
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "message": "can't resolve reference #/definitions/TestBody",
-        "schema": {
-          "$ref": "#/definitions/TestBody"
+        message: "can't resolve reference #/definitions/TestBody",
+        schema: {
+          $ref: '#/definitions/TestBody'
         },
-        "location": "body"
+        location: 'body'
       }
     ]
   }

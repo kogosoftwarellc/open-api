@@ -8,10 +8,10 @@ module.exports = {
           type: 'array',
           items: {
             schema: {
-              type: 'object',
+              type: 'object'
               // optional format property not passed meaning default coercer will kick in
-            },
-          },
+            }
+          }
         },
         name: 'include',
         required: false
@@ -19,7 +19,7 @@ module.exports = {
       {
         in: 'query',
         schema: {
-          type: 'object',
+          type: 'object'
           // optional format property not passed meaning the default coercer will kick in
         },
         name: 'query',
@@ -44,9 +44,9 @@ module.exports = {
       { association: 'lines', include: ['status'] },
       { association: 'people', include: ['hairColor'] }
     ],
-    query: { 
-      where: { 
-        $status: 2 
+    query: {
+      where: {
+        $status: 2
       }
     }
   }

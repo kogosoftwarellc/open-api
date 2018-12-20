@@ -1,7 +1,7 @@
 module.exports = {
   swagger: '2.0',
 
-  host: "test-host",
+  host: 'test-host',
   basePath: '/v3',
 
   info: {
@@ -13,7 +13,5 @@ module.exports = {
 
   paths: {},
 
-  tags: [
-    {description: 'Drafts', name: 'Drafts'}
-  ]
+  tags: [{ description: 'Drafts', name: 'Drafts' }]
 };

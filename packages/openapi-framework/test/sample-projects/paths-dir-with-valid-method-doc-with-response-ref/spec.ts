@@ -1,16 +1,17 @@
-import OpenapiFramework from '../../../';
+/* tslint:disable:no-unused-expression */
 import { expect } from 'chai';
+import OpenapiFramework from '../../../';
 const path = require('path');
 
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
 
-  beforeEach(function() {
+  beforeEach(() => {
     framework = new OpenapiFramework({
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths'),
+      paths: path.resolve(__dirname, 'paths')
     });
   });
 
@@ -30,13 +31,12 @@ describe(path.basename(__dirname), () => {
           get: {
             responses: {
               default: {
-                $ref: '#/responses/FooResponse',
+                $ref: '#/responses/FooResponse'
               }
-            },
-          },
+            }
+          }
         });
       }
     });
-
   });
 });

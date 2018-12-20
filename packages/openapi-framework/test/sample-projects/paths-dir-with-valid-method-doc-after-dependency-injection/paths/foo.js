@@ -1,6 +1,6 @@
 module.exports = function(myService) {
   function GET() {
-
+    return;
   }
 
   GET.apiDoc = {
@@ -13,6 +13,6 @@ module.exports = function(myService) {
   };
 
   return {
-    GET,
+    GET
   };
 };

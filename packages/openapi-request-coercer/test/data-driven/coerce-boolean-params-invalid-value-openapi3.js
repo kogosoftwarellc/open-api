@@ -15,7 +15,7 @@ module.exports = {
         schema: {
           type: 'boolean'
         },
-		    "x-openapi-coercion-strict": true
+        'x-openapi-coercion-strict': true
       },
 
       {
@@ -40,7 +40,7 @@ module.exports = {
         schema: {
           type: 'boolean'
         },
-		    "x-openapi-coercion-strict": true
+        'x-openapi-coercion-strict': true
       }
     ]
   },
@@ -56,14 +56,14 @@ module.exports = {
       query2: 'invalid',
       query3: 'invalid'
     },
-    headers: null,
+    headers: null
   },
 
   headers: null,
 
   params: {
     path1: true,
-    path2: null,
+    path2: null
   },
 
   query: {

@@ -4,16 +4,17 @@ var openapi = require('../../../');
 var path = require('path');
 
 openapi.initialize({
-    apiDoc: require('./api-doc.js'),
-    app: app,
-    paths: [
-        path.resolve(__dirname, 'api-routes'),
-    ],
-    dependencies: {injected1: {description: "Get boo."}, injected2: {description: "boo"}}
+  apiDoc: require('./api-doc.js'),
+  app: app,
+  paths: [path.resolve(__dirname, 'api-routes')],
+  dependencies: {
+    injected1: { description: 'Get boo.' },
+    injected2: { description: 'boo' }
+  }
 });
 
-app.use(function (err, req, res, next) {
-    console.log(err);
+app.use(function(err, req, res, next) {
+  console.log(err);
 });
 
 module.exports = app;

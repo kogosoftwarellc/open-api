@@ -42,12 +42,13 @@ module.exports = {
         keyScheme2: ['write'],
         keyScheme1: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: {
     status: 401,
-    message: 'No security handlers returned an acceptable response: keyScheme AND keyScheme1 OR keyScheme2 AND keyScheme1',
+    message:
+      'No security handlers returned an acceptable response: keyScheme AND keyScheme1 OR keyScheme2 AND keyScheme1',
     errorCode: 'authentication.openapi.security'
   },
   expectedResult: false

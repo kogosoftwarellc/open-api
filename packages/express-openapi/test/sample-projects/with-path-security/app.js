@@ -7,9 +7,9 @@ openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   pathSecurity: [
-    [/^\/fa/, [{auth1: []}]],
-    [/^\/fo/, [{auth2: []}]],
-    [/^\/q/, [{booAuth: []}]]
+    [/^\/fa/, [{ auth1: [] }]],
+    [/^\/fo/, [{ auth2: [] }]],
+    [/^\/q/, [{ booAuth: [] }]]
   ],
   paths: path.resolve(__dirname, 'api-routes'),
   securityHandlers: {

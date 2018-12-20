@@ -11,7 +11,7 @@ it('should allow responses', function(done) {
     .get('/v3/users')
     .expect(200)
     .end(function(err, res) {
-      expect(res.body).to.eql([{name: 'fred'}]);
+      expect(res.body).to.eql([{ name: 'fred' }]);
       done(err);
     });
 });
@@ -19,7 +19,7 @@ it('should allow responses', function(done) {
 it('should use catch errors', function(done) {
   request(app)
     .post('/v3/users')
-    .send({name: 'fred'})
+    .send({ name: 'fred' })
     .expect(400)
     .end(function(err, res) {
       expect(res.body).to.eql('something was missing');

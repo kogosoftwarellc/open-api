@@ -31,16 +31,15 @@ module.exports = {
       },
 
       keyScheme1: function(req, scopes, securityDefinition) {
-        req.user = {name: 'fred'};
+        req.user = { name: 'fred' };
         return Promise.resolve(true);
       },
       passwordScheme1: function(req, scopes, securityDefinition) {
         cb(null, true);
         return Promise.resolve(true);
       }
-
     },
 
-    operationSecurity: true,
-  },
+    operationSecurity: true
+  }
 };

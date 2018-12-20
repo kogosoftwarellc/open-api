@@ -1,11 +1,13 @@
 // args.apiDoc needs to be a js object.  This file could be a json file, but we can't add
 // comments in json files.
 module.exports = {
-  'x-express-openapi-additional-middleware': [/* generate a warning */ null,
-  function(req, res, next) {
-    req.apiDocAdded = true;
-    next();
-  }],
+  'x-express-openapi-additional-middleware': [
+    /* generate a warning */ null,
+    function(req, res, next) {
+      req.apiDocAdded = true;
+      next();
+    }
+  ],
 
   swagger: '2.0',
 
@@ -23,14 +25,14 @@ module.exports = {
   paths: {
     '/users/{id}': {
       'x-express-openapi-inherit-additional-middleware': false,
-      'x-express-openapi-additional-middleware': [function(req, res, next) {
-        req.pathDocAdded = true;
-        next();
-      }]
+      'x-express-openapi-additional-middleware': [
+        function(req, res, next) {
+          req.pathDocAdded = true;
+          next();
+        }
+      ]
     }
   },
 
-  tags: [
-    {name: 'users'}
-  ]
+  tags: [{ name: 'users' }]
 };

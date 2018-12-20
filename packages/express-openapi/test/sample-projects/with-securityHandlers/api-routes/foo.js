@@ -14,6 +14,6 @@ module.exports.get.apiDoc = {
     }
   ],
   responses: {
-    204: {description: 'testing security'}
+    204: { description: 'testing security' }
   }
 };

@@ -1,9 +1,9 @@
 module.exports = {
-  PUT,
+  PUT
 };
 
 function PUT() {
-
+  return;
 }
 
 PUT.apiDoc = {
@@ -13,5 +13,5 @@ PUT.apiDoc = {
       schema: {}
     }
   },
-  tags: [ 'testing', 'example' ],
+  tags: ['testing', 'example']
 };

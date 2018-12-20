@@ -13,8 +13,7 @@ module.exports = {
 
   definitions: {},
 
-  parameters: {
-  },
+  parameters: {},
 
   responses: {
     SuccessResponse: {

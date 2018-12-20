@@ -1,17 +1,16 @@
 module.exports = function(iamnotinjected) {
-
   var doc = {
     get: function(req, res, next) {
       res.status(200).send('foo');
     }
   };
   doc.get.apiDoc = {
-    description: "Get foo.",
+    description: 'Get foo.',
     operationId: 'getFoo',
     parameters: [],
     responses: {
       200: {
-        description: "foo",
+        description: 'foo',
         schema: {
           type: 'string'
         }
@@ -20,5 +19,3 @@ module.exports = function(iamnotinjected) {
   };
   return doc;
 };
-
-

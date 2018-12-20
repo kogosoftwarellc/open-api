@@ -21,8 +21,7 @@ module.exports = {
       }
     },
 
-    securityHandlers: {
-    },
+    securityHandlers: {},
 
     operationSecurity: [
       {

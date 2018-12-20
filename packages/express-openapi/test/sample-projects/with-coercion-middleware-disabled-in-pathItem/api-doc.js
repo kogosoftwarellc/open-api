@@ -38,7 +38,5 @@ module.exports = {
     }
   },
 
-  tags: [
-    {name: 'users'}
-  ]
+  tags: [{ name: 'users' }]
 };

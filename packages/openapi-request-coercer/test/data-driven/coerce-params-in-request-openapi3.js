@@ -5,40 +5,40 @@ module.exports = {
         in: 'header',
         name: 'X-Foo',
         schema: {
-          type: 'boolean',
-        },
+          type: 'boolean'
+        }
       },
 
       {
         in: 'path',
         name: 'path1',
         schema: {
-          type: 'integer',
-        },
+          type: 'integer'
+        }
       },
 
       {
         in: 'path',
         name: 'path2',
         schema: {
-          type: 'number',
-        },
+          type: 'number'
+        }
       },
 
       {
         in: 'query',
         name: 'foo',
         schema: {
-          type: 'boolean',
-        },
+          type: 'boolean'
+        }
       },
 
       {
         in: 'query',
         name: 'boo',
         schema: {
-          type: 'string',
-        },
+          type: 'string'
+        }
       }
     ]
   },

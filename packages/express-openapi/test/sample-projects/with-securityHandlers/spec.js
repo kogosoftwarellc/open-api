@@ -27,7 +27,9 @@ describe('when authentication fails', function() {
     request(app)
       .get('/v3/fail')
       .expect(401, '', function(err, results) {
-        expect(results.res.headers['www-authenticate']).to.equal('Basic realm=foo');
+        expect(results.res.headers['www-authenticate']).to.equal(
+          'Basic realm=foo'
+        );
         done(err);
       });
   });

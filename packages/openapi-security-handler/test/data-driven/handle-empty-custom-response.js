@@ -24,12 +24,12 @@ module.exports = {
       {
         keyScheme: ['write']
       }
-    ],
+    ]
   },
 
   expectedError: {
-    errorCode: "authentication.openapi.security",
-    message: "No security handlers returned an acceptable response: keyScheme",
+    errorCode: 'authentication.openapi.security',
+    message: 'No security handlers returned an acceptable response: keyScheme',
     status: 401
   },
 

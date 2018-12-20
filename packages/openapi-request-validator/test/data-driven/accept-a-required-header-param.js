@@ -2,9 +2,9 @@ module.exports = {
   validateArgs: {
     parameters: [
       {
-        in: "header",
-        name: "X-foO",
-        type: "string",
+        in: 'header',
+        name: 'X-foO',
+        type: 'string',
         required: true
       }
     ],
@@ -12,7 +12,7 @@ module.exports = {
   },
   request: {
     headers: {
-      "x-foo": "asdf"
+      'x-foo': 'asdf'
     }
   }
 };

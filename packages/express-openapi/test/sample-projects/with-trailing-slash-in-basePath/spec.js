@@ -17,7 +17,7 @@ describe('with trailing slash in basePath', () => {
   it('should expose routes', function(done) {
     request(app)
       .post('/v3/users')
-      .send({name: 'fred'})
+      .send({ name: 'fred' })
       .expect(400)
       .end(function(err, res) {
         expect(res.body).to.eql('something was missing');

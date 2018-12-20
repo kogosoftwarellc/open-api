@@ -1,11 +1,11 @@
-import OpenapiFramework from '../../../';
 import { expect } from 'chai';
+import OpenapiFramework from '../../../';
 const path = require('path');
 
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
 
-  beforeEach(function() {
+  beforeEach(() => {
     framework = new OpenapiFramework({
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
@@ -19,13 +19,15 @@ describe(path.basename(__dirname), () => {
           path: '/zoo',
           module: require('./paths/foo')
         }
-      ],
+      ]
     });
   });
 
   it('should throw', () => {
     expect(() => {
       framework.initialize({});
-    }).to.throw('some-framework: args.paths produced duplicate urls for "/zoo"');
+    }).to.throw(
+      'some-framework: args.paths produced duplicate urls for "/zoo"'
+    );
   });
 });

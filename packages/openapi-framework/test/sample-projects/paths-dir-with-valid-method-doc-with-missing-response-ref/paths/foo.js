@@ -1,9 +1,9 @@
 module.exports = {
-  GET,
+  GET
 };
 
 function GET() {
-
+  return;
 }
 GET.apiDoc = {
   responses: {

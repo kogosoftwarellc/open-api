@@ -6,7 +6,7 @@ const request = require('supertest');
 it('should expose <apiDoc>.basePath/api-docs', function(done) {
   request(app)
     .get('/v3/api-docs')
-    .set("Host", "test-host")
+    .set('Host', 'test-host')
     .expect(200, expectedApiDoc, done);
 });
 
@@ -21,7 +21,7 @@ it('should use defaults, coercion, and operation parameter overriding', function
     .get('/v3/users/34?name=fred')
     .expect(200)
     .end(function(err, res) {
-      expect(res.body).to.eql({id: 34, name: 'fred', age: 80});
+      expect(res.body).to.eql({ id: 34, name: 'fred', age: 80 });
       done(err);
     });
 });
@@ -29,23 +29,30 @@ it('should use defaults, coercion, and operation parameter overriding', function
 it('should validate input', function(done) {
   request(app)
     .get('/v3/users/34?name=barney')
-    .expect(400, {errors: [
+    .expect(
+      400,
       {
-        errorCode: 'pattern.openapi.validation',
-        location: 'query',
-        message: 'should match pattern \"^fred$\"',
-        path: 'name'
-      }
-    ], status: 400}, done);
+        errors: [
+          {
+            errorCode: 'pattern.openapi.validation',
+            location: 'query',
+            message: 'should match pattern "^fred$"',
+            path: 'name'
+          }
+        ],
+        status: 400
+      },
+      done
+    );
 });
 
 it('should use path parameters', function(done) {
   request(app)
     .post('/v3/users/34')
-    .send({name: 'fred'})
+    .send({ name: 'fred' })
     .expect(200)
     .end(function(err, res) {
-      expect(res.body).to.eql({id: '34'});
+      expect(res.body).to.eql({ id: '34' });
       done(err);
     });
 });
@@ -76,12 +83,19 @@ it('should dereference #/definitions/ for validation', function(done) {
   request(app)
     .post('/v3/users/34?name=barney')
     .send(user)
-    .expect(400, {errors: [
+    .expect(
+      400,
       {
-        errorCode: 'required.openapi.validation',
-        location: 'body',
-        message: 'should have required property \'name\'',
-        path: 'name'
-      }
-    ], status: 400}, done);
+        errors: [
+          {
+            errorCode: 'required.openapi.validation',
+            location: 'body',
+            message: "should have required property 'name'",
+            path: 'name'
+          }
+        ],
+        status: 400
+      },
+      done
+    );
 });

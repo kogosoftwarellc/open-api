@@ -13,7 +13,7 @@ openapi.initialize({
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   externalSchemas: {
-    'http://example.com/error':{
+    'http://example.com/error': {
       description: 'An error occurred.',
       schema: {
         type: 'string',
@@ -24,15 +24,15 @@ openapi.initialize({
       description: 'User schema definition',
       required: ['name'],
       properties: {
-        name: { type: "string" },
-        age: { type: "integer", format: 'int32' }
+        name: { type: 'string' },
+        age: { type: 'integer', format: 'int32' }
       }
     },
     'http://example.com/tea-pod': {
       description: 'Tea pod schema definition',
       required: ['content'],
       properties: {
-        content: { description: 'content in litter', type: "integer" }
+        content: { description: 'content in litter', type: 'integer' }
       }
     }
   }
@@ -45,7 +45,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var port = parseInt(process.argv[2]);
+var port = parseInt(process.argv[2], 10);
 if (port) {
   app.listen(port);
 }

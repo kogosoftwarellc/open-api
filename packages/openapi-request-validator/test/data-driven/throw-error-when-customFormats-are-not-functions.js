@@ -1,11 +1,11 @@
 module.exports = {
-  "validateArgs": {
+  validateArgs: {
     loggingKey: 'express-openapi-validation',
-    "parameters": [],
+    parameters: [],
     customFormats: {
       foo: 'asdf'
     }
   },
-  "request": {},
-  constructorError: /args.customFormats properties must be functions/,
+  request: {},
+  constructorError: /args.customFormats properties must be functions/
 };

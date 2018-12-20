@@ -22,12 +22,12 @@ module.exports = {
 
   parameters: {
     User: {
-      "in": 'body',
+      in: 'body',
       name: 'user',
-      schema: {$ref: 'http://example.com/user'}
+      schema: { $ref: 'http://example.com/user' }
     },
     userId: {
-      "in": 'path',
+      in: 'path',
       name: 'userId',
       type: 'string',
       required: true
@@ -37,11 +37,11 @@ module.exports = {
   responses: {
     Forbidden: {
       description: 'Access denied',
-      schema: {$ref: 'http://example.com/error#/schema'}
+      schema: { $ref: 'http://example.com/error#/schema' }
     },
     Error: {
       description: 'Error',
-      schema: {$ref: 'http://example.com/error#/schema'}
+      schema: { $ref: 'http://example.com/error#/schema' }
     }
   },
 
@@ -50,8 +50,5 @@ module.exports = {
 
   // tags is optional, and is generated / sorted by the tags defined in your path
   // docs.  This API also defines 2 tags in operations: "creating" and "fooey".
-  tags: [
-    {name: 'fooey'},
-    {name: 'users'}
-  ]
+  tags: [{ name: 'fooey' }, { name: 'users' }]
 };

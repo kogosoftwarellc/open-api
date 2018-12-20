@@ -1,24 +1,24 @@
 module.exports = {
-  "validateArgs": {
-    "parameters": [
+  validateArgs: {
+    parameters: [
       {
-        "in": "query",
-        "name": "foo",
-        "type": "string",
-        "required": true
+        in: 'query',
+        name: 'foo',
+        type: 'string',
+        required: true
       }
     ],
-    "schemas": null
+    schemas: null
   },
-  "request": {},
-  "expectedError": {
-    "status": 400,
-    "errors": [
+  request: {},
+  expectedError: {
+    status: 400,
+    errors: [
       {
-        "path": "foo",
-        "errorCode": "required.openapi.validation",
-        "message": "should have required property 'foo'",
-        "location": "query"
+        path: 'foo',
+        errorCode: 'required.openapi.validation',
+        message: "should have required property 'foo'",
+        location: 'query'
       }
     ]
   }
