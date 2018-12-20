@@ -15,9 +15,9 @@ module.exports = {
     {
       dataPath: '',
       keyword: 'required',
-      message: 'should have required property \'swagger\'',
+      message: "should have required property 'swagger'",
       params: {
-        missingProperty: 'swagger',
+        missingProperty: 'swagger'
       },
       schemaPath: '#/required'
     }

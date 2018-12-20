@@ -6,10 +6,10 @@ module.exports = {
         schema: {
           properties: {
             oneOf: {
-              type: "array",
+              type: 'array',
               minItems: 1,
               items: {
-                $ref: "#/definitions/schema"
+                $ref: '#/definitions/schema'
               }
             }
           }
@@ -28,10 +28,7 @@ module.exports = {
       User: {
         properties: {
           name: {
-            oneOf: [
-              { type: 'string' },
-              { type: 'null' }
-            ]
+            oneOf: [{ type: 'string' }, { type: 'null' }]
           }
         }
       }

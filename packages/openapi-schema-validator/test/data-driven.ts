@@ -5,7 +5,7 @@ const baseDir = path.resolve(__dirname, 'data-driven');
 import Sut from '../';
 
 describe(require('../package.json').name, () => {
-  glob.sync('*.js', {cwd: baseDir}).forEach(fixture => {
+  glob.sync('*.js', { cwd: baseDir }).forEach(fixture => {
     const testName = path.basename(fixture, '.js').replace(/-/g, ' ');
     fixture = require(path.resolve(baseDir, fixture));
     it(`should ${testName}`, () => {
