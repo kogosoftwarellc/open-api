@@ -5,24 +5,24 @@ module.exports = {
         in: 'query',
         schema: {
           type: 'array',
-          items: { 
-            schema: { 
-              type: 'object',
+          items: {
+            schema: {
+              type: 'object'
               // optional format property not passed meaning the default coercer will kick in
-            } 
-          },
+            }
+          }
         },
         name: 'include',
-        required: false,
+        required: false
       },
       {
         in: 'query',
         schema: {
-          type: 'object',
+          type: 'object'
           // optional format property not passed meaning the default coercer will kick in
         },
         name: 'query',
-        required: false,        
+        required: false
       }
     ]
   },

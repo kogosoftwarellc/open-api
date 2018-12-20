@@ -5,32 +5,32 @@ module.exports = {
         in: 'path',
         name: 'path1',
         schema: {
-          type: 'boolean',
-        },
+          type: 'boolean'
+        }
       },
 
       {
         in: 'path',
         name: 'path2',
         schema: {
-          type: 'boolean',
-        },
+          type: 'boolean'
+        }
       },
 
       {
         in: 'query',
         name: 'query1',
         schema: {
-          type: 'boolean',
-        },
+          type: 'boolean'
+        }
       },
 
       {
         in: 'query',
         name: 'query2',
         schema: {
-          type: 'boolean',
-        },
+          type: 'boolean'
+        }
       }
     ]
   },

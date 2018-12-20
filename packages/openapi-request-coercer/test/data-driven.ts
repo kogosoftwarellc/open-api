@@ -5,13 +5,14 @@ const baseDir = path.resolve(__dirname, 'data-driven');
 import Sut from '../';
 
 describe(require('../package.json').name, () => {
-  glob.sync('*.js', {cwd: baseDir}).forEach(fixture => {
+  glob.sync('*.js', { cwd: baseDir }).forEach(fixture => {
     const testName = path.basename(fixture, '.js').replace(/-/g, ' ');
     fixture = require(path.resolve(baseDir, fixture));
 
     it(`should ${testName}`, () => {
       if (fixture.constructorError) {
         expect(() => {
+          /* tslint:disable-next-line:no-unused-expression */
           new Sut(fixture.args);
         }).to.throw(fixture.constructorError);
         return;
