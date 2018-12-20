@@ -328,6 +328,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 // validation will pick it up, so this is almost always going to be added.
                 const responseValidator = new OpenAPIResponseValidator({
                   loggingKey: `${this.name}-response-validation`,
+                  components: this.apiDoc.components,
                   definitions: this.apiDoc.definitions,
                   externalSchemas: this.externalSchemas,
                   errorTransformer: this.errorTransformer,
@@ -370,7 +371,8 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                     parameters: methodParameters,
                     schemas: this.apiDoc.definitions,
                     externalSchemas: this.externalSchemas,
-                    customFormats: this.customFormats
+                    customFormats: this.customFormats,
+                    requestBody: operationDoc.requestBody as OpenAPIV3.RequestBodyObject
                   });
                   operationContext.features.requestValidator = requestValidator;
                 }
