@@ -1,13 +1,14 @@
 import { ErrorObject, FormatDefinition, FormatValidator } from 'ajv';
 import { Application, ErrorRequestHandler, RequestHandler } from 'express';
 import OpenAPIFramework, {
+  BasePath,
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs
 } from 'openapi-framework';
 import { OpenAPIRequestValidatorError } from 'openapi-request-validator';
 import { OpenAPIResponseValidatorError } from 'openapi-response-validator';
 import { SecurityHandlers } from 'openapi-security-handler';
-import { OpenAPI } from 'openapi-types';
+import { OpenAPI, OpenAPIV3 } from 'openapi-types';
 const CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 const normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 const loggingPrefix = 'express-openapi';
@@ -81,23 +82,29 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
   framework.initialize({
     visitApi: ctx => {
       if (exposeApiDocs) {
-        // Swagger UI support
-        app.get(ctx.basePath + docsPath, (req, res, next) => {
-          // @ts-ignore
-          req.apiDoc = ctx.getApiDoc();
-          // @ts-ignore
-          if (req.apiDoc.swagger) {
-            // @ts-ignore
-            req.apiDoc.host = req.headers.host;
-            // @ts-ignore
-            req.apiDoc.basePath = req.baseUrl + ctx.basePath;
-          }
-          securityFilter(req, res, next);
-        });
-      }
+        const basePaths = [];
+        const apiDoc = ctx.getApiDoc();
+        basePaths.push(...ctx.basePaths.map(toExpressBasePath));
 
-      if (errorMiddleware) {
-        app.use(ctx.basePath, errorMiddleware);
+        // Swagger UI support
+        for (const basePath of basePaths) {
+          app.get(basePath + docsPath, (req, res, next) => {
+            // @ts-ignore
+            req.apiDoc = ctx.getApiDoc();
+            // @ts-ignore
+            if (req.apiDoc.swagger) {
+              // @ts-ignore
+              req.apiDoc.host = req.headers.host;
+              // @ts-ignore
+              req.apiDoc.basePath = req.baseUrl + basePath;
+            }
+            securityFilter(req, res, next);
+          });
+
+          if (errorMiddleware) {
+            app.use(basePath, errorMiddleware);
+          }
+        }
       }
     },
 
@@ -181,15 +188,20 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
           .map(toPromiseCompatibleMiddleware);
       }
 
-      const expressPath =
-        ctx.basePath +
-        '/' +
-        ctx.path
-          .substring(1)
-          .split('/')
-          .map(toExpressParams)
-          .join('/');
-      app[methodName].apply(app, [expressPath].concat(middleware));
+      const basePaths = [];
+      basePaths.push(...ctx.basePaths.map(toExpressBasePath));
+
+      for (const basePath of basePaths) {
+        const expressPath =
+          basePath +
+          '/' +
+          ctx.path
+            .substring(1)
+            .split('/')
+            .map(toExpressParams)
+            .join('/');
+        app[methodName].apply(app, [expressPath].concat(middleware));
+      }
     }
   });
 
@@ -254,4 +266,19 @@ function toPromiseCompatibleMiddleware(fn) {
     };
   }
   return fn;
+}
+
+function toExpressBasePath(basePath: BasePath) {
+  let path: string = basePath.path;
+  if (basePath.hasVariables()) {
+    path = path.replace(/:(\w+)/g, (substring, p1) => {
+      if (basePath.variables[p1].enum) {
+        const validationRegex = `((${basePath.variables[p1].enum.join('|')}))`;
+        return `:${p1}${validationRegex}`;
+      } else {
+        return `:${p1}`;
+      }
+    });
+  }
+  return path;
 }
