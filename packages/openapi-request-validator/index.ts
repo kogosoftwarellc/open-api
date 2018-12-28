@@ -155,7 +155,7 @@ export default class OpenAPIRequestValidator
             body: args.requestBody.content[mediaTypeKey].schema
           },
           definitions: args.schemas || {},
-          components: {schemas: args.schemas}
+          components: { schemas: args.schemas }
         });
       }
     }
