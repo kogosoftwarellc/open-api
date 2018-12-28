@@ -135,6 +135,9 @@ export default class OpenAPIRequestValidator
         });
       } else if (bodySchema) {
         bodyValidationSchema.definitions = args.schemas;
+        bodyValidationSchema.components = {
+          schemas: args.schemas
+        };
       }
     }
 
@@ -150,7 +153,9 @@ export default class OpenAPIRequestValidator
         this.requestBodyValidators[mediaTypeKey] = v.compile({
           properties: {
             body: args.requestBody.content[mediaTypeKey].schema
-          }
+          },
+          definitions: args.schemas || {},
+          components: {schemas: args.schemas}
         });
       }
     }
