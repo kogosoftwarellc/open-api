@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+script_dir="$(dirname $0)"
+packages_dir="$script_dir/../packages"
+
+rm -f "$packages_dir/node_modules"
+
+packages="`ls $packages_dir`"
+for package in $packages;do
+  package_node_modules_dir="$packages_dir/$package/node_modules"
+  mkdir -p "$package_node_modules_dir"
+  pushd "$package_node_modules_dir" > /dev/null
+  for dep in $packages;do
+    rm -rf $dep
+  done
+  popd > /dev/null
+done
+
+ln -s . "$packages_dir/node_modules"

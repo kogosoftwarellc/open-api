@@ -9,6 +9,8 @@ notifications:
     on_success: "never"
 script:
   - "npm run lint"
-  - "./bin/test"
+  - "./bin/run-in-package npm i"
+  - "./bin/link"
+  - "./bin/run-in-package npm run travis-test"
   - "npm run combine-coverage"
   - "npm run coveralls"

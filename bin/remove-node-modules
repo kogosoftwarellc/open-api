@@ -14,6 +14,9 @@ if [[ -n "$1" ]]; then
   remove_node_modules "$1"
 else
   for package in `ls packages`;do
+    if [[ "$package" == 'node_modules' ]]; then
+      continue
+    fi
     remove_node_modules "packages/$package"
   done
 fi

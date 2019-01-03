@@ -3,6 +3,7 @@ node_modules/
 .nyc_output/
 npm-debug.log
 packages/*/.npmignore
+packages/node_modules
 dist
 *.swp
 *.swo

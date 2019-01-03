@@ -18,6 +18,9 @@ if [[ -n "$dir" ]]; then
   test_package "$dir" test-watch "$@"
 else
   for package in `ls packages`;do
+    if [[ "$package" == 'node_modules' ]]; then
+      continue
+    fi
     test_package "packages/$package" travis-test
   done
 fi

@@ -8,6 +8,8 @@ args="$@"
 
 function run_in_package() {
   pushd "$1" > /dev/null
+  echo "$1"
+  echo "$args"
   $args
   popd > /dev/null
 }
@@ -19,6 +21,9 @@ if [[ "$1" == '-p' ]]; then
   run_in_package $packagePath
 else
   for package in `ls packages`;do
+    if [[ "$package" == 'node_modules' ]]; then
+      continue
+    fi
     run_in_package "packages/$package"
   done
 fi
