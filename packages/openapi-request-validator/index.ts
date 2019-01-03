@@ -1,6 +1,7 @@
 import * as Ajv from 'ajv';
 import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
 import { IJsonSchema, OpenAPI, OpenAPIV3 } from 'openapi-types';
+const contentTypeParser = require('content-type');
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 export interface IOpenAPIRequestValidator {
@@ -299,9 +300,10 @@ function extendedErrorMapper(mapper) {
 }
 
 function getSchemaForMediaType(
-  contentType: string,
+  contentTypeHeader: string,
   requestBodySpec: OpenAPIV3.RequestBodyObject
 ): string {
+  const contentType = contentTypeParser.parse(contentTypeHeader).type;
   const content = requestBodySpec.content;
   const subTypeWildCardPoints = 2;
   const wildcardMatchPoints = 1;
