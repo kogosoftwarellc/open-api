@@ -151,9 +151,9 @@ function getSchemas(responses, definitions, components) {
       ? typeof response.schema === 'object'
         ? response.schema
         : typeof response.content === 'object' &&
-          typeof response.content['application/json'] === 'object' &&
-          typeof response.content['application/json'].schema === 'object'
-        ? response.content['application/json'].schema
+          typeof response.content[Object.keys(response.content)[0]] === 'object' &&
+          typeof response.content[Object.keys(response.content)[0]].schema === 'object'
+        ? response.content[Object.keys(response.content)[0]].schema
         : { type: 'null' }
       : { type: 'null' };
 
