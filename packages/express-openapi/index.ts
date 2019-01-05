@@ -155,7 +155,7 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
         }
 
         if (ctx.features.securityHandler) {
-          middleware.push((req, res, next) => {
+          middleware.unshift((req, res, next) => {
             ctx.features.securityHandler
               .handle(req)
               .then(next)

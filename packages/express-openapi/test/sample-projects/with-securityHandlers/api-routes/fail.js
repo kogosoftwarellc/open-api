@@ -7,7 +7,15 @@ module.exports = {
 module.exports.get.apiDoc = {
   description: 'Get fail.',
   operationId: 'getFail',
-  parameters: [],
+  parameters: [
+    {
+      name: 'name',
+      in: 'query',
+      type: 'string',
+      required: true,
+      description: 'just a mandatory field'
+    }
+  ],
   security: [
     {
       failAuth: []
