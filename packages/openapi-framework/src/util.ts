@@ -3,7 +3,6 @@ const difunc = require('difunc');
 const fs = require('fs');
 const isDir = require('is-dir');
 const jsYaml = require('js-yaml');
-const PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 const path = require('path');
 
 export const METHOD_ALIASES = {
@@ -248,12 +247,19 @@ export function isDynamicRoute(route) {
 export function resolveParameterRefs(
   framework: IOpenAPIFramework,
   parameters,
-  definitions
+  apiDoc
 ) {
   return parameters.map(parameter => {
     if (typeof parameter.$ref === 'string') {
+      const apiVersion = apiDoc.swagger ? apiDoc.swagger : apiDoc.openapi;
+      const apiDocParameters =
+        apiVersion === '2.0' ? apiDoc.parameters : apiDoc.components.parameters;
+      const PARAMETER_REF_REGEX =
+        apiVersion === '2.0'
+          ? /^#\/parameters\/(.+)$/
+          : /^#\/components\/parameters\/(.+)$/;
       const match = PARAMETER_REF_REGEX.exec(parameter.$ref);
-      const definition = match && definitions[match[1]];
+      const definition = match && (apiDocParameters || {})[match[1]];
 
       if (!definition) {
         throw new Error(
