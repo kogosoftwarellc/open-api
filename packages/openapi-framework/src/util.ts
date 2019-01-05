@@ -5,7 +5,6 @@ const isDir = require('is-dir');
 const jsYaml = require('js-yaml');
 const PARAMETER_REF_REGEX = /^#\/parameters\/(.+)$/;
 const path = require('path');
-const RESPONSE_REF_REGEX = /^#\/responses\/(.+)$/;
 
 export const METHOD_ALIASES = {
   // HTTP style
@@ -283,8 +282,15 @@ export function resolveResponseRefs(
     const response = responses[responseCode];
 
     if (typeof response.$ref === 'string') {
+      const apiVersion = apiDoc.swagger ? apiDoc.swagger : apiDoc.openapi;
+      const apiDocResponses =
+        apiVersion === '2.0' ? apiDoc.responses : apiDoc.components.responses;
+      const RESPONSE_REF_REGEX =
+        apiVersion === '2.0'
+          ? /^#\/responses\/(.+)$/
+          : /^#\/components\/responses\/(.+)$/;
       const match = RESPONSE_REF_REGEX.exec(response.$ref);
-      const definition = match && (apiDoc.responses || {})[match[1]];
+      const definition = match && (apiDocResponses || {})[match[1]];
 
       if (!definition) {
         throw new Error(
