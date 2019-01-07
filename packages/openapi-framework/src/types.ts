@@ -7,7 +7,7 @@ import {
   SecurityHandlers
 } from 'openapi-security-handler';
 import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
-
+import BasePath from './BasePath';
 export {
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs,
@@ -69,13 +69,13 @@ interface OpenAPIFrameworkArgs {
 }
 
 export interface OpenAPIFrameworkAPIContext {
-  basePath: string;
+  basePaths: BasePath[];
   // TODO fill this out
   getApiDoc(): any;
 }
 
 export interface OpenAPIFrameworkPathContext {
-  basePath: string;
+  basePaths: BasePath[];
   // TODO fill this out
   getApiDoc(): any;
   getPathDoc(): any;
@@ -85,7 +85,7 @@ export interface OpenAPIFrameworkOperationContext {
   additionalFeatures: any[];
   allowsFeatures: boolean;
   apiDoc: any;
-  basePath: string;
+  basePaths: BasePath[];
   consumes: string[];
   features: {
     coercer?: IOpenAPIRequestCoercer;

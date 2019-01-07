@@ -42,7 +42,8 @@ describe(path.basename(__dirname), () => {
       },
 
       visitPath(ctx) {
-        expect(ctx.basePath).to.equal('');
+        expect(ctx.basePaths.length).to.equal(1);
+        expect(ctx.basePaths[0].path).to.equal('');
         expect(ctx.getPathDoc()).to.eql({
           parameters: [
             {

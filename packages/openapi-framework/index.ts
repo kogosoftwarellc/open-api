@@ -6,6 +6,7 @@ import OpenAPIResponseValidator from 'openapi-response-validator';
 import OpenAPISchemaValidator from 'openapi-schema-validator';
 import OpenAPISecurityHandler from 'openapi-security-handler';
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import BasePath from './src/BasePath';
 import {
   IOpenAPIFramework,
   OpenAPIFrameworkAPIContext,
@@ -31,6 +32,7 @@ import {
   byString,
   copy,
   getAdditionalFeatures,
+  getBasePathsFromServers,
   getMethodDoc,
   getSecurityDefinitionByPath,
   handleFilePath,
@@ -46,6 +48,7 @@ import {
 } from './src/util';
 
 export {
+  BasePath,
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs,
   OpenAPIFrameworkPathContext,
@@ -55,7 +58,7 @@ export {
 };
 export default class OpenAPIFramework implements IOpenAPIFramework {
   public readonly apiDoc;
-  public readonly basePath;
+  public readonly basePaths: BasePath[];
   public readonly featureType;
   public readonly loggingPrefix;
   public readonly name;
@@ -117,7 +120,11 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     this.enableObjectCoercion = !!args.enableObjectCoercion;
     this.originalApiDoc = handleYaml(handleFilePath(args.apiDoc));
     this.apiDoc = copy(this.originalApiDoc);
-    this.basePath = (this.apiDoc.basePath || '').replace(/\/$/, '');
+    this.basePaths = this.apiDoc.openapi
+      ? getBasePathsFromServers(this.apiDoc.servers)
+      : [
+          new BasePath({ url: (this.apiDoc.basePath || '').replace(/\/$/, '') })
+        ];
     this.validateApiDoc =
       'validateApiDoc' in args ? !!args.validateApiDoc : true;
     this.validator = new OpenAPISchemaValidator({
@@ -291,7 +298,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               operationDoc
             ),
             apiDoc: this.apiDoc,
-            basePath: this.basePath,
+            basePaths: this.basePaths,
             consumes,
             features: {},
             methodName,
@@ -453,7 +460,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
       if (visitor.visitPath) {
         visitor.visitPath({
-          basePath: this.basePath,
+          basePaths: this.basePaths,
           getApiDoc,
           getPathDoc: () => copy(pathDoc)
         });
@@ -483,7 +490,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
     if (visitor.visitApi) {
       visitor.visitApi({
-        basePath: this.basePath,
+        basePaths: this.basePaths,
         getApiDoc
       });
     }
