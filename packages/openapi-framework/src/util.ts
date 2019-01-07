@@ -1,3 +1,6 @@
+import { OpenAPIV3 } from 'openapi-types';
+import { URL } from 'url';
+import BasePath from './BasePath';
 import { IOpenAPIFramework } from './types';
 const difunc = require('difunc');
 const fs = require('fs');
@@ -346,4 +349,18 @@ export function withNoDuplicates(arr) {
   }
 
   return parameters;
+}
+
+export function getBasePathsFromServers(
+  servers: OpenAPIV3.ServerObject[]
+): BasePath[] {
+  if (!servers) {
+    return [new BasePath({ url: '' })];
+  }
+  const basePathsMap: { [key: string]: BasePath } = {};
+  for (const server of servers) {
+    const basePath = new BasePath(server);
+    basePathsMap[basePath.path] = basePath;
+  }
+  return Object.keys(basePathsMap).map(key => basePathsMap[key]);
 }
