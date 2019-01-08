@@ -1,5 +1,6 @@
 import { Context, Middleware } from 'koa';
 import OpenAPIFramework, {
+  BasePath,
   OpenAPIFrameworkAPIContext,
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs,
@@ -77,20 +78,23 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
 
   framework.initialize({
     visitApi(apiCtx: OpenAPIFrameworkAPIContext) {
-      if (exposeApiDocs) {
-        // Swagger UI support
-        router.get(apiCtx.basePath + docsPath, (ctx: Context, next) => {
-          ctx.state.apiDoc = apiCtx.getApiDoc();
-          if (ctx.state.apiDoc.swagger) {
-            ctx.state.apiDoc.host = ctx.headers.host;
-            ctx.state.apiDoc.basePath = apiCtx.basePath;
-          }
-          securityFilter(ctx, next);
-        });
-      }
+      const basePaths = apiCtx.basePaths.map(toKoaBasePath);
+      for (const basePath of basePaths) {
+        if (exposeApiDocs) {
+          // Swagger UI support
+          router.get(basePath + docsPath, (ctx: Context, next) => {
+            ctx.state.apiDoc = apiCtx.getApiDoc();
+            if (ctx.state.apiDoc.swagger) {
+              ctx.state.apiDoc.host = ctx.headers.host;
+              ctx.state.apiDoc.basePath = basePath;
+            }
+            securityFilter(ctx, next);
+          });
+        }
 
-      if (errorMiddleware) {
-        router.use(apiCtx.basePath, errorMiddleware);
+        if (errorMiddleware) {
+          router.use(basePath, errorMiddleware);
+        }
       }
     },
 
@@ -160,19 +164,23 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
 
       middleware = middleware.concat(operationHandler);
 
-      const koaPath =
-        operationCtx.basePath +
-        '/' +
-        operationCtx.path
-          .substring(1)
-          .split('/')
-          .map(toPathParams)
-          .join('/');
-      router[methodName](koaPath, async (ctx, next) => {
-        for (const fn of middleware) {
-          await fn(ctx, next);
-        }
-      });
+      const basePaths = operationCtx.basePaths.map(toKoaBasePath);
+
+      for (const basePath of basePaths) {
+        const koaPath =
+          basePath +
+          '/' +
+          operationCtx.path
+            .substring(1)
+            .split('/')
+            .map(toPathParams)
+            .join('/');
+        router[methodName](koaPath, async (ctx, next) => {
+          for (const fn of middleware) {
+            await fn(ctx, next);
+          }
+        });
+      }
     }
   });
 
@@ -226,4 +234,8 @@ function toOpenAPIRequest(ctx) {
 
 function toPathParams(part) {
   return part.replace(/\{([^}]+)}/g, ':$1');
+}
+
+function toKoaBasePath(basePath: BasePath) {
+  return basePath.path;
 }
