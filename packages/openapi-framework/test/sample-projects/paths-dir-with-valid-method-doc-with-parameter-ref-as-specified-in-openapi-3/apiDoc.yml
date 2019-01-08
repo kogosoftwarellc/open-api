@@ -1,0 +1,13 @@
+openapi: '3.0.2'
+info:
+  title: sample api doc
+  version: '3'
+components:
+  parameters:
+    Foo:
+      name: name
+      in: query
+      description: foo parameter
+      schema:
+        type: string
+paths: {}

@@ -1,0 +1,33 @@
+openapi: '3.0.2'
+info:
+  title: sample api doc
+  version: '3'
+paths: {}
+components:
+  responses:
+    Error:
+      description: An error occurred
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - error
+            properties:
+              error:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                  
+                
+              
+            
+          
+        
+      
+    
+  
+

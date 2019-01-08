@@ -166,7 +166,6 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   }
 
   public initialize(visitor: OpenAPIFrameworkVisitor) {
-    const parameterDefinitions = this.apiDoc.parameters || {};
     const apiSecurityMiddleware =
       this.securityHandlers &&
       this.apiDoc.security &&
@@ -357,7 +356,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   Array.isArray(operationDoc.parameters)
                     ? pathParameters.concat(operationDoc.parameters)
                     : pathParameters,
-                  parameterDefinitions
+                  this.apiDoc
                 )
               );
               operationContext.methodParameters = methodParameters;
