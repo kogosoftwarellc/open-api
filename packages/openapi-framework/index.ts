@@ -362,7 +362,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               );
               operationContext.methodParameters = methodParameters;
 
-              if (methodParameters.length) {
+              if (methodParameters.length || operationDoc.requestBody) {
                 // defaults, coercion, and parameter validation middleware
                 if (
                   allowsValidationFeature(
