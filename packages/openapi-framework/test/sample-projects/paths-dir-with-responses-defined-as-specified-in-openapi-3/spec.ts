@@ -14,7 +14,7 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('#/components/responses/Error should be resolved properly', () => {
+  it('should be resolved properly', () => {
     framework.initialize({
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
