@@ -5,6 +5,30 @@ support for openapi in the node ecosystem.  It's usage is constantly growing.  W
 growing usage comes more scrutiny and opportunities to improve.  If you've come here
 with an issue: know that the maintainer[s] care deeply :heart:
 
+## Submitting Pull Requests (PRs)
+
+Each PR should adhere to the following standards:
+
+1. It should be isolated to a single package.  This helps us draft meaningful CHANGELOGS from git history.
+2. It should ideally have 1 commit, and each commit should be descriptive of what the change was e.g.
+
+   ```
+   git commit -m "Fixing an issue" # this is not descriptive
+   ```
+
+   ```
+   git commit -m "openapi-response-validator: Allowing for requestBody to be parsed" # this is descriptive
+   ```
+   
+   Using the commit script in `./bin/commit` is recommended.
+   
+   You can use `git commit --amend` to keep your PR isolated to a single commit when responding to feedback.
+3. It should support the official OpenAPI specification and not deviate from it.
+4. If the PR fixes an Issue that was previously reported, the commit message should close the Issue using keywords in the commit message (see [Closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/)) i.e.
+   ```
+   git commit -m "openapi-response-validator: Allowing for requestBody to be parsed (fixes #287)"
+   ```
+
 ## Status of OpenAPI V3
 
 _Note: this section was written on 2018-10-04 and may be out of date_
