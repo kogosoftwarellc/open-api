@@ -37,6 +37,7 @@ Let's say you're working on a package under [./packages](https://github.com/kogo
 1. Once you're satisfied with your changes:
   1. Create a new branch `git checkout -b my-branch` (in case you haven't done so already).
   1. `./bin/commit packages/<package_you're_working_on> 'commit message describing your change.  can be multi line here.  just close with a single quote like so:'`
+  1. If the commit addresses an existing issue, the commit message should provide a description for the issue, and end with `closes #123`.
   1. Push your change to your fork
   1. Open a PR.
 
