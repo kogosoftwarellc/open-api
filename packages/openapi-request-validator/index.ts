@@ -19,6 +19,7 @@ export interface OpenAPIRequestValidatorArgs {
   parameters: OpenAPI.Parameters;
   requestBody?: OpenAPIV3.RequestBodyObject;
   schemas?: IJsonSchema[];
+  componentSchemas?: IJsonSchema[];
   errorTransformer?(
     openAPIResponseValidatorValidationError: OpenAPIRequestValidatorError,
     ajvError: Ajv.ErrorObject
@@ -110,8 +111,12 @@ export default class OpenAPIRequestValidator
         }
       };
     }
-
-    if (args.schemas) {
+    if (args.componentSchemas) {
+      // openapi v3:
+      Object.keys(args.componentSchemas).forEach(id => {
+        v.addSchema(args.componentSchemas[id], `#/components/schemas/${id}`);
+      });
+    } else if (args.schemas) {
       if (Array.isArray(args.schemas)) {
         args.schemas.forEach(schema => {
           const id = schema.id;
