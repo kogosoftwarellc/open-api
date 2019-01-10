@@ -16,7 +16,7 @@ export function convertParametersToJSONSchema(
   const formDataSchema = getSchema(parameters, 'formData');
   const headerSchema = getSchema(parameters, 'header');
   const pathSchema = getSchema(parameters, 'path');
-  const querySchema = getQuerySchema(parameters);
+  const querySchema = getSchema(parameters, 'query');
 
   if (bodySchema) {
     parametersSchema.body = bodySchema;
@@ -99,8 +99,8 @@ function getBodySchema(parameters) {
   return bodySchema;
 }
 
-function getQuerySchema(parameters) {
-  const params = parameters.filter(byIn('query'));
+function getSchema(parameters, type) {
+  const params = parameters.filter(byIn(type));
   let schema;
 
   if (params.length) {
@@ -113,25 +113,6 @@ function getQuerySchema(parameters) {
         param.schema || param,
         paramSchema
       );
-    });
-
-    schema.required = getRequiredParams(params);
-  }
-
-  return schema;
-}
-
-function getSchema(parameters, type) {
-  const params = parameters.filter(byIn(type));
-  let schema;
-
-  if (params.length) {
-    schema = { properties: {} };
-
-    params.forEach(param => {
-      const paramSchema = copyValidationKeywords(param);
-
-      schema.properties[param.name] = handleNullable(param, paramSchema);
     });
 
     schema.required = getRequiredParams(params);
