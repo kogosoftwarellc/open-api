@@ -1,6 +1,6 @@
 {
   "name": "openapi-request-validator",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Validate request properties against an OpenAPI spec.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
