@@ -23,6 +23,7 @@ Each PR should adhere to the following standards:
    Using the commit script in `./bin/commit` is recommended.
    
    You can use `git commit --amend` to keep your PR isolated to a single commit when responding to feedback.
+   If you prefer to commit frequently, then before opening a PR, use `git rebase` to squash all the commits into a single one.
 3. It should support the official OpenAPI specification and not deviate from it.
 4. If the PR fixes an Issue that was previously reported, the commit message should close the Issue using keywords in the commit message (see [Closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/)) i.e.
    ```
