@@ -375,7 +375,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   const requestValidator = new OpenAPIRequestValidator({
                     errorTransformer: this.errorTransformer,
                     parameters: methodParameters,
-                    schemas: this.apiDoc.definitions,
+                    schemas: this.apiDoc.definitions, // v2
+                    componentSchemas: this.apiDoc.components // v3
+                      ? this.apiDoc.components.schemas
+                      : undefined,
                     externalSchemas: this.externalSchemas,
                     customFormats: this.customFormats,
                     requestBody: operationDoc.requestBody as OpenAPIV3.RequestBodyObject
