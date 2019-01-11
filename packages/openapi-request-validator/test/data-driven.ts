@@ -21,6 +21,10 @@ describe(require('../package.json').name, () => {
       const validator = new Sut(fixture.validateArgs);
       const error = validator.validate(fixture.request);
 
+      if (testName.indexOf('accept') === 0 && error) {
+        console.log(error);
+        console.log(fixture.expectedError);
+      }
       expect(error).to.eql(fixture.expectedError);
     });
   });
