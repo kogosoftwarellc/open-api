@@ -1,0 +1,16 @@
+openapi: '3.0.0'
+info:
+  title: sample api doc
+  version: '3'
+paths: {}
+components:
+  schemas:
+    Document:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        path:
+          type: string
