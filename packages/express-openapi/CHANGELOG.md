@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 4.1.0 - 2019-01-11
+### Fixed
+- retrieving validation keywords in both root and schema attribute of a definition for all types of parameters (fixes #301)
+- pass schema definitions for OpenApiV3 (#280)
+- no request body validation for methods w/o parameters (closes #294)
+- Resolve response and parameter references for OpenAPI 3.0 (fixes #293)
+
 ## 4.0.0 - 2019-01-09
 ### Added
 - Support for V3 servers attribute (#295)
