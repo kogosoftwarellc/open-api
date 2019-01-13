@@ -350,8 +350,8 @@ directory.
 
 * `'x-express-openapi-additional-middleware': [myMiddleware]` - Adds the provided
 middleware _after_ defaults, coercion, and validation middleware (added by
-`express-openapi`) but _before_ middleware defined in operations.  This property
-inherits from all previous properties.
+`express-openapi`) but _before_ middleware defined in operations and _before_ the response is sent.  This property
+inherits from all previous properties. For an example of how to perform global response validation based on this extension, see [Express Middleware to Validate Responses on All Routes](#express-middleware-to-validate-responses-on-all-routes)
 * `'x-express-openapi-inherit-additional-middleware': false` - Prevents middleware
 added in a parent scope with `x-express-openapi-additional-middleware`.  This extension
 works from the methodDoc up to the apiDoc, as opposed to the apiDoc down to the methodDoc.
@@ -367,6 +367,54 @@ response validation middleware I.E. no `res.validateResponse` method will be
 available in the affected operation handler method.
 * `'x-express-openapi-disable-validation-middleware': true` - Disables input
 validation middleware.
+
+#### Express Middleware to Validate Responses on All Routes
+
+By overriding the implementation of `res.send` within a middleware function, it is possible to perform `res.validateResponse` on all paths, and allow the paths to use `res.send` or `res.json`. The example below is how such a middleware might be added to `app.js`.
+
+```javascript
+function validateAllResponses(req, res, next) {
+    const strictValidation = req.apiDoc['x-express-openapi-validation-strict'] ? true : false;
+    if (typeof res.validateResponse === 'function') {
+        const send = res.send;
+        res.send = function expressOpenAPISend(...args) {
+          const onlyWarn = !strictValidation;
+          if (res.get('x-express-openapi-validation-error-for') !== undefined) {
+              return send.apply(res, args);
+          }
+          const body = args[0];
+          let validation = res.validateResponse(res.statusCode, body);
+          let validationMessage;
+          if (validation === undefined) {
+              validation = { message: undefined, errors: undefined };
+          }
+          if (validation.errors) {
+              const errorList = Array.from(validation.errors).map(_ => _.message).join(',');
+              validationMessage = `Invalid response for status code ${res.statusCode}: ${errorList}`;
+              console.warn(validationMessage);
+              // Set to avoid a loop, and to provide the original status code
+              res.set('x-express-openapi-validation-error-for', res.statusCode.toString());
+          }
+          if (onlyWarn || !validation.errors) {
+              return send.apply(res, args);
+          } else {
+              res.status(500);
+              return res.json({ error: validationMessage });
+          }
+      }
+    }
+    next();
+}
+
+initialize({
+    app: app,
+    paths: path.resolve(__dirname, 'api-paths'),
+    'x-express-openapi-additional-middleware': [validateAllResponses],
+    'x-express-openapi-validation-strict': true,
+    apiDoc: apiDoc
+});
+```
+
 
 ## API
 
