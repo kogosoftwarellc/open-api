@@ -165,7 +165,7 @@ export namespace OpenAPIV3 {
     required?: string[];
     enum?: any[];
     properties?: {
-      [name: string]: SchemaObject;
+      [name: string]: ReferenceObject | SchemaObject;
     };
     allOf?: Array<ReferenceObject | SchemaObject>;
     oneOf?: Array<ReferenceObject | SchemaObject>;
