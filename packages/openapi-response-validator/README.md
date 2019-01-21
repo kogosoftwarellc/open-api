@@ -14,8 +14,8 @@
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var OpenapiResponseValidator = require('openapi-response-validator');
-var instance = new OpenapiResponseValidator({
+var OpenAPIResponseValidator = require('openapi-response-validator');
+var instance = new OpenAPIResponseValidator({
   responses: {
     200: {
       description: 'We found what you were looking for.',
