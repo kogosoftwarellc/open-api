@@ -7,6 +7,7 @@ import {
   SecurityHandlers
 } from 'openapi-security-handler';
 import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import { Logger } from 'ts-log';
 import BasePath from './BasePath';
 export {
   OpenAPIFrameworkArgs,
@@ -66,6 +67,7 @@ interface OpenAPIFrameworkArgs {
   routesIndexFileRegExp?: RegExp;
   securityHandlers?: SecurityHandlers; // TODO define the handlers more here
   validateApiDoc?: boolean;
+  logger?: Logger;
 }
 
 export interface OpenAPIFrameworkAPIContext {

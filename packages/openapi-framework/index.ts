@@ -76,11 +76,17 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   private securityHandlers;
   private validateApiDoc;
   private validator;
+  private logger;
 
   constructor(protected args = {} as OpenAPIFrameworkConstructorArgs) {
     this.name = args.name;
     this.featureType = args.featureType;
     this.loggingPrefix = args.name ? `${this.name}: ` : '';
+    this.logger = args.logger ? args.logger : console;
+    // monkey patch for node v6:
+    if (!this.logger.debug) {
+      this.logger.debug = this.logger.log;
+    }
 
     [
       { name: 'apiDoc', required: true },
@@ -151,10 +157,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       const apiDocValidation = this.validator.validate(this.apiDoc);
 
       if (apiDocValidation.errors.length) {
-        console.error(
+        this.logger.error(
           `${this.loggingPrefix}Validating schema before populating paths`
         );
-        console.error(
+        this.logger.error(
           `${this.loggingPrefix}validation errors`,
           JSON.stringify(apiDocValidation.errors, null, '  ')
         );
@@ -475,10 +481,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       const apiDocValidation = this.validator.validate(this.apiDoc);
 
       if (apiDocValidation.errors.length) {
-        console.error(
+        this.logger.error(
           `${this.loggingPrefix}Validating schema after populating paths`
         );
-        console.error(
+        this.logger.error(
           `${this.loggingPrefix}validation errors`,
           JSON.stringify(apiDocValidation.errors, null, '  ')
         );

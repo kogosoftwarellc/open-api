@@ -1,6 +1,7 @@
 /* tslint:disable:no-unused-expression */
 import { expect } from 'chai';
 import 'mocha';
+import { Logger } from 'ts-log';
 import OpenapiFramework from '../';
 const fs = require('fs');
 const path = require('path');
@@ -179,6 +180,13 @@ describe('OpenapiFramework', () => {
             new OpenapiFramework(options);
           });
         });
+      });
+    });
+
+    describe('logging', () => {
+      it('should accept console as a logger', () => {
+        options.logger = console;
+        new OpenapiFramework(options);
       });
     });
   });
