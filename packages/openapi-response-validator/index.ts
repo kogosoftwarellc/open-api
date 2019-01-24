@@ -222,7 +222,7 @@ function transformOpenAPIV3Definitions(schema) {
   if (typeof schema !== 'object') {
     return schema;
   }
-  const res = { ...schema };
+  const res = JSON.parse(JSON.stringify(schema));
   recursiveTransformOpenAPIV3Definitions(res);
   return res;
 }
