@@ -1,0 +1,11 @@
+openapi: '3.0.2'
+info:
+  title: sample api doc
+  version: '3'
+paths: {}
+security:
+  - basic: []
+components:
+  securitySchemes:
+    basic:
+      type: basic
