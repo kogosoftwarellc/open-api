@@ -166,12 +166,14 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   }
 
   public initialize(visitor: OpenAPIFrameworkVisitor) {
+    const securitySchemes = (this.apiDoc as OpenAPIV3.Document).openapi
+      ? (this.apiDoc.components || {}).securitySchemes
+      : this.apiDoc.securityDefinitions;
+
     const apiSecurityMiddleware =
-      this.securityHandlers &&
-      this.apiDoc.security &&
-      this.apiDoc.securityDefinitions
+      this.securityHandlers && this.apiDoc.security && securitySchemes
         ? new OpenAPISecurityHandler({
-            securityDefinitions: this.apiDoc.securityDefinitions,
+            securityDefinitions: securitySchemes,
             securityHandlers: this.securityHandlers,
             operationSecurity: this.apiDoc.security,
             loggingKey: `${this.name}-security`
@@ -426,7 +428,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               let securityFeature;
               let securityDefinition;
 
-              if (this.securityHandlers && this.apiDoc.securityDefinitions) {
+              if (this.securityHandlers && securitySchemes) {
                 if (operationDoc.security) {
                   securityDefinition = operationDoc.security;
                 } else if (this.pathSecurity.length) {
@@ -440,7 +442,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               if (securityDefinition) {
                 pathDoc[methodName].security = securityDefinition;
                 securityFeature = new OpenAPISecurityHandler({
-                  securityDefinitions: this.apiDoc.securityDefinitions,
+                  securityDefinitions: securitySchemes,
                   securityHandlers: this.securityHandlers,
                   operationSecurity: securityDefinition,
                   loggingKey: `${this.name}-security`
