@@ -203,14 +203,22 @@ export default class OpenAPIRequestValidator
 
     if (this.requestBody) {
       const contentType = request.headers['content-type'];
-      const mediaTypeMatch = getSchemaForMediaType(
-        contentType,
-        this.requestBody
-      );
+      const mediaTypeMatch =
+        contentType && getSchemaForMediaType(contentType, this.requestBody);
       if (!mediaTypeMatch) {
-        mediaTypeError = {
-          message: `Unsupported Content-Type ${contentType}`
-        };
+        if (contentType) {
+          mediaTypeError = {
+            message: `Unsupported Content-Type ${contentType}`
+          };
+        } else if (this.isBodyRequired) {
+          errors.push({
+            keyword: 'required',
+            dataPath: '.body',
+            params: {},
+            message: 'media type is not specified',
+            location: 'body'
+          });
+        }
       } else {
         const bodySchema = this.requestBody.content[mediaTypeMatch].schema;
         if (request.body) {
@@ -308,7 +316,15 @@ function getSchemaForMediaType(
   contentTypeHeader: string,
   requestBodySpec: OpenAPIV3.RequestBodyObject
 ): string {
-  const contentType = contentTypeParser.parse(contentTypeHeader).type;
+  let contentType: string;
+  try {
+    contentType = contentTypeParser.parse(contentTypeHeader).type;
+  } catch (e) {
+    if (e instanceof TypeError && e.message === 'invalid media type') {
+      return;
+    }
+    throw e;
+  }
   const content = requestBodySpec.content;
   const subTypeWildCardPoints = 2;
   const wildcardMatchPoints = 1;
