@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/ajv": "^1.0.0",
-    "@types/express": "^4.16.0"
+    "@types/express": "^4.16.0",
+    "multer": "^1.4.1"
   }
 }
