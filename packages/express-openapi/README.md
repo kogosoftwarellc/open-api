@@ -479,7 +479,7 @@ initialize({
       multer().any()(req, res, function(err) {
         if (err) return next(err);
         req.files.forEach(function(f) {
-          req.body[f.fieldname] = f;
+          req.body[f.fieldname] = ''; // Set to empty string to satisfy OpenAPI spec validation
         });
         return next();
       });
@@ -489,7 +489,8 @@ initialize({
 });
 ```
 
-All file parameters will now be available to be destructured from `req.body`
+Now you can access your non-file fields via `req.body`, and your files via `req.files`. See a full example in the [with-consumes-middleware-multipart-openapi3](
+https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects/with-consumes-middleware-multipart-openapi3) test.
 
 #### args.customFormats
 
