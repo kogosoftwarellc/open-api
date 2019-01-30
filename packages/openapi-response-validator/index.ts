@@ -111,7 +111,10 @@ export default class OpenAPIResponseValidator
 
     if (statusCode && statusCode in this.validators) {
       validator = this.validators[statusCode];
-    } else if (statusCode && statusCode.toString()[0] + 'XX' in this.validators) {
+    } else if (
+      statusCode &&
+      statusCode.toString()[0] + 'XX' in this.validators
+    ) {
       validator = this.validators[statusCode.toString()[0] + 'XX'];
     } else if (this.validators.default) {
       validator = this.validators.default;
