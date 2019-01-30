@@ -253,10 +253,7 @@ export namespace OpenAPIV3 {
   }
 
   export interface SecurityRequirementObject {
-    apiKey?: string[];
-    http?: string[];
-    oauth2?: string[];
-    openIdConnect?: string[];
+    [name: string]: string[];
   }
 
   export interface ComponentsObject {
