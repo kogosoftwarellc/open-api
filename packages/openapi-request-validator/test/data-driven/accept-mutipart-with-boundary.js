@@ -7,6 +7,7 @@ module.exports = {
         'multipart/form-data': {
           schema: {
             type: 'object',
+            required: ['files'],
             properties: {
               files: {
                 type: 'array',
@@ -20,7 +21,7 @@ module.exports = {
   },
   request: {
     body: {
-      files: []
+      files: ['binary file 1']
     },
     headers: {
       'content-type':
