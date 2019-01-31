@@ -1,4 +1,5 @@
 import { OpenAPIV3 } from 'openapi-types';
+import { Logger } from 'ts-log';
 import { URL } from 'url';
 import BasePath from './BasePath';
 import { IOpenAPIFramework } from './types';
@@ -150,7 +151,11 @@ export function copy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export function getAdditionalFeatures(framework: IOpenAPIFramework, ...docs) {
+export function getAdditionalFeatures(
+  framework: IOpenAPIFramework,
+  logger: Logger,
+  ...docs
+) {
   const additionalFeatures = [];
   let index = docs.length - 1;
   const inheritProperty = `x-${framework.name}-inherit-additional-${
@@ -176,7 +181,7 @@ export function getAdditionalFeatures(framework: IOpenAPIFramework, ...docs) {
     if (typeof feature === 'function') {
       return true;
     } else {
-      console.warn(
+      logger.warn(
         `${framework.loggingPrefix}Ignoring ${feature} as ${
           framework.featureType
         } in ${additionalProperty} array.`

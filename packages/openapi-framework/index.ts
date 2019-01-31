@@ -8,6 +8,7 @@ import OpenAPISecurityHandler from 'openapi-security-handler';
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import BasePath from './src/BasePath';
 import {
+  ConsoleDebugAdapterLogger,
   IOpenAPIFramework,
   OpenAPIFrameworkAPIContext,
   OpenAPIFrameworkArgs,
@@ -83,10 +84,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     this.name = args.name;
     this.featureType = args.featureType;
     this.loggingPrefix = args.name ? `${this.name}: ` : '';
-    this.logger = args.logger ? args.logger : console;
+    this.logger = args.logger ? args.logger : new ConsoleDebugAdapterLogger();
     // monkey patch for node v6:
     if (!this.logger.debug) {
-      this.logger.debug = this.logger.log;
+      this.logger.debug = this.logger.info;
     }
 
     [
@@ -201,6 +202,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
     if (this.paths) {
       paths = [].concat(this.paths);
+      this.logger.debug(`${this.loggingPrefix}paths=`, paths);
       paths.forEach(pathItem => {
         if (byString(pathItem)) {
           pathItem = toAbsolutePath(pathItem);
@@ -297,6 +299,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
         }
       });
     }
+    this.logger.debug(`${this.loggingPrefix}routes=`, routes);
 
     // Check for duplicate routes
     const dups = routes.filter((v, i, o) => {
@@ -318,6 +321,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
     routes.forEach(routeItem => {
       const route = routeItem.path;
+      this.logger.debug(`${this.loggingPrefix}setting up`, route);
       const pathModule = injectDependencies(
         routeItem.module.default || routeItem.module,
         this.dependencies
@@ -375,6 +379,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
         const operationContext: OpenAPIFrameworkOperationContext = {
           additionalFeatures: getAdditionalFeatures(
             this,
+            this.logger,
             this.originalApiDoc,
             originalPathItem,
             pathModule,
@@ -475,6 +480,11 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   requestBody: operationDoc.requestBody as OpenAPIV3.RequestBodyObject
                 });
                 operationContext.features.requestValidator = requestValidator;
+                this.logger.debug(
+                  `${this.loggingPrefix}request validator on for`,
+                  methodName,
+                  openapiPath
+                );
               }
 
               if (
