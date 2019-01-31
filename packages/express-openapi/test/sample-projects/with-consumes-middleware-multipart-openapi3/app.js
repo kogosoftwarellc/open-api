@@ -7,30 +7,64 @@ var multer = require('multer');
 
 app.use(cors());
 
+const isBinary = field => field.type === 'string' && field.format === 'binary';
+const isArray = field => field.type === 'array';
+
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   consumesMiddleware: {
     'multipart/form-data': function(req, res, next) {
-      multer().any()(req, res, function(err) {
-        if (err) {
-          return next(err);
+      const { requestBody } = req.operationDoc;
+      if (requestBody && requestBody.content['multipart/form-data']) {
+        const { properties } = requestBody.content[
+          'multipart/form-data'
+        ].schema;
+
+        const fileFieldMap = Object.keys(properties).reduce((acc, prop) => {
+          if (isBinary(properties[prop])) {
+            acc[prop] = 'single';
+          } else if (
+            isArray(properties[prop]) &&
+            isBinary(properties[prop].items)
+          ) {
+            acc[prop] = 'array';
+          }
+          return acc;
+        }, {});
+
+        const allFileFields = Object.keys(fileFieldMap);
+
+        let upload;
+
+        if (allFileFields.length) {
+          upload = multer().fields(allFileFields.map(name => ({ name })));
+        } else {
+          upload = multer().none();
         }
-        // Handle both single and multiple files
-        const filesMap = req.files.reduce(
-          (acc, f) =>
-            Object.assign(acc, {
-              [f.fieldname]: (acc[f.fieldname] || []).concat(f)
-            }),
-          {}
-        );
-        Object.keys(filesMap).forEach(fieldname => {
-          const files = filesMap[fieldname];
-          req.body[fieldname] = files.length > 1 ? files.map(() => '') : '';
+
+        upload(req, res, function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          // Handle both single and multiple files
+          allFileFields.forEach(field => {
+            if (fileFieldMap[field] === 'single' && req.files[field].length) {
+              req.body[field] = '';
+            } else if (
+              fileFieldMap[field] === 'array' &&
+              req.files[field].length
+            ) {
+              req.body[field] = req.files[field].map(() => '');
+            }
+          });
+          return next();
         });
-        return next();
-      });
+      } else {
+        next();
+      }
     }
   }
 });

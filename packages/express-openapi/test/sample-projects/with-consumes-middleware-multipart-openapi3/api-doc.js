@@ -76,7 +76,7 @@ module.exports = {
         }
       }
     },
-    '/with-text-fields': {
+    '/multiple-single-and-text-fields': {
       post: {
         requestBody: {
           required: true,
@@ -84,17 +84,25 @@ module.exports = {
             'multipart/form-data': {
               schema: {
                 type: 'object',
-                required: ['files', 'aTextField'],
+                required: [
+                  'aTextField',
+                  'multipleAttachments',
+                  'singleAttachment'
+                ],
                 properties: {
                   aTextField: {
                     type: 'string'
                   },
-                  files: {
+                  multipleAttachments: {
                     type: 'array',
                     items: {
                       type: 'string',
                       format: 'binary'
                     }
+                  },
+                  singleAttachment: {
+                    type: 'string',
+                    format: 'binary'
                   }
                 }
               }

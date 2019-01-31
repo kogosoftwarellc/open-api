@@ -116,8 +116,6 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
       let middleware = [].concat(ctx.additionalFeatures);
 
       if (operationDoc && ctx.allowsFeatures) {
-        middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
-
         if (ctx.features.responseValidator) {
           // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
@@ -173,6 +171,8 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
         if (consumesMiddleware && ctx.consumes) {
           addConsumesMiddleware(middleware, consumesMiddleware, ctx.consumes);
         }
+
+        middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
       }
 
       middleware.push(operationHandler);
