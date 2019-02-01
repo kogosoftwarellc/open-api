@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.6.0 - 2019-01-31
+### Fixed
+- Handle missing or invalid 'Content-Type' (#326)
+- openapi-jsonschema-parameters:
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-types: OpenAPIV3: relax security requirement object types (#327)
+
 ## 3.5.0 - 2019-01-11
 ### Fixed
 - retrieving validation keywords in both root and schema attribute of a definition for all types of parameters (fixes #301)
