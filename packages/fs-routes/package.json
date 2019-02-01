@@ -12,7 +12,7 @@
     "cover": "nyc",
     "prepare": "tsc",
     "pretest": "touch test-dir/users/:id.js",
-    "test-watch": "npm run pretest && mocha --watch-extensions ts -w",
+    "test-watch": "tsc && npm run pretest && mocha --watch-extensions ts -w",
     "test": "mocha",
     "travis-test": "npm run pretest && npm run cover"
   },

@@ -7,7 +7,7 @@
   "scripts": {
     "cover": "nyc",
     "prepare": "tsc",
-    "test-watch": "mocha --watch-extensions ts -w",
+    "test-watch": "tsc && mocha --watch-extensions ts -w",
     "test": "mocha",
     "travis-test": "npm run cover"
   },
