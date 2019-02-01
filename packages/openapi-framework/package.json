@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "0.19.2",
+  "version": "0.20.0",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,13 +32,13 @@
     "glob": "*",
     "is-dir": "^1.0.0",
     "js-yaml": "^3.10.0",
-    "openapi-default-setter": "2.0.3",
-    "openapi-request-coercer": "2.2.0",
-    "openapi-request-validator": "3.5.0",
-    "openapi-response-validator": "3.6.0",
-    "openapi-schema-validator": "3.0.2",
-    "openapi-security-handler": "2.0.3",
-    "openapi-types": "^1.3.3",
+    "openapi-default-setter": "2.0.4",
+    "openapi-request-coercer": "2.2.1",
+    "openapi-request-validator": "3.6.0",
+    "openapi-response-validator": "3.7.0",
+    "openapi-schema-validator": "3.0.3",
+    "openapi-security-handler": "2.0.4",
+    "openapi-types": "1.3.4",
     "ts-log": "^2.1.4"
   }
 }

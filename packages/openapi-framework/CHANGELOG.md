@@ -4,7 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.19.1 - 2019-01-22
+## 0.20.0 - 2019-01-31
+### Fixed
+- add Logger (#61) (#322)
+- Fixes support for args.securityHandlers in OpenAPIV3 (#323)
+- openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-default-setter:
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-request-coercer:
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-request-validator:
+  - Handle missing or invalid 'Content-Type' (#326)
+  - openapi-jsonschema-parameters:
+    - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-response-validator:
+  - Deep clone schemas before transforming nullable values. (#324)
+  - Handle ?XX status codes. (#325)
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-schema-validator:
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+- openapi-security-handler:
+  - openapi-types: OpenAPIV3: relax security requirement object types (#327)
+
+## 0.19.2 - 2019-01-22
 ### Fixed
 - openapi-types: Allowing to set a property of BaseSchemaObject as a reference to another SchemaObject (#312)
 
