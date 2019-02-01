@@ -4,11 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 3.6.0 - 2019-01-08
+## 3.7.0 - 2019-01-31
 ### Fixed
-- Allow different content types for V3 response definitions (#292)
+- Deep clone schemas before transforming nullable values. (#324)
+- Handle ?XX status codes. (#325)
+- openapi-types:
+  - Allowing to set a property of BaseSchemaObject as a reference to another SchemaObject (#312)
 
-## 3.5.0 - 2018-12-20
+## 3.6.0 - 2018-12-20
 ### Fixed
 - Making components arg optional and based on OpenAPIV3.ComponentsObject.
 
