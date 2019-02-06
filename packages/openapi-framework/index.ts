@@ -68,6 +68,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   private errorTransformer;
   private externalSchemas;
   private originalApiDoc;
+  private operations;
   private paths;
   private pathsIgnore;
   private pathSecurity;
@@ -94,7 +95,6 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       { name: 'externalSchemas', type: 'object' },
       { name: 'featureType', required: true },
       { name: 'name', required: true },
-      { name: 'paths', required: true },
       { name: 'pathSecurity', class: Array, className: 'Array' },
       { name: 'securityHandlers', type: 'object' }
     ].forEach(arg => {
@@ -123,6 +123,14 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       }
     });
 
+    if (!args.paths && !args.operations) {
+      throw new Error(
+        `${
+          this.loggingPrefix
+        }args.paths and args.operations must not both be empty`
+      );
+    }
+
     this.enableObjectCoercion = !!args.enableObjectCoercion;
     this.originalApiDoc = handleYaml(handleFilePath(args.apiDoc));
     this.apiDoc = copy(this.originalApiDoc);
@@ -143,6 +151,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     this.dependencies = args.dependencies;
     this.errorTransformer = args.errorTransformer;
     this.externalSchemas = args.externalSchemas;
+    this.operations = args.operations;
     this.paths = args.paths;
     this.pathsIgnore = args.pathsIgnore;
     this.pathSecurity = Array.isArray(args.pathSecurity)
@@ -186,47 +195,72 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
           })
         : null;
 
-    const paths = [].concat(this.paths);
+    let paths = [];
     let routes = [];
-    paths.forEach(pathItem => {
-      if (byString(pathItem)) {
-        pathItem = toAbsolutePath(pathItem);
-        if (!byDirectory(pathItem)) {
-          throw new Error(
-            `${
-              this.loggingPrefix
-            }args.paths contained a value that was not a path to a directory`
-          );
-        }
-        routes = routes.concat(
-          fsRoutes(pathItem, {
-            glob: this.routesGlob,
-            indexFileRegExp: this.routesIndexFileRegExp
-          })
-            .filter(fsRoutesItem => {
-              return this.pathsIgnore
-                ? !this.pathsIgnore.test(fsRoutesItem.route)
-                : true;
+
+    if (this.paths) {
+      paths = [].concat(this.paths);
+      paths.forEach(pathItem => {
+        if (byString(pathItem)) {
+          pathItem = toAbsolutePath(pathItem);
+          if (!byDirectory(pathItem)) {
+            throw new Error(
+              `${
+                this.loggingPrefix
+              }args.paths contained a value that was not a path to a directory`
+            );
+          }
+          routes = routes.concat(
+            fsRoutes(pathItem, {
+              glob: this.routesGlob,
+              indexFileRegExp: this.routesIndexFileRegExp
             })
-            .map(fsRoutesItem => {
-              return {
-                path: fsRoutesItem.route,
-                module: require(fsRoutesItem.path)
-              };
-            })
-        );
-      } else {
-        if (!pathItem.path || !pathItem.module) {
-          throw new Error(
-            `${
-              this.loggingPrefix
-            }args.paths must consist of strings or valid route specifications`
+              .filter(fsRoutesItem => {
+                return this.pathsIgnore
+                  ? !this.pathsIgnore.test(fsRoutesItem.route)
+                  : true;
+              })
+              .map(fsRoutesItem => {
+                return {
+                  path: fsRoutesItem.route,
+                  module: require(fsRoutesItem.path)
+                };
+              })
           );
+        } else {
+          if (!pathItem.path || !pathItem.module) {
+            throw new Error(
+              `${
+                this.loggingPrefix
+              }args.paths must consist of strings or valid route specifications`
+            );
+          }
+          routes.push(pathItem);
         }
-        routes.push(pathItem);
-      }
-    });
-    routes = routes.sort(byRoute);
+      });
+      routes = routes.sort(byRoute);
+    }
+
+    if (this.operations) {
+      const apiDocPaths = this.apiDoc.paths;
+      Object.keys(apiDocPaths).forEach(apiDocPathUrl => {
+        const apiDocPath = apiDocPaths[apiDocPathUrl];
+        Object.keys(apiDocPath)
+          .filter(byMethods)
+          .forEach(method => {
+            const methodDoc = apiDocPath[method];
+            const operationId = methodDoc.operationId;
+            if (operationId && operationId in this.operations) {
+              routes.push({
+                path: apiDocPathUrl,
+                module: {
+                  [method]: this.operations[operationId]
+                }
+              });
+            }
+          });
+      });
+    }
 
     // Check for duplicate routes
     const dups = routes.filter((v, i, o) => {
