@@ -40,7 +40,7 @@ describe('OpenapiFramework', () => {
       });
     });
 
-    ['apiDoc', 'featureType', 'name', 'paths'].forEach(spec => {
+    ['apiDoc', 'featureType', 'name'].forEach(spec => {
       describe(`when options.${spec} is missing`, () => {
         beforeEach(() => {
           delete options[spec];
@@ -51,6 +51,18 @@ describe('OpenapiFramework', () => {
             new OpenapiFramework(options);
           }).to.throw(`args.${spec} is required`);
         });
+      });
+    });
+
+    describe('when options.paths and options.operations are missing', () => {
+      beforeEach(() => {
+        delete options.paths;
+      });
+
+      it('should throw', () => {
+        expect(() => {
+          new OpenapiFramework(options);
+        }).to.throw(`args.paths and args.operations must not both be empty`);
       });
     });
 

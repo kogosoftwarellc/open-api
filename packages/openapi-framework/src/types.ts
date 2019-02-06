@@ -61,7 +61,8 @@ interface OpenAPIFrameworkArgs {
   errorTransformer?: OpenAPIErrorTransformer;
   externalSchemas?: { string: IJsonSchema };
   pathSecurity?: PathSecurityTuple[];
-  paths: string | OpenAPIFrameworkPathObject[];
+  operations?: string | { [operationId: string]: (...arg: any[]) => any };
+  paths?: string | OpenAPIFrameworkPathObject[];
   pathsIgnore?: RegExp;
   routesGlob?: string;
   routesIndexFileRegExp?: RegExp;
