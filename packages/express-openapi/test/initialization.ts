@@ -42,7 +42,7 @@ describe(require('../package.json').name, () => {
         [
           'args.paths required',
           { app: {}, apiDoc: validDocument },
-          /express-openapi: args.paths is required/
+          /express-openapi: args.paths and args.operations must not both be empty/
         ],
         [
           'args.paths non directory',
