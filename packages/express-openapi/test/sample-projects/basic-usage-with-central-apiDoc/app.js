@@ -12,7 +12,16 @@ app.use(bodyParser.json());
 openapi.initialize({
   apiDoc: fs.readFileSync(path.resolve(__dirname, 'api-doc.yml'), 'utf8'),
   app: app,
-  paths: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes'),
+  operations: {
+    getUser: function get(req, res) {
+      res.status(200).json({
+        id: req.params.id,
+        name: req.query.name,
+        age: req.query.age
+      });
+    }
+  }
 });
 
 app.use(function(err, req, res, next) {
