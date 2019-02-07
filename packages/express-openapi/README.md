@@ -75,6 +75,7 @@ https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi
     * [args.errorTransformer](#argserrortransformer)
     * [args.exposeApiDocs](#argsexposeapidocs)
     * [args.externalSchemas](#argsexternalschemas)
+    * [args.operations](#argsoperations)
     * [args.pathSecurity](#argspathsecurity)
     * [args.paths](#argspaths)
     * [args.pathsIgnore](#argspathsignore)
@@ -228,6 +229,10 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     literal instead of a function.  The dependency injection approach is recommended
     which is why we use it here.
 
+    **Note:** If you prefer not to follow this design driven approach, or if you'd
+    rather have your API's documentation solely in the apiDoc file, you can provide
+    operation handlers with [args.operations](#argsoperations).
+
 1. Create services
 
     We referenced a `worldsService` in our path handler, let's create it now.  It's
@@ -267,8 +272,8 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
     const app = express();
     initialize({
       app,
-      // NOTE: If using yaml it's necessary to use "fs" e.g.
-      // apiDoc: fs.readFileSync(path.resolve(__dirname, './api-v1/api-doc.yml'), 'utf8'),
+      // NOTE: If using yaml you can provide a path relative to process.cwd() e.g.
+      // apiDoc: './api-v1/api-doc.yml',
       apiDoc: v1ApiDoc,
       dependencies: {
         worldsService: v1WorldsService
@@ -693,6 +698,52 @@ put.apiDoc = {
  /*...*/
 }
 ```
+#### args.operations
+
+|Type|Required|Description|
+|----|--------|-----------|
+|Object|Y (unless args.paths is provided)|An Object whose keys are operationIds in your apiDoc and whose values are operation handlers (functions)|
+
+Consider the following example:
+
+```yml
+# ./apiDoc.yml
+swagger: '2.0'
+info:
+  title: sample api doc
+  version: '3'
+paths:
+  /foo:
+    get:
+      operationId: getFoo
+      responses:
+        default:
+          description: return foo
+          schema: {}
+```
+
+```js
+// ./app.js
+import express from 'express';
+import { initialize } from 'express-openapi';
+
+const app = express();
+
+initialize({
+  app,
+  apiDoc: './apiDoc.yml',
+  operations: {
+    getFoo: function(req, res) {
+      res.send('foo');
+    }
+  }
+});
+
+app.listen(3000);
+```
+
+**Note:** Handlers in args.paths take precedence over handlers in args.operations for
+historical reasons.
 
 #### args.pathSecurity
 
@@ -723,7 +774,7 @@ initialize({
 
 |Type|Required|Description|
 |----|--------|-----------|
-|String or Array|Y|Relative path or paths to the directory or directories that contain your route files or route specifications.|
+|String or Array|Y (unless args.operations is provided)|Relative path or paths to the directory or directories that contain your route files or route specifications.|
 
 
 Path files are logically structured according to their URL path.  For cross platform
@@ -830,6 +881,9 @@ function, or an array of business specific middleware + a method handler functio
 `express-openapi` will prepend middleware to this stack based on the parameters
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
+
+**Note:** Handlers in args.paths take precedence over handlers in args.operations for
+historical reasons.
 
 #### args.pathsIgnore
 
