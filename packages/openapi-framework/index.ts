@@ -244,19 +244,29 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     if (this.operations) {
       const apiDocPaths = this.apiDoc.paths;
       Object.keys(apiDocPaths).forEach(apiDocPathUrl => {
-        const apiDocPath = apiDocPaths[apiDocPathUrl];
-        Object.keys(apiDocPath)
+        const route = routes.filter(v => v.path === apiDocPathUrl)[0];
+        const pathDoc = apiDocPaths[apiDocPathUrl];
+        Object.keys(pathDoc)
           .filter(byMethods)
           .forEach(method => {
-            const methodDoc = apiDocPath[method];
+            const methodDoc = pathDoc[METHOD_ALIASES[method]];
             const operationId = methodDoc.operationId;
             if (operationId && operationId in this.operations) {
-              routes.push({
-                path: apiDocPathUrl,
-                module: {
-                  [method]: this.operations[operationId]
+              const operation = this.operations[operationId];
+              if (route) {
+                if (!route.operations) {
+                  route.operations = {};
                 }
-              });
+                route.operations[operationId] = operation;
+              } else {
+                routes.push({
+                  path: apiDocPathUrl,
+                  module: {},
+                  operations: {
+                    [operationId]: operation
+                  }
+                });
+              }
             }
           });
       });
@@ -301,69 +311,125 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
       pathDoc.parameters = pathParameters;
       this.apiDoc.paths[openapiPath] = pathDoc;
+      const methodsProcessed = {};
 
-      Object.keys(pathModule)
-        .filter(byMethods)
-        .forEach(methodName => {
-          // operationHandler may be an array or a function.
-          const operationHandler = pathModule[methodName];
-          methodName = METHOD_ALIASES[methodName];
-          const operationDoc =
-            handleYaml(getMethodDoc(operationHandler)) || pathDoc[methodName];
-          // consumes is defined as property of each operation or entire document
-          // in Swagger 2.0. For OpenAPI 3.0 consumes mime types are defined as the
-          // key value(s) for each operation requestBody.content object.
-          const consumes =
-            operationDoc && Array.isArray(operationDoc.consumes)
-              ? operationDoc.consumes
-              : operationDoc &&
-                operationDoc.requestBody &&
-                operationDoc.requestBody.content
-              ? Object.keys(operationDoc.requestBody.content)
-              : Array.isArray(this.apiDoc.consumes)
-              ? this.apiDoc.consumes
-              : [];
-          const operationContext: OpenAPIFrameworkOperationContext = {
-            additionalFeatures: getAdditionalFeatures(
-              this,
-              this.originalApiDoc,
-              originalPathItem,
-              pathModule,
-              operationDoc
-            ),
-            allowsFeatures: allowsFeatures(
-              this,
-              this.apiDoc,
-              pathModule,
-              pathDoc,
-              operationDoc
-            ),
-            apiDoc: this.apiDoc,
-            basePaths: this.basePaths,
-            consumes,
-            features: {},
-            methodName,
-            methodParameters: [],
-            operationDoc,
-            operationHandler,
-            path: openapiPath
-          };
+      [
+        ...Object.keys(pathModule).filter(byMethods),
+        ...Object.keys(pathDoc).filter(byMethods)
+      ].forEach(methodAlias => {
+        const methodName = METHOD_ALIASES[methodAlias];
+        if (methodName in methodsProcessed) {
+          this.logger.warn(
+            `${
+              this.loggingPrefix
+            }${openapiPath}.${methodAlias} has already been defined.  Ignoring the 2nd definition...`
+          );
+          return;
+        }
+        methodsProcessed[methodName] = true;
+        // operationHandler may be an array or a function.
+        const operationHandler =
+          pathModule[methodAlias] ||
+          routeItem.operations[(pathDoc[methodAlias] || {}).operationId];
+        const operationDoc =
+          handleYaml(getMethodDoc(operationHandler)) || pathDoc[methodName];
+        // consumes is defined as property of each operation or entire document
+        // in Swagger 2.0. For OpenAPI 3.0 consumes mime types are defined as the
+        // key value(s) for each operation requestBody.content object.
+        const consumes =
+          operationDoc && Array.isArray(operationDoc.consumes)
+            ? operationDoc.consumes
+            : operationDoc &&
+              operationDoc.requestBody &&
+              operationDoc.requestBody.content
+            ? Object.keys(operationDoc.requestBody.content)
+            : Array.isArray(this.apiDoc.consumes)
+            ? this.apiDoc.consumes
+            : [];
+        const operationContext: OpenAPIFrameworkOperationContext = {
+          additionalFeatures: getAdditionalFeatures(
+            this,
+            this.originalApiDoc,
+            originalPathItem,
+            pathModule,
+            operationDoc
+          ),
+          allowsFeatures: allowsFeatures(
+            this,
+            this.apiDoc,
+            pathModule,
+            pathDoc,
+            operationDoc
+          ),
+          apiDoc: this.apiDoc,
+          basePaths: this.basePaths,
+          consumes,
+          features: {},
+          methodName,
+          methodParameters: [],
+          operationDoc,
+          operationHandler,
+          path: openapiPath
+        };
 
-          if (operationDoc) {
-            pathDoc[methodName] = operationDoc;
+        if (operationDoc) {
+          pathDoc[methodName] = operationDoc;
 
-            if (operationDoc.tags) {
-              sortOperationDocTags(operationDoc);
-              operationDoc.tags.forEach(
-                addOperationTagToApiDoc.bind(null, this.apiDoc)
-              );
+          if (operationDoc.tags) {
+            sortOperationDocTags(operationDoc);
+            operationDoc.tags.forEach(
+              addOperationTagToApiDoc.bind(null, this.apiDoc)
+            );
+          }
+
+          if (operationContext.allowsFeatures) {
+            // add features
+            if (
+              operationDoc.responses &&
+              allowsResponseValidationFeature(
+                this,
+                this.apiDoc,
+                pathModule,
+                pathDoc,
+                operationDoc
+              )
+            ) {
+              // add response validation feature
+              // it's invalid for a method doc to not have responses, but the post
+              // validation will pick it up, so this is almost always going to be added.
+              const responseValidator = new OpenAPIResponseValidator({
+                loggingKey: `${this.name}-response-validation`,
+                components: this.apiDoc.components,
+                definitions: this.apiDoc.definitions,
+                externalSchemas: this.externalSchemas,
+                errorTransformer: this.errorTransformer,
+                responses: resolveResponseRefs(
+                  this,
+                  operationDoc.responses,
+                  this.apiDoc,
+                  route
+                ),
+                customFormats: this.customFormats
+              });
+
+              operationContext.features.responseValidator = responseValidator;
             }
 
-            if (operationContext.allowsFeatures) {
-              // add features
+            const methodParameters = withNoDuplicates(
+              resolveParameterRefs(
+                this,
+                Array.isArray(operationDoc.parameters)
+                  ? pathParameters.concat(operationDoc.parameters)
+                  : pathParameters,
+                this.apiDoc
+              )
+            );
+            operationContext.methodParameters = methodParameters;
+
+            if (methodParameters.length || operationDoc.requestBody) {
+              // defaults, coercion, and parameter validation middleware
               if (
-                operationDoc.responses &&
-                allowsResponseValidationFeature(
+                allowsValidationFeature(
                   this,
                   this.apiDoc,
                   pathModule,
@@ -371,136 +437,93 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   operationDoc
                 )
               ) {
-                // add response validation feature
-                // it's invalid for a method doc to not have responses, but the post
-                // validation will pick it up, so this is almost always going to be added.
-                const responseValidator = new OpenAPIResponseValidator({
-                  loggingKey: `${this.name}-response-validation`,
-                  components: this.apiDoc.components,
-                  definitions: this.apiDoc.definitions,
-                  externalSchemas: this.externalSchemas,
+                const requestValidator = new OpenAPIRequestValidator({
                   errorTransformer: this.errorTransformer,
-                  responses: resolveResponseRefs(
-                    this,
-                    operationDoc.responses,
-                    this.apiDoc,
-                    route
-                  ),
-                  customFormats: this.customFormats
+                  parameters: methodParameters,
+                  schemas: this.apiDoc.definitions, // v2
+                  componentSchemas: this.apiDoc.components // v3
+                    ? this.apiDoc.components.schemas
+                    : undefined,
+                  externalSchemas: this.externalSchemas,
+                  customFormats: this.customFormats,
+                  requestBody: operationDoc.requestBody as OpenAPIV3.RequestBodyObject
                 });
-
-                operationContext.features.responseValidator = responseValidator;
+                operationContext.features.requestValidator = requestValidator;
               }
 
-              const methodParameters = withNoDuplicates(
-                resolveParameterRefs(
+              if (
+                allowsCoercionFeature(
                   this,
-                  Array.isArray(operationDoc.parameters)
-                    ? pathParameters.concat(operationDoc.parameters)
-                    : pathParameters,
-                  this.apiDoc
+                  this.apiDoc,
+                  pathModule,
+                  pathDoc,
+                  operationDoc
                 )
-              );
-              operationContext.methodParameters = methodParameters;
-
-              if (methodParameters.length || operationDoc.requestBody) {
-                // defaults, coercion, and parameter validation middleware
-                if (
-                  allowsValidationFeature(
-                    this,
-                    this.apiDoc,
-                    pathModule,
-                    pathDoc,
-                    operationDoc
-                  )
-                ) {
-                  const requestValidator = new OpenAPIRequestValidator({
-                    errorTransformer: this.errorTransformer,
-                    parameters: methodParameters,
-                    schemas: this.apiDoc.definitions, // v2
-                    componentSchemas: this.apiDoc.components // v3
-                      ? this.apiDoc.components.schemas
-                      : undefined,
-                    externalSchemas: this.externalSchemas,
-                    customFormats: this.customFormats,
-                    requestBody: operationDoc.requestBody as OpenAPIV3.RequestBodyObject
-                  });
-                  operationContext.features.requestValidator = requestValidator;
-                }
-
-                if (
-                  allowsCoercionFeature(
-                    this,
-                    this.apiDoc,
-                    pathModule,
-                    pathDoc,
-                    operationDoc
-                  )
-                ) {
-                  const coercer = new OpenAPIRequestCoercer({
-                    extensionBase: `x-${this.name}-coercion`,
-                    loggingKey: `${this.name}-coercion`,
-                    parameters: methodParameters,
-                    enableObjectCoercion: this.enableObjectCoercion
-                  });
-
-                  operationContext.features.coercer = coercer;
-                }
-
-                // no point in default feature if we don't have any parameters with defaults.
-                if (
-                  methodParameters.filter(byDefault).length &&
-                  allowsDefaultsFeature(
-                    this,
-                    this.apiDoc,
-                    pathModule,
-                    pathDoc,
-                    operationDoc
-                  )
-                ) {
-                  const defaultSetter = new OpenAPIDefaultSetter({
-                    parameters: methodParameters
-                  });
-                  operationContext.features.defaultSetter = defaultSetter;
-                }
-              }
-
-              let securityFeature;
-              let securityDefinition;
-
-              if (this.securityHandlers && securitySchemes) {
-                if (operationDoc.security) {
-                  securityDefinition = operationDoc.security;
-                } else if (this.pathSecurity.length) {
-                  securityDefinition = getSecurityDefinitionByPath(
-                    openapiPath,
-                    this.pathSecurity
-                  );
-                }
-              }
-
-              if (securityDefinition) {
-                pathDoc[methodName].security = securityDefinition;
-                securityFeature = new OpenAPISecurityHandler({
-                  securityDefinitions: securitySchemes,
-                  securityHandlers: this.securityHandlers,
-                  operationSecurity: securityDefinition,
-                  loggingKey: `${this.name}-security`
+              ) {
+                const coercer = new OpenAPIRequestCoercer({
+                  extensionBase: `x-${this.name}-coercion`,
+                  loggingKey: `${this.name}-coercion`,
+                  parameters: methodParameters,
+                  enableObjectCoercion: this.enableObjectCoercion
                 });
-              } else if (apiSecurityMiddleware) {
-                securityFeature = apiSecurityMiddleware;
+
+                operationContext.features.coercer = coercer;
               }
 
-              if (securityFeature) {
-                operationContext.features.securityHandler = securityFeature;
+              // no point in default feature if we don't have any parameters with defaults.
+              if (
+                methodParameters.filter(byDefault).length &&
+                allowsDefaultsFeature(
+                  this,
+                  this.apiDoc,
+                  pathModule,
+                  pathDoc,
+                  operationDoc
+                )
+              ) {
+                const defaultSetter = new OpenAPIDefaultSetter({
+                  parameters: methodParameters
+                });
+                operationContext.features.defaultSetter = defaultSetter;
               }
             }
-          }
 
-          if (visitor.visitOperation) {
-            visitor.visitOperation(operationContext);
+            let securityFeature;
+            let securityDefinition;
+
+            if (this.securityHandlers && securitySchemes) {
+              if (operationDoc.security) {
+                securityDefinition = operationDoc.security;
+              } else if (this.pathSecurity.length) {
+                securityDefinition = getSecurityDefinitionByPath(
+                  openapiPath,
+                  this.pathSecurity
+                );
+              }
+            }
+
+            if (securityDefinition) {
+              pathDoc[methodName].security = securityDefinition;
+              securityFeature = new OpenAPISecurityHandler({
+                securityDefinitions: securitySchemes,
+                securityHandlers: this.securityHandlers,
+                operationSecurity: securityDefinition,
+                loggingKey: `${this.name}-security`
+              });
+            } else if (apiSecurityMiddleware) {
+              securityFeature = apiSecurityMiddleware;
+            }
+
+            if (securityFeature) {
+              operationContext.features.securityHandler = securityFeature;
+            }
           }
-        });
+        }
+
+        if (visitor.visitOperation) {
+          visitor.visitOperation(operationContext);
+        }
+      });
 
       if (visitor.visitPath) {
         visitor.visitPath({

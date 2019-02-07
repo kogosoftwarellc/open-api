@@ -50,10 +50,5 @@ describe(path.basename(__dirname), () => {
     expect(getFeatures.coercer).to.be.undefined;
     expect(getFeatures.defaultSetter).to.be.undefined;
     expect(getFeatures.securityHandler).to.be.undefined;
-    expect(postFeatures.responseValidator).to.be.undefined;
-    expect(postFeatures.requestValidator).to.be.undefined;
-    expect(postFeatures.coercer).to.be.undefined;
-    expect(postFeatures.defaultSetter).to.be.undefined;
-    expect(postFeatures.securityHandler).to.be.undefined;
   });
 });
