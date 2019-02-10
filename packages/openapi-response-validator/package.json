@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator#readme",
   "dependencies": {
-    "ajv": "^6.5.4",
+    "ajv": "^6.9.1",
     "openapi-types": "1.3.4"
   }
 }
