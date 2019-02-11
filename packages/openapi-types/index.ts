@@ -606,7 +606,7 @@ export interface IJsonSchema {
   minLength?: number;
   pattern?: string;
   additionalItems?: boolean | IJsonSchema;
-  items?: IJsonSchema | IJsonSchema[];
+  items?: IJsonSchema;
   maxItems?: number;
   minItems?: number;
   uniqueItems?: boolean;
