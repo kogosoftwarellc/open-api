@@ -197,6 +197,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
     let paths = [];
     let routes = [];
+    let routesCheckMap = {};
 
     if (this.paths) {
       paths = [].concat(this.paths);
@@ -221,6 +222,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   : true;
               })
               .map(fsRoutesItem => {
+                routesCheckMap[fsRoutesItem.route] = true;
                 return {
                   path: fsRoutesItem.route,
                   module: require(fsRoutesItem.path)
@@ -262,7 +264,9 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 })();
               } else {
                 this.logger.warn(
-                  `Operation ${operationId} not found in the operations parameter`
+                  `${
+                    this.loggingPrefix
+                  }Operation ${operationId} not found in the operations parameter`
                 );
               }
 
@@ -270,7 +274,24 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
             }, {})
         };
 
-        routes.push(route);
+        if (routesCheckMap[route.path]) {
+          this.logger.warn(
+            `${this.loggingPrefix}Overriding path ${
+              route.path
+            } with handlers from operations`
+          );
+          const routeIndex = routes.findIndex(r => r.path === route.path);
+          routes[routeIndex] = {
+            ...routes[routeIndex],
+            ...route,
+            module: {
+              ...((routes[routeIndex] || {}).module || {}),
+              ...(route.module || {})
+            }
+          };
+        } else {
+          routes.push(route);
+        }
       });
     }
 
@@ -324,7 +345,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
           this.logger.warn(
             `${
               this.loggingPrefix
-            }${openapiPath}.${methodAlias} has already been defined.  Ignoring the 2nd definition...`
+            }${openapiPath}.${methodAlias} has already been defined. Ignoring the 2nd definition...`
           );
           return;
         }
