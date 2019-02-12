@@ -197,7 +197,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
     let paths = [];
     let routes = [];
-    let routesCheckMap = {};
+    const routesCheckMap = {};
 
     if (this.paths) {
       paths = [].concat(this.paths);
@@ -258,7 +258,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 const operation = this.operations[operationId];
 
                 acc[METHOD_ALIASES[method]] = (() => {
-                  let innerFunction: any = operation;
+                  const innerFunction: any = operation;
                   innerFunction.apiDoc = methodDoc;
                   return innerFunction;
                 })();
