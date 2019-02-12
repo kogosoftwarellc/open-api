@@ -255,12 +255,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               if (operationId && operationId in this.operations) {
                 const operation = this.operations[operationId];
 
-                console.log(operation);
-
                 acc[METHOD_ALIASES[method]] = (() => {
-                  let _f: any = operation;
-                  _f.apiDoc = methodDoc;
-                  return _f;
+                  let innerFunction: any = operation;
+                  innerFunction.apiDoc = methodDoc;
+                  return innerFunction;
                 })();
               } else {
                 this.logger.warn(
@@ -268,7 +266,6 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 );
               }
 
-              console.log(acc);
               return acc;
             }, {})
         };
