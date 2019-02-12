@@ -244,31 +244,36 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     if (this.operations) {
       const apiDocPaths = this.apiDoc.paths;
       Object.keys(apiDocPaths).forEach(apiDocPathUrl => {
-        const route = routes.filter(v => v.path === apiDocPathUrl)[0];
         const pathDoc = apiDocPaths[apiDocPathUrl];
-        Object.keys(pathDoc)
-          .filter(byMethods)
-          .forEach(method => {
-            const methodDoc = pathDoc[METHOD_ALIASES[method]];
-            const operationId = methodDoc.operationId;
-            if (operationId && operationId in this.operations) {
-              const operation = this.operations[operationId];
-              if (route) {
-                if (!route.operations) {
-                  route.operations = {};
-                }
-                route.operations[operationId] = operation;
+        const route = {
+          path: apiDocPathUrl,
+          module: Object.keys(pathDoc)
+            .filter(byMethods)
+            .reduce((acc, method) => {
+              const methodDoc = pathDoc[METHOD_ALIASES[method]];
+              const operationId = methodDoc.operationId;
+              if (operationId && operationId in this.operations) {
+                const operation = this.operations[operationId];
+
+                console.log(operation);
+
+                acc[METHOD_ALIASES[method]] = (() => {
+                  let _f: any = operation;
+                  _f.apiDoc = methodDoc;
+                  return _f;
+                })();
               } else {
-                routes.push({
-                  path: apiDocPathUrl,
-                  module: {},
-                  operations: {
-                    [operationId]: operation
-                  }
-                });
+                this.logger.warn(
+                  `Operation ${operationId} not found in the operations parameter`
+                );
               }
-            }
-          });
+
+              console.log(acc);
+              return acc;
+            }, {})
+        };
+
+        routes.push(route);
       });
     }
 
