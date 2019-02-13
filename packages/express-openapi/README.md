@@ -742,6 +742,33 @@ initialize({
 app.listen(3000);
 ```
 
+Operations also get `args.dependencies` injected as
+`this.dependencies` on the function scope.
+
+```js
+// ./app.js
+import express from 'express';
+import { initialize } from 'express-openapi';
+
+const app = express();
+
+initialize({
+  app,
+  apiDoc: './apiDoc.yml',
+  dependencies: {
+    log: console.log
+  },
+  operations: {
+    getFoo: function(req, res) {
+      this.log('calling request handler');
+      res.send('foo');
+    }
+  }
+});
+
+app.listen(3000);
+```
+
 **Note:** Handlers in args.paths take precedence over handlers in args.operations for
 historical reasons.
 
