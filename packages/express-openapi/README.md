@@ -743,7 +743,8 @@ app.listen(3000);
 ```
 
 Operations also get `args.dependencies` injected as
-`this.dependencies` on the function scope.
+`this.dependencies` on the function scope. This requires the operation
+function to be a named, non-anonymous, function.
 
 ```js
 // ./app.js

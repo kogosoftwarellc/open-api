@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-expression */
-import {expect} from 'chai';
+import { expect } from 'chai';
 import OpenapiFramework from '../../../';
 const path = require('path');
 
