@@ -262,7 +262,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   innerFunction.apiDoc = methodDoc;
                   // Operations get dependencies injected in `this`
                   return innerFunction.bind({
-                    dependencies: this.dependencies
+                    dependencies: { ...this.dependencies }
                   });
                 })();
               } else {
