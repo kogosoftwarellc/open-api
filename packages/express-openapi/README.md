@@ -766,7 +766,7 @@ initialize({
   },
   operations: {
     getFoo: function(req, res) {
-      this.log('calling request handler');
+      this.dependencies.log('calling request handler');
       res.send('foo');
     }
   }
@@ -774,15 +774,6 @@ initialize({
 
 app.listen(3000);
 ```
-
-**Note:** `args.dependencies` is added to the operation's `this`
-context via `operation.bind({dependencies: args.dependencies})`.  This
-requires your operations to be regular [function
-expressions](https://developer.mozilla.org/en-US/docs/web/JavaScript/Refeerence/Operators/function)
-and not [arrow
-functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
-(due to the fact that `this` is lexical to the surrounding scope in an
-arrow function and cannot be bound to anything else). 
 
 #### args.pathSecurity
 
