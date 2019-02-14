@@ -770,8 +770,14 @@ initialize({
 app.listen(3000);
 ```
 
-**Note:** Handlers in args.paths take precedence over handlers in args.operations for
-historical reasons.
+**Note:** `args.dependencies` is added to the operation's `this`
+context via `operation.bind({dependencies: args.dependencies})`.  This
+requires your operations to be regular [function
+expressions](https://developer.mozilla.org/en-US/docs/web/JavaScript/Refeerence/Operators/function)
+and not [arrow
+functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+(due to the fact that `this` is lexical to the surrounding scope in an
+arrow function and cannot be bound to anything else). 
 
 #### args.pathSecurity
 
