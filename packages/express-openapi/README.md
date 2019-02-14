@@ -743,8 +743,13 @@ app.listen(3000);
 ```
 
 Operations also get `args.dependencies` injected as
-`this.dependencies` on the function scope. This requires the operation
-function to be a named, non-anonymous, function.
+`this.dependencies` on the function scope. This requires your
+operations to be regular [function
+expressions](https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function)
+and not [arrow
+functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+(due to the fact that `this` is lexical to the surrounding scope in an
+arrow function and cannot be bound to anything else). x
 
 ```js
 // ./app.js
