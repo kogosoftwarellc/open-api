@@ -912,8 +912,7 @@ function, or an array of business specific middleware + a method handler functio
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
 
-**Note:** Handlers in args.paths take precedence over handlers in args.operations for
-historical reasons.
+**Note:** Handlers in args.operations will override handlers in args.paths
 
 #### args.pathsIgnore
 
