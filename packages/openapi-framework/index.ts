@@ -260,7 +260,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 acc[METHOD_ALIASES[method]] = (() => {
                   const innerFunction: any = operation;
                   innerFunction.apiDoc = methodDoc;
-                  return innerFunction;
+                  // Operations get dependencies injected in `this`
+                  return innerFunction.bind({
+                    dependencies: { ...this.dependencies }
+                  });
                 })();
               } else {
                 this.logger.warn(

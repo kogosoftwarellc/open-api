@@ -742,8 +742,38 @@ initialize({
 app.listen(3000);
 ```
 
-**Note:** Handlers in args.paths take precedence over handlers in args.operations for
-historical reasons.
+Operations also get `args.dependencies` injected as
+`this.dependencies` on the function scope. This requires your
+operations to be regular [function
+expressions](https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function)
+and not [arrow
+functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+(due to the fact that `this` is lexical to the surrounding scope in an
+arrow function and cannot be bound to anything else). x
+
+```js
+// ./app.js
+import express from 'express';
+import { initialize } from 'express-openapi';
+
+const app = express();
+
+initialize({
+  app,
+  apiDoc: './apiDoc.yml',
+  dependencies: {
+    log: console.log
+  },
+  operations: {
+    getFoo: function(req, res) {
+      this.dependencies.log('calling request handler');
+      res.send('foo');
+    }
+  }
+});
+
+app.listen(3000);
+```
 
 #### args.pathSecurity
 
@@ -882,8 +912,7 @@ function, or an array of business specific middleware + a method handler functio
 defined in the method's `apiDoc` property.  If no `apidoc` property exists on the
 module method, then `express-openapi` will add no additional middleware.
 
-**Note:** Handlers in args.paths take precedence over handlers in args.operations for
-historical reasons.
+**Note:** Handlers in args.operations will override handlers in args.paths
 
 #### args.pathsIgnore
 
