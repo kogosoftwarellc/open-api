@@ -15,6 +15,32 @@ export {
   OpenAPIErrorTransformer
 };
 
+export class ConsoleDebugAdapterLogger implements Logger {
+  /**
+   * `console.debug` is just an alias for `.log()`, and we want debug logging to be optional.
+   * This class delegates to `console` and overrides `.debug()` to be a no-op.
+   */
+  public debug(message?: any, ...optionalParams: any[]): void {
+    // no-op
+  }
+
+  public error(message?: any, ...optionalParams: any[]): void {
+    console.error(message, ...optionalParams);
+  }
+
+  public info(message?: any, ...optionalParams: any[]): void {
+    console.info(message, ...optionalParams);
+  }
+
+  public trace(message?: any, ...optionalParams: any[]): void {
+    console.trace(message, ...optionalParams);
+  }
+
+  public warn(message?: any, ...optionalParams: any[]): void {
+    console.warn(message, ...optionalParams);
+  }
+}
+
 // TODO move this to openapi-request-validator
 type OpenAPIErrorTransformer = ({}, {}) => object;
 
