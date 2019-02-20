@@ -1,5 +1,6 @@
 const glob = require('glob');
 const path = require('path');
+import { dummyLogger, Logger } from 'ts-log';
 const memo = {};
 
 function compare(a: string, b: string) {
@@ -42,9 +43,11 @@ export interface FsRoute {
 
 export default function fsRoutes(
   dir: string,
-  options: FsRoutesOptions = {}
+  options: FsRoutesOptions = {},
+  logger: Logger = dummyLogger
 ): FsRoute[] {
   dir = path.resolve(process.cwd(), dir);
+  logger.debug('fs-routes::reading from', dir);
   options.glob = options.glob || '**/*.js';
   options.indexFileRegExp = options.indexFileRegExp || /(?:index)?\.js$/;
   const cacheKey = dir + options.glob;
@@ -57,6 +60,7 @@ export default function fsRoutes(
         path: path.resolve(dir, file),
         route: '/' + file.replace(options.indexFileRegExp, '')
       }));
+    logger.debug(`fs-routes::${cacheKey}:`, memo[cacheKey]);
   }
 
   return memo[cacheKey];
