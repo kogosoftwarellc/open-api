@@ -127,12 +127,12 @@ const COERCION_STRATEGIES = {
 
   integer: input => {
     const result = Math.floor(Number(input));
-    return Number.isNaN(result) ? input: result;
+    return isNaN(result) ? input: result;
   },
 
   number: input => {
     const result = Number(input);
-    return Number.isNaN(result) ? input: result;
+    return isNaN(result) ? input: result;
   },
 
   string: input => String(input)
