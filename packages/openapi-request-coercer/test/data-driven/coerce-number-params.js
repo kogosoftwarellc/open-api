@@ -32,7 +32,7 @@ module.exports = {
       number1: '1',
       number2: 'abc',
       integer1: '2',
-      integer2: 'def',
+      integer2: 'def'
     },
     headers: null
   },
@@ -43,6 +43,6 @@ module.exports = {
     number1: 1,
     number2: 'abc',
     integer1: 2,
-    integer2: 'def',
+    integer2: 'def'
   }
 };
