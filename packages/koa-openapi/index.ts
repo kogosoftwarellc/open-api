@@ -86,7 +86,8 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
             ctx.state.apiDoc = apiCtx.getApiDoc();
             if (ctx.state.apiDoc.swagger) {
               ctx.state.apiDoc.host = ctx.headers.host;
-              ctx.state.apiDoc.basePath = basePath;
+              ctx.state.apiDoc.basePath =
+                basePath.length === 0 ? '/' : basePath;
             }
             securityFilter(ctx, next);
           });
