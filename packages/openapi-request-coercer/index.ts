@@ -125,8 +125,16 @@ const COERCION_STRATEGIES = {
     }
   },
 
-  integer: input => Math.floor(Number(input)),
-  number: input => Number(input),
+  integer: input => {
+    const result = Math.floor(Number(input));
+    return isNaN(result) ? input : result;
+  },
+
+  number: input => {
+    const result = Number(input);
+    return isNaN(result) ? input : result;
+  },
+
   string: input => String(input)
 };
 
