@@ -14,9 +14,7 @@ after(() => {
 });
 
 it('should be mounted at the top level', function(done) {
-  request
-    .get('/api-docs')
-    .expect(200, done);
+  request.get('/api-docs').expect(200, done);
 });
 
 it('should set the default basePath', function(done) {
