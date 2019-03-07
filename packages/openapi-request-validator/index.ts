@@ -53,22 +53,34 @@ export default class OpenAPIRequestValidator
       throw new Error(`${loggingKey}missing args argument`);
     }
 
-    if (!Array.isArray(args.parameters)) {
-      throw new Error(`${loggingKey}args.parameters must be an Array`);
-    }
-
-    const schemas = convertParametersToJSONSchema(args.parameters);
     const errorTransformer =
       typeof args.errorTransformer === 'function' && args.errorTransformer;
     const errorMapper = errorTransformer
       ? extendedErrorMapper(errorTransformer)
       : toOpenapiValidationError;
-    const bodySchema = schemas.body;
     let bodyValidationSchema;
-    const headersSchema = lowercasedHeaders(schemas.headers);
-    const formDataSchema = schemas.formData;
-    const pathSchema = schemas.path;
-    const querySchema = schemas.query;
+    let bodySchema;
+    let headersSchema;
+    let formDataSchema;
+    let pathSchema;
+    let querySchema;
+    let isBodyRequired;
+
+    if (args.parameters !== undefined) {
+      if (Array.isArray(args.parameters)) {
+        const schemas = convertParametersToJSONSchema(args.parameters);
+        bodySchema = schemas.body;
+        headersSchema = lowercasedHeaders(schemas.headers);
+        formDataSchema = schemas.formData;
+        pathSchema = schemas.path;
+        querySchema = schemas.query;
+        isBodyRequired =
+          // @ts-ignore
+          args.parameters.filter(byRequiredBodyParameters).length > 0;
+      } else {
+        throw new Error(`${loggingKey}args.parameters must be an Array`);
+      }
+    }
 
     const v = new Ajv({
       allErrors: true,
@@ -78,13 +90,8 @@ export default class OpenAPIRequestValidator
       logger: false
     });
 
-    let isBodyRequired;
     if (args.requestBody) {
       isBodyRequired = args.requestBody.required || false;
-    } else {
-      isBodyRequired =
-        // @ts-ignore
-        args.parameters.filter(byRequiredBodyParameters).length > 0;
     }
 
     if (args.customFormats) {
