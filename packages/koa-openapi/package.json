@@ -12,7 +12,7 @@
     "prepare": "tsc",
     "test-watch": "tsc && mocha --watch-extensions ts -w",
     "test": "mocha",
-    "travis-test": "echo 'todo write tests'"
+    "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi",
   "keywords": [
