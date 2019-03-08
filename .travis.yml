@@ -3,7 +3,6 @@ sudo: false
 node_js:
   - 10
   - 8
-  - 6
 notifications:
   email:
     on_success: "never"

@@ -95,8 +95,10 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
             if (req.apiDoc.swagger) {
               // @ts-ignore
               req.apiDoc.host = req.headers.host;
+              const apiBasePath = req.baseUrl + basePath;
               // @ts-ignore
-              req.apiDoc.basePath = req.baseUrl + basePath;
+              req.apiDoc.basePath =
+                apiBasePath.length === 0 ? '/' : apiBasePath;
             }
             securityFilter(req, res, next);
           });
