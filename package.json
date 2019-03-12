@@ -39,7 +39,7 @@
     "mocha": "6.0.0",
     "nyc": "13.3.0",
     "prettier": "^1.15.3",
-    "source-map-support": "0.5.9",
+    "source-map-support": "0.5.11",
     "supertest": "4.0.0",
     "ts-node": "8.0.3",
     "tslint": "^5.12.0",
