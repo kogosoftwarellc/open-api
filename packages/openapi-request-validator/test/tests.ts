@@ -9,6 +9,11 @@ describe(require('../package.json').name, () => {
     new Sut(initialArguments);
     expect(initialArguments).to.eql(createArguments());
   });
+  it('should accept a logger', () => {
+    /* tslint:disable:no-unused-expression */
+    // @ts-ignore
+    new Sut({ logger: console, schemas: [{}] });
+  });
 
   function createArguments() {
     return {

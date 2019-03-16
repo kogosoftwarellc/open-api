@@ -1,6 +1,7 @@
 import * as Ajv from 'ajv';
 import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
 import { IJsonSchema, OpenAPI, OpenAPIV3 } from 'openapi-types';
+import { dummyLogger, Logger } from 'ts-log';
 const contentTypeParser = require('content-type');
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
@@ -16,6 +17,7 @@ export interface OpenAPIRequestValidatorArgs {
     [index: string]: IJsonSchema;
   };
   loggingKey?: string;
+  logger?: Logger;
   parameters: OpenAPI.Parameters;
   requestBody?: OpenAPIV3.RequestBodyObject;
   schemas?: IJsonSchema[];
@@ -39,6 +41,8 @@ export default class OpenAPIRequestValidator
   private bodySchema: IJsonSchema;
   private errorMapper: (ajvError: Ajv.ErrorObject) => any;
   private isBodyRequired: boolean;
+  private logger: Logger = dummyLogger;
+  private loggingKey: string = '';
   private requestBody: OpenAPIV3.RequestBodyObject;
   private requestBodyValidators: RequestBodyValidators = {};
   private validateBody: Ajv.ValidateFunction;
@@ -49,8 +53,13 @@ export default class OpenAPIRequestValidator
 
   constructor(args: OpenAPIRequestValidatorArgs) {
     const loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
+    this.loggingKey = loggingKey;
     if (!args) {
       throw new Error(`${loggingKey}missing args argument`);
+    }
+
+    if (args.logger) {
+      this.logger = args.logger;
     }
 
     const errorTransformer =
@@ -144,7 +153,7 @@ export default class OpenAPIRequestValidator
 
             v.addSchema(schema, id);
           } else {
-            console.warn(loggingKey, 'igorning schema without id property');
+            this.logger.warn(loggingKey, 'igorning schema without id property');
           }
         });
       } else if (bodySchema) {
@@ -223,8 +232,12 @@ export default class OpenAPIRequestValidator
 
     if (this.requestBody) {
       const contentType = request.headers['content-type'];
-      const mediaTypeMatch =
-        contentType && getSchemaForMediaType(contentType, this.requestBody);
+      const mediaTypeMatch = getSchemaForMediaType(
+        contentType,
+        this.requestBody,
+        this.logger,
+        this.loggingKey
+      );
       if (!mediaTypeMatch) {
         if (contentType) {
           mediaTypeError = {
@@ -334,12 +347,23 @@ function extendedErrorMapper(mapper) {
 
 function getSchemaForMediaType(
   contentTypeHeader: string,
-  requestBodySpec: OpenAPIV3.RequestBodyObject
+  requestBodySpec: OpenAPIV3.RequestBodyObject,
+  logger: Logger,
+  loggingKey: string
 ): string {
+  if (!contentTypeHeader) {
+    return;
+  }
   let contentType: string;
   try {
     contentType = contentTypeParser.parse(contentTypeHeader).type;
   } catch (e) {
+    logger.warn(
+      loggingKey,
+      'failed to parse content-type',
+      contentTypeHeader,
+      e
+    );
     if (e instanceof TypeError && e.message === 'invalid media type') {
       return;
     }
