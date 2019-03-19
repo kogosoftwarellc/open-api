@@ -121,25 +121,25 @@ describe(require('../package.json').name + ' sample-projects', () => {
         name: 'with-validation-middleware-disabled-in-methodDoc',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: null, name: 'fred' }
+        expectedBody: { age: 80, id: 'asdf', name: 'fred' }
       },
       {
         name: 'with-validation-middleware-disabled-in-pathItem',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: null, name: 'fred' }
+        expectedBody: { age: 80, id: 'asdf', name: 'fred' }
       },
       {
         name: 'with-validation-middleware-disabled-in-pathModule',
-        url: '/v3/users/asdf?name=fred',
+        url: '/v3/users/5?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: null, name: 'fred' }
+        expectedBody: { age: 80, id: 5, name: 'fred' }
       },
       {
         name: 'with-validation-middleware-disabled-in-the-apiDoc',
-        url: '/v3/users/asdf?name=fred',
+        url: '/v3/users/15?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: null, name: 'fred' }
+        expectedBody: { age: 80, id: 15, name: 'fred' }
       },
 
       // disable all
