@@ -163,9 +163,27 @@ export default class OpenAPIRequestValidator
     if (args.requestBody) {
       /* tslint:disable-next-line:forin */
       for (const mediaTypeKey in args.requestBody.content) {
+        let bodyContentSchema = args.requestBody.content[mediaTypeKey].schema;
+        if ('$ref' in bodyContentSchema) {
+          const objectSchema = v.getSchema(bodyContentSchema.$ref);
+          if (
+            objectSchema &&
+            objectSchema.schema &&
+            objectSchema.schema.properties
+          ) {
+            Object.keys(objectSchema.schema.properties).forEach(prop => {
+              const propertyValue = objectSchema.schema.properties[prop];
+              if (propertyValue.readOnly) {
+                const index = objectSchema.schema.required.indexOf(prop);
+                objectSchema.schema.required.splice(index, 1);
+              }
+            });
+            bodyContentSchema = objectSchema.schema;
+          }
+        }
         this.requestBodyValidators[mediaTypeKey] = v.compile({
           properties: {
-            body: args.requestBody.content[mediaTypeKey].schema
+            body: bodyContentSchema
           },
           definitions: args.schemas || {},
           components: { schemas: args.schemas }
