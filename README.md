@@ -3,10 +3,10 @@
 
 ## Quick Start Express
 
-* See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
+* See [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)&nbsp;&nbsp;&nbsp;[![express-openapi Downloads][express-openapi-downloads-image]][express-openapi-npm-url]
 
 ## Quick Start Koa
-* See [koa-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi)
+* See [koa-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi)&nbsp;&nbsp;&nbsp;[![koa-openapi Downloads][koa-openapi-downloads-image]][koa-openapi-npm-url]
 
 ## Packages
 * [express-openapi](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi)
@@ -78,6 +78,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
+
+[express-openapi-downloads-image]: http://img.shields.io/npm/dm/express-openapi.svg
+[express-openapi-npm-url]: https://npmjs.org/package/express-openapi
+[koa-openapi-downloads-image]: http://img.shields.io/npm/dm/koa-openapi.svg
+[koa-openapi-npm-url]: https://npmjs.org/package/koa-openapi
 
 [travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
 [travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
