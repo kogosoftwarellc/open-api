@@ -163,27 +163,12 @@ export default class OpenAPIRequestValidator
     if (args.requestBody) {
       /* tslint:disable-next-line:forin */
       for (const mediaTypeKey in args.requestBody.content) {
-        let bodyContentSchema = args.requestBody.content[mediaTypeKey].schema;
-        if ('$ref' in bodyContentSchema) {
-          const objectSchema = v.getSchema(bodyContentSchema.$ref);
-          if (
-            objectSchema &&
-            objectSchema.schema &&
-            objectSchema.schema.properties
-          ) {
-            Object.keys(objectSchema.schema.properties).forEach(prop => {
-              const propertyValue = objectSchema.schema.properties[prop];
-              if (propertyValue.readOnly) {
-                const index = objectSchema.schema.required.indexOf(prop);
-                objectSchema.schema.required.splice(index, 1);
-              }
-            });
-            bodyContentSchema = objectSchema.schema;
-          }
-        }
+        const bodyContentSchema = args.requestBody.content[mediaTypeKey].schema;
+        const copied = JSON.parse(JSON.stringify(bodyContentSchema));
+        const resolvedSchema = resolveAndSanitizeRequestBodySchema(copied, v);
         this.requestBodyValidators[mediaTypeKey] = v.compile({
           properties: {
-            body: bodyContentSchema
+            body: resolvedSchema
           },
           definitions: args.schemas || {},
           components: { schemas: args.schemas }
@@ -457,4 +442,97 @@ function withAddedLocation(location, errors) {
   });
 
   return errors;
+}
+
+function resolveAndSanitizeRequestBodySchema(
+  requestBodySchema:
+    | OpenAPIV3.ReferenceObject
+    | OpenAPIV3.NonArraySchemaObject
+    | OpenAPIV3.ArraySchemaObject,
+  v: Ajv.Ajv
+) {
+  let resolved;
+  let copied;
+  if ('$ref' in requestBodySchema) {
+    resolved = v.getSchema(requestBodySchema.$ref);
+    if (resolved && resolved.schema) {
+      copied = JSON.parse(JSON.stringify(resolved.schema));
+      copied = sanitizeReadonlyPropertiesFromRequired(copied);
+      copied = resolveAndSanitizeRequestBodySchema(copied, v);
+      requestBodySchema = copied;
+    }
+  } else if ('items' in requestBodySchema) {
+    if ('$ref' in requestBodySchema.items) {
+      resolved = v.getSchema(requestBodySchema.items.$ref);
+      if (resolved && resolved.schema) {
+        copied = JSON.parse(JSON.stringify(resolved.schema));
+        copied = sanitizeReadonlyPropertiesFromRequired(copied);
+        copied = resolveAndSanitizeRequestBodySchema(copied, v);
+        requestBodySchema.items = copied;
+      }
+    }
+  } else if ('allOf' in requestBodySchema) {
+    requestBodySchema.allOf = requestBodySchema.allOf.map(
+      (
+        val
+      ):
+        | OpenAPIV3.ReferenceObject
+        | OpenAPIV3.NonArraySchemaObject
+        | OpenAPIV3.ArraySchemaObject => {
+        val = sanitizeReadonlyPropertiesFromRequired(val);
+        return resolveAndSanitizeRequestBodySchema(val, v);
+      }
+    );
+  } else if ('oneOf' in requestBodySchema) {
+    requestBodySchema.oneOf = requestBodySchema.oneOf.map(
+      (
+        val
+      ):
+        | OpenAPIV3.ReferenceObject
+        | OpenAPIV3.NonArraySchemaObject
+        | OpenAPIV3.ArraySchemaObject => {
+        val = sanitizeReadonlyPropertiesFromRequired(val);
+        return resolveAndSanitizeRequestBodySchema(val, v);
+      }
+    );
+  } else if ('anyOf' in requestBodySchema) {
+    requestBodySchema.anyOf = requestBodySchema.anyOf.map(
+      (
+        val
+      ):
+        | OpenAPIV3.ReferenceObject
+        | OpenAPIV3.NonArraySchemaObject
+        | OpenAPIV3.ArraySchemaObject => {
+        val = sanitizeReadonlyPropertiesFromRequired(val);
+        return resolveAndSanitizeRequestBodySchema(val, v);
+      }
+    );
+  }
+  return requestBodySchema;
+}
+
+function sanitizeReadonlyPropertiesFromRequired(
+  schema:
+    | OpenAPIV3.ReferenceObject
+    | OpenAPIV3.NonArraySchemaObject
+    | OpenAPIV3.ArraySchemaObject
+) {
+  if ('properties' in schema && 'required' in schema) {
+    const readOnlyProps = Object.keys(schema.properties).map(key => {
+      const prop = schema.properties[key];
+      if (prop && 'readOnly' in prop) {
+        if (prop.readOnly === true) {
+          return key;
+        }
+      }
+      return;
+    });
+    readOnlyProps
+      .filter(i => i !== undefined)
+      .forEach(value => {
+        const index = schema.required.indexOf(value);
+        schema.required.splice(index, 1);
+      });
+  }
+  return schema;
 }
