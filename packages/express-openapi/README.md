@@ -414,9 +414,11 @@ function validateAllResponses(req, res, next) {
 initialize({
     app: app,
     paths: path.resolve(__dirname, 'api-paths'),
-    'x-express-openapi-additional-middleware': [validateAllResponses],
-    'x-express-openapi-validation-strict': true,
-    apiDoc: apiDoc
+    apiDoc: {
+        ...apiDoc,
+        'x-express-openapi-additional-middleware': [validateAllResponses],
+        'x-express-openapi-validation-strict': true
+    }
 });
 ```
 
