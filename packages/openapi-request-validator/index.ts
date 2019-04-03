@@ -83,6 +83,7 @@ export default class OpenAPIRequestValidator
     }
 
     const v = new Ajv({
+      useDefaults: true,
       allErrors: true,
       unknownFormats: 'ignore',
       missingRefs: 'fail',
