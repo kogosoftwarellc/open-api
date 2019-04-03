@@ -72,6 +72,7 @@ export default class OpenAPIResponseValidator
       typeof args.errorTransformer === 'function' && args.errorTransformer;
 
     const v = new Ajv({
+      useDefaults: true,
       allErrors: true,
       unknownFormats: 'ignore',
       missingRefs: 'fail',
