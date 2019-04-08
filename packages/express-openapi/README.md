@@ -87,7 +87,7 @@ https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi
 * [Using with TypeScript](#using-with-typescript)
   * [Prerequisites](#prerequisites)
   * [TypeScript Example](#typescript-example)
-* [Supported Versions of Node](#supported-version-of-node)
+* [Supported Versions of Node](#supported-versions-of-node)
 * [License](#license)
 
 ## What is OpenAPI?
