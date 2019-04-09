@@ -212,27 +212,26 @@ export default class OpenAPIRequestValidator
       }
     }
 
-    if (this.requestBody) {
+    if (this.isBodyRequired) {
+      errors.push({
+        keyword: 'required',
+        dataPath: '.body',
+        params: {},
+        message: 'media type is not specified',
+        location: 'body'
+      });
+    }
+    else if (this.requestBody) {
       const contentType = request.headers['content-type'];
       const mediaTypeMatch =
         contentType && getSchemaForMediaType(contentType, this.requestBody);
       if (!mediaTypeMatch) {
-        if (contentType) {
-          mediaTypeError = {
-            message: `Unsupported Content-Type ${contentType}`
-          };
-        } else if (this.isBodyRequired) {
-          errors.push({
-            keyword: 'required',
-            dataPath: '.body',
-            params: {},
-            message: 'media type is not specified',
-            location: 'body'
-          });
-        }
+        mediaTypeError = {
+          message: `Unsupported Content-Type ${contentType}`
+        };
       } else {
         const bodySchema = this.requestBody.content[mediaTypeMatch].schema;
-        if (request.body) {
+        if (request.body &&  !(Object.entries(request.body).length === 0 && request.body.constructor === Object)) {
           const validateBody = this.requestBodyValidators[mediaTypeMatch];
           if (!validateBody({ body: request.body })) {
             errors.push.apply(
@@ -241,12 +240,14 @@ export default class OpenAPIRequestValidator
             );
           }
         } else if (this.isBodyRequired) {
-          schemaError = {
-            location: 'body',
-            message:
-              'request.body was not present in the request.  Is a body-parser being used?',
-            schema: bodySchema
-          };
+          if (!request.readable) {
+            schemaError = {
+              location: 'body',
+              message:
+                'request.body was not present in the request.  Is a body-parser being used?',
+              schema: bodySchema
+            };
+          }
         }
       }
     }
