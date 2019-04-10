@@ -233,7 +233,7 @@ export default class OpenAPIRequestValidator
         if (
           request.body &&
           !(
-            Object.entries(request.body).length === 0 &&
+            Object.keys(request.body).length === 0 &&
             request.body.constructor === Object
           )
         ) {
