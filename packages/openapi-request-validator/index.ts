@@ -220,8 +220,7 @@ export default class OpenAPIRequestValidator
         message: 'media type is not specified',
         location: 'body'
       });
-    }
-    else if (this.requestBody) {
+    } else if (this.requestBody) {
       const contentType = request.headers['content-type'];
       const mediaTypeMatch =
         contentType && getSchemaForMediaType(contentType, this.requestBody);
@@ -231,7 +230,13 @@ export default class OpenAPIRequestValidator
         };
       } else {
         const bodySchema = this.requestBody.content[mediaTypeMatch].schema;
-        if (request.body &&  !(Object.entries(request.body).length === 0 && request.body.constructor === Object)) {
+        if (
+          request.body &&
+          !(
+            Object.entries(request.body).length === 0 &&
+            request.body.constructor === Object
+          )
+        ) {
           const validateBody = this.requestBodyValidators[mediaTypeMatch];
           if (!validateBody({ body: request.body })) {
             errors.push.apply(
