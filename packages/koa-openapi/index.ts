@@ -107,8 +107,6 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
       let middleware = [].concat(operationCtx.additionalFeatures);
 
       if (operationDoc && operationCtx.allowsFeatures) {
-        middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
-
         if (operationCtx.features.responseValidator) {
           // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
@@ -161,6 +159,8 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
             operationCtx.consumes
           );
         }
+
+        middleware.unshift(createAssignApiDocMiddleware(apiDoc, operationDoc));
       }
 
       middleware = middleware.concat(operationHandler);
