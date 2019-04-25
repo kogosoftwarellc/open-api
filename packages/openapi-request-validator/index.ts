@@ -167,13 +167,15 @@ export default class OpenAPIRequestValidator
         const bodyContentSchema = args.requestBody.content[mediaTypeKey].schema;
         const copied = JSON.parse(JSON.stringify(bodyContentSchema));
         const resolvedSchema = resolveAndSanitizeRequestBodySchema(copied, v);
-        this.requestBodyValidators[mediaTypeKey] = v.compile({
-          properties: {
-            body: resolvedSchema
-          },
-          definitions: args.schemas || {},
-          components: { schemas: args.schemas }
-        });
+        this.requestBodyValidators[mediaTypeKey] = v.compile(
+          transformOpenAPIV3Definitions({
+            properties: {
+              body: resolvedSchema
+            },
+            definitions: args.schemas || {},
+            components: { schemas: args.schemas }
+          })
+        );
       }
     }
 
@@ -181,11 +183,18 @@ export default class OpenAPIRequestValidator
     this.errorMapper = errorMapper;
     this.isBodyRequired = isBodyRequired;
     this.requestBody = args.requestBody;
-    this.validateBody = bodyValidationSchema && v.compile(bodyValidationSchema);
-    this.validateFormData = formDataSchema && v.compile(formDataSchema);
-    this.validateHeaders = headersSchema && v.compile(headersSchema);
-    this.validatePath = pathSchema && v.compile(pathSchema);
-    this.validateQuery = querySchema && v.compile(querySchema);
+    this.validateBody =
+      bodyValidationSchema &&
+      v.compile(transformOpenAPIV3Definitions(bodyValidationSchema));
+    this.validateFormData =
+      formDataSchema &&
+      v.compile(transformOpenAPIV3Definitions(formDataSchema));
+    this.validateHeaders =
+      headersSchema && v.compile(transformOpenAPIV3Definitions(headersSchema));
+    this.validatePath =
+      pathSchema && v.compile(transformOpenAPIV3Definitions(pathSchema));
+    this.validateQuery =
+      querySchema && v.compile(transformOpenAPIV3Definitions(querySchema));
   }
 
   public validate(request) {
@@ -536,4 +545,44 @@ function sanitizeReadonlyPropertiesFromRequired(
       });
   }
   return schema;
+}
+
+function recursiveTransformOpenAPIV3Definitions(object) {
+  // Transformations //
+  // OpenAPIV3 nullable
+  if (object.type && object.nullable === true) {
+    if (object.enum) {
+      // Enums can not be null with type null
+      object.oneOf = [
+        { type: 'null' },
+        {
+          type: object.type,
+          enum: object.enum
+        }
+      ];
+      delete object.type;
+      delete object.enum;
+    } else {
+      object.type = [object.type, 'null'];
+    }
+
+    delete object.nullable;
+  }
+  Object.keys(object).forEach(attr => {
+    if (typeof object[attr] === 'object' && object[attr] !== null) {
+      recursiveTransformOpenAPIV3Definitions(object[attr]);
+    } else if (Array.isArray(object[attr])) {
+      object[attr].forEach(obj => recursiveTransformOpenAPIV3Definitions(obj));
+    }
+  });
+}
+
+function transformOpenAPIV3Definitions(schema) {
+  if (typeof schema !== 'object') {
+    return schema;
+  }
+  const res = JSON.parse(JSON.stringify(schema));
+  recursiveTransformOpenAPIV3Definitions(res);
+  console.log('ola', JSON.stringify(res));
+  return res;
 }
