@@ -24,7 +24,7 @@ export namespace OpenAPIV3 {
     openapi: string;
     info: InfoObject;
     servers?: ServerObject[];
-    paths: { [path: string]: PathItemObject };
+    paths: PathsObject;
     components?: ComponentsObject;
     security?: SecurityRequirementObject[];
     tags?: TagObject[];
@@ -63,7 +63,7 @@ export namespace OpenAPIV3 {
     description?: string;
   }
 
-  export interface PathObject {
+  export interface PathsObject {
     [pattern: string]: PathItemObject;
   }
 
