@@ -33,7 +33,7 @@
     "cors": "^2.7.1",
     "coveralls": "3.0.3",
     "express": "^4.13.3",
-    "glob": "7.1.3",
+    "glob": "7.1.4",
     "istanbul": "0.4.5",
     "istanbul-combine": "0.3.0",
     "mocha": "6.1.4",
