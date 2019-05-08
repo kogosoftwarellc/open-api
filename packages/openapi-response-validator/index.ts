@@ -218,7 +218,7 @@ function recursiveTransformOpenAPIV3Definitions(object) {
   }
 
   Object.keys(object).forEach(attr => {
-    if (typeof object[attr] === 'object') {
+    if (object[attr] !== null && typeof object[attr] === 'object') {
       recursiveTransformOpenAPIV3Definitions(object[attr]);
     }
   });
