@@ -90,30 +90,30 @@ describe(require('../package.json').name + ' sample-projects', () => {
         expectedBody: coercionMissingBody
       },
 
-      // disable defaults
+      // disable defaults, must now also disable request validation middleware
       {
         name: 'with-defaults-middleware-disabled-in-methodDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred' }
+        expectedBody: { id: 34, name: 'fred', age: 80 }
       },
       {
         name: 'with-defaults-middleware-disabled-in-pathItem',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred' }
+        expectedBody: { id: 34, name: 'fred', age: 80 }
       },
       {
         name: 'with-defaults-middleware-disabled-in-pathModule',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred' }
+        expectedBody: { id: 34, name: 'fred', age: 80 }
       },
       {
         name: 'with-defaults-middleware-disabled-in-the-apiDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred' }
+        expectedBody: { id: 34, name: 'fred', age: 80 }
       },
 
       // disable validation
