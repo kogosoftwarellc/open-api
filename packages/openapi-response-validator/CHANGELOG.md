@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.8.0 - 2019-05-13
+### Fixed
+- Correct nullable transform for null examples (fixes #413)
+- Set "useDefaults: true" on Ajv (#409)
+- openapi-types
+  - Amended missing usage of PathsObject in OpenAPIV3.Document interface (#440)
+
 ## 3.7.0 - 2019-01-31
 ### Fixed
 - Deep clone schemas before transforming nullable values. (#324)
