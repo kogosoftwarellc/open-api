@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.8.0 - 2019-05-13
+### Added
+- Logger argument (#61)
+
+### Fixed
+- Allowing null enums and nullable option (#433)
+accept requestBody with missing readOnly required prop (fixes #389) (#390)
+- accept reqBody RO nested ref (fixes #394)
+- Setting "useDefaults" to true on Ajv (#409)
+- openapi-types
+  - Amended missing usage of PathsObject in OpenAPIV3.Document interface (#440)
+
 ## 3.7.0 - 2019-03-19
 ### Fixed
 - Allow request validation without parameters (#382)
