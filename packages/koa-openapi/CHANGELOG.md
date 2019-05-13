@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 3.13.0 - 2019-05-13
+### Added
+- openapi-request-validator
+  - Logger argument (#61)
+
+### Fixed
+- reordering createAssignApiDocMiddleware after securityHandler (#429)
+- openapi-request-validator
+  - Allowing null enums and nullable option (#433)
+  accept requestBody with missing readOnly required prop (fixes #389) (#390)
+  - accept reqBody RO nested ref (fixes #394)
+  - Setting "useDefaults" to true on Ajv (#409)
+- openapi-response-validator
+  - Correct nullable transform for null examples (fixes #413)
+  - Set "useDefaults: true" on Ajv (#409)
+- openapi-types
+  - Amended missing usage of PathsObject in OpenAPIV3.Document interface (#440)
+
 ## 3.12.0 - 2019-03-19
 ### Added
 - openapi-framework: args.logger (#61) (#330)
