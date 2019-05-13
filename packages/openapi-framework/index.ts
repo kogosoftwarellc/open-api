@@ -1,5 +1,4 @@
 import fsRoutes from 'fs-routes';
-import { Logger } from 'ts-log';
 import OpenAPIDefaultSetter from 'openapi-default-setter';
 import OpenAPIRequestCoercer from 'openapi-request-coercer';
 import OpenAPIRequestValidator from 'openapi-request-validator';
@@ -7,6 +6,7 @@ import OpenAPIResponseValidator from 'openapi-response-validator';
 import OpenAPISchemaValidator from 'openapi-schema-validator';
 import OpenAPISecurityHandler from 'openapi-security-handler';
 import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import { Logger } from 'ts-log';
 import BasePath from './src/BasePath';
 import {
   ConsoleDebugAdapterLogger,
