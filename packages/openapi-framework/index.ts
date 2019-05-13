@@ -1,4 +1,5 @@
 import fsRoutes from 'fs-routes';
+import { Logger } from 'ts-log';
 import OpenAPIDefaultSetter from 'openapi-default-setter';
 import OpenAPIRequestCoercer from 'openapi-request-coercer';
 import OpenAPIRequestValidator from 'openapi-request-validator';
@@ -78,7 +79,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   private securityHandlers;
   private validateApiDoc;
   private validator;
-  private logger;
+  private logger: Logger;
 
   constructor(protected args = {} as OpenAPIFrameworkConstructorArgs) {
     this.name = args.name;
@@ -470,6 +471,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               ) {
                 const requestValidator = new OpenAPIRequestValidator({
                   errorTransformer: this.errorTransformer,
+                  logger: this.logger,
                   parameters: methodParameters,
                   schemas: this.apiDoc.definitions, // v2
                   componentSchemas: this.apiDoc.components // v3
