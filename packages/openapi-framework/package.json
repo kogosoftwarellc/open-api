@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "0.24.0",
+  "version": "0.24.1",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,7 +34,7 @@
     "js-yaml": "^3.10.0",
     "openapi-default-setter": "2.0.4",
     "openapi-request-coercer": "2.3.0",
-    "openapi-request-validator": "3.8.0",
+    "openapi-request-validator": "3.8.1",
     "openapi-response-validator": "3.8.1",
     "openapi-schema-validator": "3.0.3",
     "openapi-security-handler": "2.0.4",
