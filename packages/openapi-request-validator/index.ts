@@ -607,6 +607,5 @@ function transformOpenAPIV3Definitions(schema) {
   }
   const res = JSON.parse(JSON.stringify(schema));
   recursiveTransformOpenAPIV3Definitions(res);
-  console.log('ola', JSON.stringify(res));
   return res;
 }
