@@ -44,6 +44,7 @@ export function convertParametersToJSONSchema(
 const VALIDATION_KEYWORDS = [
   'additionalItems',
   'default',
+  'example',
   'description',
   'enum',
   'exclusiveMaximum',
