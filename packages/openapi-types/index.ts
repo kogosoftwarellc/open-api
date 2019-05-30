@@ -29,7 +29,7 @@ export namespace OpenAPIV3 {
     security?: SecurityRequirementObject[];
     tags?: TagObject[];
     externalDocs?: ExternalDocumentationObject;
-    'x-express-openapi-additional-middleware'?: Array<(request: express.Request, response: express.Response, next: express.NextFunction) => void | (request: express.Request, response: express.Response, next: express.NextFunction) => Promise<void> >;
+    'x-express-openapi-additional-middleware'?: Array< ((request: any, response: any, next: any) => Promise<void>) | ((request: any, response: any, next: any) => void)>;
     'x-express-openapi-validation-strict'?: boolean;
   }
 
