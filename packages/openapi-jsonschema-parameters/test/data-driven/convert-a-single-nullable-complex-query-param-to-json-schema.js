@@ -7,6 +7,7 @@ module.exports = {
       nullable: true,
       // jsonschema properties
       default: 5,
+      example: 6,
       description: 'asdfasdf',
       format: 'asdf',
       type: 'string',
@@ -36,6 +37,7 @@ module.exports = {
             {
               additionalItems: true,
               default: 5,
+              example: 6,
               description: 'asdfasdf',
               type: 'string',
               maximum: 0,
