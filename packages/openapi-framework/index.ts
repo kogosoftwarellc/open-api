@@ -268,6 +268,12 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                     dependencies: { ...this.dependencies }
                   });
                 })();
+              } else if (operationId === undefined) {
+                this.logger.warn(
+                  `${
+                    this.loggingPrefix
+                  }path ${apiDocPathUrl}, operation ${method} is missing an operationId`
+                );
               } else {
                 this.logger.warn(
                   `${
