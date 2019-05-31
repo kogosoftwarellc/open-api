@@ -30,8 +30,9 @@ export namespace OpenAPIV3 {
     tags?: TagObject[];
     externalDocs?: ExternalDocumentationObject;
     'x-express-openapi-additional-middleware'?: Array<
-      ((request: any, response: any, next: any) => Promise<void>)
-      | ((request: any, response: any, next: any) => void)>;
+      | ((request: any, response: any, next: any) => Promise<void>)
+      | ((request: any, response: any, next: any) =>
+         void)>;
     'x-express-openapi-validation-strict'?: boolean;
   }
 
