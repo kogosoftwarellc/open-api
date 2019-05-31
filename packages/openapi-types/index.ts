@@ -32,7 +32,8 @@ export namespace OpenAPIV3 {
     'x-express-openapi-additional-middleware'?: Array<
       | ((request: any, response: any, next: any) => Promise<void>)
       | ((request: any, response: any, next: any) =>
-         void)>;
+ void)
+>;
     'x-express-openapi-validation-strict'?: boolean;
   }
 
