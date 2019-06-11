@@ -2,11 +2,13 @@ import { expect } from 'chai';
 import OpenapiFramework from '../../../';
 const path = require('path');
 
-function ignore(message: any) {}
+function ignore(message: any) {
+  // Logger operation ignored
+}
 
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
-  let warnings: any[] = [];
+  const warnings: any[] = [];
 
   beforeEach(() => {
     framework = new OpenapiFramework({
@@ -14,8 +16,8 @@ describe(path.basename(__dirname), () => {
       featureType: 'middleware',
       name: 'some-framework',
       operations: {
-        getFoo: function (req, res) {
-
+        getFoo(req, res) {
+          // Operation body
         }
       },
       logger: {
@@ -33,9 +35,9 @@ describe(path.basename(__dirname), () => {
   it('should throw an error', () => {
     expect(() => {
       framework.initialize({});
-    }).to.throw(
-      'Cannot read property \'undefined\' of undefined'
-    );
-    expect(warnings).to.deep.equal([ 'some-framework: path /foo, operation get is missing an operationId' ])
+    }).to.throw("Cannot read property 'undefined' of undefined");
+    expect(warnings).to.deep.equal([
+      'some-framework: path /foo, operation get is missing an operationId'
+    ]);
   });
 });
