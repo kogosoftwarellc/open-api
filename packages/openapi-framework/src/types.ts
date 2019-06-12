@@ -81,7 +81,7 @@ interface OpenAPIFrameworkConstructorArgs extends OpenAPIFrameworkArgs {
 
 interface OpenAPIFrameworkArgs {
   apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string;
-  customFormats?: { string: (arg: any) => boolean };
+  customFormats?: { [format: string]: (arg: any) => boolean };
   dependencies?: { [service: string]: any };
   enableObjectCoercion?: boolean;
   errorTransformer?: OpenAPIErrorTransformer;
