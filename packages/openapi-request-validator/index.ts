@@ -487,7 +487,15 @@ function resolveAndSanitizeRequestBodySchema(
 ) {
   let resolved;
   let copied;
-  if ('$ref' in requestBodySchema) {
+
+  if ('properties' in requestBodySchema) {
+    const schema = requestBodySchema as OpenAPIV3.NonArraySchemaObject;
+    Object.keys(schema.properties).forEach(property => {
+      let prop = schema.properties[property];
+      prop = sanitizeReadonlyPropertiesFromRequired(prop);
+      prop = resolveAndSanitizeRequestBodySchema(prop, v);
+    });
+  } else if ('$ref' in requestBodySchema) {
     resolved = v.getSchema(requestBodySchema.$ref);
     if (resolved && resolved.schema) {
       copied = JSON.parse(JSON.stringify(resolved.schema));
