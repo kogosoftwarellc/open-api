@@ -81,28 +81,30 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
 
   framework.initialize({
     visitApi: ctx => {
-      if (exposeApiDocs) {
+      if (exposeApiDocs || errorMiddleware) {
         const basePaths = [];
-        const apiDoc = ctx.getApiDoc();
         basePaths.push(...ctx.basePaths.map(toExpressBasePath));
 
-        // Swagger UI support
         for (const basePath of basePaths) {
-          app.get(basePath + docsPath, (req, res, next) => {
-            // @ts-ignore
-            req.apiDoc = ctx.getApiDoc();
-            // @ts-ignore
-            if (req.apiDoc.swagger) {
+          // Swagger UI support
+          if (exposeApiDocs) {
+            app.get(basePath + docsPath, (req, res, next) => {
               // @ts-ignore
-              req.apiDoc.host = req.headers.host;
-              const apiBasePath = req.baseUrl + basePath;
+              req.apiDoc = ctx.getApiDoc();
               // @ts-ignore
-              req.apiDoc.basePath =
-                apiBasePath.length === 0 ? '/' : apiBasePath;
-            }
-            securityFilter(req, res, next);
-          });
+              if (req.apiDoc.swagger) {
+                // @ts-ignore
+                req.apiDoc.host = req.headers.host;
+                const apiBasePath = req.baseUrl + basePath;
+                // @ts-ignore
+                req.apiDoc.basePath =
+                  apiBasePath.length === 0 ? '/' : apiBasePath;
+              }
+              securityFilter(req, res, next);
+            });
+          }
 
+          // register custom error middleware to api's basePath
           if (errorMiddleware) {
             app.use(basePath, errorMiddleware);
           }
