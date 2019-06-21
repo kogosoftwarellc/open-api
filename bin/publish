@@ -8,7 +8,7 @@ function publish() {
   pushd "$1" > /dev/null
   cp ../../.npmignore .
   rm -rf node_modules
-  npm i
+  npm ci
   npm version "$2"
   npm pu
   git add .

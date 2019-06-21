@@ -6,6 +6,8 @@ node_js:
 notifications:
   email:
     on_success: "never"
+install:
+  - npm ci
 script:
   - "npm run lint"
   - "./bin/test"
