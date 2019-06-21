@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.24.3 - 2019-06-21
+### Fixed
+- Update customFormat argument typing (#471)
+- Log an improved warning if the operationId of an operation is not specified (fixes #465) (#466)
+- openapi-jsonschema-parameters: Adds example keyword (fixes #455) (#456)
+- openapi-request-validator: Accept reqBody readOnly in nested properties (#472)
+
 ## 0.24.1 - 2019-05-14
 ### Fixed
 - openapi-request-validator
