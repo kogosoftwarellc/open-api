@@ -350,20 +350,23 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       this.apiDoc.paths[openapiPath] = pathDoc;
       const methodsProcessed = {};
 
-      [
-        ...Object.keys(pathModule).filter(byMethods),
-        ...Object.keys(pathDoc).filter(byMethods)
-      ].forEach(methodAlias => {
+      new Set(
+        Object.keys(pathModule)
+          .concat(Object.keys(pathDoc))
+          .filter(byMethods)
+      ).forEach(methodAlias => {
         const methodName = METHOD_ALIASES[methodAlias];
         if (methodName in methodsProcessed) {
           this.logger.warn(
             `${
               this.loggingPrefix
-            }${openapiPath}.${methodAlias} has already been defined. Ignoring the 2nd definition...`
+            }${openapiPath}.${methodAlias} has already been defined as ${openapiPath}.${
+              methodsProcessed[methodName]
+            }. Ignoring the 2nd definition...`
           );
           return;
         }
-        methodsProcessed[methodName] = true;
+        methodsProcessed[methodName] = methodAlias;
         // operationHandler may be an array or a function.
         const operationHandler =
           pathModule[methodAlias] ||
