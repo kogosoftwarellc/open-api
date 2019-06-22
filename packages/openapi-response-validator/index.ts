@@ -22,6 +22,12 @@ export interface OpenAPIResponseValidatorArgs {
     [index: string]: IJsonSchema;
   };
   loggingKey: string;
+  useDefaults?: boolean | 'empty' | 'shared';
+  allErrors?: boolean;
+  unknownFormats?: boolean | string | string[];
+  removeAdditional?: boolean | string;
+  coerceTypes?: boolean | 'array';
+  logger?: boolean;
   responses: {
     [responseCode: string]: {
       schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject;
@@ -72,12 +78,14 @@ export default class OpenAPIResponseValidator
       typeof args.errorTransformer === 'function' && args.errorTransformer;
 
     const v = new Ajv({
-      useDefaults: true,
-      allErrors: true,
-      unknownFormats: 'ignore',
+      useDefaults: args.useDefaults !== undefined ? args.useDefaults : true,
+      allErrors: args.allErrors || false,
+      unknownFormats: args.unknownFormats || 'ignore',
+      removeAdditional: args.removeAdditional || false,
+      coerceTypes: args.coerceTypes || false,
       missingRefs: 'fail',
       // @ts-ignore TODO get Ajv updated to account for logger
-      logger: false
+      logger: args.logger || false
     });
 
     this.errorMapper = errorTransformer
@@ -159,12 +167,12 @@ function getSchemas(responses, definitions, components) {
       ? typeof response.schema === 'object'
         ? response.schema
         : typeof response.content === 'object' &&
-          typeof response.content[Object.keys(response.content)[0]] ===
-            'object' &&
-          typeof response.content[Object.keys(response.content)[0]].schema ===
-            'object'
-        ? response.content[Object.keys(response.content)[0]].schema
-        : { type: 'null' }
+        typeof response.content[Object.keys(response.content)[0]] ===
+        'object' &&
+        typeof response.content[Object.keys(response.content)[0]].schema ===
+        'object'
+          ? response.content[Object.keys(response.content)[0]].schema
+          : { type: 'null' }
       : { type: 'null' };
 
     schemas[name] = {
