@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 3.13.4 - 2019-06-22
+### Fixed
+- openapi-framework: Suppressing unwanted "Ignoring the 2nd definition" warnings (fixes: #368) (#479)
+
 ## 3.13.3 - 2019-06-21
+### Fixed
 - openapi-framework: Update customFormat argument typing (#471)
 - openapi-framework: Log an improved warning if the operationId of an operation is not specified (fixes #465) (#466)
 - openapi-jsonschema-parameters: Adds example keyword (fixes #455) (#456)
