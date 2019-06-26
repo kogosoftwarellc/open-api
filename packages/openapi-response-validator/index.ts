@@ -216,6 +216,16 @@ function recursiveTransformOpenAPIV3Definitions(object) {
     object.type = [object.type, 'null'];
     delete object.nullable;
   }
+  // Remove writeOnly properties from required array
+  if (object.properties && object.required) {
+    const writeOnlyProps = Object.keys(object.properties).filter(
+      key => object.properties[key].writeOnly
+    );
+    writeOnlyProps.forEach(value => {
+      const index = object.required.indexOf(value);
+      object.required.splice(index, 1);
+    });
+  }
 
   Object.keys(object).forEach(attr => {
     if (object[attr] !== null && typeof object[attr] === 'object') {
