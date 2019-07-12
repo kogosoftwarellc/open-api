@@ -31,7 +31,7 @@
     "body-parser": "^1.14.2",
     "chai": "4.2.0",
     "cors": "^2.7.1",
-    "coveralls": "3.0.4",
+    "coveralls": "3.0.5",
     "express": "^4.13.3",
     "glob": "7.1.4",
     "istanbul": "0.4.5",
