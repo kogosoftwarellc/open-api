@@ -42,6 +42,7 @@ import {
   injectDependencies,
   METHOD_ALIASES,
   resolveParameterRefs,
+  resolveRequestBodyRefs,
   resolveResponseRefs,
   sortApiDocTags,
   sortOperationDocTags,
@@ -381,8 +382,15 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
             ? operationDoc.consumes
             : operationDoc &&
               operationDoc.requestBody &&
-              operationDoc.requestBody.content
-            ? Object.keys(operationDoc.requestBody.content)
+              (operationDoc.requestBody.content ||
+                operationDoc.requestBody.$ref)
+            ? Object.keys(
+                resolveRequestBodyRefs(
+                  this,
+                  operationDoc.requestBody,
+                  this.apiDoc
+                ).content
+              )
             : Array.isArray(this.apiDoc.consumes)
             ? this.apiDoc.consumes
             : [];
@@ -488,7 +496,11 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                     : undefined,
                   externalSchemas: this.externalSchemas,
                   customFormats: this.customFormats,
-                  requestBody: operationDoc.requestBody as OpenAPIV3.RequestBodyObject
+                  requestBody: resolveRequestBodyRefs(
+                    this,
+                    operationDoc.requestBody,
+                    this.apiDoc
+                  ) as OpenAPIV3.RequestBodyObject
                 });
                 operationContext.features.requestValidator = requestValidator;
                 this.logger.debug(
