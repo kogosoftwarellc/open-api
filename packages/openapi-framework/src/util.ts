@@ -325,6 +325,34 @@ export function resolveResponseRefs(
   }, {});
 }
 
+export function resolveRequestBodyRefs(
+  framework: IOpenAPIFramework,
+  requestBody,
+  apiDoc
+) {
+  if (requestBody && typeof requestBody.$ref === 'string') {
+    const REQUEST_BODY_REF_REGEX = /^#\/components\/requestBodies\/(.+)$/;
+    const match = REQUEST_BODY_REF_REGEX.exec(requestBody.$ref);
+    const apiDocComponents = apiDoc.components;
+    const apiDocReqBodies = apiDocComponents && apiDocComponents.requestBodies;
+    const definition = match && (apiDocReqBodies || {})[match[1]];
+
+    if (!definition) {
+      throw new Error(
+        `${
+          framework.name
+        }: Invalid requestBody $ref or definition not found in apiDoc.components.requestBodies: ${
+          requestBody.$ref
+        }`
+      );
+    }
+
+    return definition;
+  } else {
+    return requestBody;
+  }
+}
+
 export function sortApiDocTags(apiDoc) {
   if (apiDoc && Array.isArray(apiDoc.tags)) {
     apiDoc.tags.sort((a, b) => {
