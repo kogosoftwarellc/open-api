@@ -25,7 +25,7 @@ provided openapi document.
 
 ## Example
 ```javascript
-var OpenAPISchemaValidator = require('openapi-schema-validator');
+var OpenAPISchemaValidator = require('openapi-schema-validator').default;
 var validator = new OpenAPISchemaValidator({
   //optional
   version: 2,
