@@ -17,7 +17,10 @@ export interface OperationFunction extends RequestHandler {
   apiDoc?: OpenAPI.Operation;
 }
 
-export type OperationHandlerArray = OperationFunction[];
+export interface OperationHandlerArray {
+  apiDoc?: OpenAPI.Operation;
+  [index: number]: RequestHandler;
+}
 
 export type Operation = OperationFunction | OperationHandlerArray;
 
