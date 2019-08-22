@@ -21,13 +21,10 @@ module.exports = {
   inputStatusCode: 400,
   inputResponseBody: { foo: 2345 },
 
-  expectedValidationError: {
-    message: 'The response was not valid.',
-    errors: [
-      {
-        errorCode: 'type.openapi.responseValidation',
-        message: 'response should be null'
-      }
-    ]
-  }
+  expectedValidationError: [
+    {
+      errorCode: 'type.openapi.responseValidation',
+      message: 'response should be null'
+    }
+  ]
 };

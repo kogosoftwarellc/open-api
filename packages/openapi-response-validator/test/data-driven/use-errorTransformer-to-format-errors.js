@@ -16,15 +16,16 @@ module.exports = {
     definitions: null,
 
     errorTransformer: function(openapiError, jsonschemaError) {
-      return arguments.length;
+      return { errors: arguments.length };
     }
   },
 
   inputStatusCode: 200,
   inputResponseBody: { foo: 2345 },
 
-  expectedValidationError: {
-    message: 'The response was not valid.',
-    errors: [2]
-  }
+  expectedValidationError: [
+    {
+      errors: 2
+    }
+  ]
 };

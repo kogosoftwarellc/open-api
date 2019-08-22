@@ -19,14 +19,11 @@ module.exports = {
   inputStatusCode: 200,
   inputResponseBody: { foo: 2345 },
 
-  expectedValidationError: {
-    message: 'The response was not valid.',
-    errors: [
-      {
-        path: 'foo',
-        errorCode: 'type.openapi.responseValidation',
-        message: 'foo should be string'
-      }
-    ]
-  }
+  expectedValidationError: [
+    {
+      path: 'foo',
+      errorCode: 'type.openapi.responseValidation',
+      message: 'foo should be string'
+    }
+  ]
 };

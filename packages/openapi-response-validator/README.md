@@ -15,7 +15,7 @@ See `./test/data-driven/*.js` for more examples.
 
 ```javascript
 var OpenAPIResponseValidator = require('openapi-response-validator');
-var instance = new OpenAPIResponseValidator({
+var responseValidator = new OpenAPIResponseValidator({
   responses: {
     200: {
       description: 'We found what you were looking for.',
@@ -58,7 +58,7 @@ var instance = new OpenAPIResponseValidator({
 });
 
 var someResource = {};
-var validationError = instance.validateResponse(200, someResource);
+var validationError = responseValidator.validateResponse(200, someResource);
 
 /*
   Validation errors look like this (except for objects in the errors array which

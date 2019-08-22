@@ -23,7 +23,9 @@ module.exports = {
   inputStatusCode: 400,
   inputResponseBody: { foo: 'asdf' },
 
-  expectedValidationError: {
-    message: 'An unknown status code was used and no default was provided.'
-  }
+  expectedValidationError: [
+    {
+      message: 'An unknown status code was used and no default was provided.'
+    }
+  ]
 };
