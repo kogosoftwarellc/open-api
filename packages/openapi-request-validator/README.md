@@ -17,7 +17,7 @@
 See `./test/data-driven/*.js` for more examples.
 
 ```javascript
-var OpenAPIRequestValidator = require('openapi-request-validator');
+var OpenAPIRequestValidator = require('openapi-request-validator').default;
 var validator = new OpenAPIRequestValidator({
   parameters: [
     {
@@ -28,18 +28,19 @@ var validator = new OpenAPIRequestValidator({
     }
   ],
   requestBody: { // optional OpenApi v3 requestBodyObject
-    contents: {
+    content: {
       'application/json': {
         schema: {
-          properties:
-            name:
+          properties: {
+            name: {
               type: 'string'
+            }
+          }
         }
       }
     }
   },
   schemas: null, // an optional array or object of jsonschemas used to dereference $ref
-  version: 'swagger-2.0', // default optional value for future versions of openapi
   errorTransformer: null, // an optional transformer function to format errors
   customFormats: {
     // support `"format": "foo"` for types.
@@ -50,12 +51,15 @@ var validator = new OpenAPIRequestValidator({
 });
 
 var request = {
+  headers: {
+    'content-type': 'application/json'
+  },
   body: {},
   params: {},
   query: {foo: 'wow'}
 };
 var errors = validator.validate(request);
-console.log(errors); // => null
+console.log(errors); // => undefined
 ```
 
 ## API
