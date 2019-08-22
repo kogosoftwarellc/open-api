@@ -42,21 +42,21 @@ module.exports = {
   request: {
     body: {}
   },
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        path: 'test1',
-        errorCode: 'required.openapi.validation',
-        message: "should have required property 'test1'",
-        location: 'body'
-      },
-      {
-        path: 'test2',
-        errorCode: 'required.openapi.validation',
-        message: "should have required property 'test2'",
-        location: 'body'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      path: 'test1',
+      errorCode: 'required.openapi.validation',
+      message: "should have required property 'test1'",
+      location: 'body'
+    },
+    {
+      path: 'test2',
+      errorCode: 'required.openapi.validation',
+      message: "should have required property 'test2'",
+      location: 'body'
+    }
+  ]
 };

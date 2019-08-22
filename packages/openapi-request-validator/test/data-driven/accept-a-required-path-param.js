@@ -16,5 +16,6 @@ module.exports = {
       path1: 'foo',
       path2: 'asdf'
     }
-  }
+  },
+  expectedError: []
 };

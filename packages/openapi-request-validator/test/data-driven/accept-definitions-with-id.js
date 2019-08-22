@@ -8,5 +8,6 @@ module.exports = {
       }
     ]
   },
-  request: {}
+  request: {},
+  expectedError: []
 };

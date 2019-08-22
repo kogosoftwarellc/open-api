@@ -28,5 +28,6 @@ module.exports = {
     headers: {
       'content-type': 'application/json'
     }
-  }
+  },
+  expectedError: []
 };

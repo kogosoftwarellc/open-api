@@ -21,5 +21,6 @@ module.exports = {
       'x-foo': 'asdf',
       'X-Yoda': 'Luke'
     }
-  }
+  },
+  expectedError: []
 };

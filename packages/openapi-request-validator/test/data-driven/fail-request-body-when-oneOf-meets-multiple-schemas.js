@@ -81,14 +81,14 @@ module.exports = {
     }
   },
 
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        errorCode: 'oneOf.openapi.validation',
-        message: 'should match exactly one schema in oneOf',
-        location: 'body'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      errorCode: 'oneOf.openapi.validation',
+      message: 'should match exactly one schema in oneOf',
+      location: 'body'
+    }
+  ]
 };

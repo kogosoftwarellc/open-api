@@ -14,14 +14,14 @@ module.exports = {
   request: {
     body: {}
   },
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        errorCode: 'type.openapi.validation',
-        message: 'should be array',
-        location: 'body'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      errorCode: 'type.openapi.validation',
+      message: 'should be array',
+      location: 'body'
+    }
+  ]
 };

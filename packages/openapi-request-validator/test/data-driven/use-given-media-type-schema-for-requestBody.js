@@ -37,5 +37,6 @@ module.exports = {
       first_name: 'foo',
       last_name: 'bar'
     }
-  }
+  },
+  expectedError: []
 };

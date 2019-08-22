@@ -12,15 +12,15 @@ module.exports = {
   request: {
     body: {}
   },
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        path: 'foo',
-        errorCode: 'required.openapi.validation',
-        message: "should have required property 'foo'",
-        location: 'formData'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      path: 'foo',
+      errorCode: 'required.openapi.validation',
+      message: "should have required property 'foo'",
+      location: 'formData'
+    }
+  ]
 };

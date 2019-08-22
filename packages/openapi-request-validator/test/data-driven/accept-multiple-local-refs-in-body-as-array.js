@@ -48,5 +48,6 @@ module.exports = {
         boo: 'ccccc'
       }
     }
-  }
+  },
+  expectedError: []
 };

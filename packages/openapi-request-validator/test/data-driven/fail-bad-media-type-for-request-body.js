@@ -21,12 +21,12 @@ module.exports = {
       'content-type': 'abcdef'
     }
   },
-  expectedError: {
-    status: 415,
-    errors: [
-      {
-        message: 'Unsupported Content-Type abcdef'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 415
+    },
+    {
+      message: 'Unsupported Content-Type abcdef'
+    }
+  ]
 };

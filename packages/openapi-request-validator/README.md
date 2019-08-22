@@ -58,7 +58,7 @@ var request = {
   params: {},
   query: {foo: 'wow'}
 };
-var errors = validator.validate(request);
+var errors = requestValidator.validateRequest(request);
 console.log(errors); // => undefined
 ```
 

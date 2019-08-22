@@ -25,5 +25,6 @@ module.exports = {
     body: {
       foo: 'asdf'
     }
-  }
+  },
+  expectedError: []
 };

@@ -4,5 +4,6 @@ module.exports = {
     parameters: null
   },
   request: {},
-  constructorError: /express-openapi-validation: args.parameters must be an Array/
+  constructorError: /express-openapi-validation: args.parameters must be an Array/,
+  expectedError: []
 };

@@ -22,15 +22,15 @@ module.exports = {
       foo: 'boo'
     }
   },
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        path: 'foo',
-        errorCode: 'format.openapi.validation',
-        message: 'should match format "foo"',
-        location: 'query'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      path: 'foo',
+      errorCode: 'format.openapi.validation',
+      message: 'should match format "foo"',
+      location: 'query'
+    }
+  ]
 };

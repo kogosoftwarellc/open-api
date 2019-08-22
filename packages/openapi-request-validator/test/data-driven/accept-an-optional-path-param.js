@@ -14,5 +14,6 @@ module.exports = {
     params: {
       path1: 's'
     }
-  }
+  },
+  expectedError: []
 };

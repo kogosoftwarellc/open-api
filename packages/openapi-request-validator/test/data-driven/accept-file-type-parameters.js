@@ -14,5 +14,6 @@ module.exports = {
     headers: {
       'x-foo': 'asdf'
     }
-  }
+  },
+  expectedError: []
 };

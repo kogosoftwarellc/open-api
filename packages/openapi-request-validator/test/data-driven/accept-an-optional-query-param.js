@@ -9,5 +9,6 @@ module.exports = {
     ],
     schemas: null
   },
-  request: {}
+  request: {},
+  expectedError: []
 };

@@ -26,5 +26,6 @@ module.exports = {
       'content-type':
         'multipart/form-data; boundary=----WebKitFormBoundaryWyK9kAU7d35AKf26'
     }
-  }
+  },
+  expectedError: []
 };

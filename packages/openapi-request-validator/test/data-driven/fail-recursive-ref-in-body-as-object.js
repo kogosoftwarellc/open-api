@@ -40,15 +40,15 @@ module.exports = {
     }
   },
 
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        path: 'test1.recursive.foo',
-        errorCode: 'type.openapi.validation',
-        message: 'should be string',
-        location: 'body'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      path: 'test1.recursive.foo',
+      errorCode: 'type.openapi.validation',
+      message: 'should be string',
+      location: 'body'
+    }
+  ]
 };

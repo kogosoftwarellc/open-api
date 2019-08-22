@@ -14,8 +14,10 @@ module.exports = {
     }
   },
   request: {},
-  expectedError: {
-    status: 400,
-    errors: [2]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    2
+  ]
 };

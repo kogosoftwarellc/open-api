@@ -15,5 +15,6 @@ module.exports = {
     query: {
       foo: 'asdf'
     }
-  }
+  },
+  expectedError: []
 };

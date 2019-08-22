@@ -21,12 +21,12 @@ module.exports = {
       'content-type': 'text/plain'
     }
   },
-  expectedError: {
-    status: 415,
-    errors: [
-      {
-        message: 'Unsupported Content-Type text/plain'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 415
+    },
+    {
+      message: 'Unsupported Content-Type text/plain'
+    }
+  ]
 };

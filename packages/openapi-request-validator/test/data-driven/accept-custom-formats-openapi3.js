@@ -22,5 +22,6 @@ module.exports = {
     query: {
       foo: 'foo'
     }
-  }
+  },
+  expectedError: []
 };

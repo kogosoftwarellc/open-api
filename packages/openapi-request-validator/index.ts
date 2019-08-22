@@ -206,9 +206,16 @@ export default class OpenAPIRequestValidator
       querySchema && v.compile(transformOpenAPIV3Definitions(querySchema));
   }
 
+  public validateRequest(request) {
+    return this.validate(request);
+  }
+
+  /**
+   * @deprecated use validateRequest instead.
+   */
   public validate(request) {
     const errors = [];
-    let err;
+    let err = [];
     let schemaError;
     let mediaTypeError;
 
@@ -310,22 +317,12 @@ export default class OpenAPIRequestValidator
         );
       }
     }
-
     if (errors.length) {
-      err = {
-        status: 400,
-        errors: errors.map(this.errorMapper)
-      };
+      err = [{ status: 400 }].concat(errors.map(this.errorMapper));
     } else if (schemaError) {
-      err = {
-        status: 400,
-        errors: [schemaError]
-      };
+      err = [{ status: 400 }].concat([schemaError]);
     } else if (mediaTypeError) {
-      err = {
-        status: 415,
-        errors: [mediaTypeError]
-      };
+      err = [{ status: 415 }].concat([mediaTypeError]);
     }
 
     return err;

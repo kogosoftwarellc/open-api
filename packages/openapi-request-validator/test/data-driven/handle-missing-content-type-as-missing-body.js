@@ -20,14 +20,14 @@ module.exports = {
   request: {
     headers: {}
   },
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        errorCode: 'required.openapi.validation',
-        message: 'media type is not specified',
-        location: 'body'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      errorCode: 'required.openapi.validation',
+      message: 'media type is not specified',
+      location: 'body'
+    }
+  ]
 };

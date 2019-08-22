@@ -17,15 +17,15 @@ module.exports = {
       path1: 'f'
     }
   },
-  expectedError: {
-    status: 400,
-    errors: [
-      {
-        path: 'path1',
-        errorCode: 'pattern.openapi.validation',
-        message: 'should match pattern "^a$"',
-        location: 'path'
-      }
-    ]
-  }
+  expectedError: [
+    {
+      status: 400
+    },
+    {
+      path: 'path1',
+      errorCode: 'pattern.openapi.validation',
+      message: 'should match pattern "^a$"',
+      location: 'path'
+    }
+  ]
 };
