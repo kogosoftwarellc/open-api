@@ -376,7 +376,7 @@ function getSchemaForMediaType(
   let matchPoints = 0;
   for (const mediaTypeKey in content) {
     if (content.hasOwnProperty(mediaTypeKey)) {
-      if (contentType === mediaTypeKey) {
+      if (mediaTypeKey.indexOf(contentType) > -1) {
         return mediaTypeKey;
       } else if (mediaTypeKey === '*/*' && wildcardMatchPoints > matchPoints) {
         match = mediaTypeKey;
