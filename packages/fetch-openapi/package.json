@@ -27,7 +27,7 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi#readme",
   "dependencies": {
     "chalk": "^2.4.1",
-    "commander": "3.0.0",
+    "commander": "3.0.1",
     "composites": "^1.1.1",
     "err-handler": "^1.0.5",
     "request": "*"
