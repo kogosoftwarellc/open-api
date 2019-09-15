@@ -79,11 +79,18 @@ function copyValidationKeywords(src) {
   return dst;
 }
 
-function handleNullable(params, paramSchema) {
+function handleNullable(params, paramSchema, param) {
   if (params.nullable) {
+    if (param.hasOwnProperty('examples')) {
+      paramSchema.examples = param.examples;
+    }
     return {
       anyOf: [paramSchema, { type: 'null' }]
     };
+  }
+
+  if (param.hasOwnProperty('examples')) {
+    paramSchema.examples = param.examples;
   }
   return paramSchema;
 }
@@ -112,7 +119,8 @@ function getSchema(parameters, type) {
 
       schema.properties[param.name] = handleNullable(
         param.schema || param,
-        paramSchema
+        paramSchema,
+        param
       );
     });
 

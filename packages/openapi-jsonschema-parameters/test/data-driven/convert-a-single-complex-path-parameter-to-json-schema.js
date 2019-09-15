@@ -24,7 +24,12 @@ module.exports = {
       minItems: 7,
       uniqueItems: false,
       enum: ['1', '3'],
-      multipleOf: 57
+      multipleOf: 57,
+      examples: {
+        example1: {
+          value: 'asd'
+        }
+      }
     }
   ],
 
@@ -51,7 +56,12 @@ module.exports = {
           minItems: 7,
           uniqueItems: false,
           enum: ['1', '3'],
-          multipleOf: 57
+          multipleOf: 57,
+          examples: {
+            example1: {
+              value: 'asd'
+            }
+          }
         }
       },
       required: ['foo']
