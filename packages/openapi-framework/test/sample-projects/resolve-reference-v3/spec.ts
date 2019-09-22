@@ -19,7 +19,7 @@ describe(path.basename(__dirname), () => {
     framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.requestValidator).to.not.be.undefined;
-        const err = ctx.features.requestValidator.validate({
+        const err = ctx.features.requestValidator.validateRequest({
           body: { title: 'test' },
           headers: { 'content-type': 'application/json' }
         });

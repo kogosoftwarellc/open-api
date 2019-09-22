@@ -148,7 +148,7 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
             res,
             next
           ) {
-            next(ctx.features.requestValidator.validate(req));
+            next(ctx.features.requestValidator.validateRequest(req));
           });
         }
 

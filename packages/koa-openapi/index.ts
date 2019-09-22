@@ -125,7 +125,7 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
 
         if (operationCtx.features.requestValidator) {
           middleware.unshift(function requestValidatorMiddleware(ctx: Context) {
-            const errors = operationCtx.features.requestValidator.validate(
+            const errors = operationCtx.features.requestValidator.validateRequest(
               toOpenAPIRequest(ctx)
             );
             if (errors) {

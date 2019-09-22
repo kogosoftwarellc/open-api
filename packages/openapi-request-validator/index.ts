@@ -6,7 +6,7 @@ const contentTypeParser = require('content-type');
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 export interface IOpenAPIRequestValidator {
-  validate(request: OpenAPI.Request);
+  validateRequest(request: OpenAPI.Request);
 }
 
 export interface OpenAPIRequestValidatorArgs {
@@ -206,7 +206,7 @@ export default class OpenAPIRequestValidator
       querySchema && v.compile(transformOpenAPIV3Definitions(querySchema));
   }
 
-  public validate(request) {
+  public validateRequest(request) {
     const errors = [];
     let err;
     let schemaError;
@@ -330,8 +330,12 @@ export default class OpenAPIRequestValidator
 
     return err;
   }
-}
 
+  public validate(request) {
+    console.warn('validate is deprecated, use validateRequest instead.');
+    this.validateRequest(request);
+  }
+}
 interface RequestBodyValidators {
   [mediaType: string]: Ajv.ValidateFunction;
 }
