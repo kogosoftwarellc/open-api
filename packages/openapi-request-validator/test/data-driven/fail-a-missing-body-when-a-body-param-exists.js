@@ -18,7 +18,7 @@ module.exports = {
       {
         location: 'body',
         message:
-          'request.body was not present in the request.  Is a body-parser being used?',
+          'request.body was not present in the request. Is a body-parser being used?',
         schema: {
           $ref: '#/definitions/TestBody'
         }

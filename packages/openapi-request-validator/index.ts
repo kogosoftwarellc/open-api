@@ -224,7 +224,7 @@ export default class OpenAPIRequestValidator
         schemaError = {
           location: 'body',
           message:
-            'request.body was not present in the request.  Is a body-parser being used?',
+            'request.body was not present in the request. Is a body-parser being used?',
           schema: this.bodySchema
         };
       }
