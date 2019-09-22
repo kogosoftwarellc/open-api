@@ -120,8 +120,15 @@ export default class OpenAPIResponseValidator
     } else if (this.validators.default) {
       validator = this.validators.default;
     } else {
+      const message =
+        'An unknown status code was used and no default was provided.';
       return {
-        message: 'An unknown status code was used and no default was provided.'
+        message,
+        errors: [
+          {
+            message
+          }
+        ]
       };
     }
 
