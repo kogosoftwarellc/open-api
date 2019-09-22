@@ -266,7 +266,7 @@ export default class OpenAPIRequestValidator
           schemaError = {
             location: 'body',
             message:
-              'request.body was not present in the request.  Is a body-parser being used?',
+              'request.body was not present in the request. Is a body-parser being used?',
             schema: bodySchema
           };
         }
@@ -514,41 +514,29 @@ function resolveAndSanitizeRequestBodySchema(
       }
     }
   } else if ('allOf' in requestBodySchema) {
-    requestBodySchema.allOf = requestBodySchema.allOf.map(
-      (
-        val
-      ):
-        | OpenAPIV3.ReferenceObject
-        | OpenAPIV3.NonArraySchemaObject
-        | OpenAPIV3.ArraySchemaObject => {
-        val = sanitizeReadonlyPropertiesFromRequired(val);
-        return resolveAndSanitizeRequestBodySchema(val, v);
-      }
-    );
+    requestBodySchema.allOf = requestBodySchema.allOf.map((val):
+      | OpenAPIV3.ReferenceObject
+      | OpenAPIV3.NonArraySchemaObject
+      | OpenAPIV3.ArraySchemaObject => {
+      val = sanitizeReadonlyPropertiesFromRequired(val);
+      return resolveAndSanitizeRequestBodySchema(val, v);
+    });
   } else if ('oneOf' in requestBodySchema) {
-    requestBodySchema.oneOf = requestBodySchema.oneOf.map(
-      (
-        val
-      ):
-        | OpenAPIV3.ReferenceObject
-        | OpenAPIV3.NonArraySchemaObject
-        | OpenAPIV3.ArraySchemaObject => {
-        val = sanitizeReadonlyPropertiesFromRequired(val);
-        return resolveAndSanitizeRequestBodySchema(val, v);
-      }
-    );
+    requestBodySchema.oneOf = requestBodySchema.oneOf.map((val):
+      | OpenAPIV3.ReferenceObject
+      | OpenAPIV3.NonArraySchemaObject
+      | OpenAPIV3.ArraySchemaObject => {
+      val = sanitizeReadonlyPropertiesFromRequired(val);
+      return resolveAndSanitizeRequestBodySchema(val, v);
+    });
   } else if ('anyOf' in requestBodySchema) {
-    requestBodySchema.anyOf = requestBodySchema.anyOf.map(
-      (
-        val
-      ):
-        | OpenAPIV3.ReferenceObject
-        | OpenAPIV3.NonArraySchemaObject
-        | OpenAPIV3.ArraySchemaObject => {
-        val = sanitizeReadonlyPropertiesFromRequired(val);
-        return resolveAndSanitizeRequestBodySchema(val, v);
-      }
-    );
+    requestBodySchema.anyOf = requestBodySchema.anyOf.map((val):
+      | OpenAPIV3.ReferenceObject
+      | OpenAPIV3.NonArraySchemaObject
+      | OpenAPIV3.ArraySchemaObject => {
+      val = sanitizeReadonlyPropertiesFromRequired(val);
+      return resolveAndSanitizeRequestBodySchema(val, v);
+    });
   }
   return requestBodySchema;
 }
