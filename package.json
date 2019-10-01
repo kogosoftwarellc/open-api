@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/mocha": "^5.2.4",
     "@types/node": "12.7.7",
-    "bluebird": "3.5.5",
+    "bluebird": "3.7.0",
     "body-parser": "^1.14.2",
     "chai": "4.2.0",
     "cors": "^2.7.1",
