@@ -18,7 +18,7 @@ See `./test/data-driven/*.js` for more examples.
 
 ```javascript
 var OpenAPIRequestValidator = require('openapi-request-validator').default;
-var validator = new OpenAPIRequestValidator({
+var requestValidator = new OpenAPIRequestValidator({
   parameters: [
     {
       in: 'query',
@@ -58,7 +58,7 @@ var request = {
   params: {},
   query: {foo: 'wow'}
 };
-var errors = validator.validate(request);
+var errors = requestValidator.validateRequest(request);
 console.log(errors); // => undefined
 ```
 
