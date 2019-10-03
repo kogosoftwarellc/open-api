@@ -19,7 +19,7 @@ describe(require('../package.json').name, () => {
       }
 
       const validator = new Sut(fixture.validateArgs);
-      const error = validator.validate(fixture.request);
+      const error = validator.validateRequest(fixture.request);
 
       expect(error).to.eql(fixture.expectedError);
     });
