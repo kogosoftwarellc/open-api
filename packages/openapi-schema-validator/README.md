@@ -27,21 +27,16 @@ provided openapi document.
 ```javascript
 var OpenAPISchemaValidator = require('openapi-schema-validator').default;
 var validator = new OpenAPISchemaValidator({
-  //optional
   version: 2,
   // optional
-  version2Extensions: {
-    /* place any properties here to extend the schema. */
-  },
-  // optional
-  version3Extensions: {
+  extensions: {
     /* place any properties here to extend the schema. */
   }
 });
 console.log(validator.validate(apiDoc));
 ```
 
-* `version` _optional number_ openapi document schema version to use (2 or 3).
+* `version` _number_ openapi document schema version to use (2 or 3).
     * 2 - `openapi-2.0.0` (default)
     * 3 - `openapi-3.0.0`
 
