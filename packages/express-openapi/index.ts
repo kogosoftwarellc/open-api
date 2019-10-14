@@ -123,6 +123,16 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
       let middleware = [].concat(ctx.additionalFeatures);
 
       if (operationDoc && ctx.allowsFeatures) {
+        if (ctx.features.requestValidator) {
+          middleware.unshift(function requestValidatorMiddleware(
+            req,
+            res,
+            next
+          ) {
+            next(ctx.features.requestValidator.validate(req));
+          });
+        }
+
         if (ctx.features.responseValidator) {
           // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
@@ -139,16 +149,6 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
               );
             };
             next();
-          });
-        }
-
-        if (ctx.features.requestValidator) {
-          middleware.unshift(function requestValidatorMiddleware(
-            req,
-            res,
-            next
-          ) {
-            next(ctx.features.requestValidator.validate(req));
           });
         }
 
