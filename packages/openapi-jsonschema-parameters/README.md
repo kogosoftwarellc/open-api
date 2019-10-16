@@ -14,7 +14,7 @@ some other library.
 See `./test/data-driven` for more examples.
 
 ```javascript
-import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters');
+import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
 
 const parametersSchemas = convertParametersToJSONSchema([
   {
