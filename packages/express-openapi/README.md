@@ -1126,12 +1126,14 @@ app.use(bodyParser.json());
 initialize({
     apiDoc: './api-doc.js',
     app,
-    paths: './built/api-paths'
+    paths: './built/api-paths',
+    routesGlob: '**/*.{ts,js}',
+    routesIndexFileRegExp: /(?:index)?\.[tj]s$/
 });
 
-app.use(<express.ErrorRequestHandler>(err, req, res, next) => {
+app.use(((err, req, res, next) => {
     res.status(err.status).json(err);
-});
+}) as express.ErrorRequestHandler);
 
 app.listen(3000);
 ```
