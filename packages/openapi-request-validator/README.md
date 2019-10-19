@@ -100,7 +100,7 @@ This function is passed 2 arguments.
 See the error format in [ajv](https://www.npmjs.com/package/ajv#validation-errors) for
 `ajvError`.  `openapiError`s have the following properties:
 
-* `errorCode` - A jsonschema error suffixed with `.openapi.validation`.
+* `errorCode` - A jsonschema error suffixed with `.openapi.requestValidation`.
 * `location` - One of `body`, `headers`, `path`, or `query`.  Signifies where validation
 failed.
 * `message` - A detailed message as to why validation failed.

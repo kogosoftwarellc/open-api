@@ -22,7 +22,7 @@ module.exports = {
     errors: [
       {
         path: 'path1',
-        errorCode: 'pattern.openapi.validation',
+        errorCode: 'pattern.openapi.requestValidation',
         message: 'should match pattern "^a$"',
         location: 'path'
       }

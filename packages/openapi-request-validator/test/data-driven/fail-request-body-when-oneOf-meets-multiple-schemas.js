@@ -85,7 +85,7 @@ module.exports = {
     status: 400,
     errors: [
       {
-        errorCode: 'oneOf.openapi.validation',
+        errorCode: 'oneOf.openapi.requestValidation',
         message: 'should match exactly one schema in oneOf',
         location: 'body'
       }

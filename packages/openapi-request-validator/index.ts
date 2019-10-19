@@ -432,7 +432,7 @@ function lowercasedHeaders(headersSchema) {
 function toOpenapiValidationError(error): OpenAPIRequestValidatorError {
   const validationError: OpenAPIRequestValidatorError = {
     path: 'instance' + error.dataPath,
-    errorCode: `${error.keyword}.openapi.validation`,
+    errorCode: `${error.keyword}.openapi.requestValidation`,
     message: error.message,
     location: error.location
   };

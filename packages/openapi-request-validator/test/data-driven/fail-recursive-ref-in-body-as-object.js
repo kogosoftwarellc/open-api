@@ -45,7 +45,7 @@ module.exports = {
     errors: [
       {
         path: 'test1.recursive.foo',
-        errorCode: 'type.openapi.validation',
+        errorCode: 'type.openapi.requestValidation',
         message: 'should be string',
         location: 'body'
       }
