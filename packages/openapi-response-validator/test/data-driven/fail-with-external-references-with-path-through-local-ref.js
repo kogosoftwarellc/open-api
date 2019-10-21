@@ -39,7 +39,7 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'foo should be string'
+        message: 'should be string'
       }
     ]
   }
