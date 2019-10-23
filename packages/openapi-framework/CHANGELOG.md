@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.25.0 - 2019-10-21
 ### Added
+- Add support for $ref in requestBody (closes #486)
 - openapi-default-setter: Support default values from schema property in parameter objects (#551)
 - openapi-jsonschema-parameters: Added support for 'examples' (fixes #513) (#514)
 - openapi-response-validator: add 'errors' on any error (fixes #512) (#531)
