@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.2.0 - 2019-10-21
 ### Aded
--  Added support for 'examples' (fixes #513) (#514)
+- Added support for 'examples' (fixes #513) (#514)
 
 ### Fixed
 - remove extra parens from example code (#550)
