@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 4.0.0 - 2019-10-21
+### Added
+- add 'errors' on any error (fixes #512) (#531)
+
+### Changed
+- removes path from message (part of #554) (#556)
+
+### Fixed
+- readme renamed instance variable (part of #512) (#527)
+
 ## 3.8.2 - 2019-07-12
 ###
 - remove required writeOnly props from resp validation (#481)
