@@ -497,7 +497,9 @@ function resolveAndSanitizeRequestBodySchema(
     Object.keys(schema.properties).forEach(property => {
       let prop = schema.properties[property];
       prop = sanitizeReadonlyPropertiesFromRequired(prop);
-      prop = resolveAndSanitizeRequestBodySchema(prop, v);
+      if (!prop.hasOwnProperty('$ref')) {
+        prop = resolveAndSanitizeRequestBodySchema(prop, v);
+      }
     });
   } else if ('$ref' in requestBodySchema) {
     resolved = v.getSchema(requestBodySchema.$ref);

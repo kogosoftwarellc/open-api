@@ -17,6 +17,9 @@ module.exports = {
           obj: {
             type: 'object',
             properties: {
+              refbar: {
+                $ref: '#/components/schemas/Test'
+              },
               bar: {
                 type: 'string'
               },
