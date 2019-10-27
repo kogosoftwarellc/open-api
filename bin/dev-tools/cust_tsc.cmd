@@ -1,4 +1,4 @@
-REM @ECHO OFF
+@ECHO OFF
 
 SET tsc="%~dp0..\..\node_modules\.bin\tsc"
 

@@ -7,7 +7,7 @@
     "fetch-openapi": "./bin/fetch-openapi.js"
   },
   "scripts": {
-    "cover": "istanbul cover _cust_mocha -- ./test/*.js",
+    "cover": "istanbul cover _mocha -- ./test/*.js",
     "test-watch": "cust_mocha -w ./test/*.js",
     "test": "cust_mocha ./test/*.js",
     "travis-test": "npm run cover"

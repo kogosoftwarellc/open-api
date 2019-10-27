@@ -1,4 +1,4 @@
-REM @ECHO OFF
+@ECHO OFF
 
 SET mocha="%~dp0..\..\node_modules\.bin\mocha"
 
