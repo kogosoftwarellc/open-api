@@ -25,6 +25,7 @@ describe('fetch-openapi', function() {
         it('should output an api service factory', function() {
           expect(sut(require(inputPath), options)).to.equal(
             fs.readFileSync(outputPath, 'utf8')
+              .replace(/\r\n/g, "\n") // normalize line endings comparisons accross OSes
           );
         });
 
