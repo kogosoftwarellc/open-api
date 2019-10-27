@@ -8,10 +8,10 @@
     "dist/**/*"
   ],
   "scripts": {
-    "cover": "nyc",
-    "prepare": "tsc",
-    "test-watch": "tsc && mocha --watch-extensions ts -w",
-    "test": "mocha",
+    "cover": "cust_nyc",
+    "prepare": "cust_tsc",
+    "test-watch": "cust_tsc && cust_mocha --watch-extensions ts -w",
+    "test": "cust_mocha",
     "travis-test": "npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework",

@@ -4,8 +4,8 @@
   "description": "An unopinionated OpenAPI framework for restify",
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js ./test/**/*.js",
-    "test": "mocha ./test/*.js",
+    "test-watch": "cust_mocha -w ./test/*.js ./test/**/*.js",
+    "test": "cust_mocha ./test/*.js",
     "travis-test": "true || npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/restify-openapi",

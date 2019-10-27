@@ -9,11 +9,11 @@
     "dist/**/*"
   ],
   "scripts": {
-    "cover": "nyc",
-    "prepare": "tsc",
+    "cover": "cust_nyc",
+    "prepare": "cust_tsc",
     "pretest": "touch test-dir/users/:id.js",
-    "test-watch": "tsc && npm run pretest && mocha --watch-extensions ts -w",
-    "test": "mocha",
+    "test-watch": "cust_tsc && npm run pretest && cust_mocha --watch-extensions ts -w",
+    "test": "cust_mocha",
     "travis-test": "npm run pretest && npm run cover"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes",
