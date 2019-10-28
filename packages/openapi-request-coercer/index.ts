@@ -16,7 +16,6 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
   private coerceParams;
   private coerceQuery;
   private coerceFormData;
-  private enableObjectCoercion;
 
   constructor(args: OpenAPIRequestCoercerArgs) {
     const loggingKey = args && args.loggingKey ? `${args.loggingKey}: ` : '';

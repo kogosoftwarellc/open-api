@@ -41,7 +41,8 @@ it('should use response references', function(done) {
         errors: [
           {
             errorCode: 'enum.openapi.responseValidation',
-            message: 'response should be equal to one of the allowed values'
+            message: 'should be equal to one of the allowed values',
+            path: 'response'
           }
         ],
         message: 'The response was not valid.',

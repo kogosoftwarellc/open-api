@@ -206,13 +206,6 @@ function toOpenapiValidationError(
     ''
   );
 
-  validationError.message =
-    validationError.path + ' ' + validationError.message;
-
-  if (validationError.path === 'response') {
-    delete validationError.path;
-  }
-
   return validationError;
 }
 

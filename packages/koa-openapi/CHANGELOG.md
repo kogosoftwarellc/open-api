@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 4.0.0 - 2019-10-23
+### Added
+- openapi-framework: Add support for $ref in requestBody (closes #486)
+- openapi-default-setter: Support default values from schema property in parameter objects (#551)
+- openapi-jsonschema-parameters: Added support for 'examples' (fixes #513) (#514)
+- openapi-response-validator: add 'errors' on any error (fixes #512) (#531)
+
+### Changed
+- openapi-request-validator: renamed validate function (part of #512) (#541)
+- openapi-response-validator: removes path from message (part of #554) (#556)
+
+### Fixed
+- openapi-response-validator: readme renamed instance variable (part of #512) (#527)
+
+
 ## 3.13.5 - 2019-07-12
 ### Fixed
 - openapi-response-validator: remove required writeOnly props from resp validation (#481)

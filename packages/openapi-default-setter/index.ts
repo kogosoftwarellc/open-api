@@ -41,40 +41,60 @@ export default class OpenAPIDefaultSetter implements IOpenAPIDefaultSetter {
   }
 }
 
-function byDefault(param) {
-  return 'default' in param;
-}
-
-function byLocation(location) {
-  return param => {
+function byLocation(location: string) {
+  return (param: OpenAPIV3.ParameterObject | OpenAPIV2.ParameterObject) => {
     return param.in === location;
   };
 }
 
-function getDefaults(location, parameters) {
-  let defaults;
-
-  parameters
-    .filter(byDefault)
-    .filter(byLocation(location))
-    .forEach(param => {
-      let name = param.name;
-
-      if (location === 'header') {
-        name = name.toLowerCase();
-      }
-
-      if (!defaults) {
-        defaults = {};
-      }
-
-      defaults[name] = param.default;
-    });
-
-  return defaults;
+function hasSchema<T>(obj: T): obj is T & { schema: any } {
+  return 'schema' in obj;
 }
 
-function setDefaults(obj, defaults) {
+function resolveDefaultValue(
+  parameter: OpenAPIV3.ParameterObject | OpenAPIV2.ParameterObject
+) {
+  if ('default' in parameter) {
+    return parameter.default;
+  }
+
+  if (hasSchema(parameter)) {
+    return parameter.schema && parameter.schema.default;
+  }
+
+  return undefined;
+}
+
+function resolveName(
+  parameter: OpenAPIV3.ParameterObject | OpenAPIV2.ParameterObject
+): string {
+  if (parameter.in === 'header') {
+    return parameter.name.toLowerCase();
+  }
+  return parameter.name;
+}
+
+function getDefaults(
+  location: string,
+  parameters: Array<OpenAPIV3.ParameterObject | OpenAPIV2.ParameterObject>
+): DefaultMap {
+  const defaults = parameters
+    .filter(byLocation(location))
+    .reduce((result, param) => {
+      const name = resolveName(param);
+
+      const defaultValue = resolveDefaultValue(param);
+      if (defaultValue === undefined) {
+        return result;
+      }
+
+      return { ...result, [name]: defaultValue };
+    }, {});
+
+  return Object.keys(defaults).length ? defaults : undefined;
+}
+
+function setDefaults(obj: object, defaults: DefaultMap) {
   for (const name in defaults) {
     if (!(name in obj)) {
       obj[name] = defaults[name];

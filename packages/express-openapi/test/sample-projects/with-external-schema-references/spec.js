@@ -86,7 +86,7 @@ it('should use schema references through local schema definition reference in ch
         errors: [
           {
             errorCode: 'required.openapi.responseValidation',
-            message: "response[0] should have required property 'name'",
+            message: "should have required property 'name'",
             path: 'response[0]'
           }
         ],
@@ -106,11 +106,13 @@ it('should use schema references through local schema definition reference in re
         errors: [
           {
             errorCode: 'type.openapi.responseValidation',
-            message: 'response should be string'
+            message: 'should be string',
+            path: 'response'
           },
           {
             errorCode: 'enum.openapi.responseValidation',
-            message: 'response should be equal to one of the allowed values'
+            message: 'should be equal to one of the allowed values',
+            path: 'response'
           }
         ],
         message: 'The response was not valid.',
@@ -129,11 +131,13 @@ it('should use schema references through local response definition reference', f
         errors: [
           {
             errorCode: 'type.openapi.responseValidation',
-            message: 'response should be string'
+            message: 'should be string',
+            path: 'response'
           },
           {
             errorCode: 'enum.openapi.responseValidation',
-            message: 'response should be equal to one of the allowed values'
+            message: 'should be equal to one of the allowed values',
+            path: 'response'
           }
         ],
         message: 'The response was not valid.',
@@ -152,7 +156,8 @@ it('should use schema references in child schema of response', function(done) {
         errors: [
           {
             errorCode: 'required.openapi.responseValidation',
-            message: "response should have required property 'content'"
+            message: "should have required property 'content'",
+            path: 'response'
           }
         ],
         message: 'The response was not valid.',
@@ -171,11 +176,13 @@ it('should use schema references in response', function(done) {
         errors: [
           {
             errorCode: 'type.openapi.responseValidation',
-            message: 'response should be string'
+            message: 'should be string',
+            path: 'response'
           },
           {
             errorCode: 'enum.openapi.responseValidation',
-            message: 'response should be equal to one of the allowed values'
+            message: 'should be equal to one of the allowed values',
+            path: 'response'
           }
         ],
         message: 'The response was not valid.',
