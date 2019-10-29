@@ -220,7 +220,7 @@ function buildCoercer(args) {
           // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#style-values
           if (param.style) {
             if (param.style === 'form' && param.in === 'query') {
-              collectionFormat = param.explodes ? 'multi' : 'csv';
+              collectionFormat = param.explode ? 'multi' : 'csv';
             } else if (
               param.style === 'simple' &&
               (param.in === 'path' || param.in === 'header')
