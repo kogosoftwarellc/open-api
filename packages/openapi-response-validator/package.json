@@ -14,7 +14,7 @@
     "test": "mocha",
     "travis-test": "npm run cover"
   },
-  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/eopenapi-response-validator",
+  "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator",
   "keywords": [
     "openapi",
     "validation",
