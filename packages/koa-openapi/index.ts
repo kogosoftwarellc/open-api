@@ -107,6 +107,17 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
       let middleware = [].concat(operationCtx.additionalFeatures);
 
       if (operationDoc && operationCtx.allowsFeatures) {
+        if (operationCtx.features.requestValidator) {
+          middleware.unshift(function requestValidatorMiddleware(ctx: Context) {
+            const errors = operationCtx.features.requestValidator.validateRequest(
+              toOpenAPIRequest(ctx)
+            );
+            if (errors) {
+              ctx.throw(errors.status, errors);
+            }
+          });
+        }
+
         if (operationCtx.features.responseValidator) {
           // add response validation middleware
           // it's invalid for a method doc to not have responses, but the post
@@ -120,17 +131,6 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
                 response
               );
             };
-          });
-        }
-
-        if (operationCtx.features.requestValidator) {
-          middleware.unshift(function requestValidatorMiddleware(ctx: Context) {
-            const errors = operationCtx.features.requestValidator.validateRequest(
-              toOpenAPIRequest(ctx)
-            );
-            if (errors) {
-              ctx.throw(errors.status, errors);
-            }
           });
         }
 
