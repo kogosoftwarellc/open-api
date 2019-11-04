@@ -23,7 +23,7 @@ module.exports = {
           }
         },
         style: 'form',
-        explodes: false
+        explode: false
       },
 
       {
@@ -36,7 +36,7 @@ module.exports = {
           }
         },
         style: 'form',
-        explodes: true
+        explode: true
       },
 
       {
