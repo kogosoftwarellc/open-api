@@ -1,4 +1,5 @@
 import { OpenAPI } from 'openapi-types';
+import { dummyLogger, Logger } from 'ts-log';
 
 export interface IOpenAPIRequestCoercer {
   coerce(request: OpenAPI.Request): void;
@@ -6,6 +7,7 @@ export interface IOpenAPIRequestCoercer {
 
 export interface OpenAPIRequestCoercerArgs {
   loggingKey?: string;
+  logger?: Logger;
   enableObjectCoercion?: boolean;
   extensionBase?: string;
   parameters: OpenAPI.Parameters;
@@ -23,6 +25,8 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       throw new Error(`${loggingKey}missing args argument`);
     }
 
+    const logger = args.logger || dummyLogger;
+
     if (!Array.isArray(args.parameters)) {
       throw new Error(`${loggingKey}args.parameters must be an Array`);
     }
@@ -36,6 +40,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       params: args.parameters,
       property: 'header',
       isHeaders: true,
+      logger,
       loggingKey,
       strictExtensionName,
       enableObjectCoercion
@@ -44,6 +49,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       params: args.parameters,
       property: 'path',
       isHeaders: false,
+      logger,
       loggingKey,
       strictExtensionName,
       enableObjectCoercion
@@ -52,6 +58,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       params: args.parameters,
       property: 'query',
       isHeaders: false,
+      logger,
       loggingKey,
       strictExtensionName,
       enableObjectCoercion
@@ -60,6 +67,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       params: args.parameters,
       property: 'formData',
       isHeaders: false,
+      logger,
       loggingKey,
       strictExtensionName,
       enableObjectCoercion
@@ -201,7 +209,12 @@ function buildCoercer(args) {
           schema.items.schema && schema.items.schema.type
             ? schema.items.schema.type
             : schema.items.type;
-        itemCoercer = getCoercer(itemsType, strict);
+        itemCoercer = getCoercer(
+          itemsType,
+          strict,
+          args.logger,
+          args.loggingKey
+        );
 
         if (itemsType === 'object') {
           if (!args.enableObjectCoercion) {
@@ -247,10 +260,15 @@ function buildCoercer(args) {
         }
       } else if (type === 'object') {
         if (args.enableObjectCoercion) {
-          coercer = getCoercer(schema.type, strict).bind(null, schema.format);
+          coercer = getCoercer(
+            schema.type,
+            strict,
+            args.logger,
+            args.loggingKey
+          ).bind(null, schema.format);
         }
       } else {
-        coercer = getCoercer(schema.type, strict);
+        coercer = getCoercer(schema.type, strict, args.logger, args.loggingKey);
       }
 
       if (coercer) {
@@ -274,7 +292,11 @@ function byLocation(location) {
   return param => param.in === location;
 }
 
-function getCoercer(type, strict) {
+function identityCoercer(input: any) {
+  return input;
+}
+
+function getCoercer(type, strict, logger, loggingKey) {
   let strategy;
   if (strict) {
     strategy = STRICT_COERCION_STRATEGIES[type];
@@ -282,6 +304,19 @@ function getCoercer(type, strict) {
   if (!strategy) {
     strategy = COERCION_STRATEGIES[type];
   }
+  if (strategy === undefined) {
+    const msg =
+      type === undefined
+        ? 'No type has been defined'
+        : `No proper coercion strategy has been found for type '${type}'`;
+
+    logger.warn(
+      loggingKey,
+      `${msg}. A default 'identity' strategy has been set.`
+    );
+    strategy = identityCoercer;
+  }
+
   return strategy;
 }
 

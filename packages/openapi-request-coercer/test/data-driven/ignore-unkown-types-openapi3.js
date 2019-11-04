@@ -1,4 +1,21 @@
 module.exports = {
+  logs: [
+    {
+      type: 'WARN',
+      message: '',
+      optionalParams: [
+        "No proper coercion strategy has been found for type 'asdfasdf'. A default 'identity' strategy has been set."
+      ]
+    },
+    {
+      type: 'WARN',
+      message: '',
+      optionalParams: [
+        "No proper coercion strategy has been found for type 'dddd'. A default 'identity' strategy has been set."
+      ]
+    }
+  ],
+
   args: {
     parameters: [
       {
