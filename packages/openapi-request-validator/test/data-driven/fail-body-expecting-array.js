@@ -18,7 +18,7 @@ module.exports = {
     status: 400,
     errors: [
       {
-        errorCode: 'type.openapi.validation',
+        errorCode: 'type.openapi.requestValidation',
         message: 'should be array',
         location: 'body'
       }

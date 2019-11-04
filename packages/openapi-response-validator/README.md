@@ -70,7 +70,7 @@ var validationError = responseValidator.validateResponse(200, someResource);
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'foo is not of a type(s) string'
+        message: is not of a type(s) string'
       }
     ]
   }
@@ -132,7 +132,7 @@ This function is passed 2 arguments.
 See the error format in [ajv](https://www.npmjs.com/package/ajv#validation-errors) for
 `ajvError`.  `openapiError`s have the following properties:
 
-* `errorCode` - A jsonschema error suffixed with `.openapi.validation`.
+* `errorCode` - A jsonschema error suffixed with `.openapi.responseValidation`.
 failed.
 * `message` - A detailed message as to why validation failed.
 * `path` - The property of the response body that failed validation.
