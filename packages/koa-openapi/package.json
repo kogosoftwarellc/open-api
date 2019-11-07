@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/es6-shim": "^0.31.37",
-    "@types/koa": "^2.0.46",
+    "@types/koa": "^2.0.52",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0"
