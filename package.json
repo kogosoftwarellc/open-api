@@ -38,7 +38,7 @@
     "istanbul-combine": "0.3.0",
     "mocha": "6.2.2",
     "nyc": "14.1.1",
-    "prettier": "^1.15.3",
+    "prettier": "^1.19.1",
     "source-map-support": "0.5.14",
     "supertest": "4.0.1",
     "ts-node": "8.4.0",
