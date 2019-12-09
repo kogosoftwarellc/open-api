@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.25.0 - 2019-12-09
+### Added
+* openapi-request-validator: Adds 'request' to errorCode (fixes #554) (#557)
+
+### Fixed
+* openapi-request-coercer: Do not throw on untyped array items (#569)
+* openapi-request-coercer: Fix some data driven test names (#575)
+* openapi-request-coercer: Fix handling of OAS 3 explode (#574)
+* openapi-request-coercer: Drop unused member (#570)
+* openapi-request-validator: Fixes circular $ref (#565)
+
 ## 0.25.0 - 2019-10-21
 ### Added
 - Add support for $ref in requestBody (closes #486)
