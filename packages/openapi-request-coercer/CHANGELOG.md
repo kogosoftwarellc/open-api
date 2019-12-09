@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.4.0 - 2019-12-09
+### Fixed
+* Do not throw on untyped array items (#569)
+* Fix some data driven test names (#575)
+* Fix handling of OAS 3 explode (#574)
+* Drop unused member (#570)
+
 ## 2.3.0 - 2019-03-19
 ### Fixed
 - Don't coerce numbers that cannot be converted (#371)
