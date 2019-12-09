@@ -9,7 +9,7 @@ describe(require('../package.json').name + ' sample-projects', () => {
     const coercionMissingBody = {
       errors: [
         {
-          errorCode: 'type.openapi.validation',
+          errorCode: 'type.openapi.requestValidation',
           location: 'path',
           message: 'should be integer',
           path: 'id'

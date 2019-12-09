@@ -15,7 +15,7 @@ describe('input validation', function() {
         {
           errors: [
             {
-              errorCode: 'format.openapi.validation',
+              errorCode: 'format.openapi.requestValidation',
               location: 'query',
               message: 'should match format "foo"',
               path: 'foo'
