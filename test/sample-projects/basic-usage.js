@@ -30,7 +30,7 @@ module.exports = function(request) {
       .get('/v3/users/34?name=barney')
       .expect(400, {errors: [
         {
-          errorCode: 'pattern.openapi.validation',
+          errorCode: 'pattern.openapi.requestValidation',
           location: 'query',
           message: 'should match pattern \"^fred$\"',
           path: 'name'
@@ -77,7 +77,7 @@ module.exports = function(request) {
       .send(user)
       .expect(400, {errors: [
         {
-          errorCode: 'required.openapi.validation',
+          errorCode: 'required.openapi.requestValidation',
           location: 'body',
           message: 'should have required property \'name\'',
           path: 'name'
