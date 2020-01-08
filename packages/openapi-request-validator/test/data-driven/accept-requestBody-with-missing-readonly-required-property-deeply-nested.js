@@ -20,6 +20,12 @@ module.exports = {
               refbar: {
                 $ref: '#/components/schemas/Test'
               },
+              refitems: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/Test'
+                }
+              },
               bar: {
                 type: 'string'
               },
