@@ -795,8 +795,8 @@ initialize({
   /*...*/
   pathSecurity: [
     // here /some/{pathId} will get theirSecurity.
-    [/^\/some/\{pathId\}/, [{mySecurity:[]}]],
-    [/^\/some/\{pathId\}/, [{theirSecurity:[]}]]
+    [/^\/some\/\{pathId\}/, [{mySecurity:[]}]],
+    [/^\/some\/\{pathId\}/, [{theirSecurity:[]}]]
   ]
   /*...*/
 });
