@@ -100,6 +100,28 @@ export default class OpenAPIRequestValidator
       logger: false
     });
 
+    v.removeKeyword('readOnly');
+    v.addKeyword('readOnly', {
+      modifying: true,
+      compile: sch => {
+        if (sch) {
+          return function validate(data, path, obj, propName) {
+            const isValid = !(sch === true && data != null);
+            (validate as any).errors = [
+              {
+                keyword: 'readOnly',
+                dataPath: path,
+                message: 'is read-only',
+                params: { readOnly: propName }
+              }
+            ];
+            return isValid;
+          };
+        }
+        return () => true;
+      }
+    });
+
     if (args.requestBody) {
       isBodyRequired = args.requestBody.required || false;
     }
