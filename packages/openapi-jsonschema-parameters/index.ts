@@ -47,6 +47,7 @@ const VALIDATION_KEYWORDS = [
   'example',
   'description',
   'enum',
+  'examples',
   'exclusiveMaximum',
   'exclusiveMinimum',
   'format',
@@ -79,20 +80,67 @@ function copyValidationKeywords(src) {
   return dst;
 }
 
-function handleNullable(params, paramSchema, param) {
-  if (params.nullable) {
-    if (param.hasOwnProperty('examples')) {
-      paramSchema.examples = param.examples;
-    }
-    return {
-      anyOf: [paramSchema, { type: 'null' }]
-    };
+function handleNullable(schema) {
+  return { anyOf: [schema, { type: 'null' }] };
+}
+
+const SUBSCHEMA_KEYWORDS = [
+  'additionalItems',
+  'items',
+  'contains',
+  'additionalProperties',
+  'propertyNames',
+  'not'
+];
+
+const SUBSCHEMA_ARRAY_KEYWORDS = ['items', 'allOf', 'anyOf', 'oneOf'];
+
+const SUBSCHEMA_OBJECT_KEYWORDS = [
+  'definitions',
+  'properties',
+  'patternProperties',
+  'dependencies'
+];
+
+function handleNullableSchema(schema) {
+  if (typeof schema !== 'object' || schema === null) {
+    return schema;
   }
 
-  if (param.hasOwnProperty('examples')) {
-    paramSchema.examples = param.examples;
+  const newSchema = { ...schema };
+
+  SUBSCHEMA_KEYWORDS.forEach(keyword => {
+    if (
+      typeof schema[keyword] === 'object' &&
+      schema[keyword] !== null &&
+      !Array.isArray(schema[keyword])
+    ) {
+      newSchema[keyword] = handleNullableSchema(schema[keyword]);
+    }
+  });
+
+  SUBSCHEMA_ARRAY_KEYWORDS.forEach(keyword => {
+    if (Array.isArray(schema[keyword])) {
+      newSchema[keyword] = schema[keyword].map(handleNullableSchema);
+    }
+  });
+
+  SUBSCHEMA_OBJECT_KEYWORDS.forEach(keyword => {
+    if (typeof schema[keyword] === 'object' && schema[keyword] !== null) {
+      newSchema[keyword] = { ...schema[keyword] };
+      Object.keys(schema[keyword]).forEach(prop => {
+        newSchema[keyword][prop] = handleNullableSchema(schema[keyword][prop]);
+      });
+    }
+  });
+
+  delete newSchema.$ref;
+
+  if (schema.nullable) {
+    delete newSchema.nullable;
+    return handleNullable(newSchema);
   }
-  return paramSchema;
+  return newSchema;
 }
 
 function getBodySchema(parameters) {
@@ -115,13 +163,18 @@ function getSchema(parameters, type) {
     schema = { properties: {} };
 
     params.forEach(param => {
-      const paramSchema = copyValidationKeywords(param.schema || param);
-
-      schema.properties[param.name] = handleNullable(
-        param.schema || param,
-        paramSchema,
-        param
-      );
+      if ('schema' in param) {
+        const paramSchema = handleNullableSchema(param.schema);
+        if ('examples' in param && !('examples' in paramSchema)) {
+          paramSchema.examples = param.examples;
+        }
+        schema.properties[param.name] = paramSchema;
+      } else {
+        const paramSchema = copyValidationKeywords(param);
+        schema.properties[param.name] = param.nullable
+          ? handleNullable(paramSchema)
+          : paramSchema;
+      }
     });
 
     schema.required = getRequiredParams(params);

@@ -14,7 +14,7 @@ module.exports = {
         title: 'fffasdf',
         maximum: 0,
         additionalItems: true,
-        items: [],
+        items: [{ nullable: true }],
         exclusiveMaximum: true,
         minimum: 5,
         exclusiveMinimum: false,
@@ -25,7 +25,14 @@ module.exports = {
         minItems: 7,
         uniqueItems: false,
         enum: ['1', '3'],
-        multipleOf: 57
+        multipleOf: 57,
+        properties: {
+          something: { nullable: true }
+        },
+        oneOf: [{ nullable: true }],
+        allOf: [{ nullable: true }],
+        anyOf: [{ nullable: true }],
+        not: { nullable: true }
       },
       examples: {
         example1: {
@@ -49,7 +56,7 @@ module.exports = {
           minimum: 5,
           exclusiveMinimum: false,
           format: 'asdf',
-          items: [],
+          items: [{ anyOf: [{}, { type: 'null' }] }],
           maxLength: 5,
           minLength: 6,
           pattern: '^asdf$',
@@ -59,6 +66,13 @@ module.exports = {
           uniqueItems: false,
           enum: ['1', '3'],
           multipleOf: 57,
+          properties: {
+            something: { anyOf: [{}, { type: 'null' }] }
+          },
+          oneOf: [{ anyOf: [{}, { type: 'null' }] }],
+          allOf: [{ anyOf: [{}, { type: 'null' }] }],
+          anyOf: [{ anyOf: [{}, { type: 'null' }] }],
+          not: { anyOf: [{}, { type: 'null' }] },
           examples: {
             example1: {
               value: 'asd'
