@@ -43,7 +43,7 @@ function buildApiService(apiDoc, options) {
   }
 
   apiFunctionDeclaration.push('function createApi(options) {');
-  apiFunctionDeclaration.push("  const basePath = '" + apiDoc.basePath + "';");
+  apiFunctionDeclaration.push("  const basePath = '" + (apiDoc.basePath || '') + "';");
   apiFunctionDeclaration.push(
     "  const endpoint = options.endpoint || '" + getEndpoint(apiDoc) + "';"
   );
