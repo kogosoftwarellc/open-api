@@ -5,11 +5,18 @@ export interface IOpenAPIRequestCoercer {
   coerce(request: OpenAPI.Request): void;
 }
 
+export interface CoercionStrategy {
+  boolean?: (input: any) => any;
+  number?: (input: any) => any;
+  integer?: (input: any) => any;
+}
+
 export interface OpenAPIRequestCoercerArgs {
   loggingKey?: string;
   logger?: Logger;
   enableObjectCoercion?: boolean;
   extensionBase?: string;
+  coercionStrategy?: CoercionStrategy;
   parameters: OpenAPI.Parameters;
 }
 
@@ -31,6 +38,10 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       throw new Error(`${loggingKey}args.parameters must be an Array`);
     }
 
+    if (!args.coercionStrategy) {
+      args.coercionStrategy = {};
+    }
+
     const extensionBase =
       args && args.extensionBase ? args.extensionBase : 'x-openapi-coercion';
     const strictExtensionName = `${extensionBase}-strict`;
@@ -43,7 +54,8 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       logger,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion
+      enableObjectCoercion,
+      coercionStrategy: args.coercionStrategy
     });
     this.coerceParams = buildCoercer({
       params: args.parameters,
@@ -52,7 +64,8 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       logger,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion
+      enableObjectCoercion,
+      coercionStrategy: args.coercionStrategy
     });
     this.coerceQuery = buildCoercer({
       params: args.parameters,
@@ -61,7 +74,8 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       logger,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion
+      enableObjectCoercion,
+      coercionStrategy: args.coercionStrategy
     });
     this.coerceFormData = buildCoercer({
       params: args.parameters,
@@ -70,7 +84,8 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       logger,
       loggingKey,
       strictExtensionName,
-      enableObjectCoercion
+      enableObjectCoercion,
+      coercionStrategy: args.coercionStrategy
     });
   }
 
@@ -213,7 +228,8 @@ function buildCoercer(args) {
           itemsType,
           strict,
           args.logger,
-          args.loggingKey
+          args.loggingKey,
+          args.coercionStrategy
         );
 
         if (itemsType === 'object') {
@@ -264,11 +280,18 @@ function buildCoercer(args) {
             schema.type,
             strict,
             args.logger,
-            args.loggingKey
+            args.loggingKey,
+            args.coercionStrategy
           ).bind(null, schema.format);
         }
       } else {
-        coercer = getCoercer(schema.type, strict, args.logger, args.loggingKey);
+        coercer = getCoercer(
+          schema.type,
+          strict,
+          args.logger,
+          args.loggingKey,
+          args.coercionStrategy
+        );
       }
 
       if (coercer) {
@@ -296,9 +319,18 @@ function identityCoercer(input: any) {
   return input;
 }
 
-function getCoercer(type, strict, logger, loggingKey) {
+function getCoercer(
+  type: string,
+  strict: boolean,
+  logger: Logger,
+  loggingKey: string,
+  customStrategy: CoercionStrategy
+) {
   let strategy;
-  if (strict) {
+  if (customStrategy[type] !== undefined) {
+    strategy = customStrategy[type];
+  }
+  if (strategy === undefined && strict) {
     strategy = STRICT_COERCION_STRATEGIES[type];
   }
   if (!strategy) {
