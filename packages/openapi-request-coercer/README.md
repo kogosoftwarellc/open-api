@@ -44,7 +44,7 @@ By default a boolean parameter is coerced to:
 * _false_ if the input value is "false"
 * _true_ for any other input value
 
-This behaviour is makes sense if you do not wish to validate the input fields.
+This behaviour makes sense if you do not wish to validate the input fields.
 
 If the opposite is the case, the behaviour can be changed by setting the "x-openapi-coercion-strict" to _true_ on the parameter in question as illustrated below.
 
@@ -68,6 +68,43 @@ Doing so will result in the boolean parameter being coerced to:
 * _true_ if the input value is "true" (in any casing)
 * _null_ for any other input value
 
+## Implementing your own custom coercion strategy
+
+Would `x-openapi-coercion-strict` not be strict enough to your test, or would you completely want to customize the coercion behavior you can completely define how simpler types (`boolean`, `integer` and `number`) are dealt with.
+
+In order to do so, define a custom coercion strategy through the optional `coercionStrategy` argument.
+
+For instance, below a sample of a strategy that will:
+ - only coerce stringified boolean values when they are expressed in lowercase in a case sentive way
+ - coerce integers when they are even, otherwise return null
+ - as numbers aren't overridden, the default strategy will be leveraged
+
+```javascript
+import OpenapiRequestCoercer from 'openapi-request-coercer';
+const coercionStrategy = {
+  boolean = (input) => {    
+    if (typeof input === 'boolean') {
+      return input;
+    }
+    if (input === 'false') {
+      return false;
+    }
+    else if (input === 'true') {
+      return true;
+    }
+    return input;
+  };
+  number = (input) => {
+    var result = Number(input);
+    return isNaN(result) || (result%2) === 1 ? null : result;
+  }
+};
+const parameters = { /* ... */ }
+
+const sut = new OpenapiRequestCoercer({ parameters, coercionStrategy });
+const result = sut.coerce(request);
+```
+
 ## API
 
 ### coerce(args)
@@ -79,6 +116,9 @@ Defaults to `''`.
 
 #### args.parameters
 An array of openapi parameters.
+
+#### args.coercionStrategy
+An object exposing the optional `boolean`, `integer`, `number` properties. Each of them, when defined is expected to accept a function accepting a parameter and returning a result.
 
 ## LICENSE
 ``````
