@@ -379,6 +379,7 @@ export namespace OpenAPIV2 {
   }
 
   interface SecuritySchemeOauth2Base extends SecuritySchemeObjectBase {
+    type: 'oauth2';
     flow: 'implicit' | 'password' | 'application' | 'accessCode';
     scopes: ScopesObject;
   }
