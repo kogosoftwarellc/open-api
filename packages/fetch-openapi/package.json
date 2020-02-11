@@ -30,6 +30,6 @@
     "commander": "4.1.1",
     "composites": "^1.1.1",
     "err-handler": "^1.0.5",
-    "request": "*"
+    "request": ">=2.88.2"
   }
 }
