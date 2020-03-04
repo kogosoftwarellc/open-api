@@ -482,7 +482,7 @@ export namespace OpenAPIV2 {
 
   export interface ResponsesObject {
     [index: string]: Response | any;
-    default: Response;
+    default?: Response;
   }
 
   export type Parameters = Array<ReferenceObject | Parameter>;
