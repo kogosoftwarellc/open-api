@@ -57,11 +57,7 @@ module.exports = {
           uniqueItems: false,
           enum: ['1', '3'],
           multipleOf: 57,
-          examples: {
-            example1: {
-              value: 'asd'
-            }
-          }
+          examples: ['asd'],
         }
       },
       required: ['foo']
