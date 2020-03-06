@@ -73,11 +73,7 @@ module.exports = {
           allOf: [{ anyOf: [{}, { type: 'null' }] }],
           anyOf: [{ anyOf: [{}, { type: 'null' }] }],
           not: { anyOf: [{}, { type: 'null' }] },
-          examples: {
-            example1: {
-              value: 'asd'
-            }
-          }
+          examples: ['asd'],
         }
       },
       required: ['foo']

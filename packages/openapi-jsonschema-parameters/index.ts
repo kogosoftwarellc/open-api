@@ -163,14 +163,18 @@ function getSchema(parameters, type) {
     schema = { properties: {} };
 
     params.forEach(param => {
+      let paramSchema;
       if ('schema' in param) {
-        const paramSchema = handleNullableSchema(param.schema);
-        if ('examples' in param && !('examples' in paramSchema)) {
-          paramSchema.examples = param.examples;
+        paramSchema = handleNullableSchema(param.schema);
+        if ('examples' in param) {
+          paramSchema.examples = getExamples(param.examples);
         }
         schema.properties[param.name] = paramSchema;
       } else {
-        const paramSchema = copyValidationKeywords(param);
+        paramSchema = copyValidationKeywords(param);
+        if ('examples' in paramSchema) {
+          paramSchema.examples = getExamples(paramSchema.examples);
+        }
         schema.properties[param.name] = param.nullable
           ? handleNullable(paramSchema)
           : paramSchema;
@@ -185,6 +189,10 @@ function getSchema(parameters, type) {
 
 function getRequiredParams(parameters) {
   return parameters.filter(byRequired).map(toName);
+}
+
+function getExamples(exampleSchema) {
+  return Object.keys(exampleSchema).map((k) => exampleSchema[k].value);
 }
 
 function byIn(str) {
