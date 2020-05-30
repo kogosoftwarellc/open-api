@@ -34,6 +34,6 @@
     "@types/koa": "^2.0.46",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
-    "koa-router": "^8.0.6"
+    "koa-router": "^9.0.1"
   }
 }
