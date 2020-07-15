@@ -301,7 +301,7 @@ function buildCoercer(args) {
 
     coercion = obj => {
       for (const paramName in obj) {
-        if (paramName in coercers) {
+        if (coercers.hasOwnProperty(paramName)) {
           obj[paramName] = coercers[paramName](obj[paramName]);
         }
       }
