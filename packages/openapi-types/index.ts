@@ -129,7 +129,6 @@ export namespace OpenAPIV3 {
     content?: { [media: string]: MediaTypeObject };
   }
   export type NonArraySchemaObjectType =
-    | 'null'
     | 'boolean'
     | 'object'
     | 'number'
@@ -144,7 +143,7 @@ export namespace OpenAPIV3 {
   }
 
   interface NonArraySchemaObject extends BaseSchemaObject {
-    type: NonArraySchemaObjectType;
+    type?: NonArraySchemaObjectType;
   }
 
   interface BaseSchemaObject {
