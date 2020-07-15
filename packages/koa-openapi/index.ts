@@ -176,7 +176,9 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
             .split('/')
             .map(toPathParams)
             .join('/');
-        router[methodName](koaPath, async (ctx, next) => {
+
+        const routeName = operationDoc?.operationId;
+        router[methodName](routeName, koaPath, async (ctx, next) => {
           for (const fn of middleware) {
             await fn(ctx, next);
           }
