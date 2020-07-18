@@ -11,20 +11,20 @@ module.exports = {
           type: 'array',
           items: {
             schema: {
-              type: 'array'
-            }
-          }
-        }
-      }
-    ]
+              type: 'array',
+            },
+          },
+        },
+      },
+    ],
   },
 
   request: {
     path: '',
-    headers: null
+    headers: null,
   },
 
   headers: null,
   params: null,
-  query: null
+  query: null,
 };

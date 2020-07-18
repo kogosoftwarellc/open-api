@@ -6,18 +6,18 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              $ref: '#/definitions/foo'
-            }
-          }
-        }
-      }
+              $ref: '#/definitions/foo',
+            },
+          },
+        },
+      },
     },
 
     definitions: {
       foo: {
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   },
 
   inputStatusCode: 200,
@@ -29,8 +29,8 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be string'
-      }
-    ]
-  }
+        message: 'should be string',
+      },
+    ],
+  },
 };

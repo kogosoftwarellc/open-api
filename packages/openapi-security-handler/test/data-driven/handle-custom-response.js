@@ -7,32 +7,32 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
+        in: 'header',
       },
       passwordScheme: {
-        type: 'basic'
-      }
+        type: 'basic',
+      },
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition) {
+      keyScheme: function (req, scopes, securityDefinition) {
         throw {
           status: 403,
-          message: 'afafaf'
+          message: 'afafaf',
         };
-      }
+      },
     },
 
     operationSecurity: [
       {
-        keyScheme: ['write']
-      }
-    ]
+        keyScheme: ['write'],
+      },
+    ],
   },
 
   expectedError: {
     message: 'afafaf',
-    status: 403
+    status: 403,
   },
-  expectedResult: false
+  expectedResult: false,
 };

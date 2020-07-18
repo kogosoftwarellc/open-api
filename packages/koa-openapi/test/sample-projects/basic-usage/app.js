@@ -14,7 +14,7 @@ app.use(async (ctx, next) => {
     if (e.errors) {
       ctx.body = {
         status: e.status || 500,
-        errors: e.errors
+        errors: e.errors,
       };
     }
   }
@@ -25,7 +25,7 @@ app.use(bodyParser());
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   router,
-  paths: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes'),
 });
 
 app.use(router.routes());

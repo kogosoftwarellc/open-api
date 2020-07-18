@@ -12,10 +12,10 @@ describe(require('../package.json').name + ' sample-projects', () => {
           errorCode: 'type.openapi.requestValidation',
           location: 'path',
           message: 'should be integer',
-          path: 'id'
-        }
+          path: 'id',
+        },
       ],
-      status: 400
+      status: 400,
     };
 
     [
@@ -28,8 +28,8 @@ describe(require('../package.json').name + ' sample-projects', () => {
           orderingApiDoc: 'pathModule',
           apiDocAdded: true,
           pathDocAdded: true,
-          pathModuleAdded: true
-        }
+          pathModuleAdded: true,
+        },
       },
 
       // not inheriting additional middleware
@@ -40,8 +40,8 @@ describe(require('../package.json').name + ' sample-projects', () => {
         expectedBody: {
           apiDocAdded: null,
           pathDocAdded: null,
-          pathModuleAdded: null
-        }
+          pathModuleAdded: null,
+        },
       },
       {
         name: 'with-inherit-additional-middleware-false-at-pathDoc',
@@ -50,8 +50,8 @@ describe(require('../package.json').name + ' sample-projects', () => {
         expectedBody: {
           apiDocAdded: null,
           pathDocAdded: true,
-          pathModuleAdded: true
-        }
+          pathModuleAdded: true,
+        },
       },
       {
         name: 'with-inherit-additional-middleware-false-at-pathModule',
@@ -60,8 +60,8 @@ describe(require('../package.json').name + ' sample-projects', () => {
         expectedBody: {
           apiDocAdded: null,
           pathDocAdded: null,
-          pathModuleAdded: true
-        }
+          pathModuleAdded: true,
+        },
       },
 
       // disable coercion
@@ -69,25 +69,25 @@ describe(require('../package.json').name + ' sample-projects', () => {
         name: 'with-coercion-middleware-disabled-in-methodDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 400,
-        expectedBody: coercionMissingBody
+        expectedBody: coercionMissingBody,
       },
       {
         name: 'with-coercion-middleware-disabled-in-pathItem',
         url: '/v3/users/34?name=fred',
         expectedStatus: 400,
-        expectedBody: coercionMissingBody
+        expectedBody: coercionMissingBody,
       },
       {
         name: 'with-coercion-middleware-disabled-in-pathModule',
         url: '/v3/users/34?name=fred',
         expectedStatus: 400,
-        expectedBody: coercionMissingBody
+        expectedBody: coercionMissingBody,
       },
       {
         name: 'with-coercion-middleware-disabled-in-the-apiDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 400,
-        expectedBody: coercionMissingBody
+        expectedBody: coercionMissingBody,
       },
 
       // disable defaults, must now also disable request validation middleware
@@ -95,25 +95,25 @@ describe(require('../package.json').name + ' sample-projects', () => {
         name: 'with-defaults-middleware-disabled-in-methodDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred', age: 80 }
+        expectedBody: { id: 34, name: 'fred', age: 80 },
       },
       {
         name: 'with-defaults-middleware-disabled-in-pathItem',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred', age: 80 }
+        expectedBody: { id: 34, name: 'fred', age: 80 },
       },
       {
         name: 'with-defaults-middleware-disabled-in-pathModule',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred', age: 80 }
+        expectedBody: { id: 34, name: 'fred', age: 80 },
       },
       {
         name: 'with-defaults-middleware-disabled-in-the-apiDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 34, name: 'fred', age: 80 }
+        expectedBody: { id: 34, name: 'fred', age: 80 },
       },
 
       // disable validation
@@ -121,25 +121,25 @@ describe(require('../package.json').name + ' sample-projects', () => {
         name: 'with-validation-middleware-disabled-in-methodDoc',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: 'asdf', name: 'fred' }
+        expectedBody: { age: 80, id: 'asdf', name: 'fred' },
       },
       {
         name: 'with-validation-middleware-disabled-in-pathItem',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: 'asdf', name: 'fred' }
+        expectedBody: { age: 80, id: 'asdf', name: 'fred' },
       },
       {
         name: 'with-validation-middleware-disabled-in-pathModule',
         url: '/v3/users/5?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: 5, name: 'fred' }
+        expectedBody: { age: 80, id: 5, name: 'fred' },
       },
       {
         name: 'with-validation-middleware-disabled-in-the-apiDoc',
         url: '/v3/users/15?name=fred',
         expectedStatus: 200,
-        expectedBody: { age: 80, id: 15, name: 'fred' }
+        expectedBody: { age: 80, id: 15, name: 'fred' },
       },
 
       // disable all
@@ -147,27 +147,27 @@ describe(require('../package.json').name + ' sample-projects', () => {
         name: 'with-middleware-disabled-in-methodDoc',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 'asdf', name: 'fred' }
+        expectedBody: { id: 'asdf', name: 'fred' },
       },
       {
         name: 'with-middleware-disabled-in-pathItem',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 'asdf', name: 'fred' }
+        expectedBody: { id: 'asdf', name: 'fred' },
       },
       {
         name: 'with-middleware-disabled-in-pathModule',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 'asdf', name: 'fred' }
+        expectedBody: { id: 'asdf', name: 'fred' },
       },
       {
         name: 'with-middleware-disabled-in-the-apiDoc',
         url: '/v3/users/asdf?name=fred',
         expectedStatus: 200,
-        expectedBody: { id: 'asdf', name: 'fred' }
-      }
-    ].forEach(test => {
+        expectedBody: { id: 'asdf', name: 'fred' },
+      },
+    ].forEach((test) => {
       describe(test.name, () => {
         let app;
 
@@ -175,7 +175,7 @@ describe(require('../package.json').name + ' sample-projects', () => {
           app = require('./sample-projects/' + test.name + '/app.js');
         });
 
-        it('should meet expectations', done => {
+        it('should meet expectations', (done) => {
           request(app)
             .get(test.url)
             .expect(test.expectedStatus)
@@ -193,27 +193,27 @@ describe(require('../package.json').name + ' sample-projects', () => {
         name: 'with-response-validation-middleware-disabled-in-methodDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: true
+        expectedBody: true,
       },
       {
         name: 'with-response-validation-middleware-disabled-in-pathItem',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: true
+        expectedBody: true,
       },
       {
         name: 'with-response-validation-middleware-disabled-in-pathModule',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: true
+        expectedBody: true,
       },
       {
         name: 'with-response-validation-middleware-disabled-in-the-apiDoc',
         url: '/v3/users/34?name=fred',
         expectedStatus: 200,
-        expectedBody: true
-      }
-    ].forEach(test => {
+        expectedBody: true,
+      },
+    ].forEach((test) => {
       describe(test.name, () => {
         let app;
 
@@ -221,7 +221,7 @@ describe(require('../package.json').name + ' sample-projects', () => {
           app = require('./sample-projects/' + test.name + '/app.js');
         });
 
-        it('should not expose res.validateResponse in the app', done => {
+        it('should not expose res.validateResponse in the app', (done) => {
           request(app)
             .get(test.url)
             .expect(test.expectedStatus)
@@ -236,14 +236,14 @@ describe(require('../package.json').name + ' sample-projects', () => {
 
   glob
     .sync('./sample-projects/*', { cwd: __dirname })
-    .forEach(sampleProjectPath => {
+    .forEach((sampleProjectPath) => {
       const specName = path.basename(sampleProjectPath);
       const specPath = path.resolve(__dirname, sampleProjectPath, 'spec.js');
 
       if (
         [
           // progressively move sample project tests up
-          'basic-usage'
+          'basic-usage',
         ].indexOf(specName) > -1
       ) {
         return;

@@ -6,7 +6,11 @@ module.exports = function(request) {
     request()
       .get('/v3/api-docs')
       .set("Host", "test-host")
-      .expect(200, expectedApiDoc, done);
+      .expect(200)
+      .end(function(err, res) {
+        expect(res.body).to.eql(expectedApiDoc);
+        done(err);
+      });
   });
 
   it('should add response validation middleware when parameters are empty', function(done) {

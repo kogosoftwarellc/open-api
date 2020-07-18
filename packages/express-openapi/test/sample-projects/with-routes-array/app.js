@@ -8,11 +8,11 @@ openapi.initialize({
   app: app,
   paths: [
     path.resolve(__dirname, 'api-routes1'),
-    path.resolve(__dirname, 'api-routes2')
-  ]
+    path.resolve(__dirname, 'api-routes2'),
+  ],
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.log(err);
 });
 

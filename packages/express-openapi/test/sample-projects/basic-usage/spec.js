@@ -1,7 +1,7 @@
 var app;
 var request = require('supertest');
 
-before(function() {
+before(function () {
   app = require('./app.js');
 });
 

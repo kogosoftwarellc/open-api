@@ -17,28 +17,28 @@ openapi.initialize({
       description: 'An error occurred.',
       schema: {
         type: 'string',
-        enum: ['error']
-      }
+        enum: ['error'],
+      },
     },
     'http://example.com/user': {
       description: 'User schema definition',
       required: ['name'],
       properties: {
         name: { type: 'string' },
-        age: { type: 'integer', format: 'int32' }
-      }
+        age: { type: 'integer', format: 'int32' },
+      },
     },
     'http://example.com/tea-pod': {
       description: 'Tea pod schema definition',
       required: ['content'],
       properties: {
-        content: { description: 'content in litter', type: 'integer' }
-      }
-    }
-  }
+        content: { description: 'content in litter', type: 'integer' },
+      },
+    },
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   err.status = err.status || 500;
   res.status(err.status).json(err);
 });

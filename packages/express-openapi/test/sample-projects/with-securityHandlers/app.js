@@ -8,28 +8,28 @@ openapi.initialize({
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   securityHandlers: {
-    booAuth: function(req, scopes, definition) {
+    booAuth: function (req, scopes, definition) {
       req.boo = 'boo';
       return true;
     },
-    boo2Auth: function(req, scopes, definition) {
+    boo2Auth: function (req, scopes, definition) {
       req.boo2 = 'boo2';
       return true;
     },
-    failAuth: function(req, scopes, definition) {
+    failAuth: function (req, scopes, definition) {
       throw {
         status: 401,
-        challenge: 'Basic realm=foo'
+        challenge: 'Basic realm=foo',
       };
     },
-    fooAuth: function(req, scopes, definition) {
+    fooAuth: function (req, scopes, definition) {
       req.foo = 'foo';
       return true;
-    }
-  }
+    },
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err.challenge) {
     res.set('www-authenticate', err.challenge);
   }

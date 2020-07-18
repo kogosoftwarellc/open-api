@@ -7,20 +7,20 @@ module.exports = {
           properties: {
             foo: {
               type: 'string',
-              format: 'foo'
-            }
-          }
-        }
-      }
+              format: 'foo',
+            },
+          },
+        },
+      },
     },
 
     definitions: null,
 
     customFormats: {
-      foo: function(input) {
+      foo: function (input) {
         return input === 'foo';
-      }
-    }
+      },
+    },
   },
 
   inputStatusCode: 200,
@@ -32,8 +32,8 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be string'
-      }
-    ]
-  }
+        message: 'should be string',
+      },
+    ],
+  },
 };

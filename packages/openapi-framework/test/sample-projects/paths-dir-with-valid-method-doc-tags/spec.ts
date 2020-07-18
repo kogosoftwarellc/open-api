@@ -10,7 +10,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -21,10 +21,10 @@ describe(path.basename(__dirname), () => {
           responses: {
             default: {
               description: 'return foo',
-              schema: {}
-            }
+              schema: {},
+            },
           },
-          tags: ['example', 'examples', 'pets', 'testing']
+          tags: ['example', 'examples', 'pets', 'testing'],
         });
       },
       visitApi(ctx) {
@@ -33,9 +33,9 @@ describe(path.basename(__dirname), () => {
           { name: 'example' },
           { name: 'examples' },
           { name: 'pets' },
-          { name: 'testing' }
+          { name: 'testing' },
         ]);
-      }
+      },
     });
   });
 });

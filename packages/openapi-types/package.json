@@ -5,9 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prepare": "tsc",
-    "test-watch": "tsc",
-    "travis-test": "tsc"
+    "prepare": "../../bin/tsc",
+    "test-watch": "../../bin/tsc"
   },
   "keywords": [
     "openapi",

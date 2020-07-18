@@ -6,13 +6,13 @@ module.exports = {
         name: 'foo',
         required: true,
         schema: {
-          $ref: '#/definitions/TestBody'
-        }
-      }
-    ]
+          $ref: '#/definitions/TestBody',
+        },
+      },
+    ],
   },
   request: {
-    body: {}
+    body: {},
   },
   expectedError: {
     status: 400,
@@ -20,10 +20,10 @@ module.exports = {
       {
         message: "can't resolve reference #/definitions/TestBody",
         schema: {
-          $ref: '#/definitions/TestBody'
+          $ref: '#/definitions/TestBody',
         },
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };

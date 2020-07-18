@@ -6,11 +6,11 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              $ref: 'http://example.com/schema#/definitions/foo'
-            }
-          }
-        }
-      }
+              $ref: 'http://example.com/schema#/definitions/foo',
+            },
+          },
+        },
+      },
     },
 
     definitions: null,
@@ -19,11 +19,11 @@ module.exports = {
       'http://example.com/schema': {
         definitions: {
           foo: {
-            type: 'string'
-          }
-        }
-      }
-    }
+            type: 'string',
+          },
+        },
+      },
+    },
   },
 
   inputStatusCode: 200,
@@ -35,8 +35,8 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be string'
-      }
-    ]
-  }
+        message: 'should be string',
+      },
+    ],
+  },
 };

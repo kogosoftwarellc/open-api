@@ -4,8 +4,8 @@ module.exports = {
       in: 'query',
       name: 'search',
       type: 'string',
-      'x-custom': 'value'
-    }
+      'x-custom': 'value',
+    },
   ],
 
   outputSchema: {
@@ -13,10 +13,10 @@ module.exports = {
       properties: {
         search: {
           type: 'string',
-          'x-custom': 'value'
-        }
+          'x-custom': 'value',
+        },
       },
-      required: []
-    }
-  }
+      required: [],
+    },
+  },
 };

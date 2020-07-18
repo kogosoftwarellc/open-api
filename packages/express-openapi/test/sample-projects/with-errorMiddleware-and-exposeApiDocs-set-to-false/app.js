@@ -8,7 +8,7 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/foo', function(req, res, next) {
+app.get('/foo', function (req, res, next) {
   next(new Error('hello from /foo'));
 });
 
@@ -17,12 +17,12 @@ openapi.initialize({
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   exposeApiDocs: false,
-  errorMiddleware: function(err, req, res, next) {
+  errorMiddleware: function (err, req, res, next) {
     res.status(200).json(err.message);
-  }
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(200).json(err.message);
 });
 

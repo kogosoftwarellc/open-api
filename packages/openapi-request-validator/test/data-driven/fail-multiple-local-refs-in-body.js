@@ -8,39 +8,39 @@ module.exports = {
         schema: {
           properties: {
             test1: {
-              $ref: '#/definitions/Test1'
+              $ref: '#/definitions/Test1',
             },
             test2: {
-              $ref: '#/definitions/Test2'
-            }
+              $ref: '#/definitions/Test2',
+            },
           },
-          required: ['test1', 'test2']
-        }
-      }
+          required: ['test1', 'test2'],
+        },
+      },
     ],
     schemas: [
       {
         id: '#/definitions/Test1',
         properties: {
           foo: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['test1']
+        required: ['test1'],
       },
       {
         id: '#/definitions/Test2',
         properties: {
           boo: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['test2']
-      }
-    ]
+        required: ['test2'],
+      },
+    ],
   },
   request: {
-    body: {}
+    body: {},
   },
   expectedError: {
     status: 400,
@@ -49,14 +49,14 @@ module.exports = {
         path: 'test1',
         errorCode: 'required.openapi.requestValidation',
         message: "should have required property 'test1'",
-        location: 'body'
+        location: 'body',
       },
       {
         path: 'test2',
         errorCode: 'required.openapi.requestValidation',
         message: "should have required property 'test2'",
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };

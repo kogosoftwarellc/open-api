@@ -1,5 +1,5 @@
 module.exports = {
-  get: function() {
+  get: function () {
     return;
-  }
+  },
 };

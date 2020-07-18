@@ -23,15 +23,15 @@
 
 ## Development
 
-_Note:  One of the goals of this monorepo is to support independent package versions.  The author has used other popular options out there (like lerna), and has found independent versioning to behave strangely with them.  Another goal with the current approach is to reduce boilerplate code as much as possible (something tools like lerna don't help with).  The inspiration for the current approach came from [boennemann/alle](https://github.com/boennemann/alle).  The author isn't
-married to the current approach, so if you have ideas on how to simplify the development of this monorepo by all means please [open an issue](https://github.com/kogosoftwarellc/open-api/issues/new)._
+This monorepo uses lerna for development.  See the root package.json for helpful scripts.
 
 ### Typical Workflow for Contributors
 
 Let's say you're working on a package under [./packages](https://github.com/kogosoftwarellc/open-api/tree/master/packages).  Here's what you do:
 
 1. `cd open-api`
-1. `./bin/test packages/<package_you're_working_on>`
+1. `npm run bootstrap`
+1. `npm t`
 1. Make your changes.
   1. _Do not bump the version in package.json._  A maintainer will handle that once your PR is merged.
 1. Once you're satisfied with your changes:
@@ -44,14 +44,11 @@ Let's say you're working on a package under [./packages](https://github.com/kogo
 
 Several scripts have been created to aid in the development of this monorepo (see [./bin](./bin)).  They assume that your `$PWD` is the root of the repository.  Here is a brief summary of common actions:
 
-* Testing
-  * (Note: `./bin/test` will run `npm i` in the package _prior_ to running the tests)
-  * Test a single package - `./bin/test packages/<package_to_test>` (starts the test in watch mode)
-  * Test all packages - `./bin/test`
 * Commit changes to a package - `./bin/commit packages/<package_to_commit> 'Commit message'` (the commit message will be prepended with the package name e.g. `<package_to_commit>: Commit message`
-
-#### dev-tools
-Scripts in this directory wrap common tools, like `nyc`, `tsc`, and `mocha`.  They reduce boilerplate and are called from npm scripts.
+* These reduce boilerplate and are called form npm scripts in leaf repos.
+  * nyc
+  * tsc
+  * mocha
 
 ## LICENSE
 

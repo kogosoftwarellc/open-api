@@ -7,33 +7,33 @@ module.exports = {
         schema: {
           properties: {
             test1: {
-              $ref: '#/definitions/Test1'
+              $ref: '#/definitions/Test1',
             },
             test2: {
-              $ref: '#/definitions/Test2'
-            }
-          }
-        }
-      }
+              $ref: '#/definitions/Test2',
+            },
+          },
+        },
+      },
     ],
     schemas: [
       {
         id: '#/definitions/Test1',
         properties: {
           foo: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       },
       {
         id: '#/definitions/Test2',
         properties: {
           boo: {
-            type: 'string'
-          }
-        }
-      }
-    ]
+            type: 'string',
+          },
+        },
+      },
+    ],
   },
-  request: {}
+  request: {},
 };

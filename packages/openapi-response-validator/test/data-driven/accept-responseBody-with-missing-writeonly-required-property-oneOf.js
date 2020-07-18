@@ -5,67 +5,67 @@ module.exports = {
         schema: {
           oneOf: [
             {
-              $ref: '#/definitions/picture'
+              $ref: '#/definitions/picture',
             },
             {
               type: 'object',
               properties: {
                 content: {
                   type: 'string',
-                  writeOnly: true
+                  writeOnly: true,
                 },
                 url: {
-                  type: 'string'
-                }
+                  type: 'string',
+                },
               },
-              required: ['content', 'url']
-            }
-          ]
-        }
-      }
+              required: ['content', 'url'],
+            },
+          ],
+        },
+      },
     },
 
     definitions: {
       picture: {
         oneOf: [
           {
-            $ref: '#/definitions/test1'
+            $ref: '#/definitions/test1',
           },
           {
             type: 'object',
             properties: {
               content2: {
                 type: 'string',
-                writeOnly: true
+                writeOnly: true,
               },
               url2: {
-                type: 'string'
-              }
+                type: 'string',
+              },
             },
-            required: ['content2', 'url2']
-          }
-        ]
+            required: ['content2', 'url2'],
+          },
+        ],
       },
       test1: {
         type: 'object',
         properties: {
           content3: {
             type: 'string',
-            writeOnly: true
+            writeOnly: true,
           },
           url3: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['content3', 'url3']
-      }
-    }
+        required: ['content3', 'url3'],
+      },
+    },
   },
 
   inputStatusCode: 200,
   inputResponseBody: {
-    url2: 'http://example.com/picture.jpg'
+    url2: 'http://example.com/picture.jpg',
   },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

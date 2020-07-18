@@ -7,35 +7,35 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
+        in: 'header',
       },
       passwordScheme: {
-        type: 'basic'
-      }
+        type: 'basic',
+      },
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition) {
+      keyScheme: function (req, scopes, securityDefinition) {
         req.user = { name: 'fred' };
         return Promise.resolve(true);
       },
-      passwordScheme: function(req, scopes, securityDefinition) {
+      passwordScheme: function (req, scopes, securityDefinition) {
         req.user = { name: 'fred' };
         return Promise.resolve(true);
-      }
+      },
     },
 
     operationSecurity: [
       {
-        keyScheme: ['write']
+        keyScheme: ['write'],
       },
       {
-        passwordScheme: ['write']
-      }
-    ]
+        passwordScheme: ['write'],
+      },
+    ],
   },
 
   expectedError: void 0,
   expectedResult: true,
-  expectedUser: { name: 'fred' }
+  expectedUser: { name: 'fred' },
 };

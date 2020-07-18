@@ -5,16 +5,16 @@ module.exports = {
         in: 'path',
         name: 'path1',
         type: 'string',
-        required: true
-      }
+        required: true,
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {
     path: '/foo/asdf',
     params: {
       path1: 'foo',
-      path2: 'asdf'
-    }
-  }
+      path2: 'asdf',
+    },
+  },
 };

@@ -6,24 +6,24 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              $ref: '#/definitions/foo'
-            }
-          }
-        }
-      }
+              $ref: '#/definitions/foo',
+            },
+          },
+        },
+      },
     },
 
     definitions: {
       foo: {
-        $ref: 'http://example.com/schema'
-      }
+        $ref: 'http://example.com/schema',
+      },
     },
 
     externalSchemas: {
       'http://example.com/schema': {
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   },
 
   inputStatusCode: 200,
@@ -35,8 +35,8 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be string'
-      }
-    ]
-  }
+        message: 'should be string',
+      },
+    ],
+  },
 };

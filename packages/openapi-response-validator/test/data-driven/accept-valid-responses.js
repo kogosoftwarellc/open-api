@@ -6,18 +6,18 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     },
 
-    definitions: null
+    definitions: null,
   },
 
   inputStatusCode: 200,
   inputResponseBody: { foo: 'asdf' },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

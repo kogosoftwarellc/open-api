@@ -6,36 +6,36 @@ module.exports = {
         type: 'array',
         name: 'include',
         items: {
-          type: 'object'
+          type: 'object',
           // optional format property not passed meaning the default coercer will kick in
         },
-        required: false
+        required: false,
       },
       {
         in: 'query',
         type: 'object',
         name: 'query',
-        required: false
+        required: false,
         // optional format property not passed meaning the default coercer will kick in
-      }
-    ]
+      },
+    ],
   },
 
   request: {
     query: {
       include: [
         JSON.stringify({ association: 'lines', include: ['status'] }),
-        JSON.stringify({ association: 'people', include: ['hairColor'] })
+        JSON.stringify({ association: 'people', include: ['hairColor'] }),
       ],
-      query: JSON.stringify({ where: { $status: 2 } })
-    }
+      query: JSON.stringify({ where: { $status: 2 } }),
+    },
   },
 
   query: {
     include: [
       JSON.stringify({ association: 'lines', include: ['status'] }),
-      JSON.stringify({ association: 'people', include: ['hairColor'] })
+      JSON.stringify({ association: 'people', include: ['hairColor'] }),
     ],
-    query: JSON.stringify({ where: { $status: 2 } })
-  }
+    query: JSON.stringify({ where: { $status: 2 } }),
+  },
 };

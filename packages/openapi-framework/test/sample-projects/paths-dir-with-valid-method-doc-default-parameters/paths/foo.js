@@ -3,10 +3,10 @@ module.exports = {
     {
       name: 'height',
       in: 'query',
-      type: 'string'
-    }
+      type: 'string',
+    },
   ],
-  GET
+  GET,
 };
 
 function GET() {
@@ -19,13 +19,13 @@ GET.apiDoc = {
       name: 'name',
       in: 'query',
       type: 'string',
-      default: 'elvis'
-    }
+      default: 'elvis',
+    },
   ],
   responses: {
     default: {
       description: 'return foo',
-      schema: {}
-    }
-  }
+      schema: {},
+    },
+  },
 };

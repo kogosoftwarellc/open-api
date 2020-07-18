@@ -6,28 +6,28 @@ module.exports = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/definitions/Test1'
-          }
-        }
-      }
+            $ref: '#/definitions/Test1',
+          },
+        },
+      },
     },
     schemas: {
       Test1: {
         properties: {
           foo: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['foo']
-      }
-    }
+        required: ['foo'],
+      },
+    },
   },
   request: {
     body: {
-      foo: 'asdf'
+      foo: 'asdf',
     },
     headers: {
-      'content-type': 'application/json'
-    }
-  }
+      'content-type': 'application/json',
+    },
+  },
 };

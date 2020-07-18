@@ -2,12 +2,12 @@ var app;
 var expect = require('chai').expect;
 var request = require('supertest');
 
-before(function() {
+before(function () {
   app = require('./app.js');
 });
 
-describe('with openapi3 multipart form consumes middleware', function() {
-  it('should work with single attachment', function(done) {
+describe('with openapi3 multipart form consumes middleware', function () {
+  it('should work with single attachment', function (done) {
     request(app)
       .post('/v3/single-attachment')
       .attach('file', new Buffer('Some test text', 'utf-8'), 'file_a.txt')
@@ -15,15 +15,15 @@ describe('with openapi3 multipart form consumes middleware', function() {
         200,
         {
           body: {
-            file: ''
+            file: '',
           },
-          files: [{ fieldname: 'file', originalname: 'file_a.txt' }]
+          files: [{ fieldname: 'file', originalname: 'file_a.txt' }],
         },
         done
       );
   });
 
-  it('should work with multiple attachments', function(done) {
+  it('should work with multiple attachments', function (done) {
     request(app)
       .post('/v3/multiple-attachments')
       .attach('files', new Buffer('Some test text', 'utf-8'), 'file_a.txt')
@@ -33,15 +33,15 @@ describe('with openapi3 multipart form consumes middleware', function() {
         {
           files: [
             { fieldname: 'files', originalname: 'file_a.txt' },
-            { fieldname: 'files', originalname: 'file_b.txt' }
+            { fieldname: 'files', originalname: 'file_b.txt' },
           ],
-          body: { files: ['', ''] }
+          body: { files: ['', ''] },
         },
         done
       );
   });
 
-  it('should work with text fields', function(done) {
+  it('should work with text fields', function (done) {
     const textFieldValue = 'Some string value';
     request(app)
       .post('/v3/with-text-fields')
@@ -53,9 +53,9 @@ describe('with openapi3 multipart form consumes middleware', function() {
         {
           files: [
             { fieldname: 'files', originalname: 'file_a.txt' },
-            { fieldname: 'files', originalname: 'file_b.txt' }
+            { fieldname: 'files', originalname: 'file_b.txt' },
           ],
-          body: { files: ['', ''], aTextField: textFieldValue }
+          body: { files: ['', ''], aTextField: textFieldValue },
         },
         done
       );

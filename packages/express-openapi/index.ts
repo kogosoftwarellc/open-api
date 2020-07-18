@@ -3,11 +3,11 @@ import { Application, ErrorRequestHandler, RequestHandler } from 'express';
 import OpenAPIFramework, {
   BasePath,
   OpenAPIFrameworkArgs,
-  OpenAPIFrameworkConstructorArgs
+  OpenAPIFrameworkConstructorArgs,
+  OpenAPIRequestValidatorError,
+  OpenAPIResponseValidatorError,
+  SecurityHandlers,
 } from 'openapi-framework';
-import { OpenAPIRequestValidatorError } from 'openapi-request-validator';
-import { OpenAPIResponseValidatorError } from 'openapi-response-validator';
-import { SecurityHandlers } from 'openapi-security-handler';
 import { OpenAPI, OpenAPIV3 } from 'openapi-types';
 const CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 const normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
@@ -77,13 +77,13 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
   const frameworkArgs: OpenAPIFrameworkConstructorArgs = {
     featureType: 'middleware',
     name: loggingPrefix,
-    ...(args as OpenAPIFrameworkArgs)
+    ...(args as OpenAPIFrameworkArgs),
   };
 
   const framework = new OpenAPIFramework(frameworkArgs);
 
   framework.initialize({
-    visitApi: ctx => {
+    visitApi: (ctx) => {
       if (exposeApiDocs || errorMiddleware) {
         const basePaths = [];
         basePaths.push(...ctx.basePaths.map(toExpressBasePath));
@@ -115,7 +115,7 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
       }
     },
 
-    visitOperation: ctx => {
+    visitOperation: (ctx) => {
       const apiDoc = ctx.apiDoc;
       const methodName = ctx.methodName;
       const operationDoc = ctx.operationDoc;
@@ -168,10 +168,7 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
 
         if (ctx.features.securityHandler) {
           middleware.unshift((req, res, next) => {
-            ctx.features.securityHandler
-              .handle(req)
-              .then(next)
-              .catch(next);
+            ctx.features.securityHandler.handle(req).then(next).catch(next);
           });
         }
 
@@ -202,14 +199,10 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
         const expressPath =
           basePath +
           '/' +
-          ctx.path
-            .substring(1)
-            .split('/')
-            .map(toExpressParams)
-            .join('/');
+          ctx.path.substring(1).split('/').map(toExpressParams).join('/');
         app[methodName].apply(app, [expressPath].concat(middleware));
       }
-    }
+    },
   });
 
   return framework;
@@ -241,12 +234,12 @@ function optionallyAddQueryNormalizationMiddleware(
     return;
   }
   const queryParamsNeedingNormalization = methodParameters
-    .filter(param => {
+    .filter((param) => {
       return (
         param.in === 'query' && param[CASE_SENSITIVE_PARAM_PROPERTY] === false
       );
     })
-    .map(param => {
+    .map((param) => {
       return param.name;
     });
   if (queryParamsNeedingNormalization.length) {

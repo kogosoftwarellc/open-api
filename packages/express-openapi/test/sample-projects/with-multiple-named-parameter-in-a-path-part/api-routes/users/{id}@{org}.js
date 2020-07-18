@@ -1,11 +1,11 @@
 module.exports = {
-  get: get
+  get: get,
 };
 
 function get(req, res) {
   res.status(200).json({
     id: req.params.id,
-    org: req.params.org
+    org: req.params.org,
   });
 }
 
@@ -19,7 +19,7 @@ get.apiDoc = {
       in: 'path',
       type: 'string',
       required: true,
-      description: "user's id"
+      description: "user's id",
     },
     {
       name: 'org',
@@ -27,22 +27,22 @@ get.apiDoc = {
       type: 'string',
       required: true,
       description: "user's organization.",
-      default: 80
-    }
+      default: 80,
+    },
   ],
 
   responses: {
     200: {
       description: 'Requested user',
       schema: {
-        $ref: '#/definitions/User'
-      }
+        $ref: '#/definitions/User',
+      },
     },
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

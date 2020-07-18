@@ -1,6 +1,6 @@
 module.exports = {
   constructorArgs: {
-    version: 3
+    version: 3,
   },
 
   apiDoc: {
@@ -9,13 +9,13 @@ module.exports = {
       version: '1.0.0',
       title: 'Swagger Petstore',
       license: {
-        name: 'MIT'
-      }
+        name: 'MIT',
+      },
     },
     servers: [
       {
-        url: 'http://petstore.swagger.io/v1'
-      }
+        url: 'http://petstore.swagger.io/v1',
+      },
     ],
     paths: {
       '/pets': {
@@ -31,9 +31,9 @@ module.exports = {
               required: false,
               schema: {
                 type: 'integer',
-                format: 'int32'
-              }
-            }
+                format: 'int32',
+              },
+            },
           ],
           responses: {
             '200': {
@@ -42,29 +42,29 @@ module.exports = {
                 'x-next': {
                   description: 'A link to the next page of responses',
                   schema: {
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
               content: {
                 'application/json': {
                   schema: {
-                    $ref: '#/components/schemas/Pets'
-                  }
-                }
-              }
+                    $ref: '#/components/schemas/Pets',
+                  },
+                },
+              },
             },
             default: {
               description: 'unexpected error',
               content: {
                 'application/json': {
                   schema: {
-                    $ref: '#/components/schemas/Error'
-                  }
-                }
-              }
-            }
-          }
+                    $ref: '#/components/schemas/Error',
+                  },
+                },
+              },
+            },
+          },
         },
         post: {
           summary: 'Create a pet',
@@ -72,20 +72,20 @@ module.exports = {
           tags: ['pets'],
           responses: {
             '201': {
-              description: 'Null response'
+              description: 'Null response',
             },
             default: {
               description: 'unexpected error',
               content: {
                 'application/json': {
                   schema: {
-                    $ref: '#/components/schemas/Error'
-                  }
-                }
-              }
-            }
-          }
-        }
+                    $ref: '#/components/schemas/Error',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       '/pets/{petId}': {
         get: {
@@ -99,9 +99,9 @@ module.exports = {
               required: true,
               description: 'The id of the pet to retrieve',
               schema: {
-                type: 'string'
-              }
-            }
+                type: 'string',
+              },
+            },
           ],
           responses: {
             '200': {
@@ -109,24 +109,24 @@ module.exports = {
               content: {
                 'application/json': {
                   schema: {
-                    $ref: '#/components/schemas/Pets'
-                  }
-                }
-              }
+                    $ref: '#/components/schemas/Pets',
+                  },
+                },
+              },
             },
             default: {
               description: 'unexpected error',
               content: {
                 'application/json': {
                   schema: {
-                    $ref: '#/components/schemas/Error'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    $ref: '#/components/schemas/Error',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
     components: {
       schemas: {
@@ -135,37 +135,37 @@ module.exports = {
           properties: {
             id: {
               type: 'integer',
-              format: 'int64'
+              format: 'int64',
             },
             name: {
-              type: 'string'
+              type: 'string',
             },
             tag: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         Pets: {
           type: 'array',
           items: {
-            $ref: '#/components/schemas/Pet'
-          }
+            $ref: '#/components/schemas/Pet',
+          },
         },
         Error: {
           required: ['code', 'message'],
           properties: {
             code: {
               type: 'integer',
-              format: 'int32'
+              format: 'int32',
             },
             message: {
-              type: 'string'
-            }
-          }
-        }
-      }
-    }
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   },
 
-  errors: []
+  errors: [],
 };

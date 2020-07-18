@@ -8,37 +8,37 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
+        in: 'header',
       },
       keyScheme1: {
         type: 'apiKey',
         name: 'api_key1',
-        in: 'header'
+        in: 'header',
       },
       keyScheme2: {
         type: 'apiKey',
         name: 'api_key2',
-        in: 'header'
-      }
+        in: 'header',
+      },
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition) {
+      keyScheme: function (req, scopes, securityDefinition) {
         return Promise.resolve(false);
       },
-      passwordScheme: function(req, scopes, securityDefinition) {
+      passwordScheme: function (req, scopes, securityDefinition) {
         return Promise.resolve(false);
       },
 
-      keyScheme1: function(req, scopes, securityDefinition) {
+      keyScheme1: function (req, scopes, securityDefinition) {
         req.user = { name: 'fred' };
         return Promise.resolve(true);
       },
-      passwordScheme1: function(req, scopes, securityDefinition) {
+      passwordScheme1: function (req, scopes, securityDefinition) {
         return Promise.resolve(true);
-      }
+      },
     },
 
-    operationSecurity: null
-  }
+    operationSecurity: null,
+  },
 };

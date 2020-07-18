@@ -11,7 +11,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -32,27 +32,27 @@ describe(path.basename(__dirname), () => {
             {
               name: 'height',
               in: 'query',
-              type: 'string'
-            }
+              type: 'string',
+            },
           ],
           get: {
             parameters: [
               {
                 name: 'name',
                 in: 'query',
-                type: 'string'
-              }
+                type: 'string',
+              },
             ],
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
+                schema: {},
+              },
             },
-            'x-some-framework-inherit-additional-middleware': false
-          }
+            'x-some-framework-inherit-additional-middleware': false,
+          },
         });
-      }
+      },
     });
   });
 });

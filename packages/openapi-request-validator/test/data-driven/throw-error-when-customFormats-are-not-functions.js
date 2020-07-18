@@ -3,9 +3,9 @@ module.exports = {
     loggingKey: 'express-openapi-validation',
     parameters: [],
     customFormats: {
-      foo: 'asdf'
-    }
+      foo: 'asdf',
+    },
   },
   request: {},
-  constructorError: /args.customFormats properties must be functions/
+  constructorError: /args.customFormats properties must be functions/,
 };

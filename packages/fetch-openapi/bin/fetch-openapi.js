@@ -55,7 +55,7 @@ if (cli.preset && 'es6,node'.split(',').indexOf(cli.preset) === -1) {
 }
 
 var options = {
-  preset: preset
+  preset: preset,
 };
 var sdk;
 
@@ -77,7 +77,7 @@ if (apiDocFilePath) {
 } else {
   request(
     { url: apiDocUrl, json: true },
-    errHandler(error, function(err, res, body) {
+    errHandler(error, function (err, res, body) {
       if (res.statusCode !== 200) {
         debug('statusCode is ' + res.statusCode);
         error('Bad satus code for "' + apiDocUrl + '".  Does it exist?');
@@ -101,7 +101,7 @@ function generateSdk(apiDoc) {
   fs.writeFile(
     outputFilePath,
     sdk,
-    errHandler(error, function() {
+    errHandler(error, function () {
       msg('SDK written to ' + outputFilePath);
       exit(0);
     })

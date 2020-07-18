@@ -4,11 +4,11 @@ module.exports = {
   // the <path>.parameters + <methodHandler>.apiDoc.parameters is prepended to this
   // array.
   post: [
-    function(req, res, next) {
+    function (req, res, next) {
       next();
     },
-    post
-  ]
+    post,
+  ],
 };
 
 function post(req, res) {

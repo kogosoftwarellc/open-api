@@ -6,18 +6,18 @@ module.exports = {
         content: {
           'text/markdown': {
             schema: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     },
-    definitions: null
+    definitions: null,
   },
 
   inputStatusCode: 200,
 
   inputResponseBody: '# documentation\n',
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

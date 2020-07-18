@@ -1,5 +1,5 @@
 module.exports = {
-  post: function() {
+  post: function () {
     return;
-  }
+  },
 };

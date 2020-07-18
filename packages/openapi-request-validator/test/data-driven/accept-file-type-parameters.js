@@ -5,14 +5,14 @@ module.exports = {
         name: 'file',
         in: 'formData',
         description: 'The file to upload',
-        type: 'file'
-      }
+        type: 'file',
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {
     headers: {
-      'x-foo': 'asdf'
-    }
-  }
+      'x-foo': 'asdf',
+    },
+  },
 };

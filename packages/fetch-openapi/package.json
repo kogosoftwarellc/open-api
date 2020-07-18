@@ -8,9 +8,8 @@
   },
   "scripts": {
     "cover": "istanbul cover _mocha -- ./test/*.js",
-    "test-watch": "mocha -w ./test/*.js",
-    "test": "mocha ./test/*.js",
-    "travis-test": "npm run cover"
+    "test-watch": "../../bin/mocha -w ./test/*.js",
+    "test": "../../bin/mocha ./test/**/*.spec.js"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fetch-openapi",
   "keywords": [
@@ -31,5 +30,9 @@
     "composites": "^1.1.1",
     "err-handler": "^1.0.5",
     "request": "*"
+  },
+  "devDependencies": {
+    "istanbul": "0.4.5",
+    "mocha": "7.1.2"
   }
 }

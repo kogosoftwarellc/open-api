@@ -7,5 +7,9 @@
   },
   "files": [
     "index.ts"
-  ]
+  ],
+  "references": [{
+    "path": "../openapi-framework/tsconfig.json"
+  }]
+
 }

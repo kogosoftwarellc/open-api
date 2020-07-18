@@ -6,10 +6,10 @@ module.exports = {
   request: {
     path: '',
     headers: {},
-    query: {}
+    query: {},
   },
 
   headers: null,
   params: null,
-  query: null
+  query: null,
 };

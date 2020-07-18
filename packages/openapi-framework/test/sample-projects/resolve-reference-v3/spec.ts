@@ -11,7 +11,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -21,10 +21,10 @@ describe(path.basename(__dirname), () => {
         expect(ctx.features.requestValidator).to.not.be.undefined;
         const err = ctx.features.requestValidator.validateRequest({
           body: { title: 'test' },
-          headers: { 'content-type': 'application/json' }
+          headers: { 'content-type': 'application/json' },
         });
         expect(err).to.be.undefined;
-      }
+      },
     });
   });
 });

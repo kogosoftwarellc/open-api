@@ -3,32 +3,32 @@ module.exports = {
   basePath: '/v3/',
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
   definitions: {
     Error: {
-      additionalProperties: true
+      additionalProperties: true,
     },
     User: {
       properties: {
         name: {
-          type: 'string'
+          type: 'string',
         },
         friends: {
           type: 'array',
           items: {
-            $ref: '#/definitions/User'
-          }
-        }
+            $ref: '#/definitions/User',
+          },
+        },
       },
-      required: ['name']
-    }
+      required: ['name'],
+    },
   },
   paths: {},
   tags: [
     {
       description: 'Everything users',
-      name: 'users'
-    }
-  ]
+      name: 'users',
+    },
+  ],
 };

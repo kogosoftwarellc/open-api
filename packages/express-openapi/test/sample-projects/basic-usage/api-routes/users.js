@@ -1,6 +1,6 @@
 // Showing that you don't need to have apiDoc defined on methodHandlers.
 module.exports = {
-  del: function(req, res, next) {
+  del: function (req, res, next) {
     // Showing how to validate responses
     var validationError = res.validateResponse(204, null);
 
@@ -8,20 +8,17 @@ module.exports = {
       return next(validationError);
     }
 
-    res
-      .status(204)
-      .send('')
-      .end();
+    res.status(204).send('').end();
   },
   get: [
-    function(req, res, next) {
+    function (req, res, next) {
       res.status(200).json([{ name: 'fred' }]);
-    }
+    },
   ],
 
-  post: function(req, res, next) {
+  post: function (req, res, next) {
     res.status(500).json({});
-  }
+  },
 };
 
 module.exports.del.apiDoc = {
@@ -31,11 +28,11 @@ module.exports.del.apiDoc = {
   parameters: [],
   responses: {
     204: {
-      description: 'Users were successfully deleted.'
+      description: 'Users were successfully deleted.',
       // 204 should not return a body so not defining a schema.  This adds an implicit
       // schema of {"type": "null"}.
-    }
-  }
+    },
+  },
 };
 
 // showing that if parameters are empty, express-openapi adds no input middleware.
@@ -49,8 +46,8 @@ module.exports.post.apiDoc = {
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

@@ -5,12 +5,12 @@ module.exports = {
         in: 'formData',
         name: 'foo',
         type: 'string',
-        required: true
-      }
-    ]
+        required: true,
+      },
+    ],
   },
   request: {
-    body: {}
+    body: {},
   },
   expectedError: {
     status: 400,
@@ -19,8 +19,8 @@ module.exports = {
         path: 'foo',
         errorCode: 'required.openapi.requestValidation',
         message: "should have required property 'foo'",
-        location: 'formData'
-      }
-    ]
-  }
+        location: 'formData',
+      },
+    ],
+  },
 };

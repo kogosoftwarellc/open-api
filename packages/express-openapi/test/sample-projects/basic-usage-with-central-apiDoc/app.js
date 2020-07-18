@@ -18,13 +18,13 @@ openapi.initialize({
       res.status(200).json({
         id: req.params.id,
         name: req.query.name,
-        age: req.query.age
+        age: req.query.age,
       });
-    }
-  }
+    },
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 

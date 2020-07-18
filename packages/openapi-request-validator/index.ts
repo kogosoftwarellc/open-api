@@ -97,13 +97,13 @@ export default class OpenAPIRequestValidator
       unknownFormats: 'ignore',
       missingRefs: 'fail',
       // @ts-ignore TODO get Ajv updated to account for logger
-      logger: false
+      logger: false,
     });
 
     v.removeKeyword('readOnly');
     v.addKeyword('readOnly', {
       modifying: true,
-      compile: sch => {
+      compile: (sch) => {
         if (sch) {
           return function validate(data, path, obj, propName) {
             const isValid = !(sch === true && data != null);
@@ -112,14 +112,14 @@ export default class OpenAPIRequestValidator
                 keyword: 'readOnly',
                 dataPath: path,
                 message: 'is read-only',
-                params: { readOnly: propName }
-              }
+                params: { readOnly: propName },
+              },
             ];
             return isValid;
           };
         }
         return () => true;
-      }
+      },
     });
 
     if (args.requestBody) {
@@ -128,7 +128,7 @@ export default class OpenAPIRequestValidator
 
     if (args.customFormats) {
       let hasNonFunctionProperty;
-      Object.keys(args.customFormats).forEach(format => {
+      Object.keys(args.customFormats).forEach((format) => {
         const func = args.customFormats[format];
         if (typeof func === 'function') {
           v.addFormat(format, func);
@@ -146,18 +146,18 @@ export default class OpenAPIRequestValidator
     if (bodySchema) {
       bodyValidationSchema = {
         properties: {
-          body: bodySchema
-        }
+          body: bodySchema,
+        },
       };
     }
     if (args.componentSchemas) {
       // openapi v3:
-      Object.keys(args.componentSchemas).forEach(id => {
+      Object.keys(args.componentSchemas).forEach((id) => {
         v.addSchema(args.componentSchemas[id], `#/components/schemas/${id}`);
       });
     } else if (args.schemas) {
       if (Array.isArray(args.schemas)) {
-        args.schemas.forEach(schema => {
+        args.schemas.forEach((schema) => {
           const id = schema.id;
 
           if (id) {
@@ -181,13 +181,13 @@ export default class OpenAPIRequestValidator
       } else if (bodySchema) {
         bodyValidationSchema.definitions = args.schemas;
         bodyValidationSchema.components = {
-          schemas: args.schemas
+          schemas: args.schemas,
         };
       }
     }
 
     if (args.externalSchemas) {
-      Object.keys(args.externalSchemas).forEach(id => {
+      Object.keys(args.externalSchemas).forEach((id) => {
         v.addSchema(args.externalSchemas[id], id);
       });
     }
@@ -201,10 +201,10 @@ export default class OpenAPIRequestValidator
         this.requestBodyValidators[mediaTypeKey] = v.compile(
           transformOpenAPIV3Definitions({
             properties: {
-              body: resolvedSchema
+              body: resolvedSchema,
             },
             definitions: args.schemas || {},
-            components: { schemas: args.schemas }
+            components: { schemas: args.schemas },
           })
         );
       }
@@ -247,7 +247,7 @@ export default class OpenAPIRequestValidator
           location: 'body',
           message:
             'request.body was not present in the request.  Is a body-parser being used?',
-          schema: this.bodySchema
+          schema: this.bodySchema,
         };
       }
     }
@@ -263,7 +263,7 @@ export default class OpenAPIRequestValidator
       if (!mediaTypeMatch) {
         if (contentType) {
           mediaTypeError = {
-            message: `Unsupported Content-Type ${contentType}`
+            message: `Unsupported Content-Type ${contentType}`,
           };
         } else if (this.isBodyRequired) {
           errors.push({
@@ -271,7 +271,7 @@ export default class OpenAPIRequestValidator
             dataPath: '.body',
             params: {},
             message: 'media type is not specified',
-            location: 'body'
+            location: 'body',
           });
         }
       } else {
@@ -289,7 +289,7 @@ export default class OpenAPIRequestValidator
             location: 'body',
             message:
               'request.body was not present in the request.  Is a body-parser being used?',
-            schema: bodySchema
+            schema: bodySchema,
           };
         }
       }
@@ -336,17 +336,17 @@ export default class OpenAPIRequestValidator
     if (errors.length) {
       err = {
         status: 400,
-        errors: errors.map(this.errorMapper)
+        errors: errors.map(this.errorMapper),
       };
     } else if (schemaError) {
       err = {
         status: 400,
-        errors: [schemaError]
+        errors: [schemaError],
       };
     } else if (mediaTypeError) {
       err = {
         status: 415,
-        errors: [mediaTypeError]
+        errors: [mediaTypeError],
       };
     }
 
@@ -368,7 +368,7 @@ function byRequiredBodyParameters<T>(param: T): boolean {
 }
 
 function extendedErrorMapper(mapper) {
-  return ajvError => mapper(toOpenapiValidationError(ajvError), ajvError);
+  return (ajvError) => mapper(toOpenapiValidationError(ajvError), ajvError);
 }
 
 function getSchemaForMediaType(
@@ -426,7 +426,7 @@ function getSchemaForMediaType(
 
 function lowercaseRequestHeaders(headers) {
   const lowerCasedHeaders = {};
-  Object.keys(headers).forEach(header => {
+  Object.keys(headers).forEach((header) => {
     lowerCasedHeaders[header.toLowerCase()] = headers[header];
   });
   return lowerCasedHeaders;
@@ -435,14 +435,14 @@ function lowercaseRequestHeaders(headers) {
 function lowercasedHeaders(headersSchema) {
   if (headersSchema) {
     const properties = headersSchema.properties;
-    Object.keys(properties).forEach(header => {
+    Object.keys(properties).forEach((header) => {
       const property = properties[header];
       delete properties[header];
       properties[header.toLowerCase()] = property;
     });
 
     if (headersSchema.required && headersSchema.required.length) {
-      headersSchema.required = headersSchema.required.map(header => {
+      headersSchema.required = headersSchema.required.map((header) => {
         return header.toLowerCase();
       });
     }
@@ -456,7 +456,7 @@ function toOpenapiValidationError(error): OpenAPIRequestValidatorError {
     path: 'instance' + error.dataPath,
     errorCode: `${error.keyword}.openapi.requestValidation`,
     message: error.message,
-    location: error.location
+    location: error.location,
   };
 
   if (error.keyword === '$ref') {
@@ -497,7 +497,7 @@ function stripBodyInfo(error) {
 }
 
 function withAddedLocation(location, errors) {
-  errors.forEach(error => {
+  errors.forEach((error) => {
     error.location = location;
   });
 
@@ -516,7 +516,7 @@ function resolveAndSanitizeRequestBodySchema(
 
   if ('properties' in requestBodySchema) {
     const schema = requestBodySchema as OpenAPIV3.NonArraySchemaObject;
-    Object.keys(schema.properties).forEach(property => {
+    Object.keys(schema.properties).forEach((property) => {
       let prop = schema.properties[property];
       prop = sanitizeReadonlyPropertiesFromRequired(prop);
       if (!prop.hasOwnProperty('$ref') && !prop.hasOwnProperty('items')) {
@@ -542,41 +542,29 @@ function resolveAndSanitizeRequestBodySchema(
       }
     }
   } else if ('allOf' in requestBodySchema) {
-    requestBodySchema.allOf = requestBodySchema.allOf.map(
-      (
-        val
-      ):
-        | OpenAPIV3.ReferenceObject
-        | OpenAPIV3.NonArraySchemaObject
-        | OpenAPIV3.ArraySchemaObject => {
-        val = sanitizeReadonlyPropertiesFromRequired(val);
-        return resolveAndSanitizeRequestBodySchema(val, v);
-      }
-    );
+    requestBodySchema.allOf = requestBodySchema.allOf.map((val):
+      | OpenAPIV3.ReferenceObject
+      | OpenAPIV3.NonArraySchemaObject
+      | OpenAPIV3.ArraySchemaObject => {
+      val = sanitizeReadonlyPropertiesFromRequired(val);
+      return resolveAndSanitizeRequestBodySchema(val, v);
+    });
   } else if ('oneOf' in requestBodySchema) {
-    requestBodySchema.oneOf = requestBodySchema.oneOf.map(
-      (
-        val
-      ):
-        | OpenAPIV3.ReferenceObject
-        | OpenAPIV3.NonArraySchemaObject
-        | OpenAPIV3.ArraySchemaObject => {
-        val = sanitizeReadonlyPropertiesFromRequired(val);
-        return resolveAndSanitizeRequestBodySchema(val, v);
-      }
-    );
+    requestBodySchema.oneOf = requestBodySchema.oneOf.map((val):
+      | OpenAPIV3.ReferenceObject
+      | OpenAPIV3.NonArraySchemaObject
+      | OpenAPIV3.ArraySchemaObject => {
+      val = sanitizeReadonlyPropertiesFromRequired(val);
+      return resolveAndSanitizeRequestBodySchema(val, v);
+    });
   } else if ('anyOf' in requestBodySchema) {
-    requestBodySchema.anyOf = requestBodySchema.anyOf.map(
-      (
-        val
-      ):
-        | OpenAPIV3.ReferenceObject
-        | OpenAPIV3.NonArraySchemaObject
-        | OpenAPIV3.ArraySchemaObject => {
-        val = sanitizeReadonlyPropertiesFromRequired(val);
-        return resolveAndSanitizeRequestBodySchema(val, v);
-      }
-    );
+    requestBodySchema.anyOf = requestBodySchema.anyOf.map((val):
+      | OpenAPIV3.ReferenceObject
+      | OpenAPIV3.NonArraySchemaObject
+      | OpenAPIV3.ArraySchemaObject => {
+      val = sanitizeReadonlyPropertiesFromRequired(val);
+      return resolveAndSanitizeRequestBodySchema(val, v);
+    });
   }
   return requestBodySchema;
 }
@@ -588,7 +576,7 @@ function sanitizeReadonlyPropertiesFromRequired(
     | OpenAPIV3.ArraySchemaObject
 ) {
   if ('properties' in schema && 'required' in schema) {
-    const readOnlyProps = Object.keys(schema.properties).map(key => {
+    const readOnlyProps = Object.keys(schema.properties).map((key) => {
       const prop = schema.properties[key];
       if (prop && 'readOnly' in prop) {
         if (prop.readOnly === true) {
@@ -598,8 +586,8 @@ function sanitizeReadonlyPropertiesFromRequired(
       return;
     });
     readOnlyProps
-      .filter(i => i !== undefined)
-      .forEach(value => {
+      .filter((i) => i !== undefined)
+      .forEach((value) => {
         const index = schema.required.indexOf(value);
         schema.required.splice(index, 1);
       });
@@ -617,8 +605,8 @@ function recursiveTransformOpenAPIV3Definitions(object) {
         { type: 'null' },
         {
           type: object.type,
-          enum: object.enum
-        }
+          enum: object.enum,
+        },
       ];
       delete object.type;
       delete object.enum;
@@ -628,11 +616,13 @@ function recursiveTransformOpenAPIV3Definitions(object) {
 
     delete object.nullable;
   }
-  Object.keys(object).forEach(attr => {
+  Object.keys(object).forEach((attr) => {
     if (typeof object[attr] === 'object' && object[attr] !== null) {
       recursiveTransformOpenAPIV3Definitions(object[attr]);
     } else if (Array.isArray(object[attr])) {
-      object[attr].forEach(obj => recursiveTransformOpenAPIV3Definitions(obj));
+      object[attr].forEach((obj) =>
+        recursiveTransformOpenAPIV3Definitions(obj)
+      );
     }
   });
 }

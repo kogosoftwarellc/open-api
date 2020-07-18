@@ -5,8 +5,8 @@ module.exports = {
       name: 'foo',
       required: true,
       nullable: true,
-      type: 'string'
-    }
+      type: 'string',
+    },
   ],
   outputSchema: {
     path: {
@@ -14,15 +14,15 @@ module.exports = {
         foo: {
           anyOf: [
             {
-              type: 'string'
+              type: 'string',
             },
             {
-              type: 'null'
-            }
-          ]
-        }
+              type: 'null',
+            },
+          ],
+        },
       },
-      required: ['foo']
-    }
-  }
+      required: ['foo'],
+    },
+  },
 };

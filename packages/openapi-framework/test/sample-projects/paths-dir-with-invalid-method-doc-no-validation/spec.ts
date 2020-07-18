@@ -11,7 +11,7 @@ describe(path.basename(__dirname), () => {
       featureType: 'middleware',
       name: 'some-framework',
       paths: path.resolve(__dirname, 'paths'),
-      validateApiDoc: false
+      validateApiDoc: false,
     });
   });
 
@@ -20,7 +20,7 @@ describe(path.basename(__dirname), () => {
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
         expect(apiDoc.paths).to.have.property('/foo');
-      }
+      },
     });
   });
 });

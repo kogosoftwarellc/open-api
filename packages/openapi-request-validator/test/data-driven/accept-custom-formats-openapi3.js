@@ -6,21 +6,21 @@ module.exports = {
         name: 'foo',
         schema: {
           type: 'string',
-          format: 'foo'
-        }
-      }
+          format: 'foo',
+        },
+      },
     ],
     schemas: null,
     customFormats: {
-      foo: function(input) {
+      foo: function (input) {
         return input === 'foo';
-      }
-    }
+      },
+    },
   },
   request: {
     path: '?foo=foo',
     query: {
-      foo: 'foo'
-    }
-  }
+      foo: 'foo',
+    },
+  },
 };

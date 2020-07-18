@@ -4,5 +4,5 @@ module.exports = {
   },
   postFoo: function getFoo() {
     return;
-  }
+  },
 };

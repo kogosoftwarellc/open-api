@@ -9,7 +9,7 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   'x-express-openapi-schema-extension': {
@@ -20,32 +20,32 @@ module.exports = {
             type: 'array',
             minItems: 1,
             items: {
-              $ref: '#/definitions/schema'
-            }
-          }
-        }
-      }
-    }
+              $ref: '#/definitions/schema',
+            },
+          },
+        },
+      },
+    },
   },
 
   definitions: {
     Error: {
-      additionalProperties: true
+      additionalProperties: true,
     },
     User: {
       properties: {
         name: {
-          oneOf: [{ type: 'string' }, { type: 'null' }]
+          oneOf: [{ type: 'string' }, { type: 'null' }],
         },
         friends: {
           type: 'array',
           items: {
-            $ref: '#/definitions/User'
-          }
-        }
+            $ref: '#/definitions/User',
+          },
+        },
       },
-      required: ['name']
-    }
+      required: ['name'],
+    },
   },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
@@ -56,6 +56,6 @@ module.exports = {
   tags: [
     // {name: 'creating'} will be inserted by ./api-routes/users.js
     // {name: 'fooey'} will be inserted by ./api-routes/users/{id}.js
-    { description: 'Everything users', name: 'users' }
-  ]
+    { description: 'Everything users', name: 'users' },
+  ],
 };

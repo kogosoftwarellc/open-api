@@ -6,9 +6,10 @@ export interface IOpenAPISecurityHandler {
 
 export interface OpenAPISecurityHandlerArgs {
   loggingKey: string;
-  operationSecurity: Array<
-    OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject
-  >;
+  operationSecurity: (
+    | OpenAPIV2.SecurityRequirementObject
+    | OpenAPIV3.SecurityRequirementObject
+  )[];
   securityDefinitions: OpenAPIV2.SecurityDefinitionsObject;
   securityHandlers: SecurityHandlers;
 }
@@ -32,9 +33,10 @@ interface SecuritySet {
 }
 
 export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
-  private operationSecurity: Array<
-    OpenAPIV2.SecurityRequirementObject | OpenAPIV3.SecurityRequirementObject
-  >;
+  private operationSecurity: (
+    | OpenAPIV2.SecurityRequirementObject
+    | OpenAPIV3.SecurityRequirementObject
+  )[];
   private securitySets: SecuritySet[][];
 
   constructor(args: OpenAPISecurityHandlerArgs) {
@@ -61,9 +63,9 @@ export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
 
     this.operationSecurity = operationSecurity;
     this.securitySets = operationSecurity
-      .map(security => {
+      .map((security) => {
         return Object.keys(security)
-          .map(scheme => {
+          .map((scheme) => {
             if (!securityDefinitions[scheme]) {
               throw new Error(
                 loggingKey +
@@ -96,17 +98,17 @@ export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
             return {
               definition: securityDefinitions[scheme],
               handler: securityHandlers[scheme],
-              scopes: security[scheme]
+              scopes: security[scheme],
             };
           })
           .filter(
             /* tslint:disable-next-line:no-shadowed-variable */
-            security => {
+            (security) => {
               return !!security;
             }
           );
       })
-      .filter(set => {
+      .filter((set) => {
         return set.length > 0;
       });
 
@@ -122,9 +124,10 @@ export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
         return promiseChain.then(
           (result: boolean): Promise<boolean> => {
             if (!result) {
-              const resultPromises: Array<
-                Promise<boolean> | boolean
-              > = currentTask.map((securitySet: SecuritySet) => {
+              const resultPromises: (
+                | Promise<boolean>
+                | boolean
+              )[] = currentTask.map((securitySet: SecuritySet) => {
                 return securitySet.handler(
                   request,
                   securitySet.scopes,
@@ -133,21 +136,21 @@ export default class OpenAPISecurityHandler implements IOpenAPISecurityHandler {
               });
               return Promise.all(resultPromises).then((results: boolean[]) => {
                 /* tslint:disable-next-line:no-shadowed-variable */
-                return results.filter(result => !result).length === 0;
+                return results.filter((result) => !result).length === 0;
               });
             }
             return Promise.resolve(result);
           }
         );
       }, Promise.resolve(false))
-      .then(result => {
+      .then((result) => {
         if (!result) {
           return Promise.reject({
             status: 401,
             message:
               'No security handlers returned an acceptable response: ' +
               operationSecurity.map(toAuthenticationScheme).join(' OR '),
-            errorCode: 'authentication.openapi.security'
+            errorCode: 'authentication.openapi.security',
           });
         }
       });

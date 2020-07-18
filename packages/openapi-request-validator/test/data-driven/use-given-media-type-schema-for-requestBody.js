@@ -1,6 +1,6 @@
 module.exports = {
   validateArgs: {
-    parameters: []
+    parameters: [],
   },
   requestBody: {
     content: {
@@ -8,34 +8,34 @@ module.exports = {
         schema: {
           properties: {
             name: {
-              type: 'string'
-            }
+              type: 'string',
+            },
           },
-          required: ['name']
-        }
+          required: ['name'],
+        },
       },
       'application/foo2+json': {
         schema: {
           properties: {
             first_name: {
-              type: 'string'
+              type: 'string',
             },
             last_name: {
-              type: 'string'
-            }
+              type: 'string',
+            },
           },
-          required: ['first_name', 'last_name']
-        }
-      }
-    }
+          required: ['first_name', 'last_name'],
+        },
+      },
+    },
   },
   request: {
     headers: {
-      'content-type': 'application/foo2+json'
+      'content-type': 'application/foo2+json',
     },
     body: {
       first_name: 'foo',
-      last_name: 'bar'
-    }
-  }
+      last_name: 'bar',
+    },
+  },
 };

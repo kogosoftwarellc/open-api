@@ -6,27 +6,27 @@ module.exports = {
       content: {
         'application/json; charset=utf-8': {
           schema: {
-            $ref: '#/components/schemas/Test1'
-          }
-        }
-      }
+            $ref: '#/components/schemas/Test1',
+          },
+        },
+      },
     },
     schemas: {
       Test1: {
         properties: {
           foo: {
             type: 'string',
-            default: 'foo'
-          }
+            default: 'foo',
+          },
         },
-        required: ['foo']
-      }
-    }
+        required: ['foo'],
+      },
+    },
   },
   request: {
     body: {},
     headers: {
-      'content-type': 'application/json'
-    }
-  }
+      'content-type': 'application/json',
+    },
+  },
 };

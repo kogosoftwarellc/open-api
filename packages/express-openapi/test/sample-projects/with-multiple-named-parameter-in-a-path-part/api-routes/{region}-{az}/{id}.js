@@ -6,32 +6,32 @@ module.exports = {
       in: 'path',
       type: 'string',
       required: true,
-      description: 'VM id'
+      description: 'VM id',
     },
     {
       name: 'region',
       in: 'path',
       type: 'string',
       required: true,
-      description: 'VM region'
+      description: 'VM region',
     },
     {
       name: 'az',
       in: 'path',
       type: 'string',
       required: true,
-      description: 'VM available zone'
-    }
+      description: 'VM available zone',
+    },
   ],
   // method handlers may just be the method handler...
-  get: get
+  get: get,
 };
 
 function get(req, res) {
   res.status(200).json({
     id: req.params.id,
     region: req.params.region,
-    az: req.params.az
+    az: req.params.az,
   });
 }
 
@@ -43,15 +43,15 @@ get.apiDoc = {
     200: {
       description: 'Requested VM',
       schema: {
-        $ref: '#/definitions/Vm'
-      }
+        $ref: '#/definitions/Vm',
+      },
     },
 
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

@@ -18,7 +18,7 @@ describe(path.basename(__dirname), () => {
       operations: {
         getFoo(req, res) {
           // Operation body
-        }
+        },
       },
       logger: {
         debug: ignore,
@@ -27,8 +27,8 @@ describe(path.basename(__dirname), () => {
         trace: ignore,
         warn: (message: any) => {
           warnings.push(message);
-        }
-      }
+        },
+      },
     });
   });
 
@@ -37,7 +37,7 @@ describe(path.basename(__dirname), () => {
       framework.initialize({});
     }).to.throw("Cannot read property 'undefined' of undefined");
     expect(warnings).to.deep.equal([
-      'some-framework: path /foo, operation get is missing an operationId'
+      'some-framework: path /foo, operation get is missing an operationId',
     ]);
   });
 });

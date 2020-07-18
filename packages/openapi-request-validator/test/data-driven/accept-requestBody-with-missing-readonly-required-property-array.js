@@ -8,11 +8,11 @@ module.exports = {
           schema: {
             type: 'array',
             items: {
-              $ref: '#/components/schemas/Test1'
-            }
-          }
-        }
-      }
+              $ref: '#/components/schemas/Test1',
+            },
+          },
+        },
+      },
     },
     componentSchemas: {
       Test1: {
@@ -20,24 +20,24 @@ module.exports = {
         properties: {
           foo: {
             type: 'string',
-            readOnly: true
+            readOnly: true,
           },
           bar: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['foo', 'bar']
-      }
-    }
+        required: ['foo', 'bar'],
+      },
+    },
   },
   request: {
     body: [
       {
-        bar: 'asdf'
-      }
+        bar: 'asdf',
+      },
     ],
     headers: {
-      'content-type': 'application/json'
-    }
-  }
+      'content-type': 'application/json',
+    },
+  },
 };

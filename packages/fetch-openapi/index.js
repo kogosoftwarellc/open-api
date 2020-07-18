@@ -12,7 +12,7 @@ function buildApiService(apiDoc, options) {
   var requiredSecurityHandlers = [];
   var hasSecurity =
     apiDoc.security ||
-    (function() {
+    (function () {
       var paths = apiDoc.paths;
       var pathUris = paths ? Object.keys(paths) : [];
       for (var i = 0, ilen = pathUris.length; i < ilen; i++) {
@@ -154,11 +154,11 @@ function generatePaths(
   requiredSecurityHandlers
 ) {
   var paths = apiDoc.paths;
-  Object.keys(paths).forEach(function(path) {
+  Object.keys(paths).forEach(function (path) {
     var methods = paths[path];
     path = path.replace(/\{([^}]+)\}/g, "' + params['$1'] + '");
 
-    Object.keys(methods).forEach(function(method) {
+    Object.keys(methods).forEach(function (method) {
       if (method === 'parameters' || method === '$ref') {
         return;
       }
@@ -200,7 +200,7 @@ function generatePaths(
 
       if (queryParams && queryParams.length) {
         query.push(" + '?' + buildQuery({");
-        queryParams.forEach(function(param) {
+        queryParams.forEach(function (param) {
           query.push(
             "          '",
             param.name,
@@ -222,7 +222,7 @@ function generatePaths(
             "        'content-type': 'application/x-www-form-urlencoded',"
           );
           body.push('          body: buildQuery({');
-          bodyParams.filter(byFormData).forEach(function(param) {
+          bodyParams.filter(byFormData).forEach(function (param) {
             body.push(
               "            '",
               param.name,
@@ -248,7 +248,7 @@ function generatePaths(
         (headerParams && headerParams.length) ||
         (bodyParams && bodyParams.length)
       ) {
-        headerParams.forEach(function(param) {
+        headerParams.forEach(function (param) {
           headers.push(
             "        '",
             param.name,
@@ -267,10 +267,10 @@ function generatePaths(
 
 function addToRequiredSecurityHandlers(requiredSecurityHandlers, security) {
   if (Array.isArray(security)) {
-    security.forEach(function(scheme) {
+    security.forEach(function (scheme) {
       Object.keys(scheme)
         .map(toQuoted)
-        .forEach(function(quoted) {
+        .forEach(function (quoted) {
           if (requiredSecurityHandlers.indexOf(quoted) === -1) {
             requiredSecurityHandlers.push(quoted);
           }

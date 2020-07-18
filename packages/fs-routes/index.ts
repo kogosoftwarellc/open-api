@@ -8,11 +8,11 @@ function compare(a: string, b: string) {
   let br;
   ar = {
     dirname: path.dirname(a).replace(/^\./g, ''),
-    basename: path.basename(a).replace(/\:/g, '~')
+    basename: path.basename(a).replace(/\:/g, '~'),
   };
   br = {
     dirname: path.dirname(b).replace(/^\./g, ''),
-    basename: path.basename(b).replace(/\:/g, '~')
+    basename: path.basename(b).replace(/\:/g, '~'),
   };
 
   if (ar.dirname === br.dirname) {
@@ -53,9 +53,9 @@ export default function fsRoutes(
     memo[cacheKey] = glob
       .sync(options.glob, { cwd: dir })
       .sort(compare)
-      .map(file => ({
+      .map((file) => ({
         path: path.resolve(dir, file),
-        route: '/' + file.replace(options.indexFileRegExp, '')
+        route: '/' + file.replace(options.indexFileRegExp, ''),
       }));
   }
 

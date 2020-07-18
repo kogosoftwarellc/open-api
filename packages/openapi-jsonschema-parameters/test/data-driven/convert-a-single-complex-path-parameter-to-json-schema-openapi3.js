@@ -27,19 +27,19 @@ module.exports = {
         enum: ['1', '3'],
         multipleOf: 57,
         properties: {
-          something: { nullable: true }
+          something: { nullable: true },
         },
         oneOf: [{ nullable: true }],
         allOf: [{ nullable: true }],
         anyOf: [{ nullable: true }],
-        not: { nullable: true }
+        not: { nullable: true },
       },
       examples: {
         example1: {
-          value: 'asd'
-        }
-      }
-    }
+          value: 'asd',
+        },
+      },
+    },
   ],
 
   outputSchema: {
@@ -67,16 +67,16 @@ module.exports = {
           enum: ['1', '3'],
           multipleOf: 57,
           properties: {
-            something: { anyOf: [{}, { type: 'null' }] }
+            something: { anyOf: [{}, { type: 'null' }] },
           },
           oneOf: [{ anyOf: [{}, { type: 'null' }] }],
           allOf: [{ anyOf: [{}, { type: 'null' }] }],
           anyOf: [{ anyOf: [{}, { type: 'null' }] }],
           not: { anyOf: [{}, { type: 'null' }] },
           examples: ['asd'],
-        }
+        },
       },
-      required: ['foo']
-    }
-  }
+      required: ['foo'],
+    },
+  },
 };

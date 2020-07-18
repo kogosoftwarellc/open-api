@@ -8,11 +8,11 @@ module.exports = {
           schema: {
             type: 'array',
             items: {
-              $ref: '#/components/schemas/Test1'
-            }
-          }
-        }
-      }
+              $ref: '#/components/schemas/Test1',
+            },
+          },
+        },
+      },
     },
     componentSchemas: {
       Test1: {
@@ -20,26 +20,26 @@ module.exports = {
         properties: {
           foo: {
             type: 'string',
-            readOnly: true
+            readOnly: true,
           },
           bar: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['foo', 'bar']
-      }
-    }
+        required: ['foo', 'bar'],
+      },
+    },
   },
   request: {
     body: [
       {
         bar: 'asdf',
-        foo: 'should-not-be-here'
-      }
+        foo: 'should-not-be-here',
+      },
     ],
     headers: {
-      'content-type': 'application/json'
-    }
+      'content-type': 'application/json',
+    },
   },
 
   expectedError: {
@@ -49,8 +49,8 @@ module.exports = {
         path: '[0].foo',
         errorCode: 'readOnly.openapi.requestValidation',
         message: 'is read-only',
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };

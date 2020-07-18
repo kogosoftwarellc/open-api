@@ -55,7 +55,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       loggingKey,
       strictExtensionName,
       enableObjectCoercion,
-      coercionStrategy: args.coercionStrategy
+      coercionStrategy: args.coercionStrategy,
     });
     this.coerceParams = buildCoercer({
       params: args.parameters,
@@ -65,7 +65,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       loggingKey,
       strictExtensionName,
       enableObjectCoercion,
-      coercionStrategy: args.coercionStrategy
+      coercionStrategy: args.coercionStrategy,
     });
     this.coerceQuery = buildCoercer({
       params: args.parameters,
@@ -75,7 +75,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       loggingKey,
       strictExtensionName,
       enableObjectCoercion,
-      coercionStrategy: args.coercionStrategy
+      coercionStrategy: args.coercionStrategy,
     });
     this.coerceFormData = buildCoercer({
       params: args.parameters,
@@ -85,7 +85,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
       loggingKey,
       strictExtensionName,
       enableObjectCoercion,
-      coercionStrategy: args.coercionStrategy
+      coercionStrategy: args.coercionStrategy,
     });
   }
 
@@ -111,7 +111,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
 const OBJECT_FORMAT_COERCER = {
   default(input) {
     return JSON.parse(input);
-  }
+  },
   // other formats
 };
 
@@ -135,7 +135,7 @@ const COERCION_STRATEGIES = {
     );
   },
 
-  boolean: input => {
+  boolean: (input) => {
     if (typeof input === 'boolean') {
       return input;
     }
@@ -147,21 +147,21 @@ const COERCION_STRATEGIES = {
     }
   },
 
-  integer: input => {
+  integer: (input) => {
     const result = Math.floor(Number(input));
     return isNaN(result) ? input : result;
   },
 
-  number: input => {
+  number: (input) => {
     const result = Number(input);
     return isNaN(result) ? input : result;
   },
 
-  string: input => String(input)
+  string: (input) => String(input),
 };
 
 const STRICT_COERCION_STRATEGIES = {
-  boolean: input => {
+  boolean: (input) => {
     if (typeof input === 'boolean') {
       return input;
     }
@@ -173,15 +173,15 @@ const STRICT_COERCION_STRATEGIES = {
     } else {
       return null;
     }
-  }
+  },
 };
 
 function buildCoercer(args) {
   const l = args.isHeaders
-    ? name => {
+    ? (name) => {
         return name.toLowerCase();
       }
-    : name => {
+    : (name) => {
         return name;
       };
   let coercion;
@@ -189,7 +189,7 @@ function buildCoercer(args) {
   if (args.params.length) {
     const coercers = {};
 
-    args.params.filter(byLocation(args.property)).forEach(param => {
+    args.params.filter(byLocation(args.property)).forEach((param) => {
       // OpenAPI (Swagger) 2.0 has type and format information as direct properties
       // of the param object. OpenAPI 3.0 has type and format information in a
       // schema object property. Use a schema value to normalize the change across
@@ -214,9 +214,7 @@ function buildCoercer(args) {
           (schema.items.schema && schema.items.schema.type === 'array')
         ) {
           throw new Error(
-            `${
-              args.loggingKey
-            }nested arrays are not allowed (items was of type array)`
+            `${args.loggingKey}nested arrays are not allowed (items was of type array)`
           );
         }
 
@@ -299,7 +297,7 @@ function buildCoercer(args) {
       }
     });
 
-    coercion = obj => {
+    coercion = (obj) => {
       for (const paramName in obj) {
         if (coercers.hasOwnProperty(paramName)) {
           obj[paramName] = coercers[paramName](obj[paramName]);
@@ -312,7 +310,7 @@ function buildCoercer(args) {
 }
 
 function byLocation(location) {
-  return param => param.in === location;
+  return (param) => param.in === location;
 }
 
 function identityCoercer(input: any) {

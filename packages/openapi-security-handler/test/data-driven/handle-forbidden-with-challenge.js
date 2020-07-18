@@ -7,31 +7,31 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
-      }
+        in: 'header',
+      },
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition) {
+      keyScheme: function (req, scopes, securityDefinition) {
         throw {
           status: 403,
           challenge: 'Bearer error="insufficient_scope"',
-          message: 'foo'
+          message: 'foo',
         };
-      }
+      },
     },
 
     operationSecurity: [
       {
-        keyScheme: ['write']
-      }
-    ]
+        keyScheme: ['write'],
+      },
+    ],
   },
 
   expectedError: {
     status: 403,
     challenge: 'Bearer error="insufficient_scope"',
-    message: 'foo'
+    message: 'foo',
   },
-  expectedResult: false
+  expectedResult: false,
 };

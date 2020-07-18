@@ -27,18 +27,18 @@ export const METHOD_ALIASES = {
   options: 'options',
   patch: 'patch',
   post: 'post',
-  put: 'put'
+  put: 'put',
 };
 
 export function addOperationTagToApiDoc(apiDoc, tag) {
   const apiDocTags = apiDoc.tags || [];
-  const availableTags = apiDocTags.map(t => {
+  const availableTags = apiDocTags.map((t) => {
     return t && t.name;
   });
 
   if (availableTags.indexOf(tag) === -1) {
     apiDocTags.push({
-      name: tag
+      name: tag,
     });
   }
 
@@ -99,15 +99,11 @@ export function assertRegExpAndSecurity(framework, tuple) {
     );
   } else if (!(tuple[0] instanceof RegExp)) {
     throw new Error(
-      `${
-        framework.name
-      }args.pathSecurity tuples expect the first argument to be a RegExp.`
+      `${framework.name}args.pathSecurity tuples expect the first argument to be a RegExp.`
     );
   } else if (!Array.isArray(tuple[1])) {
     throw new Error(
-      `${
-        framework.name
-      }args.pathSecurity tuples expect the second argument to be a security Array.`
+      `${framework.name}args.pathSecurity tuples expect the second argument to be a security Array.`
     );
   }
 }
@@ -126,7 +122,7 @@ export function byMethods(name) {
 }
 
 function byProperty(property, value) {
-  return obj => {
+  return (obj) => {
     return obj && property in obj && obj[property] === value;
   };
 }
@@ -147,6 +143,18 @@ export function byString(el) {
   return typeof el === 'string';
 }
 
+export function byTag(a, b) {
+  const aName = typeof a === 'string' ? a : (a || { name: '' }).name;
+  const bName = typeof b === 'string' ? b : (b || { name: '' }).name;
+  if (aName === bName) {
+    return 0;
+  } else if (aName < bName) {
+    return -1;
+  } else if (aName > bName) {
+    return 1;
+  }
+}
+
 export function copy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -158,12 +166,8 @@ export function getAdditionalFeatures(
 ) {
   const additionalFeatures = [];
   let index = docs.length - 1;
-  const inheritProperty = `x-${framework.name}-inherit-additional-${
-    framework.featureType
-  }`;
-  const additionalProperty = `x-${framework.name}-additional-${
-    framework.featureType
-  }`;
+  const inheritProperty = `x-${framework.name}-inherit-additional-${framework.featureType}`;
+  const additionalProperty = `x-${framework.name}-additional-${framework.featureType}`;
 
   while (index > 0) {
     --index;
@@ -177,14 +181,12 @@ export function getAdditionalFeatures(
     }
   }
 
-  return additionalFeatures.filter(feature => {
+  return additionalFeatures.filter((feature) => {
     if (typeof feature === 'function') {
       return true;
     } else {
       logger.warn(
-        `${framework.loggingPrefix}Ignoring ${feature} as ${
-          framework.featureType
-        } in ${additionalProperty} array.`
+        `${framework.loggingPrefix}Ignoring ${feature} as ${framework.featureType} in ${additionalProperty} array.`
       );
       return false;
     }
@@ -257,7 +259,7 @@ export function resolveParameterRefs(
   parameters,
   apiDoc
 ) {
-  return parameters.map(parameter => {
+  return parameters.map((parameter) => {
     if (typeof parameter.$ref === 'string') {
       const apiVersion = apiDoc.swagger ? apiDoc.swagger : apiDoc.openapi;
       const apiDocParameters =
@@ -271,11 +273,7 @@ export function resolveParameterRefs(
 
       if (!definition) {
         throw new Error(
-          `${
-            framework.name
-          }: Invalid parameter $ref or definition not found in apiDoc.parameters: ${
-            parameter.$ref
-          }`
+          `${framework.name}: Invalid parameter $ref or definition not found in apiDoc.parameters: ${parameter.$ref}`
         );
       }
 
@@ -308,11 +306,7 @@ export function resolveResponseRefs(
 
       if (!definition) {
         throw new Error(
-          `${
-            framework.name
-          }: Invalid response $ref or definition not found in apiDoc.responses: ${
-            response.$ref
-          }`
+          `${framework.name}: Invalid response $ref or definition not found in apiDoc.responses: ${response.$ref}`
         );
       }
 
@@ -339,11 +333,7 @@ export function resolveRequestBodyRefs(
 
     if (!definition) {
       throw new Error(
-        `${
-          framework.name
-        }: Invalid requestBody $ref or definition not found in apiDoc.components.requestBodies: ${
-          requestBody.$ref
-        }`
+        `${framework.name}: Invalid requestBody $ref or definition not found in apiDoc.components.requestBodies: ${requestBody.$ref}`
       );
     }
 
@@ -355,19 +345,12 @@ export function resolveRequestBodyRefs(
 
 export function sortApiDocTags(apiDoc) {
   if (apiDoc && Array.isArray(apiDoc.tags)) {
-    apiDoc.tags.sort((a, b) => {
-      return a.name > b.name;
-    });
+    apiDoc.tags.sort(byTag);
   }
 }
 
 export function sortOperationDocTags(operationDoc) {
-  operationDoc.tags.sort((a, b) => {
-    if (a < b) {
-      return -1;
-    }
-    return 1;
-  });
+  operationDoc.tags.sort(byTag);
 }
 
 export function toAbsolutePath(part) {
@@ -407,5 +390,5 @@ export function getBasePathsFromServers(
     const basePath = new BasePath(server);
     basePathsMap[basePath.path] = basePath;
   }
-  return Object.keys(basePathsMap).map(key => basePathsMap[key]);
+  return Object.keys(basePathsMap).map((key) => basePathsMap[key]);
 }

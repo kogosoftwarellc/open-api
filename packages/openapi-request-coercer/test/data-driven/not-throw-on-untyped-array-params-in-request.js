@@ -4,9 +4,9 @@ module.exports = {
       type: 'WARN',
       message: '',
       optionalParams: [
-        "No type has been defined. A default 'identity' strategy has been set."
-      ]
-    }
+        "No type has been defined. A default 'identity' strategy has been set.",
+      ],
+    },
   ],
 
   args: {
@@ -22,21 +22,21 @@ module.exports = {
           // (cf. https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#itemsObject)
           // this is not enforced by the schema
           // (cf. https://github.com/OAI/OpenAPI-Specification/blob/7ce374d67e46e2fdf0da49fc6e29f6854985627e/schemas/v2.0/schema.json#L1108-L1176)
-          enum: ['one', 'two']
+          enum: ['one', 'two'],
         },
         collectionFormat: 'multi',
-        required: false
-      }
-    ]
+        required: false,
+      },
+    ],
   },
 
   request: {
     query: {
-      'multi-valued': 'one'
-    }
+      'multi-valued': 'one',
+    },
   },
 
   query: {
-    'multi-valued': ['one']
-  }
+    'multi-valued': ['one'],
+  },
 };

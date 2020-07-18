@@ -1,5 +1,5 @@
 module.exports = {
-  GET
+  GET,
 };
 
 function GET() {
@@ -11,13 +11,13 @@ GET.apiDoc = {
       format: 'foo',
       in: 'query',
       name: 'foo',
-      type: 'string'
-    }
+      type: 'string',
+    },
   ],
   responses: {
     default: {
       description: 'return foo',
-      schema: {}
-    }
-  }
+      schema: {},
+    },
+  },
 };

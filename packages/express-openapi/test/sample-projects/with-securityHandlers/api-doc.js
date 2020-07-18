@@ -8,7 +8,7 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {},
@@ -20,22 +20,22 @@ module.exports = {
   security: [
     {
       booAuth: [],
-      boo2Auth: []
-    }
+      boo2Auth: [],
+    },
   ],
 
   securityDefinitions: {
     booAuth: {
-      type: 'basic'
+      type: 'basic',
     },
     boo2Auth: {
-      type: 'basic'
+      type: 'basic',
     },
     failAuth: {
-      type: 'basic'
+      type: 'basic',
     },
     fooAuth: {
-      type: 'basic'
-    }
-  }
+      type: 'basic',
+    },
+  },
 };

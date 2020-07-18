@@ -41,9 +41,9 @@ function createApi(options) {
     }
   };
   ensureRequiredSecurityHandlersExist();
-  const buildQuery = obj => {
+  const buildQuery = (obj) => {
     return Object.keys(obj)
-      .map(key => {
+      .map((key) => {
         const value = obj[key];
         if (value === undefined) {
           return '';
@@ -77,12 +77,12 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/entries', {
         method: 'GET',
         headers,
-        mode
+        mode,
       });
     },
     createEntry(params) {
       let headers = {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       };
       handleSecurity(
         [{ rememberMeToken: [] }, { password: [] }],
@@ -94,7 +94,7 @@ function createApi(options) {
         method: 'POST',
         headers,
         mode,
-        body: JSON.stringify(params.entry)
+        body: JSON.stringify(params.entry),
       });
     },
     getLabels(params) {
@@ -108,12 +108,12 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/labels', {
         method: 'GET',
         headers,
-        mode
+        mode,
       });
     },
     createLabel(params) {
       let headers = {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       };
       handleSecurity(
         [{ rememberMeToken: [] }, { password: [] }],
@@ -125,7 +125,7 @@ function createApi(options) {
         method: 'POST',
         headers,
         mode,
-        body: JSON.stringify(params.label)
+        body: JSON.stringify(params.label),
       });
     },
     createRememberMeToken(params) {
@@ -139,18 +139,18 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/rememberMeTokens', {
         method: 'POST',
         headers,
-        mode
+        mode,
       });
     },
     createUser(params) {
       let headers = {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       };
       return fetch(endpoint + basePath + '/users', {
         method: 'POST',
         headers,
         mode,
-        body: JSON.stringify(params.user)
+        body: JSON.stringify(params.user),
       });
     },
     deleteEntry(params) {
@@ -164,7 +164,7 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/entries/' + paramsentryId + '', {
         method: 'DELETE',
         headers,
-        mode
+        mode,
       });
     },
     getEntry(params) {
@@ -178,12 +178,12 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/entries/' + params.entryId + '', {
         method: 'GET',
         headers,
-        mode
+        mode,
       });
     },
     updateEntry(params) {
       let headers = {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       };
       handleSecurity(
         [{ rememberMeToken: [] }, { password: [] }],
@@ -195,7 +195,7 @@ function createApi(options) {
         method: 'PATCH',
         headers,
         mode,
-        body: JSON.stringify(paramsentry)
+        body: JSON.stringify(paramsentry),
       });
     },
     deleteLabel(params) {
@@ -209,12 +209,12 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/labels/' + params.labelId + '', {
         method: 'DELETE',
         headers,
-        mode
+        mode,
       });
     },
     updateLabel(params) {
       let headers = {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       };
       handleSecurity(
         [{ rememberMeToken: [] }, { password: [] }],
@@ -226,7 +226,7 @@ function createApi(options) {
         method: 'PATCH',
         headers,
         mode,
-        body: JSON.stringify(paramslabel)
+        body: JSON.stringify(paramslabel),
       });
     },
     getUser(params) {
@@ -240,12 +240,12 @@ function createApi(options) {
       return fetch(endpoint + basePath + '/users/' + params.userId + '', {
         method: 'GET',
         headers,
-        mode
+        mode,
       });
     },
     updateUser(params) {
       let headers = {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       };
       handleSecurity(
         [{ rememberMeToken: [] }, { password: [] }],
@@ -257,7 +257,7 @@ function createApi(options) {
         method: 'PATCH',
         headers,
         mode,
-        body: JSON.stringify(params.user)
+        body: JSON.stringify(params.user),
       });
     },
     deleteUserEmailVerificateToken(params) {
@@ -271,9 +271,9 @@ function createApi(options) {
         {
           method: 'DELETE',
           headers,
-          mode
+          mode,
         }
       );
-    }
+    },
   };
 }

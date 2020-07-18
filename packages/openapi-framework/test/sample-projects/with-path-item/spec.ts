@@ -12,9 +12,9 @@ describe(path.basename(__dirname), () => {
       paths: [
         {
           path: '/zoo',
-          module: require('./paths/foo')
-        }
-      ]
+          module: require('./paths/foo'),
+        },
+      ],
     });
   });
 

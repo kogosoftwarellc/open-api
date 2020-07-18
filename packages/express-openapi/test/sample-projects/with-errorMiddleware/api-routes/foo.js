@@ -1,7 +1,7 @@
 module.exports = {
-  get: function(req, res, next) {
+  get: function (req, res, next) {
     next(new Error('hello from /v3/foo'));
-  }
+  },
 };
 
 module.exports.get.apiDoc = {
@@ -10,7 +10,7 @@ module.exports.get.apiDoc = {
   parameters: [],
   responses: {
     200: {
-      description: 'testing error handler'
-    }
-  }
+      description: 'testing error handler',
+    },
+  },
 };

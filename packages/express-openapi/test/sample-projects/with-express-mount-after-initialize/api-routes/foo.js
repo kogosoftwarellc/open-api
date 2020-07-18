@@ -1,7 +1,7 @@
 module.exports = {
-  get: function(req, res, next) {
+  get: function (req, res, next) {
     res.status(200).json('success');
-  }
+  },
 };
 
 module.exports.get.apiDoc = {
@@ -12,8 +12,8 @@ module.exports.get.apiDoc = {
     default: {
       description: 'Success',
       schema: {
-        type: 'string'
-      }
-    }
-  }
+        type: 'string',
+      },
+    },
+  },
 };

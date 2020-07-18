@@ -5,21 +5,21 @@ module.exports = {
         in: 'header',
         name: 'X-foO',
         type: 'string',
-        required: true
+        required: true,
       },
       {
         in: 'header',
         name: 'x-yoda',
         type: 'string',
-        required: true
-      }
+        required: true,
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {
     headers: {
       'x-foo': 'asdf',
-      'X-Yoda': 'Luke'
-    }
-  }
+      'X-Yoda': 'Luke',
+    },
+  },
 };

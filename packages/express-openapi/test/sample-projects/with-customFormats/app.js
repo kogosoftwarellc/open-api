@@ -13,13 +13,13 @@ openapi.initialize({
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   customFormats: {
-    foo: function(input) {
+    foo: function (input) {
       return input === 'foo';
-    }
-  }
+    },
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 

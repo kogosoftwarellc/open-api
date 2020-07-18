@@ -13,10 +13,10 @@ openapi.initialize({
   apiDoc: fs.readFileSync(path.resolve(__dirname, './api-doc.yml'), 'utf8'),
   app: app,
   promiseMode: true,
-  paths: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes'),
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err.message);
 });
 

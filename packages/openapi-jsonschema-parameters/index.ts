@@ -62,7 +62,7 @@ const VALIDATION_KEYWORDS = [
   'pattern',
   'title',
   'type',
-  'uniqueItems'
+  'uniqueItems',
 ];
 
 function copyValidationKeywords(src) {
@@ -90,7 +90,7 @@ const SUBSCHEMA_KEYWORDS = [
   'contains',
   'additionalProperties',
   'propertyNames',
-  'not'
+  'not',
 ];
 
 const SUBSCHEMA_ARRAY_KEYWORDS = ['items', 'allOf', 'anyOf', 'oneOf'];
@@ -99,7 +99,7 @@ const SUBSCHEMA_OBJECT_KEYWORDS = [
   'definitions',
   'properties',
   'patternProperties',
-  'dependencies'
+  'dependencies',
 ];
 
 function handleNullableSchema(schema) {
@@ -109,7 +109,7 @@ function handleNullableSchema(schema) {
 
   const newSchema = { ...schema };
 
-  SUBSCHEMA_KEYWORDS.forEach(keyword => {
+  SUBSCHEMA_KEYWORDS.forEach((keyword) => {
     if (
       typeof schema[keyword] === 'object' &&
       schema[keyword] !== null &&
@@ -119,16 +119,16 @@ function handleNullableSchema(schema) {
     }
   });
 
-  SUBSCHEMA_ARRAY_KEYWORDS.forEach(keyword => {
+  SUBSCHEMA_ARRAY_KEYWORDS.forEach((keyword) => {
     if (Array.isArray(schema[keyword])) {
       newSchema[keyword] = schema[keyword].map(handleNullableSchema);
     }
   });
 
-  SUBSCHEMA_OBJECT_KEYWORDS.forEach(keyword => {
+  SUBSCHEMA_OBJECT_KEYWORDS.forEach((keyword) => {
     if (typeof schema[keyword] === 'object' && schema[keyword] !== null) {
       newSchema[keyword] = { ...schema[keyword] };
-      Object.keys(schema[keyword]).forEach(prop => {
+      Object.keys(schema[keyword]).forEach((prop) => {
         newSchema[keyword][prop] = handleNullableSchema(schema[keyword][prop]);
       });
     }
@@ -144,7 +144,7 @@ function handleNullableSchema(schema) {
 }
 
 function getBodySchema(parameters) {
-  let bodySchema = parameters.filter(param => {
+  let bodySchema = parameters.filter((param) => {
     return param.in === 'body' && param.schema;
   })[0];
 
@@ -162,7 +162,7 @@ function getSchema(parameters, type) {
   if (params.length) {
     schema = { properties: {} };
 
-    params.forEach(param => {
+    params.forEach((param) => {
       let paramSchema;
       if ('schema' in param) {
         paramSchema = handleNullableSchema(param.schema);
@@ -196,7 +196,7 @@ function getExamples(exampleSchema) {
 }
 
 function byIn(str) {
-  return param => param.in === str && param.type !== 'file';
+  return (param) => param.in === str && param.type !== 'file';
 }
 
 function byRequired(param) {

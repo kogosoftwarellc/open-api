@@ -6,18 +6,18 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     },
 
     definitions: null,
 
-    errorTransformer: function(error) {
+    errorTransformer: function (error) {
       return 'asdf';
-    }
+    },
   },
 
   inputStatusCode: 400,
@@ -27,8 +27,8 @@ module.exports = {
     message: 'An unknown status code was used and no default was provided.',
     errors: [
       {
-        message: 'An unknown status code was used and no default was provided.'
-      }
-    ]
-  }
+        message: 'An unknown status code was used and no default was provided.',
+      },
+    ],
+  },
 };

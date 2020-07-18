@@ -10,10 +10,10 @@ openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   exposeApiDocs: false,
-  paths: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes'),
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 

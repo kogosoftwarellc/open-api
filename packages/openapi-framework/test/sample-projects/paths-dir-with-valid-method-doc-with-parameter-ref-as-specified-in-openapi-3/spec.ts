@@ -12,7 +12,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -32,22 +32,22 @@ describe(path.basename(__dirname), () => {
           get: {
             parameters: [
               {
-                $ref: '#/components/parameters/Foo'
-              }
+                $ref: '#/components/parameters/Foo',
+              },
             ],
             responses: {
               default: {
                 description: 'return foo',
                 content: {
                   'application/json': {
-                    schema: {}
-                  }
-                }
-              }
-            }
-          }
+                    schema: {},
+                  },
+                },
+              },
+            },
+          },
         });
-      }
+      },
     });
   });
 });

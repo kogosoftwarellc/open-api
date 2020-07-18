@@ -2,11 +2,11 @@ var app;
 var expect = require('chai').expect;
 var request = require('supertest');
 
-before(function() {
+before(function () {
   app = require('./app.js');
 });
 
-it('should use parameter references', function(done) {
+it('should use parameter references', function (done) {
   request(app)
     .get('/v3/foo?name=barney')
     .expect(
@@ -18,21 +18,21 @@ it('should use parameter references', function(done) {
             path: 'boo',
             errorCode: 'required.openapi.requestValidation',
             message: "should have required property 'boo'",
-            location: 'query'
+            location: 'query',
           },
           {
             path: 'foo',
             errorCode: 'required.openapi.requestValidation',
             message: "should have required property 'foo'",
-            location: 'query'
-          }
-        ]
+            location: 'query',
+          },
+        ],
       },
       done
     );
 });
 
-it('should use response references', function(done) {
+it('should use response references', function (done) {
   request(app)
     .get('/v3/foo?foo=error&boo=success')
     .expect(
@@ -42,11 +42,11 @@ it('should use response references', function(done) {
           {
             errorCode: 'enum.openapi.responseValidation',
             message: 'should be equal to one of the allowed values',
-            path: 'response'
-          }
+            path: 'response',
+          },
         ],
         message: 'The response was not valid.',
-        status: 500
+        status: 500,
       },
       done
     );

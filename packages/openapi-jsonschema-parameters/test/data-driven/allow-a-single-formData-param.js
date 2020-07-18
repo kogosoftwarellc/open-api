@@ -4,18 +4,18 @@ module.exports = {
       in: 'formData',
       name: 'wowow',
       schema: {
-        $ref: 'foo'
+        $ref: 'foo',
       },
-      required: true
-    }
+      required: true,
+    },
   ],
 
   outputSchema: {
     formData: {
       properties: {
-        wowow: {}
+        wowow: {},
       },
-      required: ['wowow']
-    }
-  }
+      required: ['wowow'],
+    },
+  },
 };

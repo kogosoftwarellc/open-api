@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function () {
   function GET() {
     return;
   }
@@ -7,12 +7,12 @@ module.exports = function() {
     responses: {
       default: {
         description: 'return foo',
-        schema: {}
-      }
-    }
+        schema: {},
+      },
+    },
   };
 
   return {
-    GET
+    GET,
   };
 };

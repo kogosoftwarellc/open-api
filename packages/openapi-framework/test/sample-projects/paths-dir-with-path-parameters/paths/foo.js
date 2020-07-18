@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'color',
       in: 'query',
-      type: 'string'
-    }
-  ]
+      type: 'string',
+    },
+  ],
 };

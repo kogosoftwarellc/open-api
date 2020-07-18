@@ -8,11 +8,10 @@
     "dist/**/*"
   ],
   "scripts": {
-    "cover": "nyc",
-    "prepare": "tsc",
-    "test-watch": "tsc && mocha --watch-extensions ts -w",
-    "test": "mocha",
-    "travis-test": "npm run cover"
+    "cover": "../../bin/nyc",
+    "prepare": "../../bin/tsc",
+    "test-watch": "../../bin/tsc && ../../bin/mocha --watch-extensions ts -w",
+    "test": "../../bin/mocha"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator",
   "keywords": [

@@ -7,31 +7,31 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
+        in: 'header',
       },
       passwordScheme: {
-        type: 'basic'
-      }
+        type: 'basic',
+      },
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition) {
+      keyScheme: function (req, scopes, securityDefinition) {
         return false;
-      }
+      },
     },
 
     operationSecurity: [
       {
-        keyScheme: ['write']
-      }
-    ]
+        keyScheme: ['write'],
+      },
+    ],
   },
 
   expectedError: {
     errorCode: 'authentication.openapi.security',
     message: 'No security handlers returned an acceptable response: keyScheme',
-    status: 401
+    status: 401,
   },
 
-  expectedResult: false
+  expectedResult: false,
 };

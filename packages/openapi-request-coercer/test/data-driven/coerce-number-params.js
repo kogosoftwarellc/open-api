@@ -4,27 +4,27 @@ module.exports = {
       {
         in: 'query',
         name: 'number1',
-        type: 'number'
+        type: 'number',
       },
 
       {
         in: 'query',
         name: 'number2',
-        type: 'number'
+        type: 'number',
       },
 
       {
         in: 'query',
         name: 'integer1',
-        type: 'integer'
+        type: 'integer',
       },
 
       {
         in: 'query',
         name: 'integer2',
-        type: 'integer'
-      }
-    ]
+        type: 'integer',
+      },
+    ],
   },
 
   request: {
@@ -32,9 +32,9 @@ module.exports = {
       number1: '1',
       number2: 'abc',
       integer1: '2',
-      integer2: 'def'
+      integer2: 'def',
     },
-    headers: null
+    headers: null,
   },
 
   headers: null,
@@ -43,6 +43,6 @@ module.exports = {
     number1: 1,
     number2: 'abc',
     integer1: 2,
-    integer2: 'def'
-  }
+    integer2: 'def',
+  },
 };

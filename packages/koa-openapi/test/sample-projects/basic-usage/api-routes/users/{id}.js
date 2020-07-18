@@ -6,8 +6,8 @@ module.exports = {
       in: 'path',
       type: 'string',
       required: true,
-      description: "Fred's age."
-    }
+      description: "Fred's age.",
+    },
   ],
   // method handlers may just be the method handler...
   get: get,
@@ -16,11 +16,11 @@ module.exports = {
   // the <path>.parameters + <methodHandler>.apiDoc.parameters is prepended to this
   // array.
   post: [
-    function(ctx, next) {
+    function (ctx, next) {
       return;
     },
-    post
-  ]
+    post,
+  ],
 };
 
 function post(ctx) {
@@ -38,18 +38,18 @@ post.apiDoc = {
       name: 'user',
       in: 'body',
       schema: {
-        $ref: '#/definitions/User'
-      }
-    }
+        $ref: '#/definitions/User',
+      },
+    },
   ],
   responses: {
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };
 
 function get(ctx) {
@@ -57,7 +57,7 @@ function get(ctx) {
   ctx.body = {
     id: ctx.params.id,
     name: ctx.query.name,
-    age: ctx.query.age
+    age: ctx.query.age,
   };
 }
 
@@ -71,7 +71,7 @@ get.apiDoc = {
       in: 'query',
       type: 'string',
       pattern: '^fred$',
-      description: 'The name of this person.  It may only be "fred".'
+      description: 'The name of this person.  It may only be "fred".',
     },
     // showing that operation parameters override path parameters
     {
@@ -79,30 +79,30 @@ get.apiDoc = {
       in: 'path',
       type: 'integer',
       required: true,
-      description: "Fred's age."
+      description: "Fred's age.",
     },
     {
       name: 'age',
       in: 'query',
       type: 'integer',
       description: "Fred's age.",
-      default: 80
-    }
+      default: 80,
+    },
   ],
 
   responses: {
     200: {
       description: 'Requested user',
       schema: {
-        $ref: '#/definitions/User'
-      }
+        $ref: '#/definitions/User',
+      },
     },
 
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

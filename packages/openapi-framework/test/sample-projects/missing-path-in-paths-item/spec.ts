@@ -10,7 +10,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: [{ module: true }]
+      paths: [{ module: true }],
     });
   });
 

@@ -6,8 +6,8 @@ module.exports = {
         name: 'foo',
         type: 'array',
         items: {
-          type: 'integer'
-        }
+          type: 'integer',
+        },
       },
 
       {
@@ -15,19 +15,19 @@ module.exports = {
         name: 'boo',
         type: 'array',
         items: {
-          type: 'number'
-        }
-      }
-    ]
+          type: 'number',
+        },
+      },
+    ],
   },
 
   request: {
     path: '/',
     query: {
       foo: ['5', '6'],
-      boo: '34.2345'
+      boo: '34.2345',
     },
-    headers: null
+    headers: null,
   },
 
   headers: null,
@@ -36,6 +36,6 @@ module.exports = {
 
   query: {
     foo: [5, 6],
-    boo: [34.2345]
-  }
+    boo: [34.2345],
+  },
 };

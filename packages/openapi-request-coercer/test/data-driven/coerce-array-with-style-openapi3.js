@@ -7,10 +7,10 @@ module.exports = {
         schema: {
           type: 'array',
           items: {
-            schema: { type: 'integer' }
-          }
+            schema: { type: 'integer' },
+          },
         },
-        style: 'simple'
+        style: 'simple',
       },
 
       {
@@ -19,11 +19,11 @@ module.exports = {
         schema: {
           type: 'array',
           items: {
-            schema: { type: 'string' }
-          }
+            schema: { type: 'string' },
+          },
         },
         style: 'form',
-        explode: false
+        explode: false,
       },
 
       {
@@ -32,11 +32,11 @@ module.exports = {
         schema: {
           type: 'array',
           items: {
-            schema: { type: 'string' }
-          }
+            schema: { type: 'string' },
+          },
         },
         style: 'form',
-        explode: true
+        explode: true,
       },
 
       {
@@ -45,10 +45,10 @@ module.exports = {
         schema: {
           type: 'array',
           items: {
-            schema: { type: 'string' }
-          }
+            schema: { type: 'string' },
+          },
         },
-        style: 'pipeDelimited'
+        style: 'pipeDelimited',
       },
 
       {
@@ -57,10 +57,10 @@ module.exports = {
         schema: {
           type: 'array',
           items: {
-            schema: { type: 'string' }
-          }
+            schema: { type: 'string' },
+          },
         },
-        style: 'spaceDelimited'
+        style: 'spaceDelimited',
       },
 
       {
@@ -69,43 +69,43 @@ module.exports = {
         schema: {
           type: 'array',
           items: {
-            schema: { type: 'string' }
-          }
+            schema: { type: 'string' },
+          },
         },
-        style: 'simple'
-      }
-    ]
+        style: 'simple',
+      },
+    ],
   },
 
   request: {
     method: 'post',
     path: '/foo,bar,baz/',
     headers: {
-      headercsv: '1,2,3'
+      headercsv: '1,2,3',
     },
     params: {
-      pathcsv: 'foo,bar,baz'
+      pathcsv: 'foo,bar,baz',
     },
     query: {
       querycsv: 'foo,bar',
       querymulti: ['foo', 'bar'],
       querypipe: 'pipe|delimited|array',
-      queryspace: 'space delimited array'
-    }
+      queryspace: 'space delimited array',
+    },
   },
 
   headers: {
-    headercsv: [1, 2, 3]
+    headercsv: [1, 2, 3],
   },
 
   params: {
-    pathcsv: ['foo', 'bar', 'baz']
+    pathcsv: ['foo', 'bar', 'baz'],
   },
 
   query: {
     querycsv: ['foo', 'bar'],
     querymulti: ['foo', 'bar'],
     querypipe: ['pipe', 'delimited', 'array'],
-    queryspace: ['space', 'delimited', 'array']
-  }
+    queryspace: ['space', 'delimited', 'array'],
+  },
 };

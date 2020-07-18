@@ -1,5 +1,5 @@
 module.exports = {
-  GET
+  GET,
 };
 
 function GET() {
@@ -12,10 +12,10 @@ GET.apiDoc = {
       content: {
         'text/plain': {
           schema: {
-            type: 'string'
-          }
-        }
-      }
-    }
-  }
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
 };

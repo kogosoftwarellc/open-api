@@ -5,7 +5,7 @@ import OpenAPIFramework, {
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs,
   OpenAPIFrameworkOperationContext,
-  OpenAPIFrameworkPathContext
+  OpenAPIFrameworkPathContext,
 } from 'openapi-framework';
 
 const loggingPrefix = 'koa-openapi';
@@ -71,7 +71,7 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
     featureType: 'middleware',
     name: loggingPrefix,
     paths: args.paths,
-    ...(args as OpenAPIFrameworkArgs)
+    ...(args as OpenAPIFrameworkArgs),
   };
 
   const framework = new OpenAPIFramework(frameworkArgs);
@@ -171,11 +171,7 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
         const koaPath =
           basePath +
           '/' +
-          operationCtx.path
-            .substring(1)
-            .split('/')
-            .map(toPathParams)
-            .join('/');
+          operationCtx.path.substring(1).split('/').map(toPathParams).join('/');
 
         const routeName = operationDoc?.operationId;
         router[methodName](routeName, koaPath, async (ctx, next) => {
@@ -184,7 +180,7 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
           }
         });
       }
-    }
+    },
   });
 
   return framework;
@@ -231,7 +227,7 @@ function toOpenAPIRequest(ctx) {
     body: ctx.request.body,
     headers: ctx.request.headers,
     params: ctx.params,
-    query: ctx.request.query
+    query: ctx.request.query,
   };
 }
 

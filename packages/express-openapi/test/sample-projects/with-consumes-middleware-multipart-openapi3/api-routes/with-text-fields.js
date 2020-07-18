@@ -2,7 +2,7 @@ function post(req, res) {
   const { body } = req;
   const files = req.files.map(({ fieldname, originalname }) => ({
     fieldname,
-    originalname
+    originalname,
   }));
   res.json({ files, body });
 }

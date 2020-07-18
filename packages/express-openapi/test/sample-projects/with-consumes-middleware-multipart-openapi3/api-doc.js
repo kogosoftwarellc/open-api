@@ -4,7 +4,7 @@ module.exports = {
   openapi: '3.0.0',
   info: {
     title: 'test',
-    version: '1.0'
+    version: '1.0',
   },
   paths: {
     '/single-attachment': {
@@ -19,12 +19,12 @@ module.exports = {
                 properties: {
                   file: {
                     type: 'string',
-                    format: 'binary'
-                  }
-                }
-              }
-            }
-          }
+                    format: 'binary',
+                  },
+                },
+              },
+            },
+          },
         },
         responses: {
           '200': {
@@ -32,13 +32,13 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'object',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     '/multiple-attachments': {
       post: {
@@ -54,13 +54,13 @@ module.exports = {
                     type: 'array',
                     items: {
                       type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      format: 'binary',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         responses: {
           '200': {
@@ -68,13 +68,13 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'object',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     '/with-text-fields': {
       post: {
@@ -87,19 +87,19 @@ module.exports = {
                 required: ['files', 'aTextField'],
                 properties: {
                   aTextField: {
-                    type: 'string'
+                    type: 'string',
                   },
                   files: {
                     type: 'array',
                     items: {
                       type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      format: 'binary',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         responses: {
           '200': {
@@ -107,14 +107,14 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                  type: 'object',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
-  servers: [{ url: '/v3' }]
+  servers: [{ url: '/v3' }],
 };

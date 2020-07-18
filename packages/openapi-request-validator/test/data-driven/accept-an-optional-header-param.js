@@ -4,10 +4,10 @@ module.exports = {
       {
         in: 'header',
         name: 'X-yoda',
-        type: 'string'
-      }
+        type: 'string',
+      },
     ],
-    schemas: null
+    schemas: null,
   },
-  request: {}
+  request: {},
 };

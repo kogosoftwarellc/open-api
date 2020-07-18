@@ -27,10 +27,10 @@ module.exports = {
       multipleOf: 57,
       examples: {
         example1: {
-          value: 'asd'
-        }
-      }
-    }
+          value: 'asd',
+        },
+      },
+    },
   ],
 
   outputSchema: {
@@ -57,10 +57,10 @@ module.exports = {
           uniqueItems: false,
           enum: ['1', '3'],
           multipleOf: 57,
-          examples: ['asd']
-        }
+          examples: ['asd'],
+        },
       },
-      required: ['foo']
-    }
-  }
+      required: ['foo'],
+    },
+  },
 };

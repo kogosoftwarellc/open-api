@@ -1,7 +1,7 @@
 module.exports = {
-  post: function(req, res, next) {
+  post: function (req, res, next) {
     res.status(200).json({});
-  }
+  },
 };
 
 module.exports.post.apiDoc = {
@@ -16,35 +16,35 @@ module.exports.post.apiDoc = {
       in: 'formData',
       description: 'Whether or not to transform intel files.',
       type: 'boolean',
-      default: false
+      default: false,
     },
     {
       name: 'overwrite',
       in: 'formData',
       description: 'Whether or not to replace an existing file.',
       type: 'boolean',
-      default: true
+      default: true,
     },
     {
       name: 'basepath',
       in: 'formData',
       description: 'Root directory to place files.',
       type: 'string',
-      default: ''
+      default: '',
     },
     {
       name: 'file',
       in: 'formData',
       description: 'The file to upload',
-      type: 'file'
-    }
+      type: 'file',
+    },
   ],
   responses: {
     200: {
-      description: 'OK'
+      description: 'OK',
     },
     400: {
-      description: 'BAD'
-    }
-  }
+      description: 'BAD',
+    },
+  },
 };

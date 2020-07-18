@@ -6,22 +6,22 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              $ref: '#/definitions/foo'
-            }
-          }
-        }
-      }
+              $ref: '#/definitions/foo',
+            },
+          },
+        },
+      },
     },
 
     definitions: {
       foo: {
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   },
 
   inputStatusCode: 200,
   inputResponseBody: { foo: 'asdf' },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

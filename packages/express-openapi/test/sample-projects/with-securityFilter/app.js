@@ -12,18 +12,18 @@ openapi.initialize({
   apiDoc: require('./api-doc'),
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
-  securityFilter: function(req, res, next) {
+  securityFilter: function (req, res, next) {
     if (req.headers.authorization !== 'Basic foo') {
       return next({
         message: 'not authenticated to view api docs',
-        status: 400
+        status: 400,
       });
     }
     res.status(200).json(req.apiDoc);
-  }
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err.message);
 });
 

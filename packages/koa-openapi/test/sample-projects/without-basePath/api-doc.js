@@ -5,25 +5,25 @@ module.exports = {
 
   info: {
     title: 'koa-openapi sample project without basePath',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {
     Error: {
-      additionalProperties: true
+      additionalProperties: true,
     },
     User: {
       properties: {
         name: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['name']
-    }
+      required: ['name'],
+    },
   },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
   paths: {},
 
-  tags: [{ name: 'users' }]
+  tags: [{ name: 'users' }],
 };

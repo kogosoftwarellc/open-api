@@ -15,8 +15,8 @@ describe(path.basename(__dirname), () => {
       securityHandlers: {
         basic() {
           return true;
-        }
-      }
+        },
+      },
     });
   });
 
@@ -37,12 +37,12 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
-            }
-          }
+                schema: {},
+              },
+            },
+          },
         });
-      }
+      },
     });
   });
 });

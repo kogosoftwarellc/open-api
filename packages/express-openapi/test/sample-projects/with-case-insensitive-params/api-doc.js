@@ -3,7 +3,7 @@ module.exports = {
   basePath: '/v1',
   info: {
     title: 'Testing case insensitive params.',
-    version: '1.0.0'
+    version: '1.0.0',
   },
-  paths: {}
+  paths: {},
 };

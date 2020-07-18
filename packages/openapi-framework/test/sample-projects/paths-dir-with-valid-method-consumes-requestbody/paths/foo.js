@@ -1,5 +1,5 @@
 module.exports = {
-  PUT
+  PUT,
 };
 
 function PUT() {
@@ -9,19 +9,19 @@ PUT.apiDoc = {
   requestBody: {
     content: {
       'application/json': {
-        schema: {}
-      }
-    }
+        schema: {},
+      },
+    },
   },
   responses: {
     '200': {
       description: 'return foo',
       content: {
         'application/json': {
-          schema: {}
-        }
-      }
-    }
+          schema: {},
+        },
+      },
+    },
   },
-  tags: ['testing', 'example']
+  tags: ['testing', 'example'],
 };

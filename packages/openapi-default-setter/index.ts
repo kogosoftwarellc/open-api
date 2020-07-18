@@ -76,7 +76,7 @@ function resolveName(
 
 function getDefaults(
   location: string,
-  parameters: Array<OpenAPIV3.ParameterObject | OpenAPIV2.ParameterObject>
+  parameters: (OpenAPIV3.ParameterObject | OpenAPIV2.ParameterObject)[]
 ): DefaultMap {
   const defaults = parameters
     .filter(byLocation(location))

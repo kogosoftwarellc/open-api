@@ -6,9 +6,9 @@ module.exports = {
         name: 'csv',
         type: 'array',
         items: {
-          type: 'string'
+          type: 'string',
         },
-        collectionFormat: 'csv'
+        collectionFormat: 'csv',
       },
 
       {
@@ -16,9 +16,9 @@ module.exports = {
         name: 'ssv',
         type: 'array',
         items: {
-          type: 'string'
+          type: 'string',
         },
-        collectionFormat: 'ssv'
+        collectionFormat: 'ssv',
       },
 
       {
@@ -26,9 +26,9 @@ module.exports = {
         name: 'tsv',
         type: 'array',
         items: {
-          type: 'string'
+          type: 'string',
         },
-        collectionFormat: 'tsv'
+        collectionFormat: 'tsv',
       },
 
       {
@@ -36,25 +36,25 @@ module.exports = {
         name: 'pipes',
         type: 'array',
         items: {
-          type: 'string'
+          type: 'string',
         },
-        collectionFormat: 'pipes'
-      }
-    ]
+        collectionFormat: 'pipes',
+      },
+    ],
   },
 
   request: {
     method: 'post',
     path: '/',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: {
       csv: 'foo,bar',
       ssv: 'foo bar',
       tsv: 'foo\tbar',
-      pipes: 'foo|bar'
-    }
+      pipes: 'foo|bar',
+    },
   },
 
   headers: null,
@@ -67,6 +67,6 @@ module.exports = {
     csv: ['foo', 'bar'],
     ssv: ['foo', 'bar'],
     tsv: ['foo', 'bar'],
-    pipes: ['foo', 'bar']
-  }
+    pipes: ['foo', 'bar'],
+  },
 };

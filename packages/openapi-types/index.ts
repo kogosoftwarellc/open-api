@@ -8,8 +8,8 @@ export namespace OpenAPI {
     | OpenAPIV2.ReferenceObject
     | OpenAPIV2.Parameter;
   export type Parameters =
-    | Array<OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject>
-    | Array<OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter>;
+    | (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[]
+    | (OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter)[];
 
   export interface Request {
     body?: any;
@@ -29,10 +29,10 @@ export namespace OpenAPIV3 {
     security?: SecurityRequirementObject[];
     tags?: TagObject[];
     externalDocs?: ExternalDocumentationObject;
-    'x-express-openapi-additional-middleware'?: Array<
+    'x-express-openapi-additional-middleware'?: (
       | ((request: any, response: any, next: any) => Promise<void>)
       | ((request: any, response: any, next: any) => void)
-    >;
+    )[];
     'x-express-openapi-validation-strict'?: boolean;
   }
 
@@ -85,7 +85,7 @@ export namespace OpenAPIV3 {
     patch?: OperationObject;
     trace?: OperationObject;
     servers?: ServerObject[];
-    parameters?: Array<ReferenceObject | ParameterObject>;
+    parameters?: (ReferenceObject | ParameterObject)[];
   }
 
   export interface OperationObject {
@@ -94,7 +94,7 @@ export namespace OpenAPIV3 {
     description?: string;
     externalDocs?: ExternalDocumentationObject;
     operationId?: string;
-    parameters?: Array<ReferenceObject | ParameterObject>;
+    parameters?: (ReferenceObject | ParameterObject)[];
     requestBody?: ReferenceObject | RequestBodyObject;
     responses?: ResponsesObject;
     callbacks?: { [callback: string]: ReferenceObject | CallbackObject };
@@ -115,7 +115,7 @@ export namespace OpenAPIV3 {
 
   export interface HeaderObject extends ParameterBaseObject {}
 
-  interface ParameterBaseObject {
+  export interface ParameterBaseObject {
     description?: string;
     required?: boolean;
     deprecated?: boolean;
@@ -137,16 +137,16 @@ export namespace OpenAPIV3 {
   export type ArraySchemaObjectType = 'array';
   export type SchemaObject = ArraySchemaObject | NonArraySchemaObject;
 
-  interface ArraySchemaObject extends BaseSchemaObject {
+  export interface ArraySchemaObject extends BaseSchemaObject {
     type: ArraySchemaObjectType;
     items: ReferenceObject | SchemaObject;
   }
 
-  interface NonArraySchemaObject extends BaseSchemaObject {
+  export interface NonArraySchemaObject extends BaseSchemaObject {
     type?: NonArraySchemaObjectType;
   }
 
-  interface BaseSchemaObject {
+  export interface BaseSchemaObject {
     // JSON schema allowed properties, adjusted for OpenAPI
     title?: string;
     description?: string;
@@ -171,9 +171,9 @@ export namespace OpenAPIV3 {
     properties?: {
       [name: string]: ReferenceObject | SchemaObject;
     };
-    allOf?: Array<ReferenceObject | SchemaObject>;
-    oneOf?: Array<ReferenceObject | SchemaObject>;
-    anyOf?: Array<ReferenceObject | SchemaObject>;
+    allOf?: (ReferenceObject | SchemaObject)[];
+    oneOf?: (ReferenceObject | SchemaObject)[];
+    anyOf?: (ReferenceObject | SchemaObject)[];
     not?: ReferenceObject | SchemaObject;
 
     // OpenAPI-specific properties
@@ -349,10 +349,10 @@ export namespace OpenAPIV2 {
     securityDefinitions?: SecurityDefinitionsObject;
     swagger: string;
     tags?: TagObject[];
-    'x-express-openapi-additional-middleware'?: Array<
+    'x-express-openapi-additional-middleware'?: (
       | ((request: any, response: any, next: any) => Promise<void>)
       | ((request: any, response: any, next: any) => void)
-    >;
+    )[];
     'x-express-openapi-validation-strict'?: boolean;
   }
 
@@ -362,22 +362,22 @@ export namespace OpenAPIV2 {
     externalDocs?: ExternalDocumentationObject;
   }
 
-  interface SecuritySchemeObjectBase {
+  export interface SecuritySchemeObjectBase {
     type: 'basic' | 'apiKey' | 'oauth2';
     description?: string;
   }
 
-  interface SecuritySchemeBasic extends SecuritySchemeObjectBase {
+  export interface SecuritySchemeBasic extends SecuritySchemeObjectBase {
     type: 'basic';
   }
 
-  interface SecuritySchemeApiKey extends SecuritySchemeObjectBase {
+  export interface SecuritySchemeApiKey extends SecuritySchemeObjectBase {
     type: 'apiKey';
     name: string;
     in: string;
   }
 
-  type SecuritySchemeOauth2 =
+  export type SecuritySchemeOauth2 =
     | SecuritySchemeOauth2Implicit
     | SecuritySchemeOauth2AccessCode
     | SecuritySchemeOauth2Password
@@ -387,29 +387,33 @@ export namespace OpenAPIV2 {
     [index: string]: any;
   }
 
-  interface SecuritySchemeOauth2Base extends SecuritySchemeObjectBase {
+  export interface SecuritySchemeOauth2Base extends SecuritySchemeObjectBase {
     type: 'oauth2';
     flow: 'implicit' | 'password' | 'application' | 'accessCode';
     scopes: ScopesObject;
   }
 
-  interface SecuritySchemeOauth2Implicit extends SecuritySchemeOauth2Base {
+  export interface SecuritySchemeOauth2Implicit
+    extends SecuritySchemeOauth2Base {
     flow: 'implicit';
     authorizationUrl: string;
   }
 
-  interface SecuritySchemeOauth2AccessCode extends SecuritySchemeOauth2Base {
+  export interface SecuritySchemeOauth2AccessCode
+    extends SecuritySchemeOauth2Base {
     flow: 'accessCode';
     authorizationUrl: string;
     tokenUrl: string;
   }
 
-  interface SecuritySchemeOauth2Password extends SecuritySchemeOauth2Base {
+  export interface SecuritySchemeOauth2Password
+    extends SecuritySchemeOauth2Base {
     flow: 'password';
     tokenUrl: string;
   }
 
-  interface SecuritySchemeOauth2Application extends SecuritySchemeOauth2Base {
+  export interface SecuritySchemeOauth2Application
+    extends SecuritySchemeOauth2Base {
     flow: 'application';
     tokenUrl: string;
   }
@@ -431,13 +435,13 @@ export namespace OpenAPIV2 {
     $ref: string;
   }
 
-  type Response = ResponseObject | ReferenceObject;
+  export type Response = ResponseObject | ReferenceObject;
 
   export interface ResponsesDefinitionsObject {
     [index: string]: ResponseObject;
   }
 
-  type Schema = SchemaObject | ReferenceObject;
+  export type Schema = SchemaObject | ReferenceObject;
 
   export interface ResponseObject {
     description: string;
@@ -484,7 +488,7 @@ export namespace OpenAPIV2 {
     default?: Response;
   }
 
-  export type Parameters = Array<ReferenceObject | Parameter>;
+  export type Parameters = (ReferenceObject | Parameter)[];
 
   export type Parameter = InBodyParameterObject | GeneralParameterObject;
 
@@ -517,7 +521,7 @@ export namespace OpenAPIV2 {
     [index: string]: ParameterObject;
   }
 
-  interface ParameterObject {
+  export interface ParameterObject {
     name: string;
     in: string;
     description?: string;

@@ -5,21 +5,21 @@ module.exports = {
         schema: {
           allOf: [
             {
-              $ref: '#/definitions/picture'
+              $ref: '#/definitions/picture',
             },
             {
               type: 'object',
               properties: {
                 content: {
                   type: 'string',
-                  writeOnly: true
-                }
+                  writeOnly: true,
+                },
               },
-              required: ['content']
-            }
-          ]
-        }
-      }
+              required: ['content'],
+            },
+          ],
+        },
+      },
     },
 
     definitions: {
@@ -29,50 +29,50 @@ module.exports = {
             type: 'object',
             properties: {
               url: {
-                type: 'string'
-              }
+                type: 'string',
+              },
             },
-            required: ['url']
+            required: ['url'],
           },
           {
-            $ref: '#/definitions/test1'
-          }
-        ]
+            $ref: '#/definitions/test1',
+          },
+        ],
       },
       test1: {
         allOf: [
           {
-            $ref: '#/definitions/test2'
+            $ref: '#/definitions/test2',
           },
           {
             type: 'object',
             properties: {
               mimetype: {
                 type: 'string',
-                writeOnly: true
-              }
+                writeOnly: true,
+              },
             },
-            required: ['mimetype']
-          }
-        ]
+            required: ['mimetype'],
+          },
+        ],
       },
       test2: {
         type: 'object',
         properties: {
           size: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['size']
-      }
-    }
+        required: ['size'],
+      },
+    },
   },
 
   inputStatusCode: 200,
   inputResponseBody: {
     url: 'http://example.com/picture.jpg',
-    size: '2MB'
+    size: '2MB',
   },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

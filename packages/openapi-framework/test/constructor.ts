@@ -22,7 +22,7 @@ describe('OpenapiFramework', () => {
         ),
         featureType: 'middleware',
         name: 'express-openapi',
-        paths: './test/fixtures/paths'
+        paths: './test/fixtures/paths',
       };
     });
 
@@ -40,7 +40,7 @@ describe('OpenapiFramework', () => {
       });
     });
 
-    ['apiDoc', 'featureType', 'name'].forEach(spec => {
+    ['apiDoc', 'featureType', 'name'].forEach((spec) => {
       describe(`when options.${spec} is missing`, () => {
         beforeEach(() => {
           delete options[spec];
@@ -69,8 +69,8 @@ describe('OpenapiFramework', () => {
     [
       ['errorTransformer', 'function'],
       ['externalSchemas', 'object'],
-      ['securityHandlers', 'object']
-    ].forEach(spec => {
+      ['securityHandlers', 'object'],
+    ].forEach((spec) => {
       describe(`when options.${spec[0]} is of the wrong type`, () => {
         beforeEach(() => {
           options[spec[0]] = void 0;
@@ -94,7 +94,7 @@ describe('OpenapiFramework', () => {
       });
     });
 
-    ['yml', 'js', 'json'].forEach(file => {
+    ['yml', 'js', 'json'].forEach((file) => {
       describe(`when apiDoc is a path to a valid ${file} file`, () => {
         beforeEach(() => {
           options.apiDoc = `./test/fixtures/apiDoc-valid.${file}`;
@@ -111,34 +111,34 @@ describe('OpenapiFramework', () => {
         {
           name: 'when not given as an array',
           error: 'must be an instance of Array when given',
-          value: null
+          value: null,
         },
         {
           name: 'when not given array of tuples',
           error: 'expects an array of tuples',
-          value: [null]
+          value: [null],
         },
         {
           name: 'when given empty tuple',
           error: 'tuples expect the first argument to be a RegExp',
-          value: [[]]
+          value: [[]],
         },
         {
           name: 'when given tuple with invalid 1st argument',
           error: 'tuples expect the first argument to be a RegExp',
-          value: [[null]]
+          value: [[null]],
         },
         {
           name: 'when given tuple with no 2nd argument',
           error: 'tuples expect the second argument to be a security Array',
-          value: [[/asdf/]]
+          value: [[/asdf/]],
         },
         {
           name: 'when given tuple with invalid 2nd argument',
           error: 'tuples expect the second argument to be a security Array',
-          value: [[/asdf/, null]]
-        }
-      ].forEach(spec => {
+          value: [[/asdf/, null]],
+        },
+      ].forEach((spec) => {
         describe(spec.name, () => {
           it('should throw an error', () => {
             options.pathSecurity = spec.value;

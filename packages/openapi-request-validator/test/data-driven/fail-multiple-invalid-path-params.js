@@ -6,24 +6,24 @@ module.exports = {
         name: 'path1',
         type: 'string',
         pattern: '^a$',
-        required: true
+        required: true,
       },
       {
         in: 'path',
         name: 'path2',
         type: 'string',
         pattern: '^f$',
-        required: true
-      }
+        required: true,
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {
     path: '/f/a',
     params: {
       path1: 'f',
-      path2: 'a'
-    }
+      path2: 'a',
+    },
   },
   expectedError: {
     status: 400,
@@ -32,14 +32,14 @@ module.exports = {
         path: 'path1',
         errorCode: 'pattern.openapi.requestValidation',
         message: 'should match pattern "^a$"',
-        location: 'path'
+        location: 'path',
       },
       {
         path: 'path2',
         errorCode: 'pattern.openapi.requestValidation',
         message: 'should match pattern "^f$"',
-        location: 'path'
-      }
-    ]
-  }
+        location: 'path',
+      },
+    ],
+  },
 };

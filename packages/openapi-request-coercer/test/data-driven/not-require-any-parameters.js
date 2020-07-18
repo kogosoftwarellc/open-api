@@ -1,14 +1,14 @@
 module.exports = {
   args: {
-    parameters: []
+    parameters: [],
   },
 
   request: {
     path: '',
-    headers: null
+    headers: null,
   },
 
   headers: null,
   params: null,
-  query: null
+  query: null,
 };

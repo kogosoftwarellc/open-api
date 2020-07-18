@@ -4,10 +4,10 @@ module.exports = {
       {
         in: 'query',
         name: 'foo',
-        type: 'string'
-      }
+        type: 'string',
+      },
     ],
-    schemas: null
+    schemas: null,
   },
-  request: {}
+  request: {},
 };

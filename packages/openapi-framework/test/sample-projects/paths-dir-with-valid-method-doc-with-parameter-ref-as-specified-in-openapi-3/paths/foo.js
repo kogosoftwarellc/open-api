@@ -1,5 +1,5 @@
 module.exports = {
-  GET
+  GET,
 };
 
 function GET() {
@@ -9,8 +9,8 @@ function GET() {
 GET.apiDoc = {
   parameters: [
     {
-      $ref: '#/components/parameters/Foo'
-    }
+      $ref: '#/components/parameters/Foo',
+    },
   ],
 
   responses: {
@@ -18,9 +18,9 @@ GET.apiDoc = {
       description: 'return foo',
       content: {
         'application/json': {
-          schema: {}
-        }
-      }
-    }
-  }
+          schema: {},
+        },
+      },
+    },
+  },
 };

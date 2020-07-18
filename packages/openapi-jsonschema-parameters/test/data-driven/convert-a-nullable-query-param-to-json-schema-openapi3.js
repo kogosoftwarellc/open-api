@@ -6,9 +6,9 @@ module.exports = {
       required: true,
       schema: {
         nullable: true,
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   ],
   outputSchema: {
     query: {
@@ -16,15 +16,15 @@ module.exports = {
         foo: {
           anyOf: [
             {
-              type: 'string'
+              type: 'string',
             },
             {
-              type: 'null'
-            }
-          ]
-        }
+              type: 'null',
+            },
+          ],
+        },
       },
-      required: ['foo']
-    }
-  }
+      required: ['foo'],
+    },
+  },
 };

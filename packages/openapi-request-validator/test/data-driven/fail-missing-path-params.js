@@ -5,13 +5,13 @@ module.exports = {
         in: 'path',
         name: 'path1',
         type: 'string',
-        required: true
-      }
+        required: true,
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {
-    path: '/f'
+    path: '/f',
   },
   expectedError: {
     status: 400,
@@ -20,8 +20,8 @@ module.exports = {
         path: 'path1',
         errorCode: 'required.openapi.requestValidation',
         message: "should have required property 'path1'",
-        location: 'path'
-      }
-    ]
-  }
+        location: 'path',
+      },
+    ],
+  },
 };

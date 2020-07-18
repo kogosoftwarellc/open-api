@@ -4,27 +4,27 @@ module.exports = {
       in: 'header',
       name: 'Accept',
       type: 'string',
-      required: true
+      required: true,
     },
 
     {
       in: 'header',
       name: 'Type',
-      type: 'string'
-    }
+      type: 'string',
+    },
   ],
 
   outputSchema: {
     headers: {
       properties: {
         Accept: {
-          type: 'string'
+          type: 'string',
         },
         Type: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['Accept']
-    }
-  }
+      required: ['Accept'],
+    },
+  },
 };

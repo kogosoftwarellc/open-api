@@ -2,7 +2,7 @@
 
 set -e
 
-nyc="$(dirname $(dirname $(dirname $0)))/node_modules/.bin/nyc"
+nyc="$(dirname $(dirname $0))/node_modules/.bin/nyc"
 mocha="$(dirname $0)/mocha"
 
 $nyc \

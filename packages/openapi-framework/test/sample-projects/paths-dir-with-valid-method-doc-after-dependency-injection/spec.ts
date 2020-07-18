@@ -12,11 +12,11 @@ describe(path.basename(__dirname), () => {
       dependencies: {
         myService: () => {
           return;
-        }
+        },
       },
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -37,12 +37,12 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
-            }
-          }
+                schema: {},
+              },
+            },
+          },
         });
-      }
+      },
     });
   });
 });

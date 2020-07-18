@@ -8,7 +8,7 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {},
@@ -20,19 +20,19 @@ module.exports = {
       description: 'A successful response.',
       schema: {
         type: 'string',
-        enum: ['success']
-      }
+        enum: ['success'],
+      },
     },
 
     ErrorResponse: {
       description: 'An error occurred.',
       schema: {
         type: 'string',
-        enum: ['error']
-      }
-    }
+        enum: ['error'],
+      },
+    },
   },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
-  paths: {}
+  paths: {},
 };

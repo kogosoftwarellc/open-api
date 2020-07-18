@@ -8,11 +8,10 @@
     "dist/**/*"
   ],
   "scripts": {
-    "cover": "nyc",
-    "prepare": "tsc",
-    "test-watch": "tsc && mocha --watch-extensions ts -w",
-    "test": "mocha",
-    "travis-test": "npm run cover"
+    "cover": "../../bin/nyc",
+    "prepare": "../../bin/tsc",
+    "test-watch": "../../bin/tsc && ../../bin/mocha --watch-extensions ts -w",
+    "test": "../../bin/mocha"
   },
   "repository": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi",
   "keywords": [
@@ -30,10 +29,9 @@
     "openapi-framework": "0.26.0"
   },
   "devDependencies": {
-    "@types/es6-shim": "^0.31.37",
-    "@types/koa": "^2.0.46",
-    "koa": "^2.5.3",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^9.0.1"
+    "@types/koa": "2.11.3",
+    "koa": "2.9.0",
+    "koa-bodyparser": "4.3.0",
+    "koa-router": "9.1.0"
   }
 }

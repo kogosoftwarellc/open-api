@@ -8,17 +8,17 @@ module.exports = {
           schema: {
             properties: {
               foo: {
-                type: 'string'
-              }
+                type: 'string',
+              },
             },
-            required: ['foo']
-          }
-        }
-      }
-    }
+            required: ['foo'],
+          },
+        },
+      },
+    },
   },
   request: {
-    headers: {}
+    headers: {},
   },
   expectedError: {
     status: 400,
@@ -26,8 +26,8 @@ module.exports = {
       {
         errorCode: 'required.openapi.requestValidation',
         message: 'media type is not specified',
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };
