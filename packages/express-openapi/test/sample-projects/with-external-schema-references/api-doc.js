@@ -8,41 +8,41 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {
     User: {
-      $ref: 'http://example.com/user'
+      $ref: 'http://example.com/user',
     },
     Error: {
-      $ref: 'http://example.com/error#/schema'
-    }
+      $ref: 'http://example.com/error#/schema',
+    },
   },
 
   parameters: {
     User: {
       in: 'body',
       name: 'user',
-      schema: { $ref: 'http://example.com/user' }
+      schema: { $ref: 'http://example.com/user' },
     },
     userId: {
       in: 'path',
       name: 'userId',
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
   responses: {
     Forbidden: {
       description: 'Access denied',
-      schema: { $ref: 'http://example.com/error#/schema' }
+      schema: { $ref: 'http://example.com/error#/schema' },
     },
     Error: {
       description: 'Error',
-      schema: { $ref: 'http://example.com/error#/schema' }
-    }
+      schema: { $ref: 'http://example.com/error#/schema' },
+    },
   },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
@@ -50,5 +50,5 @@ module.exports = {
 
   // tags is optional, and is generated / sorted by the tags defined in your path
   // docs.  This API also defines 2 tags in operations: "creating" and "fooey".
-  tags: [{ name: 'fooey' }, { name: 'users' }]
+  tags: [{ name: 'fooey' }, { name: 'users' }],
 };

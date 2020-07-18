@@ -6,24 +6,24 @@ module.exports = {
         name: 'foo',
         required: true,
         schema: {
-          $ref: '#/definitions/TestBody'
-        }
-      }
+          $ref: '#/definitions/TestBody',
+        },
+      },
     ],
     schemas: [
       {
         id: '#/definitions/TestBody',
         properties: {
           foo: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['foo']
-      }
-    ]
+        required: ['foo'],
+      },
+    ],
   },
   request: {
-    body: {}
+    body: {},
   },
   expectedError: {
     status: 400,
@@ -32,8 +32,8 @@ module.exports = {
         path: 'foo',
         errorCode: 'required.openapi.requestValidation',
         message: "should have required property 'foo'",
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };

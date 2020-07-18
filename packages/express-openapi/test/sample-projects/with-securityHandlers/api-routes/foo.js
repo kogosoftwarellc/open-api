@@ -1,7 +1,7 @@
 module.exports = {
-  get: function(req, res, next) {
+  get: function (req, res, next) {
     res.status(200).send(req.foo);
-  }
+  },
 };
 
 module.exports.get.apiDoc = {
@@ -10,10 +10,10 @@ module.exports.get.apiDoc = {
   parameters: [],
   security: [
     {
-      fooAuth: []
-    }
+      fooAuth: [],
+    },
   ],
   responses: {
-    204: { description: 'testing security' }
-  }
+    204: { description: 'testing security' },
+  },
 };

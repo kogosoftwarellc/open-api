@@ -4,5 +4,5 @@ module.exports = {
       return res.json(req.apiDoc);
     }
     return res.json(req.operationDoc);
-  }
+  },
 };

@@ -4,14 +4,14 @@ module.exports = {
       in: 'body',
       name: 'wowow',
       schema: {
-        $ref: 'foo'
-      }
-    }
+        $ref: 'foo',
+      },
+    },
   ],
 
   outputSchema: {
     body: {
-      $ref: 'foo'
-    }
-  }
+      $ref: 'foo',
+    },
+  },
 };

@@ -15,8 +15,8 @@ describe(path.basename(__dirname), () => {
       securityHandlers: {
         basic() {
           return true;
-        }
-      }
+        },
+      },
     });
   });
 
@@ -41,15 +41,15 @@ describe(path.basename(__dirname), () => {
                 content: {
                   'text/plain': {
                     schema: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
         });
-      }
+      },
     });
   });
 });

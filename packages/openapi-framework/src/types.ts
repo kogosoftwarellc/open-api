@@ -4,7 +4,7 @@ import { IOpenAPIRequestValidator } from 'openapi-request-validator';
 import { IOpenAPIResponseValidator } from 'openapi-response-validator';
 import {
   IOpenAPISecurityHandler,
-  SecurityHandlers
+  SecurityHandlers,
 } from 'openapi-security-handler';
 import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import { Logger } from 'ts-log';
@@ -12,7 +12,7 @@ import BasePath from './BasePath';
 export {
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs,
-  OpenAPIErrorTransformer
+  OpenAPIErrorTransformer,
 };
 
 export class ConsoleDebugAdapterLogger implements Logger {

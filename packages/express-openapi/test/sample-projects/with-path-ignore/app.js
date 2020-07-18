@@ -12,10 +12,10 @@ openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
-  pathsIgnore: new RegExp('.(spec|test)$')
+  pathsIgnore: new RegExp('.(spec|test)$'),
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 

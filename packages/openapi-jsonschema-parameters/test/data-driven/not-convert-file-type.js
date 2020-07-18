@@ -3,9 +3,9 @@ module.exports = {
     {
       in: 'formData',
       name: 'wowow',
-      type: 'file'
-    }
+      type: 'file',
+    },
   ],
 
-  outputSchema: {}
+  outputSchema: {},
 };

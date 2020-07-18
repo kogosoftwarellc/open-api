@@ -1,5 +1,5 @@
 module.exports = {
-  GET
+  GET,
 };
 
 function GET() {
@@ -8,7 +8,7 @@ function GET() {
 GET.apiDoc = {
   responses: {
     default: {
-      $ref: '#/responses/FooResponse'
-    }
-  }
+      $ref: '#/responses/FooResponse',
+    },
+  },
 };

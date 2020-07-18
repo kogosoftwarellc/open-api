@@ -5,14 +5,14 @@ module.exports = {
       name: 'wowow',
       nullable: true,
       schema: {
-        $ref: 'foo'
-      }
-    }
+        $ref: 'foo',
+      },
+    },
   ],
 
   outputSchema: {
     body: {
-      $ref: 'foo'
-    }
-  }
+      $ref: 'foo',
+    },
+  },
 };

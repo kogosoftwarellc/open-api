@@ -13,8 +13,8 @@ describe(path.basename(__dirname), () => {
       name: 'some-framework',
       paths: path.resolve(__dirname, './paths'),
       operations: {
-        getFoo: require('./operations/foo')
-      }
+        getFoo: require('./operations/foo'),
+      },
     });
   });
 
@@ -37,13 +37,13 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
-            }
+                schema: {},
+              },
+            },
           },
-          parameters: []
+          parameters: [],
         });
-      }
+      },
     });
     expect(getFeatures.responseValidator).to.not.be.undefined;
     expect(getFeatures.requestValidator).to.be.undefined;

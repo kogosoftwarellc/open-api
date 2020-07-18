@@ -7,24 +7,24 @@ function assertRoutes(routes) {
   const output = [
     {
       path: testDir + '/home.js',
-      route: '/home'
+      route: '/home',
     },
     {
       path: testDir + '/users/index.js',
-      route: '/users/'
+      route: '/users/',
     },
     {
       path: testDir + '/users/query.js',
-      route: '/users/query'
+      route: '/users/query',
     },
     {
       path: testDir + '/users/{id}.js',
-      route: '/users/{id}'
+      route: '/users/{id}',
     },
     {
       path: testDir + '/users/:id.js',
-      route: '/users/:id'
-    }
+      route: '/users/:id',
+    },
   ];
 
   assert.deepEqual(routes, output);
@@ -49,21 +49,21 @@ describe('fs-routes', () => {
       assert.deepEqual(
         fsRoutes('test-dir', {
           glob: '**/*.ts',
-          indexFileRegExp: /(?:query)?\.ts$/
+          indexFileRegExp: /(?:query)?\.ts$/,
         }),
         [
           {
             path: testDir + '/hom.a.ts',
-            route: '/hom.a'
+            route: '/hom.a',
           },
           {
             path: testDir + '/home.ts',
-            route: '/home'
+            route: '/home',
           },
           {
             path: testDir + '/users/query.ts',
-            route: '/users/'
-          }
+            route: '/users/',
+          },
         ]
       );
     });

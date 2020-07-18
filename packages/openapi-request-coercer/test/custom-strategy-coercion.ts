@@ -7,7 +7,7 @@ describe('custom coercion strategy', () => {
       for (const where of [
         ['query', 'query'],
         ['path', 'params'],
-        ['header', 'headers']
+        ['header', 'headers'],
       ]) {
         it(`should override ${
           strictStrategy ? 'strict' : 'default'
@@ -17,29 +17,29 @@ describe('custom coercion strategy', () => {
               in: where[0],
               name: 'number1',
               type: 'number',
-              'x-openapi-coercion-strict': strictStrategy
+              'x-openapi-coercion-strict': strictStrategy,
             },
 
             {
               in: where[0],
               name: 'integer1',
               type: 'integer',
-              'x-openapi-coercion-strict': strictStrategy
+              'x-openapi-coercion-strict': strictStrategy,
             },
 
             {
               in: where[0],
               name: 'boolean1',
               type: 'boolean',
-              'x-openapi-coercion-strict': strictStrategy
-            }
+              'x-openapi-coercion-strict': strictStrategy,
+            },
           ];
 
           const request = {};
           request[where[1]] = {
             number1: '05.32',
             integer1: '07.00',
-            boolean1: 'FalSe'
+            boolean1: 'FalSe',
           };
 
           const seen: string[] = [];
@@ -51,9 +51,9 @@ describe('custom coercion strategy', () => {
           };
 
           const coercionStrategy: CoercionStrategy = {
-            boolean: input => dummyStrategy('boolean', input),
-            number: input => dummyStrategy('number', input),
-            integer: input => dummyStrategy('integer', input)
+            boolean: (input) => dummyStrategy('boolean', input),
+            number: (input) => dummyStrategy('number', input),
+            integer: (input) => dummyStrategy('integer', input),
           };
 
           const sut = new Sut({ parameters, coercionStrategy });

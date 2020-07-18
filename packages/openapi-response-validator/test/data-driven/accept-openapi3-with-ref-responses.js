@@ -6,11 +6,11 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Foo'
-            }
-          }
-        }
-      }
+              $ref: '#/components/schemas/Foo',
+            },
+          },
+        },
+      },
     },
     components: {
       schemas: {
@@ -19,17 +19,17 @@ module.exports = {
           required: ['id'],
           properties: {
             id: {
-              type: 'string'
-            }
-          }
-        }
-      }
-    }
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   },
 
   inputStatusCode: 200,
 
   inputResponseBody: { id: 'asdf' },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

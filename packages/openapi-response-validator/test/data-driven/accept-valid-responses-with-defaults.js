@@ -7,19 +7,19 @@ module.exports = {
           properties: {
             foo: {
               type: 'string',
-              default: 'asdf'
-            }
+              default: 'asdf',
+            },
           },
-          required: ['foo']
-        }
-      }
+          required: ['foo'],
+        },
+      },
     },
 
-    definitions: null
+    definitions: null,
   },
 
   inputStatusCode: 200,
   inputResponseBody: {},
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

@@ -7,26 +7,26 @@ module.exports = {
           schema: {
             properties: {
               foo: {
-                type: 'string'
-              }
+                type: 'string',
+              },
             },
-            required: ['foo']
-          }
-        }
-      }
-    }
+            required: ['foo'],
+          },
+        },
+      },
+    },
   },
   request: {
     headers: {
-      'content-type': 'abcdef'
-    }
+      'content-type': 'abcdef',
+    },
   },
   expectedError: {
     status: 415,
     errors: [
       {
-        message: 'Unsupported Content-Type abcdef'
-      }
-    ]
-  }
+        message: 'Unsupported Content-Type abcdef',
+      },
+    ],
+  },
 };

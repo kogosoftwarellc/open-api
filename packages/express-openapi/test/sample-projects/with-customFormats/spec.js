@@ -2,12 +2,12 @@ var app;
 var expect = require('chai').expect;
 var request = require('supertest');
 
-before(function() {
+before(function () {
   app = require('./app.js');
 });
 
-describe('input validation', function() {
-  it('should fail input', function(done) {
+describe('input validation', function () {
+  it('should fail input', function (done) {
     request(app)
       .get('/v3/foo?foo=barney')
       .expect(
@@ -18,24 +18,22 @@ describe('input validation', function() {
               errorCode: 'format.openapi.requestValidation',
               location: 'query',
               message: 'should match format "foo"',
-              path: 'foo'
-            }
+              path: 'foo',
+            },
           ],
-          status: 400
+          status: 400,
         },
         done
       );
   });
 
-  it('should accept input', function(done) {
-    request(app)
-      .get('/v3/foo?foo=foo')
-      .expect(200, { name: 'foo' }, done);
+  it('should accept input', function (done) {
+    request(app).get('/v3/foo?foo=foo').expect(200, { name: 'foo' }, done);
   });
 });
 
-describe('response validation', function() {
-  it('should fail', function(done) {
+describe('response validation', function () {
+  it('should fail', function (done) {
     request(app)
       .post('/v3/foo?foo=barney')
       .expect(
@@ -45,17 +43,15 @@ describe('response validation', function() {
             {
               errorCode: 'format.openapi.responseValidation',
               message: 'should match format "foo"',
-              path: 'name'
-            }
-          ]
+              path: 'name',
+            },
+          ],
         },
         done
       );
   });
 
-  it('should pass', function(done) {
-    request(app)
-      .post('/v3/foo?foo=foo')
-      .expect(200, { errors: [] }, done);
+  it('should pass', function (done) {
+    request(app).post('/v3/foo?foo=foo').expect(200, { errors: [] }, done);
   });
 });

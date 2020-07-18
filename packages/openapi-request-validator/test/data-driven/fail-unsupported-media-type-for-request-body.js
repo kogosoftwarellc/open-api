@@ -7,26 +7,26 @@ module.exports = {
           schema: {
             properties: {
               foo: {
-                type: 'string'
-              }
+                type: 'string',
+              },
             },
-            required: ['foo']
-          }
-        }
-      }
-    }
+            required: ['foo'],
+          },
+        },
+      },
+    },
   },
   request: {
     headers: {
-      'content-type': 'text/plain'
-    }
+      'content-type': 'text/plain',
+    },
   },
   expectedError: {
     status: 415,
     errors: [
       {
-        message: 'Unsupported Content-Type text/plain'
-      }
-    ]
-  }
+        message: 'Unsupported Content-Type text/plain',
+      },
+    ],
+  },
 };

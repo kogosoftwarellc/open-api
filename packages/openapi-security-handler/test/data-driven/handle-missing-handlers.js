@@ -7,18 +7,18 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
+        in: 'header',
       },
       keyScheme1: {
         type: 'apiKey',
         name: 'api_key1',
-        in: 'header'
+        in: 'header',
       },
       keyScheme2: {
         type: 'apiKey',
         name: 'api_key2',
-        in: 'header'
-      }
+        in: 'header',
+      },
     },
 
     securityHandlers: {},
@@ -26,12 +26,12 @@ module.exports = {
     operationSecurity: [
       {
         keyScheme: ['write'],
-        keyScheme1: ['write']
+        keyScheme1: ['write'],
       },
       {
         keyScheme2: ['write'],
-        keyScheme1: ['write']
-      }
-    ]
-  }
+        keyScheme1: ['write'],
+      },
+    ],
+  },
 };

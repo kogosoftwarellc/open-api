@@ -8,12 +8,12 @@ module.exports = {
             pictures: {
               type: 'array',
               items: {
-                $ref: '#/definitions/picture'
-              }
-            }
-          }
-        }
-      }
+                $ref: '#/definitions/picture',
+              },
+            },
+          },
+        },
+      },
     },
 
     definitions: {
@@ -22,22 +22,22 @@ module.exports = {
         properties: {
           content: {
             type: 'string',
-            writeOnly: true
+            writeOnly: true,
           },
           url: {
             type: 'string',
-            readOnly: true
-          }
+            readOnly: true,
+          },
         },
-        required: ['content', 'url']
-      }
-    }
+        required: ['content', 'url'],
+      },
+    },
   },
 
   inputStatusCode: 200,
   inputResponseBody: {
-    pictures: [{ url: 'http://example.com/picture.jpg' }]
+    pictures: [{ url: 'http://example.com/picture.jpg' }],
   },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

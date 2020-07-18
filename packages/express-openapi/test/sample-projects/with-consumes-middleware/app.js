@@ -13,8 +13,8 @@ openapi.initialize({
   paths: path.resolve(__dirname, 'api-routes'),
   consumesMiddleware: {
     'application/json': bodyParser.json(),
-    'text/text': bodyParser.text()
-  }
+    'text/text': bodyParser.text(),
+  },
 });
 
 module.exports = app;

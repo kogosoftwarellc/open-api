@@ -3,16 +3,16 @@
 module.exports = {
   'x-express-openapi-additional-middleware': [
     /* generate a warning */ null,
-    function(req, res, next) {
+    function (req, res, next) {
       // assure ordering of middleware is preserved
       req.apiDocAdded = false;
       next();
     },
-    function(req, res, next) {
+    function (req, res, next) {
       req.orderingApiDoc = 'apiDoc';
       req.apiDocAdded = true;
       next();
-    }
+    },
   ],
 
   swagger: '2.0',
@@ -22,7 +22,7 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {},
@@ -31,18 +31,18 @@ module.exports = {
   paths: {
     '/users/{id}': {
       'x-express-openapi-additional-middleware': [
-        function(req, res, next) {
+        function (req, res, next) {
           req.pathDocAdded = false;
           req.orderingApiDoc = 'pathDoc';
           next();
         },
-        function(req, res, next) {
+        function (req, res, next) {
           req.pathDocAdded = true;
           next();
-        }
-      ]
-    }
+        },
+      ],
+    },
   },
 
-  tags: [{ name: 'users' }]
+  tags: [{ name: 'users' }],
 };

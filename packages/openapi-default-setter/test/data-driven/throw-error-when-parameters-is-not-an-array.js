@@ -3,16 +3,16 @@ module.exports = {
 
   args: {
     loggingKey: 'openapi-default-setter',
-    parameters: null
+    parameters: null,
   },
 
   request: {
     path: '',
     headers: {},
-    query: {}
+    query: {},
   },
 
   headers: null,
   params: null,
-  query: null
+  query: null,
 };

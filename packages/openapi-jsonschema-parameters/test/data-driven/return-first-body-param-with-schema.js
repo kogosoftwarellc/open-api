@@ -2,34 +2,34 @@ module.exports = {
   parameters: [
     {
       in: 'body',
-      name: 'wowow'
+      name: 'wowow',
     },
 
     {
       in: 'body',
       name: 'cow',
       schema: {
-        $ref: 'foo'
-      }
+        $ref: 'foo',
+      },
     },
 
     {
       in: 'body',
-      name: 'frrrrr'
+      name: 'frrrrr',
     },
 
     {
       in: 'body',
       name: 'zzzz',
       schema: {
-        $ref: 'foo'
-      }
-    }
+        $ref: 'foo',
+      },
+    },
   ],
 
   outputSchema: {
     body: {
-      $ref: 'foo'
-    }
-  }
+      $ref: 'foo',
+    },
+  },
 };

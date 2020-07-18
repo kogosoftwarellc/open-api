@@ -7,24 +7,24 @@ module.exports = {
           type: 'object',
           properties: {
             msisdn: {
-              type: 'string'
+              type: 'string',
             },
             countryId: {
               type: 'string',
               nullable: true,
-              example: null
-            }
+              example: null,
+            },
           },
-          required: ['msisdn']
-        }
-      }
+          required: ['msisdn'],
+        },
+      },
     },
 
-    definitions: null
+    definitions: null,
   },
 
   inputStatusCode: 200,
   inputResponseBody: { msisdn: '790000000000', countryId: null },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

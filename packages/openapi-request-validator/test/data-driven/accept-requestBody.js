@@ -9,21 +9,21 @@ module.exports = {
             type: 'object',
             properties: {
               foo: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     },
-    schemas: null
+    schemas: null,
   },
   request: {
     body: {
-      foo: 'asdf'
+      foo: 'asdf',
     },
     headers: {
-      'content-type': 'application/json'
-    }
-  }
+      'content-type': 'application/json',
+    },
+  },
 };

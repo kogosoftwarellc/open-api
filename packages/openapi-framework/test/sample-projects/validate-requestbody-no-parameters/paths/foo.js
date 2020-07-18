@@ -1,5 +1,5 @@
 module.exports = {
-  PUT
+  PUT,
 };
 
 function PUT() {
@@ -14,22 +14,22 @@ PUT.apiDoc = {
           properties: {
             name: {
               type: 'string',
-              minLength: 1
-            }
-          }
-        }
-      }
-    }
+              minLength: 1,
+            },
+          },
+        },
+      },
+    },
   },
   responses: {
     '200': {
       description: 'return foo',
       content: {
         'application/json': {
-          schema: {}
-        }
-      }
-    }
+          schema: {},
+        },
+      },
+    },
   },
-  tags: ['testing', 'example']
+  tags: ['testing', 'example'],
 };

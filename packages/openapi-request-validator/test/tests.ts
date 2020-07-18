@@ -22,20 +22,20 @@ describe(require('../package.json').name, () => {
           in: 'body',
           name: 'User',
           schema: {
-            $ref: '#/definitions/User'
-          }
-        }
+            $ref: '#/definitions/User',
+          },
+        },
       ],
 
       schemas: {
         User: {
           properties: {
             name: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     };
   }
 });

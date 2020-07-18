@@ -1,7 +1,7 @@
 module.exports = {
   constructorArgs: {
-    responses: null
+    responses: null,
   },
 
-  constructorError: /args.responses must be an Object/
+  constructorError: /args.responses must be an Object/,
 };

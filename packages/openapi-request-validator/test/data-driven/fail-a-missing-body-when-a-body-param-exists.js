@@ -6,10 +6,10 @@ module.exports = {
         name: 'foo',
         required: true,
         schema: {
-          $ref: '#/definitions/TestBody'
-        }
-      }
-    ]
+          $ref: '#/definitions/TestBody',
+        },
+      },
+    ],
   },
   request: {},
   expectedError: {
@@ -20,9 +20,9 @@ module.exports = {
         message:
           'request.body was not present in the request.  Is a body-parser being used?',
         schema: {
-          $ref: '#/definitions/TestBody'
-        }
-      }
-    ]
-  }
+          $ref: '#/definitions/TestBody',
+        },
+      },
+    ],
+  },
 };

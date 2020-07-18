@@ -11,7 +11,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      operations: require('./operations/foo')
+      operations: require('./operations/foo'),
     });
   });
 
@@ -34,22 +34,22 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
-            }
+                schema: {},
+              },
+            },
           },
           post: {
             operationId: 'postFoo',
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
-            }
+                schema: {},
+              },
+            },
           },
-          parameters: []
+          parameters: [],
         });
-      }
+      },
     });
     expect(getFeatures.responseValidator).to.not.be.undefined;
     expect(getFeatures.requestValidator).to.be.undefined;

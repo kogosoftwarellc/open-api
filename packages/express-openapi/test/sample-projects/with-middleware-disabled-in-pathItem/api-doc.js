@@ -8,35 +8,35 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {
     Error: {
-      additionalProperties: true
+      additionalProperties: true,
     },
     User: {
       properties: {
         name: {
-          type: 'string'
+          type: 'string',
         },
         friends: {
           type: 'array',
           items: {
-            $ref: '#/definitions/User'
-          }
-        }
+            $ref: '#/definitions/User',
+          },
+        },
       },
-      required: ['name']
-    }
+      required: ['name'],
+    },
   },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
   paths: {
     '/users/{id}': {
-      'x-express-openapi-disable-middleware': true
-    }
+      'x-express-openapi-disable-middleware': true,
+    },
   },
 
-  tags: [{ name: 'users' }]
+  tags: [{ name: 'users' }],
 };

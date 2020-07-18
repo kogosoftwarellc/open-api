@@ -6,16 +6,16 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       },
 
-      400: {}
+      400: {},
     },
 
-    definitions: null
+    definitions: null,
   },
 
   inputStatusCode: 400,
@@ -27,8 +27,8 @@ module.exports = {
       {
         path: 'response',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be null'
-      }
-    ]
-  }
+        message: 'should be null',
+      },
+    ],
+  },
 };

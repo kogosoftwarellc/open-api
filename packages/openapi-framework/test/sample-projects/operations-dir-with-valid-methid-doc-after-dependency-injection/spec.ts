@@ -12,13 +12,13 @@ describe(path.basename(__dirname), () => {
       dependencies: {
         sum: (a, b) => {
           return a + b;
-        }
+        },
       },
       featureType: 'middleware',
       name: 'some-framework',
       operations: {
-        getFoo: require('./operations/foo')
-      }
+        getFoo: require('./operations/foo'),
+      },
     });
   });
 
@@ -40,12 +40,12 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
-            }
-          }
+                schema: {},
+              },
+            },
+          },
         });
-      }
+      },
     });
   });
 });

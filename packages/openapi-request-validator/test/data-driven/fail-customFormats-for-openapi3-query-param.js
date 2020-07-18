@@ -6,23 +6,23 @@ module.exports = {
         name: 'foo',
         schema: {
           type: 'string',
-          format: 'foo'
+          format: 'foo',
         },
-        required: true
-      }
+        required: true,
+      },
     ],
     schemas: null,
     customFormats: {
-      foo: function(input) {
+      foo: function (input) {
         return input === 'foo';
-      }
-    }
+      },
+    },
   },
   request: {
     path: '?foo=boo',
     query: {
-      foo: 'boo'
-    }
+      foo: 'boo',
+    },
   },
   expectedError: {
     status: 400,
@@ -31,8 +31,8 @@ module.exports = {
         path: 'foo',
         errorCode: 'format.openapi.requestValidation',
         message: 'should match format "foo"',
-        location: 'query'
-      }
-    ]
-  }
+        location: 'query',
+      },
+    ],
+  },
 };

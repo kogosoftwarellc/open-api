@@ -6,16 +6,16 @@ module.exports = {
     swagger: '2.0',
     info: {
       title: 'Some valid API document',
-      version: '1.0.0'
+      version: '1.0.0',
     },
     definitions: {
       User: {
         properties: {
           name: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     },
     paths: {
       '/foo': {
@@ -31,41 +31,41 @@ module.exports = {
               in: 'formData',
               description: 'Whether or not to transform intel files.',
               type: 'boolean',
-              default: false
+              default: false,
             },
             {
               name: 'overwrite',
               in: 'formData',
               description: 'Whether or not to replace an existing file.',
               type: 'boolean',
-              default: true
+              default: true,
             },
             {
               name: 'basepath',
               in: 'formData',
               description: 'Root directory to place files.',
               type: 'string',
-              default: ''
+              default: '',
             },
             {
               name: 'file',
               in: 'formData',
               description: 'The file to upload',
-              type: 'file'
-            }
+              type: 'file',
+            },
           ],
           responses: {
             200: {
-              description: 'OK'
+              description: 'OK',
             },
             400: {
-              description: 'BAD'
-            }
-          }
-        }
-      }
-    }
+              description: 'BAD',
+            },
+          },
+        },
+      },
+    },
   },
 
-  errors: []
+  errors: [],
 };

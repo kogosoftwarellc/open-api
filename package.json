@@ -5,10 +5,13 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean",
+    "cover": "lerna run cover",
     "combine-coverage": "istanbul-combine packages/*/coverage/coverage*.json",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
     "lint": "tslint -c tslint.json './packages/**/*.[j,t]s'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "lerna run test"
   },
   "repository": {
     "type": "git",
@@ -36,15 +39,16 @@
     "glob": "7.1.6",
     "istanbul": "0.4.5",
     "istanbul-combine": "0.3.0",
+    "lerna": "^3.22.1",
     "mocha": "7.1.2",
     "nyc": "15.1.0",
     "prettier": "^2.0.0",
     "source-map-support": "0.5.17",
     "supertest": "4.0.1",
     "ts-node": "8.8.2",
-    "tslint": "^5.12.0",
-    "tslint-config-prettier": "^1.17.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "2.9.2"
+    "tslint": "6.1.2",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "2.3.0",
+    "typescript": "3.9.7"
   }
 }

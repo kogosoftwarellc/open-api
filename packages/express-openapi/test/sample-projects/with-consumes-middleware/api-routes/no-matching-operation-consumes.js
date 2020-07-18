@@ -1,6 +1,6 @@
 // Showing that you don't need to have apiDoc defined on methodHandlers.
 module.exports = {
-  post: post
+  post: post,
 };
 
 function post(req, res, next) {
@@ -16,8 +16,8 @@ module.exports.post.apiDoc = {
     200: {
       description: 'No consumes output',
       schema: {
-        type: 'string'
-      }
-    }
-  }
+        type: 'string',
+      },
+    },
+  },
 };

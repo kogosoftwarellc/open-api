@@ -10,21 +10,21 @@ module.exports = {
             properties: {
               files: {
                 type: 'array',
-                items: { type: 'string', format: 'binary' }
-              }
-            }
-          }
-        }
-      }
-    }
+                items: { type: 'string', format: 'binary' },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   request: {
     body: {
-      files: []
+      files: [],
     },
     headers: {
       'content-type':
-        'multipart/form-data; boundary=----WebKitFormBoundaryWyK9kAU7d35AKf26'
-    }
-  }
+        'multipart/form-data; boundary=----WebKitFormBoundaryWyK9kAU7d35AKf26',
+    },
+  },
 };

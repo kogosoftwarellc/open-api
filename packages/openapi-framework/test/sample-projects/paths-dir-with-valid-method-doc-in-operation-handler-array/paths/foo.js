@@ -1,10 +1,10 @@
 module.exports = {
   GET: [
-    function() {
+    function () {
       return;
     },
-    GET
-  ]
+    GET,
+  ],
 };
 
 function GET() {
@@ -14,7 +14,7 @@ GET.apiDoc = {
   responses: {
     default: {
       description: 'return foo',
-      schema: {}
-    }
-  }
+      schema: {},
+    },
+  },
 };

@@ -11,16 +11,16 @@ app.use(bodyParser.json());
 var paths = [
   { path: '/apiDocs', module: require('./api-routes/apiDocs') },
   { path: '/users', module: require('./api-routes/users') },
-  { path: '/users/{id}', module: require('./api-routes/users/{id}') }
+  { path: '/users/{id}', module: require('./api-routes/users/{id}') },
 ];
 
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  paths: paths
+  paths: paths,
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 

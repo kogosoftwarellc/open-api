@@ -1,14 +1,14 @@
 module.exports = {
-  get: function(req, res) {
+  get: function (req, res) {
     res.status(200).json({ name: req.query.foo });
   },
 
-  post: function(req, res) {
+  post: function (req, res) {
     var validationResult = res.validateResponse(200, { name: req.query.foo });
     res.status(validationResult ? 400 : 200).json({
-      errors: (validationResult || { errors: [] }).errors
+      errors: (validationResult || { errors: [] }).errors,
     });
-  }
+  },
 };
 
 module.exports.get.apiDoc = {
@@ -19,17 +19,17 @@ module.exports.get.apiDoc = {
       format: 'foo',
       in: 'query',
       name: 'foo',
-      type: 'string'
-    }
+      type: 'string',
+    },
   ],
   responses: {
     200: {
       description: 'testing input validation',
       schema: {
-        $ref: '#/definitions/Foo'
-      }
-    }
-  }
+        $ref: '#/definitions/Foo',
+      },
+    },
+  },
 };
 
 module.exports.post.apiDoc = {
@@ -40,8 +40,8 @@ module.exports.post.apiDoc = {
     200: {
       description: 'testing response validation',
       schema: {
-        $ref: '#/definitions/Foo'
-      }
-    }
-  }
+        $ref: '#/definitions/Foo',
+      },
+    },
+  },
 };

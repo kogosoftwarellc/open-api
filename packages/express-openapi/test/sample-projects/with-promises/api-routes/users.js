@@ -8,24 +8,24 @@ module.exports = {
     function expressOpenapiPromiseMiddleware(req, res, next) {
       next();
     },
-    function(req, res, next) {
-      return new Promise(function(resolve, reject) {
-        setTimeout(function() {
+    function (req, res, next) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
           resolve([{ name: 'fred' }]);
         }, 1000);
-      }).then(function(people) {
+      }).then(function (people) {
         res.status(200).json(people);
       });
-    }
+    },
   ],
 
-  post: function(req, res, next) {
-    return new Promise(function(resolve, reject) {
+  post: function (req, res, next) {
+    return new Promise(function (resolve, reject) {
       var err = new Error('something was missing');
       err.status = 400;
       reject(err);
     });
-  }
+  },
 };
 
 module.exports.post.apiDoc = {
@@ -37,8 +37,8 @@ module.exports.post.apiDoc = {
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

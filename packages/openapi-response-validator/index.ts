@@ -77,7 +77,7 @@ export default class OpenAPIResponseValidator
       unknownFormats: 'ignore',
       missingRefs: 'fail',
       // @ts-ignore TODO get Ajv updated to account for logger
-      logger: false
+      logger: false,
     });
 
     this.errorMapper = errorTransformer
@@ -85,7 +85,7 @@ export default class OpenAPIResponseValidator
       : toOpenapiValidationError;
 
     if (args.customFormats) {
-      Object.keys(args.customFormats).forEach(format => {
+      Object.keys(args.customFormats).forEach((format) => {
         const func = args.customFormats[format];
         if (typeof func === 'function') {
           v.addFormat(format, func);
@@ -94,7 +94,7 @@ export default class OpenAPIResponseValidator
     }
 
     if (args.externalSchemas) {
-      Object.keys(args.externalSchemas).forEach(id => {
+      Object.keys(args.externalSchemas).forEach((id) => {
         v.addSchema(args.externalSchemas[id], id);
       });
     }
@@ -126,20 +126,20 @@ export default class OpenAPIResponseValidator
         message,
         errors: [
           {
-            message
-          }
-        ]
+            message,
+          },
+        ],
       };
     }
 
     const isValid = validator({
-      response: response === undefined ? null : response
+      response: response === undefined ? null : response,
     });
 
     if (!isValid) {
       return {
         message: 'The response was not valid.',
-        errors: validator.errors.map(this.errorMapper)
+        errors: validator.errors.map(this.errorMapper),
       };
     }
 
@@ -150,7 +150,7 @@ export default class OpenAPIResponseValidator
 function compileValidators(v, schemas) {
   const validators = {};
 
-  Object.keys(schemas).forEach(name => {
+  Object.keys(schemas).forEach((name) => {
     validators[name] = v.compile(transformOpenAPIV3Definitions(schemas[name]));
   });
 
@@ -160,7 +160,7 @@ function compileValidators(v, schemas) {
 function getSchemas(responses, definitions, components) {
   const schemas = {};
 
-  Object.keys(responses).forEach(name => {
+  Object.keys(responses).forEach((name) => {
     const response = responses[name];
     const schema = response
       ? typeof response.schema === 'object'
@@ -178,10 +178,10 @@ function getSchemas(responses, definitions, components) {
       $schema: 'http://json-schema.org/schema#',
       type: 'object',
       properties: {
-        response: schema
+        response: schema,
       },
       definitions: definitions || {},
-      components: components || {}
+      components: components || {},
     };
   });
 
@@ -189,7 +189,7 @@ function getSchemas(responses, definitions, components) {
 }
 
 function makeErrorMapper(mapper): (ajvError: Ajv.ErrorObject) => any {
-  return ajvError => mapper(toOpenapiValidationError(ajvError), ajvError);
+  return (ajvError) => mapper(toOpenapiValidationError(ajvError), ajvError);
 }
 
 function toOpenapiValidationError(
@@ -198,7 +198,7 @@ function toOpenapiValidationError(
   const validationError = {
     path: `instance${error.dataPath}`,
     errorCode: `${error.keyword}.openapi.responseValidation`,
-    message: error.message
+    message: error.message,
   };
 
   validationError.path = validationError.path.replace(
@@ -219,15 +219,15 @@ function recursiveTransformOpenAPIV3Definitions(object) {
   // Remove writeOnly properties from required array
   if (object.properties && object.required) {
     const writeOnlyProps = Object.keys(object.properties).filter(
-      key => object.properties[key].writeOnly
+      (key) => object.properties[key].writeOnly
     );
-    writeOnlyProps.forEach(value => {
+    writeOnlyProps.forEach((value) => {
       const index = object.required.indexOf(value);
       object.required.splice(index, 1);
     });
   }
 
-  Object.keys(object).forEach(attr => {
+  Object.keys(object).forEach((attr) => {
     if (object[attr] !== null && typeof object[attr] === 'object') {
       recursiveTransformOpenAPIV3Definitions(object[attr]);
     }

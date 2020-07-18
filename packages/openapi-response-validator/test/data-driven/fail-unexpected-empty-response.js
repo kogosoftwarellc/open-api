@@ -6,14 +6,14 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     },
 
-    definitions: null
+    definitions: null,
   },
 
   inputStatusCode: 200,
@@ -25,8 +25,8 @@ module.exports = {
       {
         path: 'response',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be object'
-      }
-    ]
-  }
+        message: 'should be object',
+      },
+    ],
+  },
 };

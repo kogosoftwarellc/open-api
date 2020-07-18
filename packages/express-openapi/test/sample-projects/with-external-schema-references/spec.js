@@ -3,18 +3,18 @@ var expect = require('chai').expect;
 var expectedApiDoc = require('../../../../../test/fixtures/with-external-schema-references-api-doc-after-initialization.json');
 var request = require('supertest');
 
-before(function() {
+before(function () {
   app = require('./app.js');
 });
 
-it('should expose <apiDoc>.basePath/api-docs', function(done) {
+it('should expose <apiDoc>.basePath/api-docs', function (done) {
   request(app)
     .get('/v3/api-docs')
     .set('Host', 'test-host')
     .expect(200, expectedApiDoc, done);
 });
 
-it('should use direct references in parameter', function(done) {
+it('should use direct references in parameter', function (done) {
   request(app)
     .post('/v3/users')
     .send({})
@@ -27,15 +27,15 @@ it('should use direct references in parameter', function(done) {
             path: 'name',
             errorCode: 'required.openapi.requestValidation',
             message: "should have required property 'name'",
-            location: 'body'
-          }
-        ]
+            location: 'body',
+          },
+        ],
       },
       done
     );
 });
 
-it('should use external references through local schema definition', function(done) {
+it('should use external references through local schema definition', function (done) {
   request(app)
     .delete('/v3/users/foo')
     .send({})
@@ -48,15 +48,15 @@ it('should use external references through local schema definition', function(do
             path: 'name',
             errorCode: 'required.openapi.requestValidation',
             message: "should have required property 'name'",
-            location: 'body'
-          }
-        ]
+            location: 'body',
+          },
+        ],
       },
       done
     );
 });
 
-it('should use external references through local parameters definition', function(done) {
+it('should use external references through local parameters definition', function (done) {
   request(app)
     .put('/v3/users/foo')
     .send({})
@@ -69,15 +69,15 @@ it('should use external references through local parameters definition', functio
             path: 'name',
             errorCode: 'required.openapi.requestValidation',
             message: "should have required property 'name'",
-            location: 'body'
-          }
-        ]
+            location: 'body',
+          },
+        ],
       },
       done
     );
 });
 
-it('should use schema references through local schema definition reference in child schema of response', function(done) {
+it('should use schema references through local schema definition reference in child schema of response', function (done) {
   request(app)
     .get('/v3/users?status=success')
     .expect(
@@ -87,17 +87,17 @@ it('should use schema references through local schema definition reference in ch
           {
             errorCode: 'required.openapi.responseValidation',
             message: "should have required property 'name'",
-            path: 'response[0]'
-          }
+            path: 'response[0]',
+          },
         ],
         message: 'The response was not valid.',
-        status: 500
+        status: 500,
       },
       done
     );
 });
 
-it('should use schema references through local schema definition reference in response', function(done) {
+it('should use schema references through local schema definition reference in response', function (done) {
   request(app)
     .get('/v3/users?status=method-not-allowed')
     .expect(
@@ -107,22 +107,22 @@ it('should use schema references through local schema definition reference in re
           {
             errorCode: 'type.openapi.responseValidation',
             message: 'should be string',
-            path: 'response'
+            path: 'response',
           },
           {
             errorCode: 'enum.openapi.responseValidation',
             message: 'should be equal to one of the allowed values',
-            path: 'response'
-          }
+            path: 'response',
+          },
         ],
         message: 'The response was not valid.',
-        status: 500
+        status: 500,
       },
       done
     );
 });
 
-it('should use schema references through local response definition reference', function(done) {
+it('should use schema references through local response definition reference', function (done) {
   request(app)
     .get('/v3/users?status=forbidden')
     .expect(
@@ -132,22 +132,22 @@ it('should use schema references through local response definition reference', f
           {
             errorCode: 'type.openapi.responseValidation',
             message: 'should be string',
-            path: 'response'
+            path: 'response',
           },
           {
             errorCode: 'enum.openapi.responseValidation',
             message: 'should be equal to one of the allowed values',
-            path: 'response'
-          }
+            path: 'response',
+          },
         ],
         message: 'The response was not valid.',
-        status: 500
+        status: 500,
       },
       done
     );
 });
 
-it('should use schema references in child schema of response', function(done) {
+it('should use schema references in child schema of response', function (done) {
   request(app)
     .get('/v3/users?status=tea-pod')
     .expect(
@@ -157,17 +157,17 @@ it('should use schema references in child schema of response', function(done) {
           {
             errorCode: 'required.openapi.responseValidation',
             message: "should have required property 'content'",
-            path: 'response'
-          }
+            path: 'response',
+          },
         ],
         message: 'The response was not valid.',
-        status: 500
+        status: 500,
       },
       done
     );
 });
 
-it('should use schema references in response', function(done) {
+it('should use schema references in response', function (done) {
   request(app)
     .get('/v3/users?status=error')
     .expect(
@@ -177,16 +177,16 @@ it('should use schema references in response', function(done) {
           {
             errorCode: 'type.openapi.responseValidation',
             message: 'should be string',
-            path: 'response'
+            path: 'response',
           },
           {
             errorCode: 'enum.openapi.responseValidation',
             message: 'should be equal to one of the allowed values',
-            path: 'response'
-          }
+            path: 'response',
+          },
         ],
         message: 'The response was not valid.',
-        status: 500
+        status: 500,
       },
       done
     );

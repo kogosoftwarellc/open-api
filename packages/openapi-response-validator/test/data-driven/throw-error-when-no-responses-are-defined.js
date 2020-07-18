@@ -1,8 +1,8 @@
 module.exports = {
   constructorArgs: {
     loggingKey: 'openapi-response-validator',
-    responses: {}
+    responses: {},
   },
 
-  constructorError: /openapi-response-validator: args.responses must contain at least 1 response object/
+  constructorError: /openapi-response-validator: args.responses must contain at least 1 response object/,
 };

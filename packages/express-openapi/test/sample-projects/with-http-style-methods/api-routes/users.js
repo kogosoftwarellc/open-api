@@ -2,7 +2,7 @@
 module.exports = {
   DELETE: DELETE,
   GET: GET,
-  POST: POST
+  POST: POST,
 };
 
 function DELETE(req, res, next) {
@@ -24,11 +24,11 @@ DELETE.apiDoc = {
   parameters: [],
   responses: {
     204: {
-      description: 'Users were successfully deleted.'
+      description: 'Users were successfully deleted.',
       // 204 should not return a body so not defining a schema.  This adds an implicit
       // schema of {"type": "null"}.
-    }
-  }
+    },
+  },
 };
 
 GET.apiDoc = {
@@ -40,10 +40,10 @@ GET.apiDoc = {
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };
 
 POST.apiDoc = {
@@ -55,8 +55,8 @@ POST.apiDoc = {
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

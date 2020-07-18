@@ -1,6 +1,6 @@
 var expectedError = {
   status: 401,
-  message: { a: 1 }
+  message: { a: 1 },
 };
 
 module.exports = {
@@ -12,26 +12,26 @@ module.exports = {
       keyScheme: {
         type: 'apiKey',
         name: 'api_key',
-        in: 'header'
+        in: 'header',
       },
       passwordScheme: {
-        type: 'basic'
-      }
+        type: 'basic',
+      },
     },
 
     securityHandlers: {
-      keyScheme: function(req, scopes, securityDefinition, cb) {
+      keyScheme: function (req, scopes, securityDefinition, cb) {
         throw expectedError;
-      }
+      },
     },
 
     operationSecurity: [
       {
-        keyScheme: ['write']
-      }
-    ]
+        keyScheme: ['write'],
+      },
+    ],
   },
 
   expectedError: expectedError,
-  expectedResult: false
+  expectedResult: false,
 };

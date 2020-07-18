@@ -6,12 +6,12 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {},
 
   paths: {},
 
-  tags: [{ description: 'Drafts', name: 'Drafts' }]
+  tags: [{ description: 'Drafts', name: 'Drafts' }],
 };

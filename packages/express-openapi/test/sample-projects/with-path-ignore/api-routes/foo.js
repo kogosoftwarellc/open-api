@@ -1,7 +1,7 @@
 module.exports = {
-  get: function(req, res) {
+  get: function (req, res) {
     res.status(200).send('OK');
-  }
+  },
 };
 
 module.exports.get.apiDoc = {
@@ -9,7 +9,7 @@ module.exports.get.apiDoc = {
   operationId: '',
   responses: {
     200: {
-      description: ''
-    }
-  }
+      description: '',
+    },
+  },
 };

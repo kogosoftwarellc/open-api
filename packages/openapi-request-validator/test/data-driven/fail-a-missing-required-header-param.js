@@ -5,10 +5,10 @@ module.exports = {
         in: 'header',
         name: 'foo',
         type: 'string',
-        required: true
-      }
+        required: true,
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {},
   expectedError: {
@@ -18,8 +18,8 @@ module.exports = {
         path: 'foo',
         errorCode: 'required.openapi.requestValidation',
         message: "should have required property 'foo'",
-        location: 'headers'
-      }
-    ]
-  }
+        location: 'headers',
+      },
+    ],
+  },
 };

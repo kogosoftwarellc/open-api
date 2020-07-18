@@ -6,18 +6,18 @@ module.exports = {
           type: 'object',
           properties: {
             foo: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     },
 
     definitions: null,
 
-    errorTransformer: function(openapiError, jsonschemaError) {
+    errorTransformer: function (openapiError, jsonschemaError) {
       return arguments.length;
-    }
+    },
   },
 
   inputStatusCode: 200,
@@ -25,6 +25,6 @@ module.exports = {
 
   expectedValidationError: {
     message: 'The response was not valid.',
-    errors: [2]
-  }
+    errors: [2],
+  },
 };

@@ -12,12 +12,15 @@ describe(path.basename(__dirname), () => {
       featureType: 'middleware',
       name: 'some-framework',
       paths: path.resolve(__dirname, 'paths'),
-      pathSecurity: [[/.+/, [{ basic: [] }]], [/^awes/, [{ basic: [] }]]],
+      pathSecurity: [
+        [/.+/, [{ basic: [] }]],
+        [/^awes/, [{ basic: [] }]],
+      ],
       securityHandlers: {
         basic() {
           return true;
-        }
-      }
+        },
+      },
     });
   });
 
@@ -38,17 +41,17 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
-                schema: {}
-              }
+                schema: {},
+              },
             },
             security: [
               {
-                basic: []
-              }
-            ]
-          }
+                basic: [],
+              },
+            ],
+          },
         });
-      }
+      },
     });
   });
 });

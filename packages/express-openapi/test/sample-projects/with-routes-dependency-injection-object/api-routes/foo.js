@@ -1,8 +1,8 @@
-module.exports = function(/*no params*/) {
+module.exports = function (/*no params*/) {
   var doc = {
-    get: function(req, res, next) {
+    get: function (req, res, next) {
       res.status(200).send('foo');
-    }
+    },
   };
   doc.get.apiDoc = {
     description: 'Get foo.',
@@ -12,10 +12,10 @@ module.exports = function(/*no params*/) {
       200: {
         description: 'foo',
         schema: {
-          type: 'string'
-        }
-      }
-    }
+          type: 'string',
+        },
+      },
+    },
   };
   return doc;
 };

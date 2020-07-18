@@ -4,9 +4,9 @@ module.exports = {
     schemas: [
       {
         id: '#/definitions/SomeString',
-        type: 'string'
-      }
-    ]
+        type: 'string',
+      },
+    ],
   },
-  request: {}
+  request: {},
 };

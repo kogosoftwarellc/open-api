@@ -11,7 +11,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -23,10 +23,10 @@ describe(path.basename(__dirname), () => {
           {
             name: 'color',
             in: 'query',
-            type: 'string'
-          }
+            type: 'string',
+          },
         ]);
-      }
+      },
     });
   });
 });

@@ -1,6 +1,6 @@
 // ensuring that default exports are handled
 module.exports.default = {
-  get: get
+  get: get,
 };
 
 function get(req, res, next) {
@@ -18,18 +18,18 @@ get.apiDoc = {
       in: 'query',
       name: 'type',
       type: 'string',
-      enum: ['apiDoc', 'operationDoc']
-    }
+      enum: ['apiDoc', 'operationDoc'],
+    },
   ],
   responses: {
     200: {
       description: 'The requested apiDoc.',
       schema: {
-        type: 'object'
-      }
+        type: 'object',
+      },
     },
     default: {
-      description: 'The requested apiDoc.'
-    }
-  }
+      description: 'The requested apiDoc.',
+    },
+  },
 };

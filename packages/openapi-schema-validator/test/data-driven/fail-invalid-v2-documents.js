@@ -1,14 +1,14 @@
 module.exports = {
   constructorArgs: {
-    version: 2
+    version: 2,
   },
 
   apiDoc: {
     info: {
       title: 'Some valid API document',
-      version: '1.0.0'
+      version: '1.0.0',
     },
-    paths: {}
+    paths: {},
   },
 
   errors: [
@@ -17,9 +17,9 @@ module.exports = {
       keyword: 'required',
       message: "should have required property 'swagger'",
       params: {
-        missingProperty: 'swagger'
+        missingProperty: 'swagger',
       },
-      schemaPath: '#/required'
-    }
-  ]
+      schemaPath: '#/required',
+    },
+  ],
 };

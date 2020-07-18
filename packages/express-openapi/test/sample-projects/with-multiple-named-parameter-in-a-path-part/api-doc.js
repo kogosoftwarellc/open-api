@@ -8,37 +8,37 @@ module.exports = {
 
   info: {
     title: 'express-openapi sample project',
-    version: '3.0.0'
+    version: '3.0.0',
   },
 
   definitions: {
     Error: {
-      additionalProperties: true
+      additionalProperties: true,
     },
     User: {
       properties: {
         id: {
-          type: 'string'
+          type: 'string',
         },
         org: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['name']
+      required: ['name'],
     },
     Vm: {
       properties: {
         id: {
-          type: 'string'
+          type: 'string',
         },
         region: {
-          type: 'string'
+          type: 'string',
         },
         az: {
-          type: 'string'
-        }
-      }
-    }
+          type: 'string',
+        },
+      },
+    },
   },
 
   // paths are derived from args.routes.  These are filled in by fs-routes.
@@ -48,6 +48,6 @@ module.exports = {
   // docs.  This API also defines 2 tags in operations: "creating" and "fooey".
   tags: [
     { description: 'Everything users', name: 'users' },
-    { description: 'Everything virtual machines', name: 'vm' }
-  ]
+    { description: 'Everything virtual machines', name: 'vm' },
+  ],
 };

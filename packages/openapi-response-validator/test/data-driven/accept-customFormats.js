@@ -7,24 +7,24 @@ module.exports = {
           properties: {
             foo: {
               type: 'string',
-              format: 'foo'
-            }
-          }
-        }
-      }
+              format: 'foo',
+            },
+          },
+        },
+      },
     },
 
     definitions: null,
 
     customFormats: {
-      foo: function(input) {
+      foo: function (input) {
         return input === 'foo';
-      }
-    }
+      },
+    },
   },
 
   inputStatusCode: 200,
   inputResponseBody: { foo: 'foo' },
 
-  expectedValidationError: void 0
+  expectedValidationError: void 0,
 };

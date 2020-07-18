@@ -5,8 +5,8 @@ module.exports = {
       name: 'search',
       type: 'string',
       'x-custom': 'value',
-      nullable: true
-    }
+      nullable: true,
+    },
   ],
 
   outputSchema: {
@@ -16,15 +16,15 @@ module.exports = {
           anyOf: [
             {
               type: 'string',
-              'x-custom': 'value'
+              'x-custom': 'value',
             },
             {
-              type: 'null'
-            }
-          ]
-        }
+              type: 'null',
+            },
+          ],
+        },
       },
-      required: []
-    }
-  }
+      required: [],
+    },
+  },
 };

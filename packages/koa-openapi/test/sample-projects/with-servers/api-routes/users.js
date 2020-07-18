@@ -4,7 +4,7 @@ module.exports = {
     ctx.body = {
       id: ctx.params.id,
       name: ctx.query.name,
-      age: ctx.query.age
+      age: ctx.query.age,
     };
-  }
+  },
 };

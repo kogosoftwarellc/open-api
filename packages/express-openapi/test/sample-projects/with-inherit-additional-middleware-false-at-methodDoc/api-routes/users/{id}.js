@@ -1,9 +1,9 @@
 module.exports = {
   'x-express-openapi-additional-middleware': [
-    function(req, res, next) {
+    function (req, res, next) {
       req.pathModuleAdded = true;
       next();
-    }
+    },
   ],
 
   // parameters for all operations in this path
@@ -13,17 +13,17 @@ module.exports = {
       in: 'path',
       type: 'string',
       required: true,
-      description: "Fred's age."
-    }
+      description: "Fred's age.",
+    },
   ],
-  get: get
+  get: get,
 };
 
 function get(req, res) {
   res.status(200).json({
     apiDocAdded: req.apiDocAdded || null,
     pathDocAdded: req.pathDocAdded || null,
-    pathModuleAdded: req.pathModuleAdded || null
+    pathModuleAdded: req.pathModuleAdded || null,
   });
 }
 
@@ -38,7 +38,7 @@ get.apiDoc = {
       in: 'query',
       type: 'string',
       pattern: '^fred$',
-      description: 'The name of this person.  It may only be "fred".'
+      description: 'The name of this person.  It may only be "fred".',
     },
     // showing that operation parameters override path parameters
     {
@@ -46,15 +46,15 @@ get.apiDoc = {
       in: 'path',
       type: 'integer',
       required: true,
-      description: "Fred's age."
+      description: "Fred's age.",
     },
     {
       name: 'age',
       in: 'query',
       type: 'integer',
       description: "Fred's age.",
-      default: 80
-    }
+      default: 80,
+    },
   ],
 
   responses: {
@@ -64,16 +64,16 @@ get.apiDoc = {
       schema: {
         properties: {
           apiDocAdded: {
-            type: 'boolean'
+            type: 'boolean',
           },
           pathDocAdded: {
-            type: 'boolean'
+            type: 'boolean',
           },
           pathModuleAdded: {
-            type: 'boolean'
-          }
-        }
-      }
-    }
-  }
+            type: 'boolean',
+          },
+        },
+      },
+    },
+  },
 };

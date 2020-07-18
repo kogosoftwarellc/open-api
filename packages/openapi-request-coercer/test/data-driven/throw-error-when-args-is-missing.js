@@ -5,10 +5,10 @@ module.exports = {
 
   request: {
     path: '',
-    headers: null
+    headers: null,
   },
 
   headers: null,
   params: null,
-  query: null
+  query: null,
 };

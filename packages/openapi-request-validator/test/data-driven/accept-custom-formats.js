@@ -5,16 +5,16 @@ module.exports = {
         in: 'query',
         name: 'foo',
         type: 'string',
-        format: 'foo'
-      }
+        format: 'foo',
+      },
     ],
     schemas: null,
-    customFormats: {}
+    customFormats: {},
   },
   request: {
     path: '?foo=foo',
     query: {
-      foo: 'foo'
-    }
-  }
+      foo: 'foo',
+    },
+  },
 };

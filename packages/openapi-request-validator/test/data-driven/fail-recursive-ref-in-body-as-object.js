@@ -8,36 +8,36 @@ module.exports = {
         schema: {
           properties: {
             test1: {
-              $ref: '#/definitions/Test1'
-            }
+              $ref: '#/definitions/Test1',
+            },
           },
-          required: ['test1']
-        }
-      }
+          required: ['test1'],
+        },
+      },
     ],
     schemas: {
       Test1: {
         properties: {
           foo: {
-            type: 'string'
+            type: 'string',
           },
           recursive: {
-            $ref: '#/definitions/Test1'
-          }
+            $ref: '#/definitions/Test1',
+          },
         },
-        required: ['foo']
-      }
-    }
+        required: ['foo'],
+      },
+    },
   },
   request: {
     body: {
       test1: {
         foo: 'asdf',
         recursive: {
-          foo: 5
-        }
-      }
-    }
+          foo: 5,
+        },
+      },
+    },
   },
 
   expectedError: {
@@ -47,8 +47,8 @@ module.exports = {
         path: 'test1.recursive.foo',
         errorCode: 'type.openapi.requestValidation',
         message: 'should be string',
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };

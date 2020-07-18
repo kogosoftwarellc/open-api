@@ -6,13 +6,13 @@ module.exports = {
         name: 'foo',
         required: true,
         schema: {
-          type: 'array'
-        }
-      }
-    ]
+          type: 'array',
+        },
+      },
+    ],
   },
   request: {
-    body: {}
+    body: {},
   },
   expectedError: {
     status: 400,
@@ -20,8 +20,8 @@ module.exports = {
       {
         errorCode: 'type.openapi.requestValidation',
         message: 'should be array',
-        location: 'body'
-      }
-    ]
-  }
+        location: 'body',
+      },
+    ],
+  },
 };

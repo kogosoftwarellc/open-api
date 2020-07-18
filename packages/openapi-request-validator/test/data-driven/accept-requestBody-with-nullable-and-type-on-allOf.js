@@ -11,25 +11,25 @@ module.exports = {
               foo: {
                 allOf: [{ $ref: '#/components/schemas/MyType' }],
                 type: 'string',
-                nullable: true
-              }
-            }
-          }
-        }
-      }
+                nullable: true,
+              },
+            },
+          },
+        },
+      },
     },
     schemas: {
       MyType: {
-        pattern: "^[A-Za-z0-9\\u00C0-÷\\u017F\\s!'¿¡@$€_+=\\-;:/.,?>)(<[]*$"
-      }
-    }
+        pattern: "^[A-Za-z0-9\\u00C0-÷\\u017F\\s!'¿¡@$€_+=\\-;:/.,?>)(<[]*$",
+      },
+    },
   },
   request: {
     body: {
-      foo: null
+      foo: null,
     },
     headers: {
-      'content-type': 'application/json'
-    }
-  }
+      'content-type': 'application/json',
+    },
+  },
 };

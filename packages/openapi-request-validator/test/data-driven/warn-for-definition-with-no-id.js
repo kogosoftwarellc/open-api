@@ -3,9 +3,9 @@ module.exports = {
     parameters: [],
     schemas: [
       {
-        type: 'string'
-      }
-    ]
+        type: 'string',
+      },
+    ],
   },
-  request: {}
+  request: {},
 };

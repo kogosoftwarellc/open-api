@@ -4,29 +4,29 @@ module.exports = {
       {
         in: 'header',
         name: 'X-Foo',
-        type: 'integer'
+        type: 'integer',
       },
 
       {
         in: 'path',
         name: 'path1',
-        type: 'integer'
+        type: 'integer',
       },
 
       {
         in: 'query',
         name: 'foo',
-        type: 'boolean'
-      }
-    ]
+        type: 'boolean',
+      },
+    ],
   },
 
   request: {
     path: '',
-    headers: null
+    headers: null,
   },
 
   headers: null,
   params: null,
-  query: null
+  query: null,
 };

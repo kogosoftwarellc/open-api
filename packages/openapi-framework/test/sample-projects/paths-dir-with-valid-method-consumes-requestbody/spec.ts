@@ -11,7 +11,7 @@ describe(path.basename(__dirname), () => {
       apiDoc: path.resolve(__dirname, 'apiDoc.yml'),
       featureType: 'middleware',
       name: 'some-framework',
-      paths: path.resolve(__dirname, 'paths')
+      paths: path.resolve(__dirname, 'paths'),
     });
   });
 
@@ -23,27 +23,27 @@ describe(path.basename(__dirname), () => {
           requestBody: {
             content: {
               'application/json': {
-                schema: {}
-              }
-            }
+                schema: {},
+              },
+            },
           },
           responses: {
             '200': {
               description: 'return foo',
               content: {
                 'application/json': {
-                  schema: {}
-                }
-              }
-            }
+                  schema: {},
+                },
+              },
+            },
           },
-          tags: ['example', 'testing']
+          tags: ['example', 'testing'],
         });
       },
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
         expect(apiDoc.tags).to.eql([{ name: 'example' }, { name: 'testing' }]);
-      }
+      },
     });
   });
 });

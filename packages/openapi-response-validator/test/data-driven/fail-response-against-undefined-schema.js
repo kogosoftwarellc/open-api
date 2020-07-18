@@ -1,8 +1,8 @@
 module.exports = {
   constructorArgs: {
     responses: {
-      default: {}
-    }
+      default: {},
+    },
   },
 
   inputStatusCode: 200,
@@ -14,8 +14,8 @@ module.exports = {
       {
         path: 'response',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be null'
-      }
-    ]
-  }
+        message: 'should be null',
+      },
+    ],
+  },
 };

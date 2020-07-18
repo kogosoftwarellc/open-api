@@ -4,18 +4,18 @@ module.exports = {
       in: 'path',
       name: 'foo',
       required: true,
-      type: 'string'
-    }
+      type: 'string',
+    },
   ],
 
   outputSchema: {
     path: {
       properties: {
         foo: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['foo']
-    }
-  }
+      required: ['foo'],
+    },
+  },
 };

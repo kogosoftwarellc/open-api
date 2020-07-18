@@ -4,61 +4,61 @@ module.exports = {
       {
         in: 'header',
         name: 'X-Foo',
-        type: 'boolean'
+        type: 'boolean',
       },
 
       {
         in: 'path',
         name: 'path1',
-        type: 'integer'
+        type: 'integer',
       },
 
       {
         in: 'path',
         name: 'path2',
-        type: 'number'
+        type: 'number',
       },
 
       {
         in: 'query',
         name: 'foo',
-        type: 'boolean'
+        type: 'boolean',
       },
 
       {
         in: 'query',
         name: 'boo',
-        type: 'string'
-      }
-    ]
+        type: 'string',
+      },
+    ],
   },
 
   request: {
     path: '/5/6.35',
     params: {
       path1: '5',
-      path2: '6.35'
+      path2: '6.35',
     },
     query: {
       foo: 'false',
-      boo: 'asdf'
+      boo: 'asdf',
     },
     headers: {
-      'x-foo': 'false'
-    }
+      'x-foo': 'false',
+    },
   },
 
   headers: {
-    'x-foo': false
+    'x-foo': false,
   },
 
   params: {
     path1: 5,
-    path2: 6.35
+    path2: 6.35,
   },
 
   query: {
     foo: false,
-    boo: 'asdf'
-  }
+    boo: 'asdf',
+  },
 };

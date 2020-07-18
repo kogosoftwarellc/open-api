@@ -9,32 +9,32 @@ module.exports = {
               type: 'array',
               minItems: 1,
               items: {
-                $ref: '#/definitions/schema'
-              }
-            }
-          }
-        }
-      }
-    }
+                $ref: '#/definitions/schema',
+              },
+            },
+          },
+        },
+      },
+    },
   },
 
   apiDoc: {
     swagger: '2.0',
     info: {
       title: 'Some valid API document',
-      version: '1.0.0'
+      version: '1.0.0',
     },
     definitions: {
       User: {
         properties: {
           name: {
-            oneOf: [{ type: 'string' }, { type: 'null' }]
-          }
-        }
-      }
+            oneOf: [{ type: 'string' }, { type: 'null' }],
+          },
+        },
+      },
     },
-    paths: {}
+    paths: {},
   },
 
-  errors: []
+  errors: [],
 };

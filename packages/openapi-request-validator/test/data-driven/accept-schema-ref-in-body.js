@@ -6,24 +6,24 @@ module.exports = {
         name: 'foo',
         required: true,
         schema: {
-          $ref: '#/definitions/Test1'
-        }
-      }
+          $ref: '#/definitions/Test1',
+        },
+      },
     ],
     schemas: {
       Test1: {
         properties: {
           foo: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['foo']
-      }
-    }
+        required: ['foo'],
+      },
+    },
   },
   request: {
     body: {
-      foo: 'asdf'
-    }
-  }
+      foo: 'asdf',
+    },
+  },
 };

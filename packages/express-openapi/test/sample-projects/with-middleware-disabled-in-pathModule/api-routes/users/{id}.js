@@ -8,8 +8,8 @@ module.exports = {
       in: 'path',
       type: 'string',
       required: true,
-      description: "Fred's age."
-    }
+      description: "Fred's age.",
+    },
   ],
   // method handlers may just be the method handler...
   get: get,
@@ -18,13 +18,13 @@ module.exports = {
   // the <path>.parameters + <methodHandler>.apiDoc.parameters is prepended to this
   // array.
   post: [
-    function(req, res, next) {
+    function (req, res, next) {
       next();
     },
-    function(req, res) {
+    function (req, res) {
       res.status(200).json({ id: req.params.id });
-    }
-  ]
+    },
+  ],
 };
 
 module.exports.post.apiDoc = {
@@ -36,26 +36,26 @@ module.exports.post.apiDoc = {
       name: 'user',
       in: 'body',
       schema: {
-        $ref: '#/definitions/User'
-      }
-    }
+        $ref: '#/definitions/User',
+      },
+    },
   ],
 
   responses: {
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };
 
 function get(req, res) {
   res.status(200).json({
     id: req.params.id,
     name: req.query.name,
-    age: req.query.age
+    age: req.query.age,
   });
 }
 
@@ -69,7 +69,7 @@ get.apiDoc = {
       in: 'query',
       type: 'string',
       pattern: '^fred$',
-      description: 'The name of this person.  It may only be "fred".'
+      description: 'The name of this person.  It may only be "fred".',
     },
     // showing that operation parameters override path parameters
     {
@@ -77,30 +77,30 @@ get.apiDoc = {
       in: 'path',
       type: 'integer',
       required: true,
-      description: "Fred's age."
+      description: "Fred's age.",
     },
     {
       name: 'age',
       in: 'query',
       type: 'integer',
       description: "Fred's age.",
-      default: 80
-    }
+      default: 80,
+    },
   ],
 
   responses: {
     200: {
       description: 'Requested user',
       schema: {
-        $ref: '#/definitions/User'
-      }
+        $ref: '#/definitions/User',
+      },
     },
 
     default: {
       description: 'Unexpected error',
       schema: {
-        $ref: '#/definitions/Error'
-      }
-    }
-  }
+        $ref: '#/definitions/Error',
+      },
+    },
+  },
 };

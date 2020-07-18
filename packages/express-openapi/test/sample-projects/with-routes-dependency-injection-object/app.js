@@ -9,11 +9,11 @@ openapi.initialize({
   paths: [path.resolve(__dirname, 'api-routes')],
   dependencies: {
     injected1: { description: 'Get boo.' },
-    injected2: { description: 'boo' }
-  }
+    injected2: { description: 'boo' },
+  },
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.log(err);
 });
 

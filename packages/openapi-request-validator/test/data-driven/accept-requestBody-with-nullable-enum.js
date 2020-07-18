@@ -11,21 +11,21 @@ module.exports = {
               foo: {
                 type: 'string',
                 nullable: true,
-                enum: ['HOME', 'CAR']
-              }
-            }
-          }
-        }
-      }
+                enum: ['HOME', 'CAR'],
+              },
+            },
+          },
+        },
+      },
     },
-    schemas: null
+    schemas: null,
   },
   request: {
     body: {
-      foo: null
+      foo: null,
     },
     headers: {
-      'content-type': 'application/json'
-    }
-  }
+      'content-type': 'application/json',
+    },
+  },
 };

@@ -1,10 +1,10 @@
 module.exports = {
   parameters: [
     {
-      $ref: '#/parameters/Boo'
-    }
+      $ref: '#/parameters/Boo',
+    },
   ],
-  get: function(req, res, next) {
+  get: function (req, res, next) {
     var statusCode = req.query.foo === 'success' ? 200 : 500;
     var errors = res.validateResponse(statusCode, req.query.boo);
     if (errors) {
@@ -13,9 +13,9 @@ module.exports = {
     }
   },
   // handling no method doc
-  post: function() {
+  post: function () {
     return;
-  }
+  },
 };
 
 module.exports.get.apiDoc = {
@@ -24,15 +24,15 @@ module.exports.get.apiDoc = {
   tags: ['foo'],
   parameters: [
     {
-      $ref: '#/parameters/Foo'
-    }
+      $ref: '#/parameters/Foo',
+    },
   ],
   responses: {
     200: {
-      $ref: '#/responses/SuccessResponse'
+      $ref: '#/responses/SuccessResponse',
     },
     default: {
-      $ref: '#/responses/ErrorResponse'
-    }
-  }
+      $ref: '#/responses/ErrorResponse',
+    },
+  },
 };

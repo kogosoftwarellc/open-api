@@ -4,15 +4,15 @@ module.exports = {
       {
         in: 'path',
         name: 'path1',
-        type: 'string'
-      }
+        type: 'string',
+      },
     ],
-    schemas: null
+    schemas: null,
   },
   request: {
     path: '/s',
     params: {
-      path1: 's'
-    }
-  }
+      path1: 's',
+    },
+  },
 };

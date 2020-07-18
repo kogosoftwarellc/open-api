@@ -14,10 +14,10 @@ parentApp.use('/api', app);
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   app: app,
-  paths: path.resolve(__dirname, 'api-routes')
+  paths: path.resolve(__dirname, 'api-routes'),
 });
 
-parentApp.use(function(err, req, res, next) {
+parentApp.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 

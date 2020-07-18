@@ -28,10 +28,10 @@ module.exports = {
       multipleOf: 57,
       examples: {
         example1: {
-          value: 'asd'
-        }
-      }
-    }
+          value: 'asd',
+        },
+      },
+    },
   ],
 
   outputSchema: {
@@ -63,12 +63,12 @@ module.exports = {
               examples: ['asd'],
             },
             {
-              type: 'null'
-            }
-          ]
-        }
+              type: 'null',
+            },
+          ],
+        },
       },
-      required: ['foo']
-    }
-  }
+      required: ['foo'],
+    },
+  },
 };

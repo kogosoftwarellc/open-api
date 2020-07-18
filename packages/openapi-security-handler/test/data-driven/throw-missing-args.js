@@ -3,5 +3,5 @@ module.exports = {
   path: '/',
   headers: null,
 
-  constructorArgs: null
+  constructorArgs: null,
 };

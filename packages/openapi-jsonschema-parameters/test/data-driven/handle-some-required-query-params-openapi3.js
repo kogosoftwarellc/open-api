@@ -5,30 +5,30 @@ module.exports = {
       name: 'foo',
       required: false,
       schema: {
-        type: 'string'
-      }
+        type: 'string',
+      },
     },
     {
       in: 'query',
       name: 'boo',
       required: true,
       schema: {
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   ],
 
   outputSchema: {
     query: {
       properties: {
         foo: {
-          type: 'string'
+          type: 'string',
         },
         boo: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['boo']
-    }
-  }
+      required: ['boo'],
+    },
+  },
 };

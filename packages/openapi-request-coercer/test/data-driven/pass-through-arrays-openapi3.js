@@ -8,10 +8,10 @@ module.exports = {
           type: 'array',
           items: {
             schema: {
-              type: 'integer'
-            }
-          }
-        }
+              type: 'integer',
+            },
+          },
+        },
       },
 
       {
@@ -21,21 +21,21 @@ module.exports = {
           type: 'array',
           items: {
             schema: {
-              type: 'number'
-            }
-          }
-        }
-      }
-    ]
+              type: 'number',
+            },
+          },
+        },
+      },
+    ],
   },
 
   request: {
     path: '/',
     query: {
       foo: ['5', '6'],
-      boo: '34.2345'
+      boo: '34.2345',
     },
-    headers: null
+    headers: null,
   },
 
   headers: null,
@@ -44,6 +44,6 @@ module.exports = {
 
   query: {
     foo: [5, 6],
-    boo: [34.2345]
-  }
+    boo: [34.2345],
+  },
 };

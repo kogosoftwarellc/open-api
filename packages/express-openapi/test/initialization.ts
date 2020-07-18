@@ -10,9 +10,9 @@ const validDocument = {
   swagger: '2.0',
   info: {
     title: 'some api',
-    version: '1.0.0'
+    version: '1.0.0',
   },
-  paths: {}
+  paths: {},
 };
 
 describe(require('../package.json').name, () => {
@@ -22,51 +22,54 @@ describe(require('../package.json').name, () => {
         [
           'args is not an object',
           null,
-          /express-openapi: args must be an object/
+          /express-openapi: args must be an object/,
         ],
         [
           'args.app must be an express app',
           {},
-          /express-openapi: args.app must be an express app/
+          /express-openapi: args.app must be an express app/,
         ],
         [
           'args.apiDoc required',
           { app: {} },
-          /express-openapi: args.apiDoc is required/
+          /express-openapi: args.apiDoc is required/,
         ],
         [
           'args.apiDoc not valid',
           { app: {}, apiDoc: {}, paths: [] },
-          /express-openapi: args.apiDoc was invalid.  See the output./
+          /express-openapi: args.apiDoc was invalid.  See the output./,
         ],
         [
           'args.paths required',
           { app: {}, apiDoc: validDocument },
-          /express-openapi: args.paths and args.operations must not both be empty/
+          /express-openapi: args.paths and args.operations must not both be empty/,
         ],
         [
           'args.paths non directory',
           { app: {}, apiDoc: validDocument, paths: 'asdasdfasdf' },
-          /express-openapi: args.paths contained a value that was not a path to a directory/
+          /express-openapi: args.paths contained a value that was not a path to a directory/,
         ],
         [
           'args.paths non directory',
           { app: {}, apiDoc: validDocument, paths: routesDir, docsPath: true },
-          /express-openapi: args.docsPath must be a string when given/
+          /express-openapi: args.docsPath must be a string when given/,
         ],
         [
           'args.paths with invalid route',
           { app: {}, apiDoc: validDocument, paths: [{ foo: '/foo', bar: {} }] },
-          /express-openapi: args.paths must consist of strings or valid route specifications/
+          /express-openapi: args.paths must consist of strings or valid route specifications/,
         ],
         [
           'args.paths with duplicates',
           {
             app: {},
             apiDoc: validDocument,
-            paths: [{ path: '/foo', module: {} }, { path: '/foo', module: {} }]
+            paths: [
+              { path: '/foo', module: {} },
+              { path: '/foo', module: {} },
+            ],
           },
-          /express-openapi: args.paths produced duplicate urls/
+          /express-openapi: args.paths produced duplicate urls/,
         ],
         [
           'args.errorTransformer',
@@ -74,9 +77,9 @@ describe(require('../package.json').name, () => {
             app: {},
             apiDoc: validDocument,
             paths: routesDir,
-            errorTransformer: 'asdf'
+            errorTransformer: 'asdf',
           },
-          /express-openapi: args.errorTransformer must be a function when given/
+          /express-openapi: args.errorTransformer must be a function when given/,
         ],
         [
           'args.externalSchemas',
@@ -84,9 +87,9 @@ describe(require('../package.json').name, () => {
             app: {},
             apiDoc: validDocument,
             paths: routesDir,
-            externalSchemas: 'asdf'
+            externalSchemas: 'asdf',
           },
-          /express-openapi: args.externalSchemas must be a object when given/
+          /express-openapi: args.externalSchemas must be a object when given/,
         ],
         [
           'args.securityHandlers',
@@ -94,10 +97,10 @@ describe(require('../package.json').name, () => {
             app: {},
             apiDoc: validDocument,
             paths: routesDir,
-            securityHandlers: 'asdf'
+            securityHandlers: 'asdf',
           },
-          /express-openapi: args.securityHandlers must be a object when given/
-        ]
+          /express-openapi: args.securityHandlers must be a object when given/,
+        ],
       ].forEach((test: [string, object, RegExp]) => {
         const description: string = test[0];
         const args = test[1];
@@ -130,7 +133,7 @@ describe(require('../package.json').name, () => {
             'sample-projects',
             'with-invalid-method-doc',
             'api-routes'
-          )
+          ),
         });
       }).to.throw(
         /express-openapi: args.apiDoc was invalid after populating paths.  See the output./
@@ -150,7 +153,7 @@ describe(require('../package.json').name, () => {
           'sample-projects',
           'with-invalid-method-doc',
           'api-routes'
-        )
+        ),
       });
     });
 
@@ -159,7 +162,7 @@ describe(require('../package.json').name, () => {
       const initializedApp = initialize({
         apiDoc: require('./sample-projects/basic-usage/api-doc.js'),
         app: express(),
-        paths: routesDir
+        paths: routesDir,
       });
 
       expect(initializedApp.apiDoc).to.eql(expectedApiDoc);

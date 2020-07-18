@@ -1,3 +1,3 @@
 module.exports = {
-  preset: 'es6'
+  preset: 'es6',
 };
