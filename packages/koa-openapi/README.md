@@ -186,6 +186,8 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
       },
       paths: './api-v1/paths'
     });
+    
+    app.use( router.routes() );
 
     app.listen(3000);
     ```
