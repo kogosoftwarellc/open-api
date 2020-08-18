@@ -1,0 +1,15 @@
+example/
+coverage/
+node_modules/
+docs/
+test/
+src/
+/*.ts
+test-dir/
+tsconfig.json
+.gitignore
+.eslintrc.js
+*.swp
+*.spec.js
+.nyc_output
+tsconfig.tsbuildinfo
