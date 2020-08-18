@@ -12,3 +12,4 @@ tsconfig.json
 *.swp
 *.spec.js
 .nyc_output
+tsconfig.tsbuildinfo
