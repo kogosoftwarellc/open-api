@@ -1,6 +1,6 @@
 {
   "name": "openapi-schema-validator",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "A validator for OpenAPI documents.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,7 +28,7 @@
   "dependencies": {
     "ajv": "^6.5.2",
     "lodash.merge": "^4.6.1",
-    "openapi-types": "^7.0.0",
+    "openapi-types": "^7.0.1",
     "swagger-schema-official": "2.0.0-bab6bed"
   }
 }
