@@ -598,7 +598,7 @@ function sanitizeReadonlyPropertiesFromRequired(
 function recursiveTransformOpenAPIV3Definitions(object) {
   // Transformations //
   // OpenAPIV3 nullable
-  if (object.type && object.nullable === true) {
+  if (object.nullable === true) {
     if (object.enum) {
       // Enums can not be null with type null
       object.oneOf = [
@@ -610,8 +610,14 @@ function recursiveTransformOpenAPIV3Definitions(object) {
       ];
       delete object.type;
       delete object.enum;
-    } else {
+    } else if (object.type) {
       object.type = [object.type, 'null'];
+    } else if (object.allOf) {
+      object.anyOf = [{ allOf: object.allOf }, { type: 'null' }];
+      delete object.allOf;
+    } else if (object.oneOf || object.anyOf) {
+      const arr: any[] = object.oneOf || object.anyOf;
+      arr.push({ type: 'null' });
     }
 
     delete object.nullable;
