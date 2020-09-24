@@ -6,6 +6,7 @@ export interface OpenAPIParametersAsJSONSchema {
   headers?: IJsonSchema;
   path?: IJsonSchema;
   query?: IJsonSchema;
+  cookie?: IJsonSchema;
 }
 
 export function convertParametersToJSONSchema(
@@ -17,6 +18,7 @@ export function convertParametersToJSONSchema(
   const headerSchema = getSchema(parameters, 'header');
   const pathSchema = getSchema(parameters, 'path');
   const querySchema = getSchema(parameters, 'query');
+  const cookieSchema = getSchema(parameters, 'cookie');
 
   if (bodySchema) {
     parametersSchema.body = bodySchema;
@@ -36,6 +38,10 @@ export function convertParametersToJSONSchema(
 
   if (querySchema) {
     parametersSchema.query = querySchema;
+  }
+
+  if (cookieSchema) {
+    parametersSchema.cookie = cookieSchema;
   }
 
   return parametersSchema;
