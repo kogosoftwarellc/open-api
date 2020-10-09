@@ -85,7 +85,7 @@ interface OpenAPIFrameworkArgs {
   dependencies?: { [service: string]: any };
   enableObjectCoercion?: boolean;
   errorTransformer?: OpenAPIErrorTransformer;
-  externalSchemas?: { string: IJsonSchema };
+  externalSchemas?: { [index: string]: IJsonSchema };
   pathSecurity?: PathSecurityTuple[];
   operations?: { [operationId: string]: (...arg: any[]) => any };
   paths?: string | OpenAPIFrameworkPathObject[];
