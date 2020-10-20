@@ -45,8 +45,8 @@ export default function fsRoutes(
   options: FsRoutesOptions = {}
 ): FsRoute[] {
   dir = path.resolve(process.cwd(), dir);
-  options.glob = options.glob || '**/*.js';
-  options.indexFileRegExp = options.indexFileRegExp || /(?:index)?\.js$/;
+  options.glob = options.glob || '**/*.+(js|cjs)';
+  options.indexFileRegExp = options.indexFileRegExp || /(?:index)?\.+(js|cjs)$/;
   const cacheKey = dir + options.glob;
 
   if (!memo[cacheKey]) {

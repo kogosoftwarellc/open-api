@@ -6,20 +6,40 @@ const testDir = path.resolve(__dirname, '..', 'test-dir');
 function assertRoutes(routes) {
   const output = [
     {
+      path: testDir + '/home.cjs',
+      route: '/home',
+    },
+    {
       path: testDir + '/home.js',
       route: '/home',
+    },
+    {
+      path: testDir + '/users/index.cjs',
+      route: '/users/',
     },
     {
       path: testDir + '/users/index.js',
       route: '/users/',
     },
     {
+      path: testDir + '/users/query.cjs',
+      route: '/users/query',
+    },
+    {
       path: testDir + '/users/query.js',
       route: '/users/query',
     },
     {
+      path: testDir + '/users/{id}.cjs',
+      route: '/users/{id}',
+    },
+    {
       path: testDir + '/users/{id}.js',
       route: '/users/{id}',
+    },
+    {
+      path: testDir + '/users/:id.cjs',
+      route: '/users/:id',
     },
     {
       path: testDir + '/users/:id.js',
