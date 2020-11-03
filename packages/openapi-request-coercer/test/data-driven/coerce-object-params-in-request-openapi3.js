@@ -5,14 +5,39 @@ module.exports = {
       {
         in: 'query',
         schema: {
+          type: 'object',
+          properties: {
+            number: { type: 'number' },
+            string: { type: 'string' },
+          },
+        },
+        style: 'deepObject',
+        name: 'deepObject',
+        required: false,
+      },
+      {
+        in: 'query',
+        schema: {
+          type: 'object',
+          additionalProperties: {
+            type: 'number',
+          },
+        },
+        style: 'deepObject',
+        name: 'additionalProperties',
+        required: false,
+      },
+      {
+        in: 'query',
+        schema: {
           type: 'array',
           items: {
             schema: {
               type: 'object',
-              // optional format property not passed meaning default coercer will kick in
             },
           },
         },
+        // style property not passed meaning the default coercer will kick in
         name: 'include',
         required: false,
       },
@@ -20,11 +45,10 @@ module.exports = {
         in: 'query',
         schema: {
           type: 'object',
-          // optional format property not passed meaning the default coercer will kick in
         },
+        // style property not passed meaning the default coercer will kick in
         name: 'query',
         required: false,
-        // optional format property not passed meaning the default coercer will kick in
       },
     ],
   },
@@ -36,6 +60,11 @@ module.exports = {
         JSON.stringify({ association: 'people', include: ['hairColor'] }),
       ],
       query: JSON.stringify({ where: { $status: 2 } }),
+      deepObject: { number: '3', string: '3' },
+      additionalProperties: {
+        width: '1',
+        length: '2',
+      },
     },
   },
 
@@ -44,10 +73,8 @@ module.exports = {
       { association: 'lines', include: ['status'] },
       { association: 'people', include: ['hairColor'] },
     ],
-    query: {
-      where: {
-        $status: 2,
-      },
-    },
+    query: { where: { $status: 2 } },
+    deepObject: { number: 3, string: '3' },
+    additionalProperties: { width: 1, length: 2 },
   },
 };

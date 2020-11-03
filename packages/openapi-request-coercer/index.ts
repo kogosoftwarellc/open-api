@@ -108,143 +108,63 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
   }
 }
 
-const OBJECT_FORMAT_COERCER = {
-  default(input) {
-    return JSON.parse(input);
-  },
-  // other formats
-};
-
-const COERCION_STRATEGIES = {
-  array: (itemCoercer, collectionFormat, input) => {
-    if (!Array.isArray(input)) {
-      const sep = pathsep(collectionFormat || 'csv');
-      input = input.split(sep);
-    }
-
-    input.forEach((v, i) => {
-      input[i] = itemCoercer(v);
-    });
-
-    return input;
-  },
-
-  object(format, input) {
-    return (OBJECT_FORMAT_COERCER[format] || OBJECT_FORMAT_COERCER.default)(
-      input
-    );
-  },
-
-  boolean: (input) => {
-    if (typeof input === 'boolean') {
-      return input;
-    }
-
-    if (input === 'false') {
-      return false;
-    } else {
-      return true;
-    }
-  },
-
-  integer: (input) => {
-    const result = Math.floor(Number(input));
-    return isNaN(result) ? input : result;
-  },
-
-  number: (input) => {
-    const result = Number(input);
-    return isNaN(result) ? input : result;
-  },
-
-  string: (input) => String(input),
-};
-
-const STRICT_COERCION_STRATEGIES = {
-  boolean: (input) => {
-    if (typeof input === 'boolean') {
-      return input;
-    }
-
-    if (input.toLowerCase() === 'false') {
-      return false;
-    } else if (input.toLowerCase() === 'true') {
-      return true;
-    } else {
-      return null;
-    }
-  },
-};
-
 function buildCoercer(args) {
-  const l = args.isHeaders
-    ? (name) => {
-        return name.toLowerCase();
+  if (!args.params.length) {
+    return;
+  }
+
+  const l = args.isHeaders ? (name) => name.toLowerCase() : (name) => name;
+
+  const coercers = args.params
+    .filter(byLocation(args.property))
+    .reduce((acc, param) => {
+      acc[l(param.name)] = buildCoercerForParam(args, param);
+      return acc;
+    }, {});
+
+  return (obj) => {
+    for (const paramName in obj) {
+      if (coercers.hasOwnProperty(paramName)) {
+        obj[paramName] = coercers[paramName](obj[paramName]);
       }
-    : (name) => {
-        return name;
-      };
-  let coercion;
+    }
+  };
+}
 
-  if (args.params.length) {
-    const coercers = {};
+function buildCoercerForParam(args, param) {
+  const {
+    logger,
+    loggingKey,
+    enableObjectCoercion,
+    coercionStrategy: customStrategy = {},
+  } = args;
+  const strict = !!param[args.strictExtensionName];
 
-    args.params.filter(byLocation(args.property)).forEach((param) => {
-      // OpenAPI (Swagger) 2.0 has type and format information as direct properties
-      // of the param object. OpenAPI 3.0 has type and format information in a
-      // schema object property. Use a schema value to normalize the change across
-      // both versions so coercer works properly.
-      const schema = param.schema || param;
-      const name = param.name;
-      const type = schema.type;
-      const strict = !!param[args.strictExtensionName];
-      let coercer;
-      let itemCoercer;
-
-      if (type === 'array') {
-        let disableCoercer;
-        if (!schema.items) {
-          throw new Error(
-            `${args.loggingKey}items is a required property with type array`
-          );
-        }
-
-        if (
-          schema.items.type === 'array' ||
-          (schema.items.schema && schema.items.schema.type === 'array')
-        ) {
-          throw new Error(
-            `${args.loggingKey}nested arrays are not allowed (items was of type array)`
-          );
-        }
-
-        const itemsType =
-          schema.items.schema && schema.items.schema.type
-            ? schema.items.schema.type
-            : schema.items.type;
-        itemCoercer = getCoercer(
-          itemsType,
-          strict,
-          args.logger,
-          args.loggingKey,
-          args.coercionStrategy
-        );
-
-        if (itemsType === 'object') {
-          if (!args.enableObjectCoercion) {
-            disableCoercer = true;
-          } else {
-            const itemsFormat = schema.items.schema
-              ? schema.items.schema.format
-              : schema.format;
-            itemCoercer = itemCoercer.bind(null, itemsFormat);
+  function getCoercer(type: string) {
+    const OBJECT_FORMAT_COERCER = {
+      default: (schema, input) => JSON.parse(input),
+      deepObject: (schema, input) => {
+        for (const key of Object.keys(input)) {
+          const propertySchema = schema.properties
+            ? schema.properties[key]
+            : schema.additionalProperties;
+          if (propertySchema) {
+            input[key] = getCoercer(propertySchema.type)(
+              propertySchema,
+              input[key]
+            );
           }
         }
+        return input;
+      },
+    };
 
-        if (!disableCoercer) {
+    const COERCION_STRATEGIES = {
+      array: (schema, input) => {
+        if (!Array.isArray(input)) {
           let collectionFormat = param.collectionFormat;
           // OpenAPI 3.0 has replaced collectionFormat with a style property
-          // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#style-values
+          // https://swagger.io/docs/specification/serialization/
           if (param.style) {
             if (param.style === 'form' && param.in === 'query') {
               collectionFormat = param.explode ? 'multi' : 'csv';
@@ -265,76 +185,81 @@ function buildCoercer(args) {
               collectionFormat = 'pipes';
             }
           }
-
-          coercer = COERCION_STRATEGIES.array.bind(
-            null,
-            itemCoercer,
-            collectionFormat
-          );
+          const sep = pathsep(collectionFormat || 'csv');
+          input = input.split(sep);
         }
-      } else if (type === 'object') {
-        if (args.enableObjectCoercion) {
-          coercer = getCoercer(
-            schema.type,
-            strict,
-            args.logger,
-            args.loggingKey,
-            args.coercionStrategy
-          ).bind(null, schema.format);
-        }
-      } else {
-        coercer = getCoercer(
-          schema.type,
-          strict,
-          args.logger,
-          args.loggingKey,
-          args.coercionStrategy
-        );
-      }
 
-      if (coercer) {
-        coercers[l(name)] = coercer;
-      }
-    });
+        return input.map((v, i) => {
+          const itemSchema = schema.items.schema
+            ? schema.items.schema
+            : schema.items;
+          return getCoercer(itemSchema.type)(itemSchema, v);
+        });
+      },
 
-    coercion = (obj) => {
-      for (const paramName in obj) {
-        if (coercers.hasOwnProperty(paramName)) {
-          obj[paramName] = coercers[paramName](obj[paramName]);
+      object: (schema, input) => {
+        if (!enableObjectCoercion) {
+          return input;
         }
-      }
+        // Similar to arrays, objects support formats. In OpenAPI 3.0, the format is called "style".
+        // Currently this coercer only automatically supports the deepObject style, and a simple
+        // JSON format, though the OpenAPI 3.0 specification defines many styles similar to arrays.
+        const style = param.style || schema.format;
+        const objectCoercer =
+          OBJECT_FORMAT_COERCER[style] || OBJECT_FORMAT_COERCER.default;
+        return objectCoercer(schema, input);
+      },
+
+      boolean: (schema, input) => {
+        if (typeof input === 'boolean') {
+          return input;
+        }
+
+        if (input === 'false') {
+          return false;
+        } else {
+          return true;
+        }
+      },
+
+      integer: (schema, input) => {
+        const result = Math.floor(Number(input));
+        return isNaN(result) ? input : result;
+      },
+
+      number: (schema, input) => {
+        const result = Number(input);
+        return isNaN(result) ? input : result;
+      },
+
+      string: (schema, input) => String(input),
     };
-  }
 
-  return coercion;
-}
+    const STRICT_COERCION_STRATEGIES = {
+      boolean: (schema, input) => {
+        if (typeof input === 'boolean') {
+          return input;
+        }
 
-function byLocation(location) {
-  return (param) => param.in === location;
-}
+        if (input.toLowerCase() === 'false') {
+          return false;
+        } else if (input.toLowerCase() === 'true') {
+          return true;
+        } else {
+          return null;
+        }
+      },
+    };
 
-function identityCoercer(input: any) {
-  return input;
-}
-
-function getCoercer(
-  type: string,
-  strict: boolean,
-  logger: Logger,
-  loggingKey: string,
-  customStrategy: CoercionStrategy
-) {
-  let strategy;
-  if (customStrategy[type] !== undefined) {
-    strategy = customStrategy[type];
-  }
-  if (strategy === undefined && strict) {
-    strategy = STRICT_COERCION_STRATEGIES[type];
-  }
-  if (!strategy) {
-    strategy = COERCION_STRATEGIES[type];
-  }
-  if (strategy === undefined) {
+    if (customStrategy[type] !== undefined) {
+      return (schema, input) => customStrategy[type](input);
+    }
+    if (strict && STRICT_COERCION_STRATEGIES[type] !== undefined) {
+      return STRICT_COERCION_STRATEGIES[type];
+    }
+    if (COERCION_STRATEGIES[type] !== undefined) {
+      return COERCION_STRATEGIES[type];
+    }
     const msg =
       type === undefined
         ? 'No type has been defined'
@@ -344,10 +269,38 @@ function getCoercer(
       loggingKey,
       `${msg}. A default 'identity' strategy has been set.`
     );
-    strategy = identityCoercer;
+    return (schema, input) => input;
   }
 
-  return strategy;
+  // OpenAPI (Swagger) 2.0 has type and format information as direct properties
+  // of the param object. OpenAPI 3.0 has type and format information in a
+  // schema object property. Use a schema value to normalize the change across
+  // both versions so coercer works properly.
+  const paramOrSchema = param.schema || param;
+
+  if (paramOrSchema.type === 'array') {
+    if (!paramOrSchema.items) {
+      throw new Error(
+        `${args.loggingKey}items is a required property with type array`
+      );
+    }
+
+    if (
+      paramOrSchema.items.type === 'array' ||
+      (paramOrSchema.items.schema &&
+        paramOrSchema.items.schema.type === 'array')
+    ) {
+      throw new Error(
+        `${args.loggingKey}nested arrays are not allowed (items was of type array)`
+      );
+    }
+  }
+
+  return getCoercer(paramOrSchema.type).bind(null, paramOrSchema);
+}
+
+function byLocation(location) {
+  return (param) => param.in === location;
 }
 
 function pathsep(format) {
