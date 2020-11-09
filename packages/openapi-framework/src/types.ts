@@ -9,6 +9,7 @@ import {
 import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import { Logger } from 'ts-log';
 import BasePath from './BasePath';
+import * as Ajv from 'ajv';
 export {
   OpenAPIFrameworkArgs,
   OpenAPIFrameworkConstructorArgs,
@@ -82,6 +83,7 @@ interface OpenAPIFrameworkConstructorArgs extends OpenAPIFrameworkArgs {
 interface OpenAPIFrameworkArgs {
   apiDoc: OpenAPIV2.Document | OpenAPIV3.Document | string;
   customFormats?: { [format: string]: (arg: any) => boolean };
+  customKeywords?: { [keywordName: string]: Ajv.KeywordDefinition };
   dependencies?: { [service: string]: any };
   enableObjectCoercion?: boolean;
   errorTransformer?: OpenAPIErrorTransformer;
