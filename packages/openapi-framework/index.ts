@@ -70,6 +70,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   public readonly loggingPrefix;
   public readonly name;
   private customFormats;
+  private customKeywords;
   private dependencies;
   private enableObjectCoercion;
   private errorTransformer;
@@ -151,6 +152,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       extensions: this.apiDoc[`x-${this.name}-schema-extension`],
     });
     this.customFormats = args.customFormats;
+    this.customKeywords = args.customKeywords;
     this.dependencies = args.dependencies;
     this.errorTransformer = args.errorTransformer;
     this.externalSchemas = args.externalSchemas;
@@ -478,6 +480,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                     : undefined,
                   externalSchemas: this.externalSchemas,
                   customFormats: this.customFormats,
+                  customKeywords: this.customKeywords,
                   requestBody: resolveRequestBodyRefs(
                     this,
                     operationDoc.requestBody,

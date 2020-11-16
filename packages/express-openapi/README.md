@@ -33,6 +33,8 @@ and validation.
   * See [Configuring Middleware](#configuring-middleware)
 * Supports custom `format` validators.
   * See [args.customFormats](#argscustomformats)
+* Supports custom `keywords` validators (`openapi-request-validator` only).
+  * See [args.customKeywords](#argscustomkeywords)
 * Supports `collectionFormat` for `formData` `array` parameters.
 * Conforms to the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle).
 * Clean interface.
@@ -68,6 +70,7 @@ https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi
     * [args.app](#argsapp)
     * [args.consumesMiddleware](#argsconsumesmiddleware)
     * [args.customFormats](#argscustomformats)
+    * [args.customKeywords](#argscustomkeywords)
     * [args.dependencies](#argsdependencies)
     * [args.docsPath](#argsdocspath)
     * [args.enableObjectCoercion](#argsenableobjectcoercion)
@@ -521,6 +524,36 @@ initialize({
 ```
 
 See Custom Formats in [jsonschema](https://github.com/tdegrunt/jsonschema#custom-formats).
+
+#### args.customKeywords
+
+|Type|Required|Default Value|Description|
+|----|--------|-------------|-----------|
+|Object|N|null|An object of AJV KeywordDefinitions.|
+
+Each key is the name of a custom keyword. Each value is an AJV keyword definition.
+Asynchronous keywords are not suported!
+
+```javascript
+initialize({
+  /*...*/
+  customKeywords: {
+    'x-custom-keyword': {
+      modifying: false,
+      errors: false,
+      validate: function () {
+        return true;
+      }
+    }
+  }
+  /*...*/
+});
+```
+
+See Custom Keywords in [AJV](https://ajv.js.org/custom.html).
+
+See example [with-customKeywords](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/test/sample-projects/with-customKeywords)
+on how to use custom keywords for type coercion.
 
 #### args.dependencies
 

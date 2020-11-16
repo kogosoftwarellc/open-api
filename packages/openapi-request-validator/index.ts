@@ -13,6 +13,9 @@ export interface OpenAPIRequestValidatorArgs {
   customFormats?: {
     [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition;
   };
+  customKeywords?: {
+    [keywordName: string]: Ajv.KeywordDefinition;
+  };
   externalSchemas?: {
     [index: string]: IJsonSchema;
   };
@@ -140,6 +143,14 @@ export default class OpenAPIRequestValidator
         throw new Error(
           `${loggingKey}args.customFormats properties must be functions`
         );
+      }
+    }
+
+    if (args.customKeywords) {
+      for (const [keywordName, keywordDefinition] of Object.entries(
+        args.customKeywords
+      )) {
+        v.addKeyword(keywordName, keywordDefinition);
       }
     }
 
