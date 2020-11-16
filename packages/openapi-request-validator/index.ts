@@ -21,7 +21,7 @@ export interface OpenAPIRequestValidatorArgs {
   };
   loggingKey?: string;
   logger?: Logger;
-  parameters: OpenAPI.Parameters;
+  parameters?: OpenAPI.Parameters;
   requestBody?: OpenAPIV3.RequestBodyObject;
   schemas?: IJsonSchema[];
   componentSchemas?: IJsonSchema[];
