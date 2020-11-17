@@ -11,7 +11,8 @@
     "combine-coverage": "istanbul-combine packages/*/coverage/coverage*.json",
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
     "lint": "tslint -c tslint.json './packages/**/*.[j,t]s'",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "publish": "lerna publish"
   },
   "repository": {
     "type": "git",
