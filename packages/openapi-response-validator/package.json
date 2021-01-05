@@ -1,6 +1,6 @@
 {
   "name": "openapi-response-validator",
-  "version": "7.0.1",
+  "version": "7.2.1",
   "description": "Validate a response according to an openapi schema.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
