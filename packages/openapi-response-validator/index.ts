@@ -11,17 +11,17 @@ export interface IOpenAPIResponseValidator {
 }
 
 export interface OpenAPIResponseValidatorArgs {
-  customFormats: {
+  customFormats?: {
     [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition;
   };
-  definitions: {
+  definitions?: {
     [definitionName: string]: IJsonSchema;
   };
   components?: OpenAPIV3.ComponentsObject;
-  externalSchemas: {
+  externalSchemas?: {
     [index: string]: IJsonSchema;
   };
-  loggingKey: string;
+  loggingKey?: string;
   responses: {
     [responseCode: string]: {
       schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject;
