@@ -1,6 +1,6 @@
 {
   "name": "openapi-security-handler",
-  "version": "7.0.1",
+  "version": "7.2.2",
   "description": "A library to process OpenAPI security definitions in parallel.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-security-handler#readme",
   "dependencies": {
-    "openapi-types": "^7.0.1"
+    "openapi-types": "^7.2.2"
   }
 }
