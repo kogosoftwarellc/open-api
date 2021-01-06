@@ -69,7 +69,7 @@ export namespace OpenAPIV3 {
   }
 
   export interface PathsObject {
-    [pattern: string]: PathItemObject;
+    [pattern: string]: PathItemObject | undefined;
   }
 
   export interface PathItemObject {
@@ -101,6 +101,10 @@ export namespace OpenAPIV3 {
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
     servers?: ServerObject[];
+
+    // OpenAPI extensions can be accessed using indexing notation
+    // e.g. operationObject['x-amazon-apigateway-integration']
+    [extension: string]: unknown;
   }
 
   export interface ExternalDocumentationObject {
