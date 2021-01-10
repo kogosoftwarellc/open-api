@@ -1,7 +1,16 @@
 /* tslint:disable:no-namespace no-empty-interface */
 export namespace OpenAPI {
-  export type Document = OpenAPIV2.Document | OpenAPIV3.Document;
-  export type Operation = OpenAPIV2.OperationObject | OpenAPIV3.OperationObject;
+  // OpenAPI extensions can be declared using generics
+  // e.g.:
+  // OpenAPI.Document<{
+  //   'x-amazon-apigateway-integration': AWSAPITGatewayDefinition
+  // }>
+  export type Document<T extends {} = {}> =
+    | OpenAPIV2.Document<T>
+    | OpenAPIV3.Document<T>;
+  export type Operation<T extends {} = {}> =
+    | OpenAPIV2.OperationObject<T>
+    | OpenAPIV3.OperationObject<T>;
   export type Parameter =
     | OpenAPIV3.ReferenceObject
     | OpenAPIV3.ParameterObject
@@ -20,11 +29,11 @@ export namespace OpenAPI {
 }
 
 export namespace OpenAPIV3 {
-  export interface Document {
+  export interface Document<T extends {} = {}> {
     openapi: string;
     info: InfoObject;
     servers?: ServerObject[];
-    paths: PathsObject;
+    paths: PathsObject<T>;
     components?: ComponentsObject;
     security?: SecurityRequirementObject[];
     tags?: TagObject[];
@@ -68,27 +77,27 @@ export namespace OpenAPIV3 {
     description?: string;
   }
 
-  export interface PathsObject {
-    [pattern: string]: PathItemObject | undefined;
+  export interface PathsObject<T extends {} = {}> {
+    [pattern: string]: PathItemObject<T> | undefined;
   }
 
-  export interface PathItemObject {
+  export interface PathItemObject<T extends {} = {}> {
     $ref?: string;
     summary?: string;
     description?: string;
-    get?: OperationObject;
-    put?: OperationObject;
-    post?: OperationObject;
-    delete?: OperationObject;
-    options?: OperationObject;
-    head?: OperationObject;
-    patch?: OperationObject;
-    trace?: OperationObject;
+    get?: OperationObject<T>;
+    put?: OperationObject<T>;
+    post?: OperationObject<T>;
+    delete?: OperationObject<T>;
+    options?: OperationObject<T>;
+    head?: OperationObject<T>;
+    patch?: OperationObject<T>;
+    trace?: OperationObject<T>;
     servers?: ServerObject[];
     parameters?: (ReferenceObject | ParameterObject)[];
   }
 
-  export interface OperationObject {
+  export type OperationObject<T extends {} = {}> = {
     tags?: string[];
     summary?: string;
     description?: string;
@@ -101,11 +110,7 @@ export namespace OpenAPIV3 {
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
     servers?: ServerObject[];
-
-    // OpenAPI extensions can be accessed using indexing notation
-    // e.g. operationObject['x-amazon-apigateway-integration']
-    [extension: string]: unknown;
-  }
+  } & T;
 
   export interface ExternalDocumentationObject {
     description?: string;
@@ -337,7 +342,7 @@ export namespace OpenAPIV3 {
 }
 
 export namespace OpenAPIV2 {
-  export interface Document {
+  export interface Document<T extends {} = {}> {
     basePath?: string;
     consumes?: MimeTypes;
     definitions?: DefinitionsObject;
@@ -345,7 +350,7 @@ export namespace OpenAPIV2 {
     host?: string;
     info: InfoObject;
     parameters?: ParametersDefinitionsObject;
-    paths: PathsObject;
+    paths: PathsObject<T>;
     produces?: MimeTypes;
     responses?: ResponsesDefinitionsObject;
     schemes?: string[];
@@ -471,7 +476,7 @@ export namespace OpenAPIV2 {
     examples?: ExampleObject;
   }
 
-  export interface OperationObject {
+  export type OperationObject<T extends {} = {}> = {
     tags?: string[];
     summary?: string;
     description?: string;
@@ -484,8 +489,7 @@ export namespace OpenAPIV2 {
     schemes?: string[];
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
-    [index: string]: any;
-  }
+  } & T;
 
   export interface ResponsesObject {
     [index: string]: Response | any;
@@ -504,21 +508,21 @@ export namespace OpenAPIV2 {
     allowEmptyValue?: boolean;
   }
 
-  export interface PathItemObject {
+  export interface PathItemObject<T extends {} = {}> {
     $ref?: string;
-    get?: OperationObject;
-    put?: OperationObject;
-    post?: OperationObject;
-    del?: OperationObject;
-    delete?: OperationObject;
-    options?: OperationObject;
-    head?: OperationObject;
-    patch?: OperationObject;
+    get?: OperationObject<T>;
+    put?: OperationObject<T>;
+    post?: OperationObject<T>;
+    del?: OperationObject<T>;
+    delete?: OperationObject<T>;
+    options?: OperationObject<T>;
+    head?: OperationObject<T>;
+    patch?: OperationObject<T>;
     parameters?: Parameters;
   }
 
-  export interface PathsObject {
-    [index: string]: PathItemObject | any;
+  export interface PathsObject<T extends {} = {}> {
+    [index: string]: PathItemObject<T> | any;
   }
 
   export interface ParametersDefinitionsObject {
