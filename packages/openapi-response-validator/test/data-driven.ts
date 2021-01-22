@@ -23,7 +23,6 @@ describe(require('../package.json').name, () => {
         fixture.inputStatusCode,
         fixture.inputResponseBody
       );
-      console.log('error', error);
       expect(error).to.eql(fixture.expectedValidationError);
     });
   });
