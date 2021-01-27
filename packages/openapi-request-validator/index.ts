@@ -165,6 +165,11 @@ export default class OpenAPIRequestValidator
       // openapi v3:
       Object.keys(args.componentSchemas).forEach((id) => {
         v.addSchema(args.componentSchemas[id], `#/components/schemas/${id}`);
+        this.addSchemaProperties(
+          v,
+          args.componentSchemas[id],
+          `#/components/schemas/${id}`
+        );
       });
     } else if (args.schemas) {
       if (Array.isArray(args.schemas)) {
@@ -367,6 +372,38 @@ export default class OpenAPIRequestValidator
   public validate(request) {
     console.warn('validate is deprecated, use validateRequest instead.');
     this.validateRequest(request);
+  }
+
+  private addSchemaProperties(v, schema, prefix) {
+    for (const attr in schema) {
+      if (schema.hasOwnProperty(attr)) {
+        switch (attr) {
+          case 'allOf':
+          case 'oneOf':
+          case 'anyOf':
+            for (let i = 0; i < schema[attr].length; i++) {
+              this.addSchemaProperties(
+                v,
+                schema[attr][i],
+                `${prefix}/${attr}/${i}`
+              );
+            }
+            return;
+          case 'items':
+            this.addSchemaProperties(v, schema[attr], `${prefix}/${attr}`);
+            return;
+          case 'properties':
+            for (const propertyId in schema[attr]) {
+              if (schema[attr].hasOwnProperty(propertyId)) {
+                const schemaId = `${prefix}/${attr}/${propertyId}`;
+                v.addSchema(schema[attr][propertyId], schemaId);
+                this.addSchemaProperties(v, schema[attr][propertyId], schemaId);
+              }
+            }
+            return;
+        }
+      }
+    }
   }
 }
 interface RequestBodyValidators {
