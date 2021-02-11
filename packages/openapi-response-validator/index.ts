@@ -212,8 +212,28 @@ function toOpenapiValidationError(
 function recursiveTransformOpenAPIV3Definitions(object) {
   // Transformations //
   // OpenAPIV3 nullable
-  if (object.type && object.nullable === true) {
-    object.type = [object.type, 'null'];
+  if (object.nullable === true) {
+    if (object.enum) {
+      // Enums can not be null with type null
+      object.oneOf = [
+        { type: 'null' },
+        {
+          type: object.type,
+          enum: object.enum,
+        },
+      ];
+      delete object.type;
+      delete object.enum;
+    } else if (object.type) {
+      object.type = [object.type, 'null'];
+    } else if (object.allOf) {
+      object.anyOf = [{ allOf: object.allOf }, { type: 'null' }];
+      delete object.allOf;
+    } else if (object.oneOf || object.anyOf) {
+      const arr: any[] = object.oneOf || object.anyOf;
+      arr.push({ type: 'null' });
+    }
+
     delete object.nullable;
   }
   // Remove writeOnly properties from required array
@@ -228,8 +248,12 @@ function recursiveTransformOpenAPIV3Definitions(object) {
   }
 
   Object.keys(object).forEach((attr) => {
-    if (object[attr] !== null && typeof object[attr] === 'object') {
+    if (typeof object[attr] === 'object' && object[attr] !== null) {
       recursiveTransformOpenAPIV3Definitions(object[attr]);
+    } else if (Array.isArray(object[attr])) {
+      object[attr].forEach((obj) =>
+        recursiveTransformOpenAPIV3Definitions(obj)
+      );
     }
   });
 }
