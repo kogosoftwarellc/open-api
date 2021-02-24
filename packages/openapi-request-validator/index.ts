@@ -29,6 +29,7 @@ export interface OpenAPIRequestValidatorArgs {
     openAPIResponseValidatorValidationError: OpenAPIRequestValidatorError,
     ajvError: Ajv.ErrorObject
   ): any;
+  ajvOptions?: Ajv.Options;
 }
 
 export interface OpenAPIRequestValidatorError {
@@ -101,6 +102,7 @@ export default class OpenAPIRequestValidator
       missingRefs: 'fail',
       // @ts-ignore TODO get Ajv updated to account for logger
       logger: false,
+      ...(args.ajvOptions || {}),
     });
 
     v.removeKeyword('readOnly');
