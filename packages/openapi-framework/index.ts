@@ -458,6 +458,11 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               )
             );
             operationContext.methodParameters = methodParameters;
+            const requestBody = resolveRequestBodyRefs(
+              this,
+              operationDoc.requestBody,
+              this.apiDoc
+            ) as OpenAPIV3.RequestBodyObject;
 
             if (methodParameters.length || operationDoc.requestBody) {
               // defaults, coercion, and parameter validation middleware
@@ -481,11 +486,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   externalSchemas: this.externalSchemas,
                   customFormats: this.customFormats,
                   customKeywords: this.customKeywords,
-                  requestBody: resolveRequestBodyRefs(
-                    this,
-                    operationDoc.requestBody,
-                    this.apiDoc
-                  ) as OpenAPIV3.RequestBodyObject,
+                  requestBody,
                 });
                 operationContext.features.requestValidator = requestValidator;
                 this.logger.debug(
@@ -508,6 +509,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   extensionBase: `x-${this.name}-coercion`,
                   loggingKey: `${this.name}-coercion`,
                   parameters: methodParameters,
+                  requestBody,
                   enableObjectCoercion: this.enableObjectCoercion,
                 });
 
