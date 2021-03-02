@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: koa-openapi sample project
+  version: '3.0.0'
+paths:
+  /test:
+    post:
+      description: Echo back the request body to test type coercion
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: integer
+                isCool:
+                  type: boolean
+                  x-openapi-coercion-strict: true
+      responses:
+        200:
+          description: An echo of the request body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  age:
+                    type: integer
+                  isCool:
+                    type: boolean

@@ -1,4 +1,4 @@
-import { OpenAPI } from 'openapi-types';
+import { OpenAPI, OpenAPIV3 } from 'openapi-types';
 import { dummyLogger, Logger } from 'ts-log';
 
 export interface IOpenAPIRequestCoercer {
@@ -18,6 +18,7 @@ export interface OpenAPIRequestCoercerArgs {
   extensionBase?: string;
   coercionStrategy?: CoercionStrategy;
   parameters: OpenAPI.Parameters;
+  requestBody?: OpenAPIV3.RequestBodyObject;
 }
 
 export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
@@ -79,6 +80,7 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
     });
     this.coerceFormData = buildCoercer({
       params: args.parameters,
+      requestBody: args.requestBody,
       property: 'formData',
       isHeaders: false,
       logger,
@@ -109,18 +111,32 @@ export default class OpenAPIRequestCoercer implements IOpenAPIRequestCoercer {
 }
 
 function buildCoercer(args) {
-  if (!args.params.length) {
+  if (!args.params.length && !args.requestBody) {
     return;
   }
 
   const l = args.isHeaders ? (name) => name.toLowerCase() : (name) => name;
 
-  const coercers = args.params
-    .filter(byLocation(args.property))
-    .reduce((acc, param) => {
-      acc[l(param.name)] = buildCoercerForParam(args, param);
-      return acc;
-    }, {});
+  let properties = args.params.filter(byLocation(args.property));
+
+  if (args.property === 'formData' && args.requestBody) {
+    const openapiv3formData =
+      args.requestBody?.content['application/x-www-form-urlencoded']?.schema
+        ?.properties;
+
+    if (openapiv3formData) {
+      properties = properties.concat(
+        Object.keys(openapiv3formData).map((k) => {
+          return { ...openapiv3formData[k], name: k };
+        })
+      );
+    }
+  }
+
+  const coercers = properties.reduce((acc, param) => {
+    acc[l(param.name)] = buildCoercerForParam(args, param);
+    return acc;
+  }, {});
 
   return (obj) => {
     for (const paramName in obj) {
