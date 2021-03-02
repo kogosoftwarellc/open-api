@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "7.4.0",
+  "version": "7.5.0",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,7 +32,7 @@
     "is-dir": "^1.0.0",
     "js-yaml": "^3.10.0",
     "openapi-default-setter": "^7.2.3",
-    "openapi-request-coercer": "^7.2.3",
+    "openapi-request-coercer": "^7.5.0",
     "openapi-request-validator": "^7.4.0",
     "openapi-response-validator": "^7.4.0",
     "openapi-schema-validator": "^7.2.3",
