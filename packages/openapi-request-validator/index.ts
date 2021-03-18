@@ -642,7 +642,9 @@ function sanitizeReadonlyPropertiesFromRequired(
       .filter((i) => i !== undefined)
       .forEach((value) => {
         const index = schema.required.indexOf(value);
-        schema.required.splice(index, 1);
+        if (index !== -1) {
+          schema.required.splice(index, 1);
+        }
       });
   }
   return schema;
