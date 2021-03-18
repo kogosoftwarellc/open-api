@@ -492,7 +492,7 @@ export namespace OpenAPIV2 {
   } & T;
 
   export interface ResponsesObject {
-    [index: string]: Response | any;
+    [index: string]: Response;
     default?: Response;
   }
 
@@ -522,7 +522,7 @@ export namespace OpenAPIV2 {
   }
 
   export interface PathsObject<T extends {} = {}> {
-    [index: string]: PathItemObject<T> | any;
+    [index: string]: PathItemObject<T>;
   }
 
   export interface ParametersDefinitionsObject {
