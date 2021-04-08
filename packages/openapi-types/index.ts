@@ -81,21 +81,30 @@ export namespace OpenAPIV3 {
     [pattern: string]: PathItemObject<T> | undefined;
   }
 
-  export interface PathItemObject<T extends {} = {}> {
+  // All HTTP methods allowed by OpenAPI 3 spec
+  // See https://swagger.io/specification/#path-item-object
+  // You can use keys or values from it in TypeScript code like this:
+  //     for (const method of Object.values(OpenAPIV3.HttpMethods)) { … }
+  export enum HttpMethods {
+    GET = 'get',
+    PUT = 'put',
+    POST = 'post',
+    DELETE = 'delete',
+    OPTIONS = 'options',
+    HEAD = 'head',
+    PATCH = 'patch',
+    TRACE = 'trace',
+  }
+
+  export type PathItemObject<T extends {} = {}> = {
     $ref?: string;
     summary?: string;
     description?: string;
-    get?: OperationObject<T>;
-    put?: OperationObject<T>;
-    post?: OperationObject<T>;
-    delete?: OperationObject<T>;
-    options?: OperationObject<T>;
-    head?: OperationObject<T>;
-    patch?: OperationObject<T>;
-    trace?: OperationObject<T>;
     servers?: ServerObject[];
     parameters?: (ReferenceObject | ParameterObject)[];
-  }
+  } & {
+    [method in HttpMethods]?: OperationObject<T>;
+  };
 
   export type OperationObject<T extends {} = {}> = {
     tags?: string[];
@@ -508,18 +517,26 @@ export namespace OpenAPIV2 {
     allowEmptyValue?: boolean;
   }
 
-  export interface PathItemObject<T extends {} = {}> {
-    $ref?: string;
-    get?: OperationObject<T>;
-    put?: OperationObject<T>;
-    post?: OperationObject<T>;
-    del?: OperationObject<T>;
-    delete?: OperationObject<T>;
-    options?: OperationObject<T>;
-    head?: OperationObject<T>;
-    patch?: OperationObject<T>;
-    parameters?: Parameters;
+  // All HTTP methods allowed by OpenAPI 2 spec
+  // See https://swagger.io/specification/v2#path-item-object
+  // You can use keys or values from it in TypeScript code like this:
+  //     for (const method of Object.values(OpenAPIV2.HttpMethods)) { … }
+  export enum HttpMethods {
+    GET = 'get',
+    PUT = 'put',
+    POST = 'post',
+    DELETE = 'delete',
+    OPTIONS = 'options',
+    HEAD = 'head',
+    PATCH = 'patch',
   }
+
+  export type PathItemObject<T extends {} = {}> = {
+    $ref?: string;
+    parameters?: Parameters;
+  } & {
+    [method in HttpMethods]?: OperationObject<T>;
+  };
 
   export interface PathsObject<T extends {} = {}> {
     [index: string]: PathItemObject<T> | any;
