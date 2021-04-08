@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "7.5.0",
+  "version": "8.0.0",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,17 +27,17 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-framework#readme",
   "dependencies": {
     "difunc": "0.0.4",
-    "fs-routes": "^7.0.1",
+    "fs-routes": "^8.0.0",
     "glob": "*",
     "is-dir": "^1.0.0",
     "js-yaml": "^3.10.0",
-    "openapi-default-setter": "^7.2.3",
-    "openapi-request-coercer": "^7.5.0",
-    "openapi-request-validator": "^7.4.0",
-    "openapi-response-validator": "^7.4.0",
-    "openapi-schema-validator": "^7.2.3",
-    "openapi-security-handler": "^7.2.3",
-    "openapi-types": "^7.2.3",
+    "openapi-default-setter": "^8.0.0",
+    "openapi-request-coercer": "^8.0.0",
+    "openapi-request-validator": "^8.0.0",
+    "openapi-response-validator": "^8.0.0",
+    "openapi-schema-validator": "^8.0.0",
+    "openapi-security-handler": "^8.0.0",
+    "openapi-types": "^8.0.0",
     "ts-log": "^2.1.4"
   }
 }
