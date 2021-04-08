@@ -10,7 +10,9 @@ export interface OpenAPISecurityHandlerArgs {
     | OpenAPIV2.SecurityRequirementObject
     | OpenAPIV3.SecurityRequirementObject
   )[];
-  securityDefinitions: OpenAPIV2.SecurityDefinitionsObject;
+  securityDefinitions:
+    | OpenAPIV2.SecurityDefinitionsObject
+    | { [index: string]: OpenAPIV3.SecuritySchemeObject };
   securityHandlers: SecurityHandlers;
 }
 
@@ -23,11 +25,11 @@ export type SecurityScope = string;
 export type SecurityHandler = (
   req: OpenAPI.Request,
   scopes: SecurityScope[],
-  definition: OpenAPIV2.SecuritySchemeObject
+  definition: OpenAPIV2.SecuritySchemeObject | OpenAPIV3.SecuritySchemeObject
 ) => Promise<boolean> | boolean;
 
 interface SecuritySet {
-  definition: OpenAPIV2.SecuritySchemeObject;
+  definition: OpenAPIV2.SecuritySchemeObject | OpenAPIV3.SecuritySchemeObject;
   handler: SecurityHandler;
   scopes: string[];
 }
