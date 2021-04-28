@@ -1,5 +1,6 @@
-import * as Ajv from 'ajv';
-const openapi2Schema = require('swagger-schema-official/schema.json');
+import ajv, { ValidateFunction, ErrorObject } from 'ajv';
+import addFormats from 'ajv-formats';
+const openapi2Schema = require('./resources/openapi-2.0.json');
 const openapi3Schema = require('./resources/openapi-3.0.json');
 const merge = require('lodash.merge');
 import { IJsonSchema, OpenAPI } from 'openapi-types';
@@ -18,14 +19,14 @@ export interface OpenAPISchemaValidatorArgs {
 }
 
 export interface OpenAPISchemaValidatorResult {
-  errors: Ajv.ErrorObject[];
+  errors: ErrorObject[];
 }
 
 export default class OpenAPISchemaValidator implements IOpenAPISchemaValidator {
-  private validator: Ajv.ValidateFunction;
+  private validator: ValidateFunction;
   constructor(args: OpenAPISchemaValidatorArgs) {
-    const v = new Ajv({ schemaId: 'auto', allErrors: true });
-    v.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+    const v = new ajv({ allErrors: true, strict: false });
+    addFormats(v);
     const version = (args && parseInt(String(args.version), 10)) || 2;
     const schema = merge(
       {},

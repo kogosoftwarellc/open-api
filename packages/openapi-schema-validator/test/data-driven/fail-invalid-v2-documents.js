@@ -13,9 +13,9 @@ module.exports = {
 
   errors: [
     {
-      dataPath: '',
+      instancePath: '',
       keyword: 'required',
-      message: "should have required property 'swagger'",
+      message: "must have required property 'swagger'",
       params: {
         missingProperty: 'swagger',
       },

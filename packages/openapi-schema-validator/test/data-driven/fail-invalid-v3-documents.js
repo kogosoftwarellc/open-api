@@ -169,22 +169,22 @@ module.exports = {
 
   errors: [
     {
-      dataPath: '',
-      keyword: 'additionalProperties',
-      message: 'should NOT have additional properties',
-      params: {
-        additionalProperty: 'swagger',
-      },
-      schemaPath: '#/additionalProperties',
-    },
-    {
-      dataPath: '',
+      instancePath: '',
       keyword: 'required',
-      message: "should have required property 'openapi'",
+      message: "must have required property 'openapi'",
       params: {
         missingProperty: 'openapi',
       },
       schemaPath: '#/required',
+    },
+    {
+      instancePath: '',
+      keyword: 'additionalProperties',
+      message: 'must NOT have additional properties',
+      params: {
+        additionalProperty: 'swagger',
+      },
+      schemaPath: '#/additionalProperties',
     },
   ],
 };
