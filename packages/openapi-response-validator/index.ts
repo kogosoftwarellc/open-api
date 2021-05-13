@@ -37,6 +37,8 @@ export interface OpenAPIResponseValidatorArgs {
     openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
     ajvError: ErrorObject
   ): any;
+
+  ajvOptions?: Ajv.Options;
 }
 
 export interface OpenAPIResponseValidatorError {
@@ -82,6 +84,7 @@ export default class OpenAPIResponseValidator
       strict: false,
       // @ts-ignore TODO get Ajv updated to account for logger
       logger: false,
+      ...(args.ajvOptions || {}),
     });
 
     this.errorMapper = errorTransformer
