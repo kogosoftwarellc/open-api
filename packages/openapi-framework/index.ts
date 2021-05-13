@@ -1,3 +1,4 @@
+import * as Ajv from 'ajv';
 import fsRoutes from 'fs-routes';
 import OpenAPIDefaultSetter from 'openapi-default-setter';
 import OpenAPIRequestCoercer from 'openapi-request-coercer';
@@ -86,6 +87,8 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   private validateApiDoc;
   private validator;
   private logger: Logger;
+  private requestAjvOptions: Ajv.Options;
+  private responseAjvOptions: Ajv.Options;
 
   constructor(protected args = {} as OpenAPIFrameworkConstructorArgs) {
     this.name = args.name;
@@ -183,6 +186,9 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
         );
       }
     }
+
+    this.requestAjvOptions = args.requestAjvOptions;
+    this.responseAjvOptions = args.responseAjvOptions;
   }
 
   public initialize(visitor: OpenAPIFrameworkVisitor) {
@@ -443,6 +449,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   route
                 ),
                 customFormats: this.customFormats,
+                ajvOptions: this.responseAjvOptions,
               });
 
               operationContext.features.responseValidator = responseValidator;
@@ -487,6 +494,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   customFormats: this.customFormats,
                   customKeywords: this.customKeywords,
                   requestBody,
+                  ajvOptions: this.requestAjvOptions,
                 });
                 operationContext.features.requestValidator = requestValidator;
                 this.logger.debug(

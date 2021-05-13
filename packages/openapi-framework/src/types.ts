@@ -97,6 +97,8 @@ interface OpenAPIFrameworkArgs {
   securityHandlers?: SecurityHandlers; // TODO define the handlers more here
   validateApiDoc?: boolean;
   logger?: Logger;
+  requestAjvOptions?: Ajv.Options;
+  responseAjvOptions?: Ajv.Options;
 }
 
 export interface OpenAPIFrameworkAPIContext {
