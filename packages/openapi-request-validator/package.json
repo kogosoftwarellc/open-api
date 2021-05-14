@@ -1,6 +1,6 @@
 {
   "name": "openapi-request-validator",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "Validate request properties against an OpenAPI spec.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,8 +28,8 @@
   "dependencies": {
     "ajv": "^6.5.4",
     "content-type": "^1.0.4",
-    "openapi-jsonschema-parameters": "^8.0.0",
-    "openapi-types": "^8.0.0",
+    "openapi-jsonschema-parameters": "^9.0.0",
+    "openapi-types": "^9.0.0",
     "ts-log": "^2.1.4"
   }
 }

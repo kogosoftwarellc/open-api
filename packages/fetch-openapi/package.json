@@ -1,6 +1,6 @@
 {
   "name": "fetch-openapi",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "Client SDK generator for openapi documents using fetch.",
   "main": "index.js",
   "bin": {
