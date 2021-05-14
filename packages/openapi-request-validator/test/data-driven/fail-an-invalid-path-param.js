@@ -23,7 +23,7 @@ module.exports = {
       {
         path: 'path1',
         errorCode: 'pattern.openapi.requestValidation',
-        message: 'should match pattern "^a$"',
+        message: 'must match pattern "^a$"',
         location: 'path',
       },
     ],

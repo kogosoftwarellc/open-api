@@ -26,7 +26,7 @@ it('should use direct references in parameter', function (done) {
           {
             path: 'name',
             errorCode: 'required.openapi.requestValidation',
-            message: "should have required property 'name'",
+            message: "must have required property 'name'",
             location: 'body',
           },
         ],
@@ -47,7 +47,7 @@ it('should use external references through local schema definition', function (d
           {
             path: 'name',
             errorCode: 'required.openapi.requestValidation',
-            message: "should have required property 'name'",
+            message: "must have required property 'name'",
             location: 'body',
           },
         ],
@@ -68,7 +68,7 @@ it('should use external references through local parameters definition', functio
           {
             path: 'name',
             errorCode: 'required.openapi.requestValidation',
-            message: "should have required property 'name'",
+            message: "must have required property 'name'",
             location: 'body',
           },
         ],

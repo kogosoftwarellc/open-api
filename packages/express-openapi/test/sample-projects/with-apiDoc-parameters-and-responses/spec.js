@@ -17,13 +17,13 @@ it('should use parameter references', function (done) {
           {
             path: 'boo',
             errorCode: 'required.openapi.requestValidation',
-            message: "should have required property 'boo'",
+            message: "must have required property 'boo'",
             location: 'query',
           },
           {
             path: 'foo',
             errorCode: 'required.openapi.requestValidation',
-            message: "should have required property 'foo'",
+            message: "must have required property 'foo'",
             location: 'query',
           },
         ],

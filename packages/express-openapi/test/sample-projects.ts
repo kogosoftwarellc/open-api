@@ -11,7 +11,7 @@ describe(require('../package.json').name + ' sample-projects', () => {
         {
           errorCode: 'type.openapi.requestValidation',
           location: 'path',
-          message: 'should be integer',
+          message: 'must be integer',
           path: 'id',
         },
       ],

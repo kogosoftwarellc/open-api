@@ -1,4 +1,11 @@
-import * as Ajv from 'ajv';
+import Ajv, {
+  FormatDefinition,
+  Format,
+  ValidateFunction,
+  ErrorObject,
+  KeywordDefinition,
+  Options,
+} from 'ajv';
 import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
 import { IJsonSchema, OpenAPI, OpenAPIV3 } from 'openapi-types';
 import { dummyLogger, Logger } from 'ts-log';
@@ -11,10 +18,10 @@ export interface IOpenAPIRequestValidator {
 
 export interface OpenAPIRequestValidatorArgs {
   customFormats?: {
-    [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition;
+    [formatName: string]: Format | FormatDefinition<string | number>;
   };
   customKeywords?: {
-    [keywordName: string]: Ajv.KeywordDefinition;
+    [keywordName: string]: KeywordDefinition;
   };
   externalSchemas?: {
     [index: string]: IJsonSchema;
@@ -27,9 +34,9 @@ export interface OpenAPIRequestValidatorArgs {
   componentSchemas?: IJsonSchema[];
   errorTransformer?(
     openAPIResponseValidatorValidationError: OpenAPIRequestValidatorError,
-    ajvError: Ajv.ErrorObject
+    ajvError: ErrorObject
   ): any;
-  ajvOptions?: Ajv.Options;
+  ajvOptions?: Options;
 }
 
 export interface OpenAPIRequestValidatorError {
@@ -43,17 +50,17 @@ export interface OpenAPIRequestValidatorError {
 export default class OpenAPIRequestValidator
   implements IOpenAPIRequestValidator {
   private bodySchema: IJsonSchema;
-  private errorMapper: (ajvError: Ajv.ErrorObject) => any;
+  private errorMapper: (ajvError: ErrorObject) => any;
   private isBodyRequired: boolean;
   private logger: Logger = dummyLogger;
   private loggingKey: string = '';
   private requestBody: OpenAPIV3.RequestBodyObject;
   private requestBodyValidators: RequestBodyValidators = {};
-  private validateBody: Ajv.ValidateFunction;
-  private validateFormData: Ajv.ValidateFunction;
-  private validateHeaders: Ajv.ValidateFunction;
-  private validatePath: Ajv.ValidateFunction;
-  private validateQuery: Ajv.ValidateFunction;
+  private validateBody: ValidateFunction;
+  private validateFormData: ValidateFunction;
+  private validateHeaders: ValidateFunction;
+  private validatePath: ValidateFunction;
+  private validateQuery: ValidateFunction;
 
   constructor(args: OpenAPIRequestValidatorArgs) {
     const loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
@@ -98,29 +105,28 @@ export default class OpenAPIRequestValidator
     const v = new Ajv({
       useDefaults: true,
       allErrors: true,
-      unknownFormats: 'ignore',
-      missingRefs: 'fail',
+      strict: false,
       // @ts-ignore TODO get Ajv updated to account for logger
       logger: false,
       ...(args.ajvOptions || {}),
     });
 
     v.removeKeyword('readOnly');
-    v.addKeyword('readOnly', {
+    v.addKeyword({
+      keyword: 'readOnly',
       modifying: true,
       compile: (sch) => {
         if (sch) {
-          return function validate(data, path, obj, propName) {
-            const isValid = !(sch === true && data != null);
+          return function validate(data, dataCtx) {
             (validate as any).errors = [
               {
                 keyword: 'readOnly',
-                dataPath: path,
+                instancePath: dataCtx.instancePath,
                 message: 'is read-only',
-                params: { readOnly: propName },
+                params: { readOnly: dataCtx.parentDataProperty },
               },
             ];
-            return isValid;
+            return !(sch === true && data !== null);
           };
         }
         return () => true;
@@ -152,7 +158,10 @@ export default class OpenAPIRequestValidator
       for (const [keywordName, keywordDefinition] of Object.entries(
         args.customKeywords
       )) {
-        v.addKeyword(keywordName, keywordDefinition);
+        v.addKeyword({
+          keyword: keywordName,
+          ...keywordDefinition,
+        });
       }
     }
 
@@ -191,7 +200,9 @@ export default class OpenAPIRequestValidator
               definitions[localSchemaPath[2]] = schema;
             }
 
-            v.addSchema(schema, id);
+            // backwards compatibility with json-schema-draft-04
+            delete schema.id;
+            v.addSchema({ $id: id, ...schema }, id);
           } else {
             this.logger.warn(loggingKey, 'igorning schema without id property');
           }
@@ -286,7 +297,7 @@ export default class OpenAPIRequestValidator
         } else if (this.isBodyRequired) {
           errors.push({
             keyword: 'required',
-            dataPath: '.body',
+            instancePath: '/body',
             params: {},
             message: 'media type is not specified',
             location: 'body',
@@ -409,7 +420,7 @@ export default class OpenAPIRequestValidator
   }
 }
 interface RequestBodyValidators {
-  [mediaType: string]: Ajv.ValidateFunction;
+  [mediaType: string]: ValidateFunction;
 }
 
 function byRequiredBodyParameters<T>(param: T): boolean {
@@ -503,7 +514,7 @@ function lowercasedHeaders(headersSchema) {
 
 function toOpenapiValidationError(error): OpenAPIRequestValidatorError {
   const validationError: OpenAPIRequestValidatorError = {
-    path: 'instance' + error.dataPath,
+    path: 'instance' + error.instancePath,
     errorCode: `${error.keyword}.openapi.requestValidation`,
     message: error.message,
     location: error.location,
@@ -515,13 +526,14 @@ function toOpenapiValidationError(error): OpenAPIRequestValidatorError {
   }
 
   if (error.params.missingProperty) {
-    validationError.path += '.' + error.params.missingProperty;
+    validationError.path += '/' + error.params.missingProperty;
   }
 
   validationError.path = validationError.path.replace(
-    error.location === 'body' ? /^instance\.body\.?/ : /^instance\.?/,
+    error.location === 'body' ? /^instance\/body\/?/ : /^instance\/?/,
     ''
   );
+  validationError.path = validationError.path.replace(/\//g, '.');
 
   if (!validationError.path) {
     delete validationError.path;
@@ -540,7 +552,6 @@ function stripBodyInfo(error) {
     }
 
     error.message = error.message.replace(/^instance\.body\./, 'instance.');
-    error.message = error.message.replace(/^instance\.body /, 'instance ');
   }
 
   return error;
@@ -559,7 +570,7 @@ function resolveAndSanitizeRequestBodySchema(
     | OpenAPIV3.ReferenceObject
     | OpenAPIV3.NonArraySchemaObject
     | OpenAPIV3.ArraySchemaObject,
-  v: Ajv.Ajv
+  v: Ajv
 ) {
   let resolved;
   let copied;

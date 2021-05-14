@@ -19,7 +19,7 @@ module.exports = {
     errors: [
       {
         errorCode: 'type.openapi.requestValidation',
-        message: 'should be array',
+        message: 'must be array',
         location: 'body',
       },
     ],
