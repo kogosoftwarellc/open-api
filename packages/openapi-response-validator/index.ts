@@ -1,4 +1,9 @@
-import * as Ajv from 'ajv';
+import Ajv, {
+  FormatDefinition,
+  Format,
+  ErrorObject,
+  ValidateFunction,
+} from 'ajv';
 import { IJsonSchema, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
@@ -12,7 +17,7 @@ export interface IOpenAPIResponseValidator {
 
 export interface OpenAPIResponseValidatorArgs {
   customFormats?: {
-    [formatName: string]: Ajv.FormatValidator | Ajv.FormatDefinition;
+    [formatName: string]: Format | FormatDefinition<string | number>;
   };
   definitions?: {
     [definitionName: string]: IJsonSchema;
@@ -30,7 +35,7 @@ export interface OpenAPIResponseValidatorArgs {
 
   errorTransformer?(
     openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
-    ajvError: Ajv.ErrorObject
+    ajvError: ErrorObject
   ): any;
 }
 
@@ -47,9 +52,9 @@ export interface OpenAPIResponseValidatorValidationError {
 
 export default class OpenAPIResponseValidator
   implements IOpenAPIResponseValidator {
-  private errorMapper: (ajvError: Ajv.ErrorObject) => any;
+  private errorMapper: (ajvError: ErrorObject) => any;
   private validators: {
-    [responseCode: string]: Ajv.ValidateFunction;
+    [responseCode: string]: ValidateFunction;
   };
 
   constructor(args: OpenAPIResponseValidatorArgs) {
@@ -74,8 +79,7 @@ export default class OpenAPIResponseValidator
     const v = new Ajv({
       useDefaults: true,
       allErrors: true,
-      unknownFormats: 'ignore',
-      missingRefs: 'fail',
+      strict: false,
       // @ts-ignore TODO get Ajv updated to account for logger
       logger: false,
     });
@@ -188,21 +192,21 @@ function getSchemas(responses, definitions, components) {
   return schemas;
 }
 
-function makeErrorMapper(mapper): (ajvError: Ajv.ErrorObject) => any {
+function makeErrorMapper(mapper): (ajvError: ErrorObject) => any {
   return (ajvError) => mapper(toOpenapiValidationError(ajvError), ajvError);
 }
 
 function toOpenapiValidationError(
-  error: Ajv.ErrorObject
+  error: ErrorObject
 ): OpenAPIResponseValidatorError {
   const validationError = {
-    path: `instance${error.dataPath}`,
+    path: `instance${error.instancePath}`,
     errorCode: `${error.keyword}.openapi.responseValidation`,
     message: error.message,
   };
 
   validationError.path = validationError.path.replace(
-    /^instance\.(?:response\.)?/,
+    /^instance\/(response\/)?/,
     ''
   );
 
