@@ -501,7 +501,7 @@ export namespace OpenAPIV2 {
   } & T;
 
   export interface ResponsesObject {
-    [index: string]: Response;
+    [index: string]: Response | undefined;
     default?: Response;
   }
 
