@@ -28,7 +28,7 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'format.openapi.requestValidation',
-        message: 'should match format "foo"',
+        message: 'must match format "foo"',
         location: 'query',
       },
     ],

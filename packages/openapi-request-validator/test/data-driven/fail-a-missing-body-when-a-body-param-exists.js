@@ -10,6 +10,16 @@ module.exports = {
         },
       },
     ],
+    schemas: [
+      {
+        id: '#/definitions/TestBody',
+        properties: {
+          foo: {
+            type: 'string',
+          },
+        },
+      },
+    ],
   },
   request: {},
   expectedError: {

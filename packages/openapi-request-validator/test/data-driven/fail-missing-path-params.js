@@ -19,7 +19,7 @@ module.exports = {
       {
         path: 'path1',
         errorCode: 'required.openapi.requestValidation',
-        message: "should have required property 'path1'",
+        message: "must have required property 'path1'",
         location: 'path',
       },
     ],

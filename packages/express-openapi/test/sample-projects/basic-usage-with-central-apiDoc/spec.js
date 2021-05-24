@@ -34,7 +34,7 @@ it('should validate input', function (done) {
           {
             errorCode: 'pattern.openapi.requestValidation',
             location: 'query',
-            message: 'should match pattern "^fred$"',
+            message: 'must match pattern "^fred$"',
             path: 'name',
           },
         ],
@@ -88,7 +88,7 @@ it('should dereference #/definitions/ for validation', function (done) {
           {
             errorCode: 'required.openapi.requestValidation',
             location: 'body',
-            message: "should have required property 'name'",
+            message: "must have required property 'name'",
             path: 'name',
           },
         ],

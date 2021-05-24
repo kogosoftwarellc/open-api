@@ -46,7 +46,7 @@ module.exports = {
     status: 400,
     errors: [
       {
-        path: '[0].foo',
+        path: '0.foo',
         errorCode: 'readOnly.openapi.requestValidation',
         message: 'is read-only',
         location: 'body',

@@ -58,13 +58,13 @@ module.exports = {
       {
         path: 'test1',
         errorCode: 'required.openapi.requestValidation',
-        message: "should have required property 'test1'",
+        message: "must have required property 'test1'",
         location: 'body',
       },
       {
         path: 'test2',
         errorCode: 'required.openapi.requestValidation',
-        message: "should have required property 'test2'",
+        message: "must have required property 'test2'",
         location: 'body',
       },
     ],

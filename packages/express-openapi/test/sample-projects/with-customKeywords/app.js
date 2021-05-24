@@ -16,21 +16,13 @@ openapi.initialize({
     'x-coerce': {
       modifying: true,
       errors: false,
-      validate: function (
-        keywordData,
-        data,
-        parentSchema,
-        dataPath,
-        parentData,
-        parentDataProperty,
-        rootData
-      ) {
+      validate: function (keywordData, data, parentSchema, dataCtx) {
         if (keywordData === 'Date') {
           const date = new Date(parseInt(data, 10));
           if (isNaN(date.getTime())) {
             return false;
           }
-          parentData[parentDataProperty] = date;
+          dataCtx.parentData[dataCtx.parentDataProperty] = date;
         }
         return true;
       },

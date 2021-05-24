@@ -36,7 +36,7 @@ module.exports = function(request) {
         {
           errorCode: 'pattern.openapi.requestValidation',
           location: 'query',
-          message: 'should match pattern \"^fred$\"',
+          message: 'must match pattern \"^fred$\"',
           path: 'name'
         }
       ], status: 400}, done);
@@ -83,7 +83,7 @@ module.exports = function(request) {
         {
           errorCode: 'required.openapi.requestValidation',
           location: 'body',
-          message: 'should have required property \'name\'',
+          message: 'must have required property \'name\'',
           path: 'name'
         }
       ], status: 400}, done);
