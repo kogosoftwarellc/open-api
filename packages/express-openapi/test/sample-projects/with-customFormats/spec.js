@@ -42,7 +42,7 @@ describe('response validation', function () {
           errors: [
             {
               errorCode: 'format.openapi.responseValidation',
-              message: 'should match format "foo"',
+              message: 'must match format "foo"',
               path: 'name',
             },
           ],

@@ -35,7 +35,7 @@ module.exports = {
       {
         path: 'foo',
         errorCode: 'type.openapi.responseValidation',
-        message: 'should be string',
+        message: 'must be string',
       },
     ],
   },
