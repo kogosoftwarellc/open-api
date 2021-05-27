@@ -1,6 +1,6 @@
 {
   "name": "openapi-framework",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "An OpenAPI framework for any web framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,8 +33,8 @@
     "js-yaml": "^3.10.0",
     "openapi-default-setter": "^9.0.0",
     "openapi-request-coercer": "^9.0.0",
-    "openapi-request-validator": "^9.0.0",
-    "openapi-response-validator": "^9.0.0",
+    "openapi-request-validator": "^9.0.1",
+    "openapi-response-validator": "^9.0.1",
     "openapi-schema-validator": "^9.0.0",
     "openapi-security-handler": "^9.0.0",
     "openapi-types": "^9.0.0",
