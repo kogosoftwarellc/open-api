@@ -1,4 +1,4 @@
-import { ErrorObject, FormatDefinition, FormatValidator } from 'ajv';
+import { ErrorObject, FormatDefinition, Format } from 'ajv';
 import { Application, ErrorRequestHandler, RequestHandler } from 'express';
 import OpenAPIFramework, {
   BasePath,
