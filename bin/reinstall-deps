@@ -3,6 +3,7 @@
 packagesDir="$(dirname $(dirname $0))/packages"
 
 for package in `ls $packagesDir`;do
-  cd "$packagesDir/$package"
+  pushd "$packagesDir/$package" > /dev/null
   npm ci
+  popd > /dev/null
 done
