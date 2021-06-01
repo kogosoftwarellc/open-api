@@ -1,6 +1,6 @@
 {
   "name": "restify-openapi",
-  "version": "9.0.0",
+  "version": "9.0.3",
   "description": "An unopinionated OpenAPI framework for restify",
   "scripts": {
     "cover": "true",
