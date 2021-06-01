@@ -1,0 +1,8 @@
+#!/bin/bash
+
+packagesDir="$(dirname $(dirname $0))/packages"
+
+for package in `ls $packagesDir`;do
+  cd "$packagesDir/$package"
+  npm ci
+done
