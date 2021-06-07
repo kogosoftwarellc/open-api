@@ -77,8 +77,8 @@ export namespace OpenAPIV3 {
     description?: string;
   }
 
-  export interface PathsObject<T extends {} = {}> {
-    [pattern: string]: PathItemObject<T> | undefined;
+  export interface PathsObject<T extends {} = {}, P extends {} = {}> {
+    [pattern: string]: (PathItemObject<T> & P) | undefined;
   }
 
   // All HTTP methods allowed by OpenAPI 3 spec
