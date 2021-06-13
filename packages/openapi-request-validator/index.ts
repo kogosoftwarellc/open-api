@@ -37,6 +37,7 @@ export interface OpenAPIRequestValidatorArgs {
     ajvError: ErrorObject
   ): any;
   ajvOptions?: Options;
+  enableHeadersLowercase?: boolean;
 }
 
 export interface OpenAPIRequestValidatorError {
@@ -61,6 +62,7 @@ export default class OpenAPIRequestValidator
   private validateHeaders: ValidateFunction;
   private validatePath: ValidateFunction;
   private validateQuery: ValidateFunction;
+  private enableHeadersLowercase: boolean = true;
 
   constructor(args: OpenAPIRequestValidatorArgs) {
     const loggingKey = args && args.loggingKey ? args.loggingKey + ': ' : '';
@@ -71,6 +73,10 @@ export default class OpenAPIRequestValidator
 
     if (args.logger) {
       this.logger = args.logger;
+    }
+
+    if (args.hasOwnProperty('enableHeadersLowercase')) {
+      this.enableHeadersLowercase = args.enableHeadersLowercase;
     }
 
     const errorTransformer =
@@ -90,7 +96,10 @@ export default class OpenAPIRequestValidator
       if (Array.isArray(args.parameters)) {
         const schemas = convertParametersToJSONSchema(args.parameters);
         bodySchema = schemas.body;
-        headersSchema = lowercasedHeaders(schemas.headers);
+        headersSchema = lowercasedHeaders(
+          schemas.headers,
+          this.enableHeadersLowercase
+        );
         formDataSchema = schemas.formData;
         pathSchema = schemas.path;
         querySchema = schemas.query;
@@ -344,7 +353,12 @@ export default class OpenAPIRequestValidator
 
     if (this.validateHeaders) {
       if (
-        !this.validateHeaders(lowercaseRequestHeaders(request.headers || {}))
+        !this.validateHeaders(
+          lowercaseRequestHeaders(
+            request.headers || {},
+            this.enableHeadersLowercase
+          )
+        )
       ) {
         errors.push.apply(
           errors,
@@ -485,16 +499,22 @@ function getSchemaForMediaType(
   return match;
 }
 
-function lowercaseRequestHeaders(headers) {
-  const lowerCasedHeaders = {};
-  Object.keys(headers).forEach((header) => {
-    lowerCasedHeaders[header.toLowerCase()] = headers[header];
-  });
-  return lowerCasedHeaders;
+function lowercaseRequestHeaders(headers, enableHeadersLowercase: boolean) {
+  if (enableHeadersLowercase) {
+    const lowerCasedHeaders = {};
+
+    Object.keys(headers).forEach((header) => {
+      lowerCasedHeaders[header.toLowerCase()] = headers[header];
+    });
+
+    return lowerCasedHeaders;
+  } else {
+    return headers;
+  }
 }
 
-function lowercasedHeaders(headersSchema) {
-  if (headersSchema) {
+function lowercasedHeaders(headersSchema, enableHeadersLowercase: boolean) {
+  if (headersSchema && enableHeadersLowercase) {
     const properties = headersSchema.properties;
     Object.keys(properties).forEach((header) => {
       const property = properties[header];
