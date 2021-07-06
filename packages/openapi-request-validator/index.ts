@@ -6,6 +6,7 @@ import Ajv, {
   KeywordDefinition,
   Options,
 } from 'ajv';
+import addFormats from 'ajv-formats';
 import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
 import { IJsonSchema, OpenAPI, OpenAPIV3 } from 'openapi-types';
 import { dummyLogger, Logger } from 'ts-log';
@@ -110,6 +111,7 @@ export default class OpenAPIRequestValidator
       logger: false,
       ...(args.ajvOptions || {}),
     });
+    addFormats(v);
 
     v.removeKeyword('readOnly');
     v.addKeyword({
