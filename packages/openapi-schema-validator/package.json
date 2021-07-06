@@ -1,6 +1,6 @@
 {
   "name": "openapi-schema-validator",
-  "version": "9.0.3",
+  "version": "9.1.0",
   "description": "A validator for OpenAPI documents.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -29,6 +29,6 @@
     "ajv": "^8.1.0",
     "ajv-formats": "^2.0.2",
     "lodash.merge": "^4.6.1",
-    "openapi-types": "^9.0.3"
+    "openapi-types": "^9.1.0"
   }
 }
