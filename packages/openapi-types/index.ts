@@ -114,7 +114,7 @@ export namespace OpenAPIV3 {
     operationId?: string;
     parameters?: (ReferenceObject | ParameterObject)[];
     requestBody?: ReferenceObject | RequestBodyObject;
-    responses?: ResponsesObject;
+    responses: ResponsesObject;
     callbacks?: { [callback: string]: ReferenceObject | CallbackObject };
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
