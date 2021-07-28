@@ -1,6 +1,6 @@
 {
   "name": "openapi-default-setter",
-  "version": "9.0.3",
+  "version": "9.1.0",
   "description": "Sets default values in request properties according to defaults defined in openapi parameter lists.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-default-setter#readme",
   "dependencies": {
-    "openapi-types": "^9.0.3"
+    "openapi-types": "^9.1.0"
   }
 }

@@ -77,8 +77,8 @@ export namespace OpenAPIV3 {
     description?: string;
   }
 
-  export interface PathsObject<T extends {} = {}> {
-    [pattern: string]: PathItemObject<T> | undefined;
+  export interface PathsObject<T extends {} = {}, P extends {} = {}> {
+    [pattern: string]: (PathItemObject<T> & P) | undefined;
   }
 
   // All HTTP methods allowed by OpenAPI 3 spec
@@ -114,7 +114,7 @@ export namespace OpenAPIV3 {
     operationId?: string;
     parameters?: (ReferenceObject | ParameterObject)[];
     requestBody?: ReferenceObject | RequestBodyObject;
-    responses?: ResponsesObject;
+    responses: ResponsesObject;
     callbacks?: { [callback: string]: ReferenceObject | CallbackObject };
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
@@ -501,7 +501,7 @@ export namespace OpenAPIV2 {
   } & T;
 
   export interface ResponsesObject {
-    [index: string]: Response;
+    [index: string]: Response | undefined;
     default?: Response;
   }
 
