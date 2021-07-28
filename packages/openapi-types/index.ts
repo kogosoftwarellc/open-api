@@ -671,4 +671,5 @@ export interface IJsonSchema {
   anyOf?: IJsonSchema[];
   oneOf?: IJsonSchema[];
   not?: IJsonSchema;
+  $ref?: string;
 }
