@@ -147,7 +147,7 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
         }
 
         if (operationCtx.features.securityHandler) {
-          middleware.push(
+          middleware.unshift(
             createSecurityMiddleware(operationCtx.features.securityHandler)
           );
         }
