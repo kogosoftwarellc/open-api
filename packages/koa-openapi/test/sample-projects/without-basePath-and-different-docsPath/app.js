@@ -25,6 +25,8 @@ app.use(bodyParser());
 openapi.initialize({
   apiDoc: require('./api-doc.js'),
   router,
+  docsPath: '/foo-docs',
+  // we could just pass in "api-routes" if process.cwd() was set to this directory.
   paths: path.resolve(__dirname, 'api-routes'),
 });
 
