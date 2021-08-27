@@ -806,7 +806,7 @@ export namespace OpenAPIV2 {
     externalDocs?: ExternalDocumentationObject;
     example?: any;
     default?: any;
-    items?: ItemsObject;
+    items?: ItemsObject | ReferenceObject;
     properties?: {
       [name: string]: SchemaObject;
     };
@@ -821,7 +821,7 @@ export namespace OpenAPIV2 {
   export interface ItemsObject {
     type: string;
     format?: string;
-    items?: ItemsObject;
+    items?: ItemsObject | ReferenceObject;
     collectionFormat?: string;
     default?: any;
     maximum?: number;
@@ -909,4 +909,5 @@ export interface IJsonSchema {
   anyOf?: IJsonSchema[];
   oneOf?: IJsonSchema[];
   not?: IJsonSchema;
+  $ref?: string;
 }
