@@ -1,6 +1,6 @@
 {
   "name": "openapi-response-validator",
-  "version": "9.2.0",
+  "version": "9.3.0",
   "description": "Validate a response according to an openapi schema.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,6 +28,6 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-response-validator#readme",
   "dependencies": {
     "ajv": "^8.4.0",
-    "openapi-types": "^9.2.0"
+    "openapi-types": "^9.3.0"
   }
 }
