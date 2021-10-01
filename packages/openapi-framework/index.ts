@@ -258,14 +258,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               const operationId = methodDoc.operationId;
               if (operationId && operationId in this.operations) {
                 const operation = this.operations[operationId];
-
                 acc[METHOD_ALIASES[method]] = (() => {
                   const innerFunction: any = operation;
                   innerFunction.apiDoc = methodDoc;
-                  // Operations get dependencies injected in `this`
-                  return innerFunction.bind({
-                    dependencies: { ...this.dependencies },
-                  });
+                  return innerFunction;
                 })();
               } else if (operationId === undefined) {
                 this.logger.warn(

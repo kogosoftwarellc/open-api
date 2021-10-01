@@ -19,7 +19,12 @@ it('should use defaults, coercion, and operation parameter overriding', function
     .get('/v3/users/34?name=fred')
     .expect(200)
     .end(function (err, res) {
-      expect(res.body).to.eql({ id: 34, name: 'fred', age: 80 });
+      expect(res.body).to.eql({
+        id: 34,
+        name: 'fred',
+        age: 80,
+        valueFromMiddleware: 'bar',
+      });
       done(err);
     });
 });

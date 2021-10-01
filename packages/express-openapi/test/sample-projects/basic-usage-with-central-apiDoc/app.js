@@ -14,13 +14,20 @@ openapi.initialize({
   app: app,
   paths: path.resolve(__dirname, 'api-routes'),
   operations: {
-    getUser: function get(req, res) {
-      res.status(200).json({
-        id: req.params.id,
-        name: req.query.name,
-        age: req.query.age,
-      });
-    },
+    getUser: [
+      function (req, res, next) {
+        req.valueFromMiddleware = 'bar';
+        next();
+      },
+      function get(req, res) {
+        res.status(200).json({
+          id: req.params.id,
+          name: req.query.name,
+          age: req.query.age,
+          valueFromMiddleware: req.valueFromMiddleware,
+        });
+      },
+    ],
   },
 });
 
