@@ -20,11 +20,11 @@ export interface KoaRouter {
 
 export interface KoaOpenAPIInitializeArgs extends OpenAPIFrameworkArgs {
   consumesMiddleware?: { [mimeType: string]: Middleware };
-  docsPath: string;
-  errorMiddleware: Middleware;
-  exposeApiDocs: boolean;
+  docsPath?: string;
+  errorMiddleware?: Middleware;
+  exposeApiDocs?: boolean;
   router: KoaRouter;
-  securityFilter: Middleware;
+  securityFilter?: Middleware;
 }
 
 export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
