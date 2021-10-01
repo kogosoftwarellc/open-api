@@ -4,11 +4,13 @@
 ## Usage
 
 ```typescript
-import { OpenAPIV2, OpenAPIV3 } from "openapi-types";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
 
 function processV2(doc: OpenAPIV2.Document) {}
 
 function processV3(doc: OpenAPIV3.Document) {}
+
+function processV3_1(doc: OpenAPIV3_1.Document) {}
 ```
 
 ## LICENSE
