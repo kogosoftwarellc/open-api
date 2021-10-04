@@ -4,7 +4,7 @@
 ## Supported OpenAPI versions
 
 * `v3`
-* `v2` (formerly known as Swagger V2
+* `v2` (formerly known as Swagger V2)
 
 ## Document examples and full specs:
 * [Official 2.0 docs](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#itemsObject)
