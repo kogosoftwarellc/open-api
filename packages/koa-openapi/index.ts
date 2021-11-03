@@ -205,7 +205,7 @@ function createAssignApiDocMiddleware(apiDoc, operationDoc) {
 
 function createSecurityMiddleware(handler) {
   return function securityMiddleware(ctx: Context) {
-    handler.handle(ctx, (err, result) => {
+    return handler.handle(ctx, (err, result) => {
       if (err) {
         if (err.challenge) {
           ctx.set('www-authenticate', err.challenge);
