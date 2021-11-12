@@ -1,6 +1,6 @@
 {
   "name": "openapi-request-coercer",
-  "version": "9.3.0",
+  "version": "9.3.1",
   "description": "Coerce request properties according to an openapi parameter list.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-request-coercer#readme",
   "dependencies": {
-    "openapi-types": "^9.3.0",
+    "openapi-types": "^9.3.1",
     "ts-log": "^2.1.4"
   }
 }
