@@ -18,6 +18,7 @@ describe(path.basename(__dirname), () => {
       name: 'some-framework',
       operations: {
         getFoo: require('./operations/foo'),
+        getFooTwo: require('./operations/foo'),
       },
     });
   });
@@ -33,6 +34,11 @@ describe(path.basename(__dirname), () => {
       },
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
+
+        /**
+         * The two operations should have separate documentation,
+         * despite sharing the same controller
+         */
         expect(apiDoc.paths['/foo']).to.eql({
           parameters: [],
           get: {
@@ -40,6 +46,19 @@ describe(path.basename(__dirname), () => {
             responses: {
               default: {
                 description: 'return foo',
+                schema: {},
+              },
+            },
+          },
+        });
+        expect(apiDoc.paths['/foo-two']).to.eql({
+          parameters: [],
+          get: {
+            operationId: 'getFooTwo',
+            responses: {
+              default: {
+                description:
+                  'same controller mounted on another path with different operationId',
                 schema: {},
               },
             },
