@@ -39,7 +39,9 @@ describe(path.basename(__dirname), () => {
      */
     expect(() => {
       framework.initialize({});
-    }).to.throw(/Cannot read property 'undefined' of undefined|Cannot read properties of undefined \(reading 'undefined'\)/);
+    }).to.throw(
+      /Cannot read property 'undefined' of undefined|Cannot read properties of undefined \(reading 'undefined'\)/
+    );
     expect(warnings).to.deep.equal([
       'some-framework: path /foo, operation get is missing an operationId',
     ]);
