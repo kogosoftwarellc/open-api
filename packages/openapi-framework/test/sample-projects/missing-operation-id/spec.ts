@@ -33,9 +33,15 @@ describe(path.basename(__dirname), () => {
   });
 
   it('should throw an error', () => {
+    /**
+     * Node16 (really, the v8 engine) changed the error message
+     * This regex is here so that tests pass on earlier versions and Node16
+     */
     expect(() => {
       framework.initialize({});
-    }).to.throw("Cannot read property 'undefined' of undefined");
+    }).to.throw(
+      /Cannot read property 'undefined' of undefined|Cannot read properties of undefined \(reading 'undefined'\)/
+    );
     expect(warnings).to.deep.equal([
       'some-framework: path /foo, operation get is missing an operationId',
     ]);

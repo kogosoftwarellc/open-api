@@ -259,7 +259,19 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
               if (operationId && operationId in this.operations) {
                 const operation = this.operations[operationId];
                 acc[METHOD_ALIASES[method]] = (() => {
-                  const innerFunction: any = operation;
+                  /**
+                   * We have two options:
+                   *
+                   * 1. the middleware gets bound + dependency injected, this may be breaking.
+                   * 2. we pick the last middleware as the operation handler. This means we cannot support
+                   *    _after_ middlewares (though not a common express pattern)
+                   */
+                  const innerFunction: any = Array.isArray(operation)
+                    ? operation.map((middleware) =>
+                        middleware.bind({ dependencies: this.dependencies })
+                      )
+                    : operation.bind({ dependencies: this.dependencies });
+
                   innerFunction.apiDoc = methodDoc;
                   return innerFunction;
                 })();

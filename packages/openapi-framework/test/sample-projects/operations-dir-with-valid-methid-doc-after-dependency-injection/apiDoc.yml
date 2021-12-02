@@ -10,4 +10,11 @@ paths:
         default:
           description: return foo
           schema: {}
+  /foo-two:
+    get:
+      operationId: getFooTwo
+      responses:
+        default:
+          description: same controller mounted on another path with different operationId
+          schema: {}
   
