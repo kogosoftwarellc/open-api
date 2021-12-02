@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 //shared controller
 function controller(req, res, next) {
-  return res.json(req.operationDoc)
+  return res.json(req.operationDoc);
 }
 
 openapi.initialize({
@@ -19,8 +19,8 @@ openapi.initialize({
   promiseMode: true,
   operations: {
     getFoo: controller,
-    getFooTwo: controller
-  }
+    getFooTwo: controller,
+  },
 });
 
 app.use(function (err, req, res, next) {
