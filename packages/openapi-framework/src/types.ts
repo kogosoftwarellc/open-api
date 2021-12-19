@@ -89,7 +89,11 @@ interface OpenAPIFrameworkArgs {
   errorTransformer?: OpenAPIErrorTransformer;
   externalSchemas?: { [index: string]: IJsonSchema };
   pathSecurity?: PathSecurityTuple[];
-  operations?: { [operationId: string]: (...arg: any[]) => any };
+  operations?: {
+    [operationId: string]:
+      | ((...arg: any[]) => any)
+      | ((...arg: any[]) => any)[];
+  };
   paths?: string | OpenAPIFrameworkPathObject[];
   pathsIgnore?: RegExp;
   routesGlob?: string;
