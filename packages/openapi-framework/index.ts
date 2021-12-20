@@ -201,7 +201,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
         : null;
 
     let paths = [];
-    let routes = [];
+    let routes: { path: string; module: any }[] = [];
     const routesCheckMap = {};
 
     if (this.paths) {
@@ -363,7 +363,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
         // operationHandler may be an array or a function.
         const operationHandler =
           pathModule[methodAlias] ||
-          routeItem.operations[(pathDoc[methodAlias] || {}).operationId];
+          routeItem.module[(pathDoc?.[methodAlias] || {}).operationId];
         const operationDoc =
           handleYaml(getMethodDoc(operationHandler)) || pathDoc[methodName];
         // consumes is defined as property of each operation or entire document

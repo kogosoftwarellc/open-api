@@ -210,7 +210,7 @@ export function getSecurityDefinitionByPath(openapiPath, pathSecurity) {
 
 export function getMethodDoc(operationHandler) {
   const doc =
-    operationHandler.apiDoc ||
+    (operationHandler && operationHandler.apiDoc) ||
     (Array.isArray(operationHandler)
       ? operationHandler.slice(-1)[0].apiDoc
       : null);
