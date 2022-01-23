@@ -75,6 +75,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
   private enableObjectCoercion;
   private errorTransformer;
   private externalSchemas;
+  private features;
   private originalApiDoc;
   private operations;
   private paths;
@@ -156,6 +157,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     this.dependencies = args.dependencies;
     this.errorTransformer = args.errorTransformer;
     this.externalSchemas = args.externalSchemas;
+    this.features = args.features;
     this.operations = args.operations;
     this.paths = args.paths;
     this.pathsIgnore = args.pathsIgnore;
@@ -435,10 +437,13 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 operationDoc
               )
             ) {
+              const ResponseValidatorClass =
+                this.features?.responseValidator || OpenAPIResponseValidator;
+
               // add response validation feature
               // it's invalid for a method doc to not have responses, but the post
               // validation will pick it up, so this is almost always going to be added.
-              const responseValidator = new OpenAPIResponseValidator({
+              const responseValidator = new ResponseValidatorClass({
                 loggingKey: `${this.name}-response-validation`,
                 components: this.apiDoc.components,
                 definitions: this.apiDoc.definitions,
@@ -483,7 +488,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   operationDoc
                 )
               ) {
-                const requestValidator = new OpenAPIRequestValidator({
+                const RequestValidatorClass =
+                  this.features?.requestValidator || OpenAPIRequestValidator;
+
+                const requestValidator = new RequestValidatorClass({
                   errorTransformer: this.errorTransformer,
                   logger: this.logger,
                   parameters: methodParameters,
@@ -513,7 +521,10 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   operationDoc
                 )
               ) {
-                const coercer = new OpenAPIRequestCoercer({
+                const CoercerClass =
+                  this.features?.coercer || OpenAPIRequestCoercer;
+
+                const coercer = new CoercerClass({
                   extensionBase: `x-${this.name}-coercion`,
                   loggingKey: `${this.name}-coercion`,
                   parameters: methodParameters,
@@ -535,9 +546,13 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   operationDoc
                 )
               ) {
-                const defaultSetter = new OpenAPIDefaultSetter({
+                const DefaultSetterClass =
+                  this.features?.defaultSetter || OpenAPIDefaultSetter;
+
+                const defaultSetter = new DefaultSetterClass({
                   parameters: methodParameters,
                 });
+
                 operationContext.features.defaultSetter = defaultSetter;
               }
             }
@@ -558,7 +573,11 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
 
             if (securityDefinition) {
               pathDoc[methodName].security = securityDefinition;
-              securityFeature = new OpenAPISecurityHandler({
+
+              const SecurityHandlerClass =
+                this.features?.securityHandler || OpenAPISecurityHandler;
+
+              securityFeature = new SecurityHandlerClass({
                 securityDefinitions: securitySchemes,
                 securityHandlers: this.securityHandlers,
                 operationSecurity: securityDefinition,

@@ -1,12 +1,25 @@
-import { IOpenAPIDefaultSetter } from 'openapi-default-setter';
-import { IOpenAPIRequestCoercer } from 'openapi-request-coercer';
-import { IOpenAPIRequestValidator } from 'openapi-request-validator';
-import { IOpenAPIResponseValidator } from 'openapi-response-validator';
+import {
+  IOpenAPIDefaultSetter,
+  OpenAPIDefaultSetterArgs,
+} from 'openapi-default-setter';
+import {
+  IOpenAPIRequestCoercer,
+  OpenAPIRequestCoercerArgs,
+} from 'openapi-request-coercer';
+import {
+  IOpenAPIRequestValidator,
+  OpenAPIRequestValidatorArgs,
+} from 'openapi-request-validator';
+import {
+  IOpenAPIResponseValidator,
+  OpenAPIResponseValidatorArgs,
+} from 'openapi-response-validator';
 import {
   IOpenAPISecurityHandler,
+  OpenAPISecurityHandlerArgs,
   SecurityHandlers,
 } from 'openapi-security-handler';
-import { IJsonSchema, OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import { IJsonSchema, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import { Logger } from 'ts-log';
 import BasePath from './BasePath';
 import * as Ajv from 'ajv';
@@ -87,6 +100,21 @@ interface OpenAPIFrameworkArgs {
   dependencies?: { [service: string]: any };
   enableObjectCoercion?: boolean;
   errorTransformer?: OpenAPIErrorTransformer;
+  features?: {
+    coercer?: new (args: OpenAPIRequestCoercerArgs) => IOpenAPIRequestCoercer;
+    defaultSetter?: new (
+      args: OpenAPIDefaultSetterArgs
+    ) => IOpenAPIDefaultSetter;
+    requestValidator?: new (
+      args: OpenAPIRequestValidatorArgs
+    ) => IOpenAPIRequestValidator;
+    responseValidator?: new (
+      args: OpenAPIResponseValidatorArgs
+    ) => IOpenAPIResponseValidator;
+    securityHandler?: new (
+      args: OpenAPISecurityHandlerArgs
+    ) => IOpenAPISecurityHandler;
+  };
   externalSchemas?: { [index: string]: IJsonSchema };
   pathSecurity?: PathSecurityTuple[];
   operations?: {
