@@ -45,7 +45,7 @@ Let's say you're working on a package under [./packages](https://github.com/kogo
 Several scripts have been created to aid in the development of this monorepo (see [./bin](./bin)).  They assume that your `$PWD` is the root of the repository.  Here is a brief summary of common actions:
 
 * Commit changes to a package - `./bin/commit packages/<package_to_commit> 'Commit message'` (the commit message will be prepended with the package name e.g. `<package_to_commit>: Commit message`
-* These reduce boilerplate and are called form npm scripts in leaf repos.
+* These reduce boilerplate and are called from npm scripts in leaf repos.
   * nyc
   * tsc
   * mocha
