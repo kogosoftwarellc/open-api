@@ -198,7 +198,7 @@ export namespace OpenAPIV3_1 {
   export type MediaTypeObject = Modify<
     OpenAPIV3.MediaTypeObject,
     {
-      schema?: SchemaObject;
+      schema?: SchemaObject | ReferenceObject;
       examples?: Record<string, ReferenceObject | ExampleObject>;
     }
   >;
