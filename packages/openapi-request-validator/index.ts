@@ -39,6 +39,7 @@ export interface OpenAPIRequestValidatorArgs {
   ): any;
   ajvOptions?: Options;
   enableHeadersLowercase?: boolean;
+  additionalQueryProperties?: boolean;
 }
 
 export interface OpenAPIRequestValidatorError {
@@ -103,6 +104,9 @@ export default class OpenAPIRequestValidator
         );
         formDataSchema = schemas.formData;
         pathSchema = schemas.path;
+        if (schemas.query && args.hasOwnProperty('additionalQueryProperties')) {
+          schemas.query.additionalProperties = args.additionalQueryProperties;
+        }
         querySchema = schemas.query;
         isBodyRequired =
           // @ts-ignore
