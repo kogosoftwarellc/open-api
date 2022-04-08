@@ -36,7 +36,7 @@ export namespace OpenAPI {
 export namespace OpenAPIV3_1 {
   type Modify<T, R> = Omit<T, keyof R> & R;
 
-  type PathsWebhooksComponents<T> = {
+  type PathsWebhooksComponents<T extends {} = {}> = {
     paths: PathsObject<T>;
     webhooks: Record<string, PathItemObject | ReferenceObject>;
     components: ComponentsObject;
@@ -98,13 +98,13 @@ export namespace OpenAPIV3_1 {
 
   export type HttpMethods = OpenAPIV3.HttpMethods;
 
-  export type PathItemObject<T extends {} = {}> = Modify<
+  export type PathItemObject<T extends {} = {}> = Omit<Modify<
     OpenAPIV3.PathItemObject<T>,
     {
       servers?: ServerObject[];
       parameters?: (ReferenceObject | ParameterObject)[];
     }
-  > &
+  >, OpenAPIV3.HttpMethods> &
     {
       [method in HttpMethods]?: OperationObject<T>;
     };
