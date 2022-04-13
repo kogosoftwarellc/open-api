@@ -140,8 +140,8 @@ function buildCoercer(args) {
 
   return (obj) => {
     for (const paramName in obj) {
-      if (coercers.hasOwnProperty(paramName)) {
-        obj[paramName] = coercers[paramName](obj[paramName]);
+      if (coercers.hasOwnProperty(l(paramName))) {
+        obj[paramName] = coercers[l(paramName)](obj[paramName]);
       }
     }
   };
