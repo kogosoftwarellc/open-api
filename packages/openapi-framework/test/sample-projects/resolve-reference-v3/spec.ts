@@ -15,8 +15,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should resolve reference for requestBody', () => {
-    framework.initialize({
+  it('should resolve reference for requestBody', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.requestValidator).to.not.be.undefined;
         const err = ctx.features.requestValidator.validateRequest({

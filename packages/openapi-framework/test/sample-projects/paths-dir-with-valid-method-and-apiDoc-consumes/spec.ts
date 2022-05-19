@@ -14,8 +14,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should use apiDoc.consumes by default and add consumes to operation context', () => {
-    framework.initialize({
+  it('should use apiDoc.consumes by default and add consumes to operation context', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.consumes).to.eql(['application/xml']);
         expect(ctx.operationDoc).to.eql({

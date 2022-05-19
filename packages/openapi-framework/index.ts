@@ -187,7 +187,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     }
   }
 
-  public initialize(visitor: OpenAPIFrameworkVisitor) {
+  public async initialize(visitor: OpenAPIFrameworkVisitor) {
     const securitySchemes = (this.apiDoc as OpenAPIV3.Document).openapi
       ? (this.apiDoc.components || {}).securitySchemes
       : this.apiDoc.securityDefinitions;
@@ -209,7 +209,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     if (this.paths) {
       paths = [].concat(this.paths);
       this.logger.debug(`${this.loggingPrefix}paths=`, paths);
-      paths.forEach((pathItem) => {
+      for (let pathItem of paths) {
         if (byString(pathItem)) {
           pathItem = toAbsolutePath(pathItem);
           if (!byDirectory(pathItem)) {
@@ -218,7 +218,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
             );
           }
           routes = routes.concat(
-            fsRoutes(pathItem, {
+            await Promise.all(fsRoutes(pathItem, {
               glob: this.routesGlob,
               indexFileRegExp: this.routesIndexFileRegExp,
             })
@@ -227,25 +227,26 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   ? !this.pathsIgnore.test(fsRoutesItem.route)
                   : true;
               })
-              .map((fsRoutesItem) => {
+              .map(async (fsRoutesItem) => {
                 routesCheckMap[fsRoutesItem.route] = true;
                 return {
                   path: fsRoutesItem.route,
-                  module: require(fsRoutesItem.path),
+                  module: await import(fsRoutesItem.path),
                 };
-              })
-          );
+              }))
+
+            );
         } else {
           if (!pathItem.path || !pathItem.module) {
             throw new Error(
               `${this.loggingPrefix}args.paths must consist of strings or valid route specifications`
             );
+              }
+            routes.push(pathItem);
           }
-          routes.push(pathItem);
-        }
-      });
-      routes = routes.sort(byRoute);
-    }
+          };
+        routes = routes.sort(byRoute);
+      }
 
     if (this.operations) {
       const apiDocPaths = this.apiDoc.paths;

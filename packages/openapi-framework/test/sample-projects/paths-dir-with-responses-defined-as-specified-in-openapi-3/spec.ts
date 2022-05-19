@@ -14,8 +14,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should be resolved properly', () => {
-    framework.initialize({
+  it('should be resolved properly', async () => {
+    await framework.initialize({
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
         expect(apiDoc.paths).to.have.property('/foo');

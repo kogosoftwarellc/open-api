@@ -14,8 +14,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should override apiDoc.consumes and add consumes to operation context', () => {
-    framework.initialize({
+  it('should override apiDoc.consumes and add consumes to operation context', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.consumes).to.eql(['application/json']);
         expect(ctx.operationDoc).to.eql({

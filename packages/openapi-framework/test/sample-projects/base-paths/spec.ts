@@ -4,18 +4,18 @@ import OpenapiFramework from '../../../';
 
 describe('using servers attribute', () => {
   describe('with no defined servers', () => {
-    let framework;
+    let framework: OpenapiFramework;
 
     before(() => {
       framework = new OpenapiFramework(generateOpenApiDocArgsWithServers());
     });
-    it('should have a single baseUrl with a path of empty string', () => {
+    it('should have a single baseUrl with a path of empty string', async () => {
       const testFn = (ctx) => {
         assert.equal(ctx.basePaths.length, 1);
         assert.equal(ctx.basePaths[0].path, '');
         assert.isFalse(ctx.basePaths[0].hasVariables());
       };
-      framework.initialize({
+      await framework.initialize({
         visitApi: testFn,
         visitOperation: testFn,
         visitPath: testFn,
@@ -36,7 +36,7 @@ describe('using servers attribute', () => {
       },
     ];
 
-    let framework;
+    let framework: OpenapiFramework;
 
     before(() => {
       framework = new OpenapiFramework(
@@ -44,14 +44,14 @@ describe('using servers attribute', () => {
       );
     });
 
-    it('should have have enum attribute to the basePath', () => {
+    it('should have have enum attribute to the basePath', async () => {
       const testFn = (ctx) => {
         assert.equal(ctx.basePaths.length, 1);
         assert.equal(ctx.basePaths[0].path, '/:base');
         assert.isTrue(ctx.basePaths[0].hasVariables());
         assert.deepEqual(ctx.basePaths[0].variables.base.enum, ['v1', 'api']);
       };
-      framework.initialize({
+      await framework.initialize({
         visitApi: testFn,
         visitOperation: testFn,
         visitPath: testFn,
@@ -68,13 +68,13 @@ describe('using servers attribute', () => {
       },
       { url: 'https://my.api.io/api/v1' },
     ];
-    let framework;
+    let framework: OpenapiFramework;
     before(() => {
       framework = new OpenapiFramework(
         generateOpenApiDocArgsWithServers(servers)
       );
     });
-    it('should have each unique base path present', () => {
+    it('should have each unique base path present', async () => {
       const testFn = (ctx) => {
         assert.equal(ctx.basePaths.length, 2);
         assert.deepEqual(
@@ -82,7 +82,7 @@ describe('using servers attribute', () => {
           ['/v1', '/api/v1']
         );
       };
-      framework.initialize({
+      await framework.initialize({
         visitApi: testFn,
         visitOperation: testFn,
         visitPath: testFn,

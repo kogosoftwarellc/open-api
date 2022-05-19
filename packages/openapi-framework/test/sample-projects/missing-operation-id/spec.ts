@@ -28,8 +28,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should log a warning', () => {
-    framework.initialize({});
+  it('should log a warning', async () => {
+    await framework.initialize({});
     expect(warnings).to.deep.equal([
       'some-framework: path /foo, operation get is missing an operationId',
     ]);

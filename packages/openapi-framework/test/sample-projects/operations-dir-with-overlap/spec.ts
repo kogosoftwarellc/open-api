@@ -18,10 +18,10 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should work', () => {
+  it('should work', async () => {
     let postFeatures;
     let getFeatures;
-    framework.initialize({
+    await framework.initialize({
       visitOperation(ctx) {
         if (ctx.methodName === 'get') {
           getFeatures = ctx.features;

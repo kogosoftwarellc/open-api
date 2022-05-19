@@ -29,8 +29,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should instantiate default features', () => {
-    framework.initialize({
+  it('should instantiate default features', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.coercer).to.be.instanceof(OpenAPIRequestCoercer);
         expect(ctx.features.defaultSetter).to.be.instanceof(

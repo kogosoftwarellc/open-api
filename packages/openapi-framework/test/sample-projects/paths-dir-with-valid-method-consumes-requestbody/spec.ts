@@ -15,8 +15,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should add consumes to operation context from requestBody', () => {
-    framework.initialize({
+  it('should add consumes to operation context from requestBody', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.consumes).to.eql(['application/json']);
         expect(ctx.operationDoc).to.eql({

@@ -1,7 +1,11 @@
-import { expect } from 'chai';
+import { expect, use } from 'chai';
+import chaiAsPromised from 'chai-as-promised'
 import OpenapiFramework from '../../../';
-const path = require('path');
 
+const path = require('path');
+const chaiAsPromised = require('chai-as-promised')
+
+use(chaiAsPromised)
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
 
@@ -14,10 +18,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should throw an error', () => {
-    expect(() => {
-      framework.initialize({});
-    }).to.throw(
+  it('should throw an error', async () => {
+    await expect(framework.initialize({})).to.eventually.rejectedWith(
       'some-framework: args.paths must consist of strings or valid route specifications'
     );
   });

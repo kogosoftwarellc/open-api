@@ -36,8 +36,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should instantiate custom features', () => {
-    framework.initialize({
+  it('should instantiate custom features', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.coercer).to.be.instanceof(CustomCoercer);
         expect(ctx.features.defaultSetter).to.be.instanceof(
