@@ -8,22 +8,24 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-  customFormats: {
-    foo: function (input) {
-      return input === 'foo';
-    },
-  },
-});
-
 app.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
 
-module.exports = app;
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+    customFormats: {
+      foo: function (input) {
+        return input === 'foo';
+      },
+    },
+  });
+
+  return app
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

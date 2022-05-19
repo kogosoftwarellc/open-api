@@ -12,20 +12,22 @@ app.get('/foo', function (req, res, next) {
   next(new Error('hello from /foo'));
 });
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-  errorMiddleware: function (err, req, res, next) {
-    res.status(200).json(err.message);
-  },
-});
-
 app.use(function (err, req, res, next) {
   res.status(200).json(err.message);
 });
 
-module.exports = app;
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+    errorMiddleware: function (err, req, res, next) {
+      res.status(200).json(err.message);
+    },
+  });
+  
+  return app
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

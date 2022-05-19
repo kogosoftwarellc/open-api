@@ -9,18 +9,20 @@ var fs = require('fs');
 app.use(cors());
 app.use(bodyParser.json());
 
-openapi.initialize({
-  apiDoc: fs.readFileSync(path.resolve(__dirname, './api-doc.yml'), 'utf8'),
-  app: app,
-  promiseMode: true,
-  paths: path.resolve(__dirname, 'api-routes'),
-});
-
 app.use(function (err, req, res, next) {
   res.status(err.status).json(err.message);
 });
 
-module.exports = app;
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: fs.readFileSync(path.resolve(__dirname, './api-doc.yml'), 'utf8'),
+    app: app,
+    promiseMode: true,
+    paths: path.resolve(__dirname, 'api-routes'),
+  });
+  
+  return app
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

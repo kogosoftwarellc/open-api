@@ -1,8 +1,8 @@
 var app;
 var request = require('supertest');
 
-before(function () {
-  app = require('./app.js');
+before(async function () {
+  app = await require('./app.js')();
 });
 
 describe('customKeywords', function () {

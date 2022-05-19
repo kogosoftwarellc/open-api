@@ -11,12 +11,6 @@ var app = express();
 grandparentApp.use(cors());
 grandparentApp.use(bodyParser.json());
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-});
-
 parentApp.use(function (err, req, res, next) {
   res.status(err.status).json(err);
 });
@@ -24,7 +18,15 @@ parentApp.use(function (err, req, res, next) {
 parentApp.use('/parent', app);
 grandparentApp.use('/grandparent', parentApp);
 
-module.exports = grandparentApp;
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+  });
+
+  return grandparentApp
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

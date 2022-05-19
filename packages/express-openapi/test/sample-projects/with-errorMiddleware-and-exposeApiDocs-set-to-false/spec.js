@@ -2,8 +2,8 @@ var app;
 var expect = require('chai').expect;
 var request = require('supertest');
 
-before(function () {
-  app = require('./app.js');
+before(async function () {
+  app = require('./app.js')();
 });
 
 describe('when an error occurs in the basePath', function () {

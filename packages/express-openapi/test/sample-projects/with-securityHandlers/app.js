@@ -3,31 +3,6 @@ var app = require('express')();
 var openapi = require('../../../');
 var path = require('path');
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-  securityHandlers: {
-    booAuth: function (req, scopes, definition) {
-      req.boo = 'boo';
-      return true;
-    },
-    boo2Auth: function (req, scopes, definition) {
-      req.boo2 = 'boo2';
-      return true;
-    },
-    failAuth: function (req, scopes, definition) {
-      throw {
-        status: 401,
-        challenge: 'Basic realm=foo',
-      };
-    },
-    fooAuth: function (req, scopes, definition) {
-      req.foo = 'foo';
-      return true;
-    },
-  },
-});
 
 app.use(function (err, req, res, next) {
   if (err.challenge) {
@@ -42,4 +17,33 @@ app.use(function (err, req, res, next) {
   }
 });
 
-module.exports = app;
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+    securityHandlers: {
+      booAuth: function (req, scopes, definition) {
+        req.boo = 'boo';
+        return true;
+      },
+      boo2Auth: function (req, scopes, definition) {
+        req.boo2 = 'boo2';
+        return true;
+      },
+      failAuth: function (req, scopes, definition) {
+        throw {
+          status: 401,
+          challenge: 'Basic realm=foo',
+        };
+      },
+      fooAuth: function (req, scopes, definition) {
+        req.foo = 'foo';
+        return true;
+      },
+    },
+  });
+  
+  return app
+};
+

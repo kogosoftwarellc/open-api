@@ -1,5 +1,8 @@
 import { initialize } from '../';
+
+const chaiAsPromised = require('chai-as-promised');
 const expect = require('chai').expect;
+const use = require('chai').use
 const express = require('express');
 const path = require('path');
 const routesDir = path.resolve(
@@ -14,6 +17,8 @@ const validDocument = {
   },
   paths: {},
 };
+
+use(chaiAsPromised);
 
 describe(require('../package.json').name, () => {
   describe('.initialize()', () => {
@@ -106,22 +111,22 @@ describe(require('../package.json').name, () => {
         const args = test[1];
         const expectedError = test[2];
 
-        describe(description, () => {
+        describe(description, async () => {
           it('should throw an error', () => {
-            expect(() => {
+            expect((async () => {
               // @ts-ignore
-              initialize(args);
-            }).to.throw(expectedError);
+              await initialize(args);
+            })()).to.eventually.rejectedWith(expectedError);
           });
         });
       });
     });
 
-    it('should throw an error when a route method apiDoc is invalid', () => {
-      expect(() => {
+    it('should throw an error when a route method apiDoc is invalid', async () => {      
+      await expect((async () => {
         const app = express();
 
-        initialize({
+        await initialize({
           apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
           app,
           docsPath: '/api-docs',
@@ -135,15 +140,15 @@ describe(require('../package.json').name, () => {
             'api-routes'
           ),
         });
-      }).to.throw(
+      })()).to.eventually.rejectedWith(
         /express-openapi: args.apiDoc was invalid after populating paths.  See the output./
       );
     });
 
-    it('should not throw an error when args.validateApiDoc is false and a route method apiDoc is invalid', () => {
+    it('should not throw an error when args.validateApiDoc is false and a route method apiDoc is invalid', async () => {
       const app = express();
 
-      initialize({
+      await initialize({
         apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
         app,
         docsPath: '/api-docs',
@@ -157,9 +162,9 @@ describe(require('../package.json').name, () => {
       });
     });
 
-    it('should return the built apiDoc', () => {
+    it('should return the built apiDoc', async () => {
       const expectedApiDoc = require('./../../../test/fixtures/basic-usage-api-doc-after-initialization.json');
-      const initializedApp = initialize({
+      const initializedApp = await initialize({
         apiDoc: require('./sample-projects/basic-usage/api-doc.js'),
         app: express(),
         paths: routesDir,
@@ -169,17 +174,15 @@ describe(require('../package.json').name, () => {
     });
 
     it('should require referenced parameter to exist', () => {
-      expect(() => {
-        require('./sample-projects/with-referenced-parameter-missing/app.js');
-      }).to.throw(
+      expect(require('./sample-projects/with-referenced-parameter-missing/app.js')()).to.eventually.rejectedWith(
         /Invalid parameter \$ref or definition not found in apiDoc\.parameters: #\/parameters\/Boo/
       );
     });
 
-    it('should require referenced response to exist', () => {
-      expect(() => {
-        require('./sample-projects/with-referenced-response-missing/app.js');
-      }).to.throw(
+    it('should require referenced response to exist', async () => {
+      await expect((async () => {
+        await require('./sample-projects/with-referenced-response-missing/app.js')();
+      })()).to.eventually.rejectedWith(
         /Invalid response \$ref or definition not found in apiDoc.responses: #\/responses\/SuccessResponse/
       );
     });

@@ -2,8 +2,8 @@ var app;
 var expect = require('chai').expect;
 var request = require('supertest');
 
-before(function () {
-  app = require('./app.js');
+before(async function () {
+  app = require('./app.js')();
 });
 
 it('should use parameter references', function (done) {

@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const request = require('supertest');
 let app;
 
-before(function () {
-  app = require('./app.js');
+before(async function () {
+  app = await require('./app.js')();
 });
 
 it('should return the correct operationDoc for getFoo', () => {
