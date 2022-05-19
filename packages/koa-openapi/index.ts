@@ -27,7 +27,9 @@ export interface KoaOpenAPIInitializeArgs extends OpenAPIFrameworkArgs {
   securityFilter?: Middleware;
 }
 
-export async function initialize(args: KoaOpenAPIInitializeArgs): Promise<OpenAPIFramework> {
+export async function initialize(
+  args: KoaOpenAPIInitializeArgs
+): Promise<OpenAPIFramework> {
   if (!args) {
     throw new Error(`${loggingPrefix}: args must be an object`);
   }

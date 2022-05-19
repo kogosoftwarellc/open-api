@@ -218,35 +218,36 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
             );
           }
           routes = routes.concat(
-            await Promise.all(fsRoutes(pathItem, {
-              glob: this.routesGlob,
-              indexFileRegExp: this.routesIndexFileRegExp,
-            })
-              .filter((fsRoutesItem) => {
-                return this.pathsIgnore
-                  ? !this.pathsIgnore.test(fsRoutesItem.route)
-                  : true;
+            await Promise.all(
+              fsRoutes(pathItem, {
+                glob: this.routesGlob,
+                indexFileRegExp: this.routesIndexFileRegExp,
               })
-              .map(async (fsRoutesItem) => {
-                routesCheckMap[fsRoutesItem.route] = true;
-                return {
-                  path: fsRoutesItem.route,
-                  module: await import(fsRoutesItem.path),
-                };
-              }))
-
-            );
+                .filter((fsRoutesItem) => {
+                  return this.pathsIgnore
+                    ? !this.pathsIgnore.test(fsRoutesItem.route)
+                    : true;
+                })
+                .map(async (fsRoutesItem) => {
+                  routesCheckMap[fsRoutesItem.route] = true;
+                  return {
+                    path: fsRoutesItem.route,
+                    module: await import(fsRoutesItem.path),
+                  };
+                })
+            )
+          );
         } else {
           if (!pathItem.path || !pathItem.module) {
             throw new Error(
               `${this.loggingPrefix}args.paths must consist of strings or valid route specifications`
             );
-              }
-            routes.push(pathItem);
           }
-          };
-        routes = routes.sort(byRoute);
+          routes.push(pathItem);
+        }
       }
+      routes = routes.sort(byRoute);
+    }
 
     if (this.operations) {
       const apiDocPaths = this.apiDoc.paths;

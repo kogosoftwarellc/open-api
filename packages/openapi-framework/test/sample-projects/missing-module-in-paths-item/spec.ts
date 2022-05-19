@@ -2,9 +2,9 @@ import { use, expect } from 'chai';
 import OpenapiFramework from '../../../';
 
 const path = require('path');
-const chaiAsPromised = require('chai-as-promised')
+const chaiAsPromised = require('chai-as-promised');
 
-use(chaiAsPromised)
+use(chaiAsPromised);
 
 describe(path.basename(__dirname), () => {
   let framework: OpenapiFramework;
