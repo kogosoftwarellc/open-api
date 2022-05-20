@@ -297,7 +297,7 @@ export default class OpenAPIRequestValidator
     }
 
     if (this.requestBody) {
-      const contentType = request.headers['content-type'];
+      const contentType = getHeaderValue(request.headers, 'content-type');
       const mediaTypeMatch = getSchemaForMediaType(
         contentType,
         this.requestBody,
@@ -732,4 +732,14 @@ function transformOpenAPIV3Definitions(schema) {
   const res = JSON.parse(JSON.stringify(schema));
   recursiveTransformOpenAPIV3Definitions(res);
   return res;
+}
+
+function getHeaderValue(
+  requestHeaders: { [key: string]: any },
+  header: string
+) {
+  const matchingHeaders = Object.keys(requestHeaders).filter(
+    (key) => key.toLowerCase() === header.toLowerCase()
+  );
+  return requestHeaders[matchingHeaders[0]];
 }
