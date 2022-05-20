@@ -1,4 +1,4 @@
-let app = require('./app');
+let app;
 const expect = require('chai').expect;
 const expectedApiDoc = require('../../../../../test/fixtures/basic-usage-api-doc-after-initialization.json');
 const request = require('supertest');
