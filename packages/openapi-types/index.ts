@@ -550,6 +550,7 @@ export namespace OpenAPIV3 {
 
   export interface OAuth2SecurityScheme {
     type: 'oauth2';
+    description?: string;
     flows: {
       implicit?: {
         authorizationUrl: string;
