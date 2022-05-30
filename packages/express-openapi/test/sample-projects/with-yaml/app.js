@@ -9,16 +9,16 @@ var fs = require('fs');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err.message);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: fs.readFileSync(path.resolve(__dirname, './api-doc.yml'), 'utf8'),
     app: app,
     promiseMode: true,
     paths: path.resolve(__dirname, 'api-routes'),
+  });
+
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err.message);
   });
   
   return app

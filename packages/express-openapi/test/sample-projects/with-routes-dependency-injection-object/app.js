@@ -3,10 +3,6 @@ var app = require('express')();
 var openapi = require('../../../');
 var path = require('path');
 
-app.use(function (err, req, res, next) {
-  console.log(err);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
@@ -17,6 +13,10 @@ module.exports = async function () {
       injected2: { description: 'boo' },
     },
   });
+
+  app.use(function (err, req, res, next) {
+    console.log(err);
+  });  
   
   return app
 };

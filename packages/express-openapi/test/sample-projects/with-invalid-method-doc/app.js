@@ -6,10 +6,6 @@ var path = require('path');
 
 app.use(bodyParser.json());
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
@@ -19,6 +15,10 @@ module.exports = async function () {
     // errorTransformer: null,
     // we could just pass in "api-routes" if process.cwd() was set to this directory.
     paths: path.resolve(__dirname, 'api-routes'),
+  });
+
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
   });
   
   return app

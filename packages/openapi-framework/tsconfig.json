@@ -3,7 +3,7 @@
     "composite": true,
     "declaration": true,
     "target": "ES2020",
-    "module": "nodenext",
+    "module": "commonjs",
     "moduleResolution": "nodenext",
     "outDir": "dist",
     "sourceMap": true

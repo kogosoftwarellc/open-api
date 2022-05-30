@@ -14,15 +14,15 @@ var paths = [
   { path: '/users/{id}', module: require('./api-routes/users/{id}') },
 ];
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
     paths: paths,
+  });
+
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
   });
   
   return app

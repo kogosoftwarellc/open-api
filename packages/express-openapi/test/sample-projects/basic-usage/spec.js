@@ -5,6 +5,4 @@ before(async function () {
   app = await require('./app.js')();
 });
 
-it('should work', () => {
-  request(app)
-})
+module.exports = () => request(app);

@@ -8,10 +8,6 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
@@ -33,6 +29,10 @@ module.exports = async function () {
         },
       },
     },
+  });
+
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
   });
   
   return app

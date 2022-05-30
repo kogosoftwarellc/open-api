@@ -8,14 +8,6 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/foo', function (req, res, next) {
-  next(new Error('hello from /foo'));
-});
-
-app.use(function (err, req, res, next) {
-  res.status(200).json(err.message);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
@@ -25,6 +17,14 @@ module.exports = async function () {
     errorMiddleware: function (err, req, res, next) {
       res.status(200).json(err.message);
     },
+  });
+
+  app.get('/foo', function (req, res, next) {
+    next(new Error('hello from /foo'));
+  });
+  
+  app.use(function (err, req, res, next) {
+    res.status(200).json(err.message);
   });
   
   return app

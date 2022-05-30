@@ -13,10 +13,6 @@ function controller(req, res, next) {
   return res.json(req.operationDoc);
 }
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err.message);
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.json'),
@@ -27,6 +23,10 @@ module.exports = async function () {
       getFooTwo: controller,
     },
   });
+
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err.message);
+  });  
   
   return app
 };

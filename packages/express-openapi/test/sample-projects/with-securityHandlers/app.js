@@ -3,20 +3,6 @@ var app = require('express')();
 var openapi = require('../../../');
 var path = require('path');
 
-
-app.use(function (err, req, res, next) {
-  if (err.challenge) {
-    res.set('www-authenticate', err.challenge);
-  }
-  res.status(err.status || 500);
-
-  if (typeof err.message === 'string') {
-    res.send(err.message);
-  } else {
-    res.json(err.message);
-  }
-});
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
@@ -42,6 +28,19 @@ module.exports = async function () {
         return true;
       },
     },
+  });
+
+  app.use(function (err, req, res, next) {
+    if (err.challenge) {
+      res.set('www-authenticate', err.challenge);
+    }
+    res.status(err.status || 500);
+  
+    if (typeof err.message === 'string') {
+      res.send(err.message);
+    } else {
+      res.json(err.message);
+    }
   });
   
   return app

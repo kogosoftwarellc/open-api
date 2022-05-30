@@ -10,18 +10,18 @@ var app = express();
 parentApp.use(cors());
 parentApp.use(bodyParser.json());
 
-parentApp.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
-
-parentApp.use('/api', app);
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
     paths: path.resolve(__dirname, 'api-routes'),
   });
+
+  parentApp.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
+  });
+  
+  parentApp.use('/api', app);
 
   return parentApp
 };

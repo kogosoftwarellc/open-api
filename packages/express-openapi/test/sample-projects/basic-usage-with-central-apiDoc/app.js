@@ -9,11 +9,11 @@ const cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
-
 module.exports = async function () {
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
+  });
+
   await openapi.initialize({
     apiDoc: fs.readFileSync(path.resolve(__dirname, 'api-doc.yml'), 'utf8'),
     app: app,
@@ -35,6 +35,8 @@ module.exports = async function () {
       ],
     },
   });
+
+
 
   return app
 };

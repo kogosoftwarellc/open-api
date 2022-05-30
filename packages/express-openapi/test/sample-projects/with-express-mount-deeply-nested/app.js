@@ -11,19 +11,19 @@ var app = express();
 grandparentApp.use(cors());
 grandparentApp.use(bodyParser.json());
 
-parentApp.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
-
-parentApp.use('/parent', app);
-grandparentApp.use('/grandparent', parentApp);
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
     app: app,
     paths: path.resolve(__dirname, 'api-routes'),
   });
+
+  parentApp.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
+  });
+
+  parentApp.use('/parent', app);
+  grandparentApp.use('/grandparent', parentApp);
 
   return grandparentApp
 };
