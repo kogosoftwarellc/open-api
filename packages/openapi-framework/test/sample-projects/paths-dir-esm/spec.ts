@@ -16,7 +16,7 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it.only('should work', async () => {
+  it('should work', async () => {
     await framework.initialize({
       visitApi(ctx) {
         const apiDoc = ctx.getApiDoc();
