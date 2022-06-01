@@ -14,13 +14,13 @@ module.exports = async function () {
     app: app,
     paths: path.resolve(__dirname, 'api-routes'),
     pathsIgnore: new RegExp('.(spec|test)$'),
-  });  
+  });
 
   app.use(function (err, req, res, next) {
     res.status(err.status).json(err);
   });
-  
-  return app
+
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);

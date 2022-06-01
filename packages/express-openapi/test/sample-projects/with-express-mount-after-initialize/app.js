@@ -20,10 +20,10 @@ module.exports = async function () {
   parentApp.use(function (err, req, res, next) {
     res.status(err.status).json(err);
   });
-  
+
   parentApp.use('/api', app);
 
-  return parentApp
+  return parentApp;
 };
 
 var port = parseInt(process.argv[2], 10);

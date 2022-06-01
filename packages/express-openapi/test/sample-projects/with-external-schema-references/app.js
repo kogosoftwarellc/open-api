@@ -43,8 +43,8 @@ module.exports = async function () {
     err.status = err.status || 500;
     res.status(err.status).json(err);
   });
-  
-  return app
+
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);

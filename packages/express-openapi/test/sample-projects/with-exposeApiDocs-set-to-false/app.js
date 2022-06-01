@@ -18,5 +18,5 @@ module.exports = async function () {
     res.status(err.status).json(err);
   });
 
-  return app
+  return app;
 };

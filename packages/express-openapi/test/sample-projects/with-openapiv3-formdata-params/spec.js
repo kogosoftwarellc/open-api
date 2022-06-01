@@ -3,8 +3,8 @@ const expect = require('chai').expect;
 const request = require('supertest');
 
 before(async function () {
-  app = await require('./app')()
-})
+  app = await require('./app')();
+});
 
 it('should coerce the types on formData fields', function (done) {
   request(app)

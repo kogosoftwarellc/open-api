@@ -16,12 +16,12 @@ module.exports = async function () {
     promiseMode: true,
     paths: path.resolve(__dirname, 'api-routes'),
   });
-  
+
   app.use(function (err, req, res, next) {
     res.status(err.status).json(err.message);
   });
-  
-  return app
+
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);

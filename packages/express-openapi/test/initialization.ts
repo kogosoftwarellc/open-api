@@ -2,7 +2,7 @@ import { initialize } from '../';
 
 const chaiAsPromised = require('chai-as-promised');
 const expect = require('chai').expect;
-const use = require('chai').use
+const use = require('chai').use;
 const express = require('express');
 const path = require('path');
 const routesDir = path.resolve(
@@ -113,34 +113,38 @@ describe(require('../package.json').name, () => {
 
         describe(description, async () => {
           it('should throw an error', () => {
-            expect((async () => {
-              // @ts-ignore
-              await initialize(args);
-            })()).to.eventually.rejectedWith(expectedError);
+            expect(
+              (async () => {
+                // @ts-ignore
+                await initialize(args);
+              })()
+            ).to.eventually.rejectedWith(expectedError);
           });
         });
       });
     });
 
-    it('should throw an error when a route method apiDoc is invalid', async () => {      
-      await expect((async () => {
-        const app = express();
+    it('should throw an error when a route method apiDoc is invalid', async () => {
+      await expect(
+        (async () => {
+          const app = express();
 
-        await initialize({
-          apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
-          app,
-          docsPath: '/api-docs',
-          // See https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
-          // errorTransformer: null,
-          // we could just pass in "api-routes" if process.cwd() was set to this directory.
-          paths: path.resolve(
-            __dirname,
-            'sample-projects',
-            'with-invalid-method-doc',
-            'api-routes'
-          ),
-        });
-      })()).to.eventually.rejectedWith(
+          await initialize({
+            apiDoc: require('./sample-projects/with-invalid-method-doc/api-doc.js'),
+            app,
+            docsPath: '/api-docs',
+            // See https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
+            // errorTransformer: null,
+            // we could just pass in "api-routes" if process.cwd() was set to this directory.
+            paths: path.resolve(
+              __dirname,
+              'sample-projects',
+              'with-invalid-method-doc',
+              'api-routes'
+            ),
+          });
+        })()
+      ).to.eventually.rejectedWith(
         /express-openapi: args.apiDoc was invalid after populating paths.  See the output./
       );
     });
@@ -174,15 +178,19 @@ describe(require('../package.json').name, () => {
     });
 
     it('should require referenced parameter to exist', () => {
-      expect(require('./sample-projects/with-referenced-parameter-missing/app.js')()).to.eventually.rejectedWith(
+      expect(
+        require('./sample-projects/with-referenced-parameter-missing/app.js')()
+      ).to.eventually.rejectedWith(
         /Invalid parameter \$ref or definition not found in apiDoc\.parameters: #\/parameters\/Boo/
       );
     });
 
     it('should require referenced response to exist', async () => {
-      await expect((async () => {
-        await require('./sample-projects/with-referenced-response-missing/app.js')();
-      })()).to.eventually.rejectedWith(
+      await expect(
+        (async () => {
+          await require('./sample-projects/with-referenced-response-missing/app.js')();
+        })()
+      ).to.eventually.rejectedWith(
         /Invalid response \$ref or definition not found in apiDoc.responses: #\/responses\/SuccessResponse/
       );
     });

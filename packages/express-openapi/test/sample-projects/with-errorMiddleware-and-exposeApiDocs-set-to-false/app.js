@@ -22,12 +22,12 @@ module.exports = async function () {
   app.get('/foo', function (req, res, next) {
     next(new Error('hello from /foo'));
   });
-  
+
   app.use(function (err, req, res, next) {
     res.status(200).json(err.message);
   });
-  
-  return app
+
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);

@@ -8,8 +8,6 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-
-
 module.exports = async function () {
   await openapi.initialize({
     apiDoc: require('./api-doc.js'),
@@ -26,7 +24,7 @@ module.exports = async function () {
     res.status(err.status).json(err);
   });
 
-  return app
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);

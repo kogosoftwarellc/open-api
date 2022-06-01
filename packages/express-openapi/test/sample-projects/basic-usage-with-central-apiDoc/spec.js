@@ -4,8 +4,8 @@ const expectedApiDoc = require('../../../../../test/fixtures/basic-usage-api-doc
 const request = require('supertest');
 
 before(async function () {
-  app = await require('./app')()
-})
+  app = await require('./app')();
+});
 
 it('should expose <apiDoc>.basePath/api-docs', function (done) {
   request(app)

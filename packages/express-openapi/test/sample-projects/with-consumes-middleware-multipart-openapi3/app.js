@@ -36,7 +36,7 @@ module.exports = async function () {
     },
   });
 
-  return app
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);

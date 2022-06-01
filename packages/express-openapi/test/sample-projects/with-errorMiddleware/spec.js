@@ -16,7 +16,7 @@ describe('when an error occurs outside the basePath', function () {
   before(async function () {
     app = await require('./app.js')();
   });
-  
+
   it('should not use the API error middleware', function (done) {
     request(app).get('/foo').expect(200, '"hello from /foo"', done);
   });

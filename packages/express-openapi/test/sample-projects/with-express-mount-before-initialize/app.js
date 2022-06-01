@@ -23,7 +23,7 @@ module.exports = async function () {
     res.status(err.status).json(err);
   });
 
-  return parentApp
+  return parentApp;
 };
 
 var port = parseInt(process.argv[2], 10);

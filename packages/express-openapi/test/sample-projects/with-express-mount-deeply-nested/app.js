@@ -25,7 +25,7 @@ module.exports = async function () {
   parentApp.use('/parent', app);
   grandparentApp.use('/grandparent', parentApp);
 
-  return grandparentApp
+  return grandparentApp;
 };
 
 var port = parseInt(process.argv[2], 10);

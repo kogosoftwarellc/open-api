@@ -35,14 +35,13 @@ module.exports = async function () {
       res.set('www-authenticate', err.challenge);
     }
     res.status(err.status || 500);
-  
+
     if (typeof err.message === 'string') {
       res.send(err.message);
     } else {
       res.json(err.message);
     }
   });
-  
-  return app
-};
 
+  return app;
+};

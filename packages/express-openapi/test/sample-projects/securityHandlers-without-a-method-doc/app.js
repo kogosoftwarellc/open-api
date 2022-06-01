@@ -15,7 +15,5 @@ module.exports = async function () {
     console.log(err);
   });
 
-  return app
+  return app;
 };
-
-

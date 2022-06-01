@@ -16,7 +16,7 @@ module.exports = async function () {
 
   app.use(function (err, req, res, next) {
     console.log(err);
-  });  
-  
-  return app
+  });
+
+  return app;
 };

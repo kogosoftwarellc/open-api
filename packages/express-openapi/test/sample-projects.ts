@@ -171,7 +171,7 @@ describe(require('../package.json').name + ' sample-projects', () => {
       describe(test.name, () => {
         let app;
 
-        before(async function () {
+        before(async () => {
           app = await require('./sample-projects/' + test.name + '/app.js')();
         });
 

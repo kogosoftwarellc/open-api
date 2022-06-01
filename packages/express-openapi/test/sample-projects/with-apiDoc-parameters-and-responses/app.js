@@ -13,13 +13,13 @@ module.exports = async function () {
     apiDoc: require('./api-doc.js'),
     app: app,
     paths: path.resolve(__dirname, 'api-routes'),
-  });  
+  });
 
   app.use(function (err, req, res, next) {
     res.status(err.status).json(err);
   });
 
-  return app
+  return app;
 };
 
 var port = parseInt(process.argv[2], 10);
