@@ -14,6 +14,8 @@ module.exports = async function () {
     apiDoc: fs.readFileSync(path.resolve(__dirname, 'api-doc.yml'), 'utf8'),
     app: app,
     paths: path.resolve(__dirname, 'api-routes'),
+    routesGlob: '**/*.mjs',
+    routesIndexFileRegExp: /(?:index)?\.mjs$/,
     operations: {
       getUser: [
         function (req, res, next) {

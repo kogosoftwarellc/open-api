@@ -230,9 +230,15 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 })
                 .map(async (fsRoutesItem) => {
                   routesCheckMap[fsRoutesItem.route] = true;
+                  // There are two cases to distinguish:
+                  // - file is a CommonJS script, and `module.export` appears
+                  //   as `default` property
+                  // - file is a ECMAScript module, and `export default` appears
+                  //   at top-level
+                  const imported = await import(fsRoutesItem.path)
                   return {
                     path: fsRoutesItem.route,
-                    module: await import(fsRoutesItem.path),
+                    module: imported.default ?? imported
                   };
                 })
             )
