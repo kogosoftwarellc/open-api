@@ -15,8 +15,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should work', () => {
-    framework.initialize({
+  it('should work', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.responseValidator).to.not.be.undefined;
         expect(ctx.features.requestValidator).to.be.undefined;

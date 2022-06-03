@@ -8,42 +8,44 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-  externalSchemas: {
-    'http://example.com/error': {
-      description: 'An error occurred.',
-      schema: {
-        type: 'string',
-        enum: ['error'],
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+    externalSchemas: {
+      'http://example.com/error': {
+        description: 'An error occurred.',
+        schema: {
+          type: 'string',
+          enum: ['error'],
+        },
+      },
+      'http://example.com/user': {
+        description: 'User schema definition',
+        required: ['name'],
+        properties: {
+          name: { type: 'string' },
+          age: { type: 'integer', format: 'int32' },
+        },
+      },
+      'http://example.com/tea-pod': {
+        description: 'Tea pod schema definition',
+        required: ['content'],
+        properties: {
+          content: { description: 'content in litter', type: 'integer' },
+        },
       },
     },
-    'http://example.com/user': {
-      description: 'User schema definition',
-      required: ['name'],
-      properties: {
-        name: { type: 'string' },
-        age: { type: 'integer', format: 'int32' },
-      },
-    },
-    'http://example.com/tea-pod': {
-      description: 'Tea pod schema definition',
-      required: ['content'],
-      properties: {
-        content: { description: 'content in litter', type: 'integer' },
-      },
-    },
-  },
-});
+  });
 
-app.use(function (err, req, res, next) {
-  err.status = err.status || 500;
-  res.status(err.status).json(err);
-});
+  app.use(function (err, req, res, next) {
+    err.status = err.status || 500;
+    res.status(err.status).json(err);
+  });
 
-module.exports = app;
+  return app;
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

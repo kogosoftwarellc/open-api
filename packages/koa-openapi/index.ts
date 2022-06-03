@@ -27,7 +27,9 @@ export interface KoaOpenAPIInitializeArgs extends OpenAPIFrameworkArgs {
   securityFilter?: Middleware;
 }
 
-export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
+export async function initialize(
+  args: KoaOpenAPIInitializeArgs
+): Promise<OpenAPIFramework> {
   if (!args) {
     throw new Error(`${loggingPrefix}: args must be an object`);
   }
@@ -76,7 +78,7 @@ export function initialize(args: KoaOpenAPIInitializeArgs): OpenAPIFramework {
 
   const framework = new OpenAPIFramework(frameworkArgs);
 
-  framework.initialize({
+  await framework.initialize({
     visitApi(apiCtx: OpenAPIFrameworkAPIContext) {
       const basePaths = apiCtx.basePaths.map(toKoaBasePath);
       for (const basePath of basePaths) {

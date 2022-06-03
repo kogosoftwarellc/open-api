@@ -14,17 +14,19 @@ var paths = [
   { path: '/users/{id}', module: require('./api-routes/users/{id}') },
 ];
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: paths,
-});
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: paths,
+  });
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
+  });
 
-module.exports = app;
+  return app;
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

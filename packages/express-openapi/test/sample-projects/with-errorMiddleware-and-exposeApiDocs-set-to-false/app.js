@@ -8,25 +8,27 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/foo', function (req, res, next) {
-  next(new Error('hello from /foo'));
-});
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+    exposeApiDocs: false,
+    errorMiddleware: function (err, req, res, next) {
+      res.status(200).json(err.message);
+    },
+  });
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-  exposeApiDocs: false,
-  errorMiddleware: function (err, req, res, next) {
+  app.get('/foo', function (req, res, next) {
+    next(new Error('hello from /foo'));
+  });
+
+  app.use(function (err, req, res, next) {
     res.status(200).json(err.message);
-  },
-});
+  });
 
-app.use(function (err, req, res, next) {
-  res.status(200).json(err.message);
-});
-
-module.exports = app;
+  return app;
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

@@ -10,19 +10,21 @@ var app = express();
 parentApp.use(cors());
 parentApp.use(bodyParser.json());
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-});
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+  });
 
-parentApp.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
+  parentApp.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
+  });
 
-parentApp.use('/api', app);
+  parentApp.use('/api', app);
 
-module.exports = parentApp;
+  return parentApp;
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

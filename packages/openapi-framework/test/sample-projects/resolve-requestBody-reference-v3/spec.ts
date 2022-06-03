@@ -15,8 +15,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should succeed validation with reference for requestBody', () => {
-    framework.initialize({
+  it('should succeed validation with reference for requestBody', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.requestValidator).to.not.be.undefined;
         const err = ctx.features.requestValidator.validateRequest({
@@ -28,8 +28,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should fail validation with reference for requestBody', () => {
-    framework.initialize({
+  it('should fail validation with reference for requestBody', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.features.requestValidator).to.not.be.undefined;
         const err = ctx.features.requestValidator.validateRequest({

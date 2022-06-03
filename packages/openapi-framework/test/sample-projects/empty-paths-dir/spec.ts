@@ -13,7 +13,7 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should work', () => {
-    framework.initialize({});
+  it('should work', async () => {
+    await framework.initialize({});
   });
 });

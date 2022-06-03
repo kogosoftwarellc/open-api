@@ -6,18 +6,20 @@ var path = require('path');
 
 app.use(bodyParser.json());
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  docsPath: '/foo-docs',
-  // See https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
-  // errorTransformer: null,
-  // we could just pass in "api-routes" if process.cwd() was set to this directory.
-  paths: path.resolve(__dirname, 'api-routes'),
-});
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    docsPath: '/foo-docs',
+    // See https://github.com/kogosoftwarellc/express-openapi-validation#argserrortransformer
+    // errorTransformer: null,
+    // we could just pass in "api-routes" if process.cwd() was set to this directory.
+    paths: path.resolve(__dirname, 'api-routes'),
+  });
 
-app.use(function (err, req, res, next) {
-  res.status(err.status).json(err);
-});
+  app.use(function (err, req, res, next) {
+    res.status(err.status).json(err);
+  });
 
-module.exports = app;
+  return app;
+};

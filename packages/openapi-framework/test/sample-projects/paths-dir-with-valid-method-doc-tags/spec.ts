@@ -14,8 +14,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should add sorted tags to the apiDoc', () => {
-    framework.initialize({
+  it('should add sorted tags to the apiDoc', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         expect(ctx.operationDoc).to.eql({
           responses: {

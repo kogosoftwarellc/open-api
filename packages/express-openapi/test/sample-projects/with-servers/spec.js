@@ -113,9 +113,9 @@ describe('using servers attribute', function () {
   for (let test of tests) {
     describe(test.name, function () {
       let request;
-      before(function () {
+      before(async function () {
         const app = express();
-        openapi.initialize({
+        await openapi.initialize({
           app,
           apiDoc: generateOpenApiDocWithServers(test.servers),
           paths: path.resolve(__dirname, 'api-routes'),

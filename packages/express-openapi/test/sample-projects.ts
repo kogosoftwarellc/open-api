@@ -171,8 +171,8 @@ describe(require('../package.json').name + ' sample-projects', () => {
       describe(test.name, () => {
         let app;
 
-        before(() => {
-          app = require('./sample-projects/' + test.name + '/app.js');
+        before(async () => {
+          app = await require('./sample-projects/' + test.name + '/app.js')();
         });
 
         it('should meet expectations', (done) => {
@@ -217,8 +217,8 @@ describe(require('../package.json').name + ' sample-projects', () => {
       describe(test.name, () => {
         let app;
 
-        before(() => {
-          app = require('./sample-projects/' + test.name + '/app.js');
+        before(async () => {
+          app = await require('./sample-projects/' + test.name + '/app.js')();
         });
 
         it('should not expose res.validateResponse in the app', (done) => {

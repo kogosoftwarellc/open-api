@@ -20,8 +20,8 @@ describe(path.basename(__dirname), () => {
     });
   });
 
-  it('should work', () => {
-    framework.initialize({
+  it('should work', async () => {
+    await framework.initialize({
       visitOperation(ctx) {
         // throw new Error(JSON.stringify(ctx, null, 4));
         expect(ctx.features.responseValidator).to.not.be.undefined;

@@ -7,17 +7,19 @@ var cors = require('cors');
 
 app.use(cors());
 
-openapi.initialize({
-  apiDoc: require('./api-doc.js'),
-  app: app,
-  paths: path.resolve(__dirname, 'api-routes'),
-  consumesMiddleware: {
-    'application/json': bodyParser.json(),
-    'text/text': bodyParser.text(),
-  },
-});
+module.exports = async function () {
+  await openapi.initialize({
+    apiDoc: require('./api-doc.js'),
+    app: app,
+    paths: path.resolve(__dirname, 'api-routes'),
+    consumesMiddleware: {
+      'application/json': bodyParser.json(),
+      'text/text': bodyParser.text(),
+    },
+  });
 
-module.exports = app;
+  return app;
+};
 
 var port = parseInt(process.argv[2], 10);
 if (port) {

@@ -187,7 +187,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     }
   }
 
-  public initialize(visitor: OpenAPIFrameworkVisitor) {
+  public async initialize(visitor: OpenAPIFrameworkVisitor) {
     const securitySchemes = (this.apiDoc as OpenAPIV3.Document).openapi
       ? (this.apiDoc.components || {}).securitySchemes
       : this.apiDoc.securityDefinitions;
@@ -209,7 +209,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
     if (this.paths) {
       paths = [].concat(this.paths);
       this.logger.debug(`${this.loggingPrefix}paths=`, paths);
-      paths.forEach((pathItem) => {
+      for (let pathItem of paths) {
         if (byString(pathItem)) {
           pathItem = toAbsolutePath(pathItem);
           if (!byDirectory(pathItem)) {
@@ -218,22 +218,30 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
             );
           }
           routes = routes.concat(
-            fsRoutes(pathItem, {
-              glob: this.routesGlob,
-              indexFileRegExp: this.routesIndexFileRegExp,
-            })
-              .filter((fsRoutesItem) => {
-                return this.pathsIgnore
-                  ? !this.pathsIgnore.test(fsRoutesItem.route)
-                  : true;
+            await Promise.all(
+              fsRoutes(pathItem, {
+                glob: this.routesGlob,
+                indexFileRegExp: this.routesIndexFileRegExp,
               })
-              .map((fsRoutesItem) => {
-                routesCheckMap[fsRoutesItem.route] = true;
-                return {
-                  path: fsRoutesItem.route,
-                  module: require(fsRoutesItem.path),
-                };
-              })
+                .filter((fsRoutesItem) => {
+                  return this.pathsIgnore
+                    ? !this.pathsIgnore.test(fsRoutesItem.route)
+                    : true;
+                })
+                .map(async (fsRoutesItem) => {
+                  routesCheckMap[fsRoutesItem.route] = true;
+                  // There are two cases to distinguish:
+                  // - file is a CommonJS script, and `module.export` appears
+                  //   as `default` property
+                  // - file is a ECMAScript module, and `export default` appears
+                  //   at top-level
+                  const imported = await import(fsRoutesItem.path);
+                  return {
+                    path: fsRoutesItem.route,
+                    module: imported.default ?? imported,
+                  };
+                })
+            )
           );
         } else {
           if (!pathItem.path || !pathItem.module) {
@@ -243,7 +251,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
           }
           routes.push(pathItem);
         }
-      });
+      }
       routes = routes.sort(byRoute);
     }
 

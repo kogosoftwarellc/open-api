@@ -34,7 +34,9 @@ export interface ExpressOpenAPIArgs extends OpenAPIFrameworkArgs {
   securityFilter?: RequestHandler;
 }
 
-export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
+export async function initialize(
+  args: ExpressOpenAPIArgs
+): Promise<OpenAPIFramework> {
   if (!args) {
     throw new Error(`${loggingPrefix}: args must be an object`);
   }
@@ -82,7 +84,7 @@ export function initialize(args: ExpressOpenAPIArgs): OpenAPIFramework {
 
   const framework = new OpenAPIFramework(frameworkArgs);
 
-  framework.initialize({
+  await framework.initialize({
     visitApi: (ctx) => {
       if (exposeApiDocs || errorMiddleware) {
         const basePaths = [];

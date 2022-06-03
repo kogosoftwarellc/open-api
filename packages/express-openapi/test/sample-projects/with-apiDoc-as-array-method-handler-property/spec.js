@@ -3,8 +3,8 @@ var expect = require('chai').expect;
 var expectedApiDoc = require('../../../../../test/fixtures/basic-usage-api-doc-after-initialization.json');
 var request = require('supertest');
 
-before(function () {
-  app = require('./app.js');
+before(async function () {
+  app = await require('./app.js')();
 });
 
 it('should expose <apiDoc>.basePath/api-docs', function (done) {
