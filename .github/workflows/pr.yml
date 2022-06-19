@@ -10,6 +10,7 @@ jobs:
           node-version: lts/*
       - run: |
           npm ci
+          npm run bootstrap
           cd packages/express-openapi
           npm run test
 
