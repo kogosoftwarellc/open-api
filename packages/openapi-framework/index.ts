@@ -235,7 +235,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   //   as `default` property
                   // - file is a ECMAScript module, and `export default` appears
                   //   at top-level
-                  const imported = await import(fsRoutesItem.path);
+                  const imported = await import(`file://${fsRoutesItem.path}`);
                   return {
                     path: fsRoutesItem.route,
                     module: imported.default ?? imported,
