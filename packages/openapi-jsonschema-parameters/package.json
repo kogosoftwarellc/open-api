@@ -1,6 +1,6 @@
 {
   "name": "openapi-jsonschema-parameters",
-  "version": "12.0.0",
+  "version": "12.0.2",
   "description": "Converts openapi parameters to a jsonschema format.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-jsonschema-parameters#readme",
   "dependencies": {
-    "openapi-types": "^12.0.0"
+    "openapi-types": "^12.0.2"
   }
 }
