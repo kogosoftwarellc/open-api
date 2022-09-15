@@ -178,6 +178,7 @@ export namespace OpenAPIV3_1 {
       discriminator?: DiscriminatorObject;
       externalDocs?: ExternalDocumentationObject;
       xml?: XMLObject;
+      const?: any;
     }
   >;
 
