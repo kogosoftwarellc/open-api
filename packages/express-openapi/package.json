@@ -1,6 +1,6 @@
 {
   "name": "express-openapi",
-  "version": "12.0.2",
+  "version": "12.1.0",
   "description": "An unopinionated OpenAPI framework for express",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,8 +28,8 @@
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi#readme",
   "dependencies": {
     "express-normalize-query-params-middleware": "^0.5.0",
-    "openapi-framework": "^12.0.2",
-    "openapi-types": "^12.0.2"
+    "openapi-framework": "^12.1.0",
+    "openapi-types": "^12.1.0"
   },
   "devDependencies": {
     "@types/ajv": "^1.0.0",
