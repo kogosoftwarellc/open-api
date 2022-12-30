@@ -41,7 +41,7 @@
     "istanbul": "0.4.5",
     "istanbul-combine": "0.3.0",
     "lerna": "^3.22.1",
-    "mocha": "7.1.2",
+    "mocha": "10.2.0",
     "nyc": "15.1.0",
     "prettier": "^2.0.0",
     "source-map-support": "0.5.17",

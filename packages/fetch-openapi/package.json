@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "istanbul": "0.4.5",
-    "mocha": "7.1.2"
+    "mocha": "10.2.0"
   }
 }
