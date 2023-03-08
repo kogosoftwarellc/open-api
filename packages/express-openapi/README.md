@@ -631,7 +631,7 @@ module.exports = function(geoservice) {
 
 |Type|Required|Default Value|Description|
 |----|--------|-----------|----|
-|String|N|/api&#8209;docs|Sets the path that Swagger UI will use to request `args.apiDoc` with populated paths.  You can use this to support multiple versions of your app.|
+|String|N|/api-docs|Sets the path that Swagger UI will use to request `args.apiDoc` with populated paths.  You can use this to support multiple versions of your app.|
 
 #### args.enableObjectCoercion
 
