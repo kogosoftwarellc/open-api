@@ -37,7 +37,7 @@
     "cors": "^2.7.1",
     "coveralls": "3.0.12",
     "express": "^4.13.3",
-    "glob": "7.1.6",
+    "glob": "8.1.0",
     "istanbul": "0.4.5",
     "istanbul-combine": "0.3.0",
     "lerna": "^3.22.1",
