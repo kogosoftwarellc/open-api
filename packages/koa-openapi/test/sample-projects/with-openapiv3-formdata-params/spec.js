@@ -8,10 +8,12 @@ describe('with openapiv3 formData params', () => {
   let request;
   let server;
 
-  before(function () {
+  before(function (done) {
     app = require('./app.js');
     server = http.createServer(app.callback());
     request = supertest(server);
+
+    setTimeout(done, 200); // give the server some time
   });
 
   after(() => {
