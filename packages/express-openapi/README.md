@@ -1,4 +1,4 @@
-# express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# express-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > An unopinionated OpenAPI framework for express
 
 ## Highlights
@@ -1253,9 +1253,6 @@ THE SOFTWARE.
 [downloads-image]: http://img.shields.io/npm/dm/express-openapi.svg
 [npm-url]: https://npmjs.org/package/express-openapi
 [npm-image]: http://img.shields.io/npm/v/express-openapi.svg
-
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
