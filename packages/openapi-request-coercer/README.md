@@ -1,4 +1,4 @@
-# openapi-request-coercer [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# openapi-request-coercer [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > Coerce request properties according to an openapi parameter list.
 
 ## Highlights
@@ -82,7 +82,7 @@ For instance, below a sample of a strategy that will:
 ```javascript
 import OpenapiRequestCoercer from 'openapi-request-coercer';
 const coercionStrategy = {
-  boolean = (input) => {    
+  boolean = (input) => {
     if (typeof input === 'boolean') {
       return input;
     }
@@ -148,9 +148,6 @@ THE SOFTWARE.
 [downloads-image]: http://img.shields.io/npm/dm/openapi-request-coercer.svg
 [npm-url]: https://npmjs.org/package/openapi-request-coercer
 [npm-image]: http://img.shields.io/npm/v/openapi-request-coercer.svg
-
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master

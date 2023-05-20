@@ -1,4 +1,4 @@
-# openapi-framework [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# openapi-framework [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > An OpenAPI framework for any web framework
 
 ## Example Usages
@@ -35,9 +35,6 @@ THE SOFTWARE.
 [downloads-image]: http://img.shields.io/npm/dm/openapi-framework.svg
 [npm-url]: https://npmjs.org/package/openapi-framework
 [npm-image]: http://img.shields.io/npm/v/openapi-framework.svg
-
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master

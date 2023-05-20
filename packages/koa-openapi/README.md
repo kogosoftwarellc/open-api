@@ -1,4 +1,4 @@
-# koa-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# koa-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > An unopinionated OpenAPI framework for Koa.
 
 _Notice: This README is a work in progress and is based on [express-openapi's README](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/).  Consult that in addition to this until this Notice is removed._
@@ -186,7 +186,7 @@ This getting started guide will use the most fundamental concepts of OpenAPI and
       },
       paths: './api-v1/paths'
     });
-    
+
     app.use( router.routes() );
 
     app.listen(3000);
@@ -224,9 +224,6 @@ THE SOFTWARE.
 [downloads-image]: http://img.shields.io/npm/dm/koa-openapi.svg
 [npm-url]: https://npmjs.org/package/koa-openapi
 [npm-image]: http://img.shields.io/npm/v/koa-openapi.svg
-
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master

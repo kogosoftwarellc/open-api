@@ -1,4 +1,4 @@
-# openapi-default-setter [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# openapi-default-setter [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 > Sets default values in request properties according to defaults defined in openapi parameter lists.
 
 ## Highlights
@@ -75,9 +75,6 @@ THE SOFTWARE.
 [downloads-image]: http://img.shields.io/npm/dm/openapi-default-setter.svg
 [npm-url]: https://npmjs.org/package/openapi-default-setter
 [npm-image]: http://img.shields.io/npm/v/openapi-default-setter.svg
-
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
 
 [coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
