@@ -712,7 +712,9 @@ export namespace OpenAPIV2 {
     [index: string]: HeaderObject;
   }
 
-  export interface HeaderObject extends ItemsObject {}
+  export interface HeaderObject extends ItemsObject {
+    description?: string;
+  }
 
   export interface ExampleObject {
     [index: string]: any;
