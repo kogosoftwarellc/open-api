@@ -42,8 +42,8 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/openapi-types
 [npm-image]: http://img.shields.io/npm/v/openapi-types.svg
 
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
-[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/kogosoftwarellc/open-api?branch=main
+[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=main
 
 [gitter-url]: https://gitter.im/kogosoftwarellc/open-api
 [gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
