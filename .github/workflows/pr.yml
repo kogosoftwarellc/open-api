@@ -12,6 +12,6 @@ jobs:
       - run: npm run lint
       - run: npm run bootstrap
       - run: npm run cover
-      - run: npm run combine-coverage
-
-
+      # - run: npm run combine-coverage
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
