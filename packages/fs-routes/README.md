@@ -1,4 +1,4 @@
-# fs-routes [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# fs-routes [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Scan a filesystem for route files.
 
 `fs-routes` is the basis for convention based routing tools in node.  You can use
@@ -81,6 +81,3 @@ THE SOFTWARE.
 
 [coveralls-url]: https://coveralls.io/github/kogosoftwarellc/open-api?branch=main
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=main
-
-[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
-[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png

@@ -1,4 +1,4 @@
-# openapi-request-coercer [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# openapi-request-coercer [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > Coerce request properties according to an openapi parameter list.
 
 ## Highlights
@@ -151,6 +151,3 @@ THE SOFTWARE.
 
 [coveralls-url]: https://coveralls.io/github/kogosoftwarellc/open-api?branch=main
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=main
-
-[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
-[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png

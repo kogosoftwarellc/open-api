@@ -1,4 +1,4 @@
-# koa-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# koa-openapi [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > An unopinionated OpenAPI framework for Koa.
 
 _Notice: This README is a work in progress and is based on [express-openapi's README](https://github.com/kogosoftwarellc/open-api/tree/master/packages/express-openapi/).  Consult that in addition to this until this Notice is removed._
@@ -227,6 +227,3 @@ THE SOFTWARE.
 
 [coveralls-url]: https://coveralls.io/github/kogosoftwarellc/open-api?branch=main
 [coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=main
-
-[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
-[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
