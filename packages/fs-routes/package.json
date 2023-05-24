@@ -1,6 +1,6 @@
 {
   "name": "fs-routes",
-  "version": "12.1.2",
+  "version": "12.1.3",
   "description": "Scan a filesystem for route files.",
   "author": "Joseph Spencer",
   "main": "./dist/index.js",

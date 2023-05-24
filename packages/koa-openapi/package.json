@@ -1,6 +1,6 @@
 {
   "name": "koa-openapi",
-  "version": "12.1.2",
+  "version": "12.1.3",
   "description": "An unopinionated OpenAPI framework for koa",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/koa-openapi#readme",
   "dependencies": {
-    "openapi-framework": "^12.1.2"
+    "openapi-framework": "^12.1.3"
   },
   "devDependencies": {
     "@types/koa": "2.11.3",
