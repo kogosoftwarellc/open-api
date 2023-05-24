@@ -1,0 +1,22 @@
+name: Main Build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run bootstrap
+      - run: npm run cover
+      - run: npm run combine-coverage
+      - name: Coveralls openapi-monorepo
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage/lcov.info
