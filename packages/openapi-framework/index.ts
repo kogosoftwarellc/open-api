@@ -237,7 +237,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                   //   at top-level
                   const imported = await import(`file://${fsRoutesItem.path}`);
                   return {
-                    path: fsRoutesItem.route,
+                    path: fsRoutesItem.route.replace(/\\/g, '/'),
                     module: imported.default ?? imported,
                   };
                 })
