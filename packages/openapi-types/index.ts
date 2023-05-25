@@ -142,12 +142,18 @@ export namespace OpenAPIV3_1 {
    */
   export type SchemaObject =
     | ArraySchemaObject
+    | TupleSchemaObject
     | NonArraySchemaObject
     | MixedSchemaObject;
 
   export interface ArraySchemaObject extends BaseSchemaObject {
     type: ArraySchemaObjectType;
     items: ReferenceObject | SchemaObject;
+  }
+
+  export interface TupleSchemaObject extends BaseSchemaObject {
+    type: ArraySchemaObjectType;
+    prefixItems: (ReferenceObject | SchemaObject)[];
   }
 
   export interface NonArraySchemaObject extends BaseSchemaObject {
