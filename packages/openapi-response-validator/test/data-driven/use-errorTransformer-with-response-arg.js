@@ -16,7 +16,7 @@ module.exports = {
     definitions: null,
 
     errorTransformer: function (openapiError, jsonschemaError, response) {
-      return arguments.length;
+      return `Incorrect type "${typeof response.foo}" for "${openapiError.path}": ${openapiError.message}`;
     },
   },
 
@@ -25,6 +25,6 @@ module.exports = {
 
   expectedValidationError: {
     message: 'The response was not valid.',
-    errors: [3],
+    errors: ['Incorrect type "number" for "foo": must be string'],
   },
 };
