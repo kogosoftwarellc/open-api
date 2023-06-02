@@ -55,7 +55,7 @@ export default function fsRoutes(
       .sort(compare)
       .map((file) => ({
         path: path.resolve(dir, file),
-        route: '/' + file.replace(options.indexFileRegExp, ''),
+        route: '/' + file.replace(options.indexFileRegExp, '').replace(/\\/g, '/'),
       }));
   }
 
