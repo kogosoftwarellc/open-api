@@ -3,6 +3,7 @@ import Ajv, {
   Format,
   ErrorObject,
   ValidateFunction,
+  Options,
 } from 'ajv';
 import { IJsonSchema, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
@@ -37,6 +38,7 @@ export interface OpenAPIResponseValidatorArgs {
     openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
     ajvError: ErrorObject
   ): any;
+  ajvOptions?: Options;
 }
 
 export interface OpenAPIResponseValidatorError {
@@ -82,6 +84,7 @@ export default class OpenAPIResponseValidator
       strict: false,
       // @ts-ignore TODO get Ajv updated to account for logger
       logger: false,
+      ...(args.ajvOptions || {}),
     });
 
     this.errorMapper = errorTransformer
