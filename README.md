@@ -1,4 +1,4 @@
-# @open-api [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url] [![Greenkeeper badge](https://badges.greenkeeper.io/kogosoftwarellc/open-api.svg)](https://greenkeeper.io/)
+# @open-api [![Coveralls Status][coveralls-image]][coveralls-url]
 > A Monorepo of various packages to power OpenAPI in node.
 
 ## Quick Start Express
@@ -81,11 +81,5 @@ THE SOFTWARE.
 [koa-openapi-downloads-image]: http://img.shields.io/npm/dm/koa-openapi.svg
 [koa-openapi-npm-url]: https://npmjs.org/package/koa-openapi
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
-
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
-[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
-
-[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
-[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
+[coveralls-url]: https://coveralls.io/github/kogosoftwarellc/open-api?branch=main
+[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=main

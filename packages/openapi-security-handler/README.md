@@ -1,4 +1,4 @@
-# openapi-security-handler [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+# openapi-security-handler [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 > A library to process OpenAPI security definitions in parallel.
 
 ## Highlights
@@ -98,11 +98,5 @@ THE SOFTWARE.
 [npm-url]: https://npmjs.org/package/openapi-security-handler
 [npm-image]: http://img.shields.io/npm/v/openapi-security-handler.svg
 
-[travis-url]: https://travis-ci.org/kogosoftwarellc/open-api
-[travis-image]: https://api.travis-ci.org/kogosoftwarellc/open-api.svg?branch=master
-
-[coveralls-url]: https://coveralls.io/r/kogosoftwarellc/open-api
-[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=master
-
-[gitter-url]: https://gitter.im/kogosoftwarellc/open-api
-[gitter-image]: https://badges.gitter.im/kogosoftwarellc/open-api.png
+[coveralls-url]: https://coveralls.io/github/kogosoftwarellc/open-api?branch=main
+[coveralls-image]: https://coveralls.io/repos/github/kogosoftwarellc/open-api/badge.svg?branch=main

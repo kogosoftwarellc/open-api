@@ -4,14 +4,73 @@ jobs:
   code-quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
+          node-version: latest
       - run: npm ci
       - run: npm run lint
       - run: npm run bootstrap
       - run: npm run cover
       - run: npm run combine-coverage
+      - name: Coveralls openapi-monorepo
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage/lcov.info
 
-
+#      - name: Coveralls express-openapi
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/express-openapi
+#      - name: Coveralls fetch-openapi
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/fetch-openapi
+#      - name: Coveralls fs-routes
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/fs-routes
+#      - name: Coveralls koa-openapi
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/koa-openapi
+#      - name: Coveralls openapi-default-setter
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-default-setter
+#      - name: Coveralls openapi-framework
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-framework
+#      - name: Coveralls openapi-jsonschema-parameters
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-jsonschema-parameters
+#      - name: Coveralls openapi-request-coercer
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-request-coercer
+#      - name: Coveralls openapi-request-validator
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-request-validator
+#      - name: Coveralls openapi-response-validator
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-response-validator
+#      - name: Coveralls openapi-schema-validator
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-schema-validator
+#      - name: Coveralls openapi-security-handler
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-security-handler
+#      - name: Coveralls openapi-types
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/openapi-types
+#      - name: Coveralls restify-openapi
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          base-path: packages/restify-openapi
