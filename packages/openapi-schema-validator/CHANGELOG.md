@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 3.0.3 - 2019-01-31
 ### Fixed
+- Add openapi-3.1.json and update logic to use it(#837)
+
+### Fixed
 - openapi-types: OpenAPIV3: relax security requirement object types (#327)
 
 ## 3.0.2 - 2018-10-03
