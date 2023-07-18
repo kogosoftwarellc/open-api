@@ -5,7 +5,7 @@ import OpenAPIRequestValidator from 'openapi-request-validator';
 import OpenAPIResponseValidator from 'openapi-response-validator';
 import OpenAPISchemaValidator from 'openapi-schema-validator';
 import OpenAPISecurityHandler from 'openapi-security-handler';
-import { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import { OpenAPI, OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
 import { Logger } from 'ts-log';
 import BasePath from './src/BasePath';
 import {
@@ -148,6 +148,7 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
       'validateApiDoc' in args ? !!args.validateApiDoc : true;
     this.validator = new OpenAPISchemaValidator({
       version:
+        (this.apiDoc as OpenAPIV3_1.Document).openapi ||
         (this.apiDoc as OpenAPIV3.Document).openapi ||
         (this.apiDoc as OpenAPIV2.Document).swagger,
       extensions: this.apiDoc[`x-${this.name}-schema-extension`],
