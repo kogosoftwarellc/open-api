@@ -365,11 +365,32 @@ export namespace OpenAPIV3 {
     url: string;
   }
 
-  export interface ParameterObject extends ParameterBaseObject {
-    name: string;
-    in: string;
-  }
+  export type ParameterObject = PathLocationObject | QueryLocationObject | CookieLocationObject | HeaderLocationObject; 
 
+  export interface CookieLocationObject extends ParameterBaseObject {
+    name: string;
+    in: "cookie";
+    style?: "form";
+  }
+    
+  interface HeaderLocationObject extends ParameterBaseObject {
+    name: string;
+    in: "header";
+    style?: "simple";
+  }
+    
+  interface PathLocationObject extends ParameterBaseObject {
+    name: string;
+    in: "path";
+    required: boolean;
+    style?: "matrix" | "label" | "simple";
+  }
+    
+  interface QueryLocationObject extends ParameterBaseObject {
+    name: string;
+    in: "query";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+  }
   export interface HeaderObject extends ParameterBaseObject {}
 
   export interface ParameterBaseObject {
