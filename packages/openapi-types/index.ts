@@ -1,5 +1,10 @@
 /* tslint:disable:no-namespace no-empty-interface */
 export namespace OpenAPI {
+  export type SpecificationExtensionKey = `x-${string}`;
+  export interface Extensible {
+    [key: SpecificationExtensionKey]: unknown;
+  }
+
   // OpenAPI extensions can be declared using generics
   // e.g.:
   // OpenAPI.Document<{
@@ -92,9 +97,10 @@ export namespace OpenAPIV3_1 {
   >;
 
   export type PathsObject<T extends {} = {}, P extends {} = {}> = Record<
-    string,
+    `/${string}`,
     (PathItemObject<T> & P) | undefined
-  >;
+  > &
+    OpenAPI.Extensible;
 
   export type HttpMethods = OpenAPIV3.HttpMethods;
 
@@ -182,7 +188,8 @@ export namespace OpenAPIV3_1 {
     }
   >;
 
-  export type DiscriminatorObject = OpenAPIV3.DiscriminatorObject;
+  export type DiscriminatorObject = OpenAPIV3.DiscriminatorObject &
+    OpenAPI.Extensible;
 
   export type XMLObject = OpenAPIV3.XMLObject;
 
@@ -214,9 +221,10 @@ export namespace OpenAPIV3_1 {
   >;
 
   export type ResponsesObject = Record<
-    string,
+    `${string}`,
     ReferenceObject | ResponseObject
-  >;
+  > &
+    OpenAPI.Extensible;
 
   export type ResponseObject = Modify<
     OpenAPIV3.ResponseObject,
@@ -268,7 +276,7 @@ export namespace OpenAPIV3_1 {
 }
 
 export namespace OpenAPIV3 {
-  export interface Document<T extends {} = {}> {
+  export interface Document<T extends {} = {}> extends OpenAPI.Extensible {
     openapi: string;
     info: InfoObject;
     servers?: ServerObject[];
@@ -284,7 +292,7 @@ export namespace OpenAPIV3 {
     'x-express-openapi-validation-strict'?: boolean;
   }
 
-  export interface InfoObject {
+  export interface InfoObject extends OpenAPI.Extensible {
     title: string;
     description?: string;
     termsOfService?: string;
@@ -293,31 +301,32 @@ export namespace OpenAPIV3 {
     version: string;
   }
 
-  export interface ContactObject {
+  export interface ContactObject extends OpenAPI.Extensible {
     name?: string;
     url?: string;
     email?: string;
   }
 
-  export interface LicenseObject {
+  export interface LicenseObject extends OpenAPI.Extensible {
     name: string;
     url?: string;
   }
 
-  export interface ServerObject {
+  export interface ServerObject extends OpenAPI.Extensible {
     url: string;
     description?: string;
     variables?: { [variable: string]: ServerVariableObject };
   }
 
-  export interface ServerVariableObject {
+  export interface ServerVariableObject extends OpenAPI.Extensible {
     enum?: string[];
     default: string;
     description?: string;
   }
 
-  export interface PathsObject<T extends {} = {}, P extends {} = {}> {
-    [pattern: string]: (PathItemObject<T> & P) | undefined;
+  export interface PathsObject<T extends {} = {}, P extends {} = {}>
+    extends OpenAPI.Extensible {
+    [pattern: `/${string}`]: (PathItemObject<T> & P) | undefined;
   }
 
   // All HTTP methods allowed by OpenAPI 3 spec
@@ -343,7 +352,8 @@ export namespace OpenAPIV3 {
     parameters?: (ReferenceObject | ParameterObject)[];
   } & {
     [method in HttpMethods]?: OperationObject<T>;
-  };
+  } &
+    OpenAPI.Extensible;
 
   export type OperationObject<T extends {} = {}> = {
     tags?: string[];
@@ -358,9 +368,10 @@ export namespace OpenAPIV3 {
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
     servers?: ServerObject[];
-  } & T;
+  } & T &
+    OpenAPI.Extensible;
 
-  export interface ExternalDocumentationObject {
+  export interface ExternalDocumentationObject extends OpenAPI.Extensible {
     description?: string;
     url: string;
   }
@@ -372,7 +383,7 @@ export namespace OpenAPIV3 {
 
   export interface HeaderObject extends ParameterBaseObject {}
 
-  export interface ParameterBaseObject {
+  export interface ParameterBaseObject extends OpenAPI.Extensible {
     description?: string;
     required?: boolean;
     deprecated?: boolean;
@@ -403,7 +414,7 @@ export namespace OpenAPIV3 {
     type?: NonArraySchemaObjectType;
   }
 
-  export interface BaseSchemaObject {
+  export interface BaseSchemaObject extends OpenAPI.Extensible {
     // JSON schema allowed properties, adjusted for OpenAPI
     title?: string;
     description?: string;
@@ -449,7 +460,7 @@ export namespace OpenAPIV3 {
     mapping?: { [value: string]: string };
   }
 
-  export interface XMLObject {
+  export interface XMLObject extends OpenAPI.Extensible {
     name?: string;
     namespace?: string;
     prefix?: string;
@@ -461,21 +472,21 @@ export namespace OpenAPIV3 {
     $ref: string;
   }
 
-  export interface ExampleObject {
+  export interface ExampleObject extends OpenAPI.Extensible {
     summary?: string;
     description?: string;
     value?: any;
     externalValue?: string;
   }
 
-  export interface MediaTypeObject {
+  export interface MediaTypeObject extends OpenAPI.Extensible {
     schema?: ReferenceObject | SchemaObject;
     example?: any;
     examples?: { [media: string]: ReferenceObject | ExampleObject };
     encoding?: { [media: string]: EncodingObject };
   }
 
-  export interface EncodingObject {
+  export interface EncodingObject extends OpenAPI.Extensible {
     contentType?: string;
     headers?: { [header: string]: ReferenceObject | HeaderObject };
     style?: string;
@@ -483,24 +494,24 @@ export namespace OpenAPIV3 {
     allowReserved?: boolean;
   }
 
-  export interface RequestBodyObject {
+  export interface RequestBodyObject extends OpenAPI.Extensible {
     description?: string;
     content: { [media: string]: MediaTypeObject };
     required?: boolean;
   }
 
-  export interface ResponsesObject {
-    [code: string]: ReferenceObject | ResponseObject;
+  export interface ResponsesObject extends OpenAPI.Extensible {
+    [code: `${number}`]: ReferenceObject | ResponseObject;
   }
 
-  export interface ResponseObject {
+  export interface ResponseObject extends OpenAPI.Extensible {
     description: string;
     headers?: { [header: string]: ReferenceObject | HeaderObject };
     content?: { [media: string]: MediaTypeObject };
     links?: { [link: string]: ReferenceObject | LinkObject };
   }
 
-  export interface LinkObject {
+  export interface LinkObject extends OpenAPI.Extensible {
     operationRef?: string;
     operationId?: string;
     parameters?: { [parameter: string]: any };
@@ -517,7 +528,7 @@ export namespace OpenAPIV3 {
     [name: string]: string[];
   }
 
-  export interface ComponentsObject {
+  export interface ComponentsObject extends OpenAPI.Extensible {
     schemas?: { [key: string]: ReferenceObject | SchemaObject };
     responses?: { [key: string]: ReferenceObject | ResponseObject };
     parameters?: { [key: string]: ReferenceObject | ParameterObject };
@@ -535,21 +546,21 @@ export namespace OpenAPIV3 {
     | OAuth2SecurityScheme
     | OpenIdSecurityScheme;
 
-  export interface HttpSecurityScheme {
+  export interface HttpSecurityScheme extends OpenAPI.Extensible {
     type: 'http';
     description?: string;
     scheme: string;
     bearerFormat?: string;
   }
 
-  export interface ApiKeySecurityScheme {
+  export interface ApiKeySecurityScheme extends OpenAPI.Extensible {
     type: 'apiKey';
     description?: string;
     name: string;
     in: string;
   }
 
-  export interface OAuth2SecurityScheme {
+  export interface OAuth2SecurityScheme extends OpenAPI.Extensible {
     type: 'oauth2';
     description?: string;
     flows: {
@@ -557,33 +568,33 @@ export namespace OpenAPIV3 {
         authorizationUrl: string;
         refreshUrl?: string;
         scopes: { [scope: string]: string };
-      };
+      } & OpenAPI.Extensible;
       password?: {
         tokenUrl: string;
         refreshUrl?: string;
         scopes: { [scope: string]: string };
-      };
+      } & OpenAPI.Extensible;
       clientCredentials?: {
         tokenUrl: string;
         refreshUrl?: string;
         scopes: { [scope: string]: string };
-      };
+      } & OpenAPI.Extensible;
       authorizationCode?: {
         authorizationUrl: string;
         tokenUrl: string;
         refreshUrl?: string;
         scopes: { [scope: string]: string };
-      };
-    };
+      } & OpenAPI.Extensible;
+    } & OpenAPI.Extensible;
   }
 
-  export interface OpenIdSecurityScheme {
+  export interface OpenIdSecurityScheme extends OpenAPI.Extensible {
     type: 'openIdConnect';
     description?: string;
     openIdConnectUrl: string;
   }
 
-  export interface TagObject {
+  export interface TagObject extends OpenAPI.Extensible {
     name: string;
     description?: string;
     externalDocs?: ExternalDocumentationObject;
@@ -591,7 +602,7 @@ export namespace OpenAPIV3 {
 }
 
 export namespace OpenAPIV2 {
-  export interface Document<T extends {} = {}> {
+  export interface Document<T extends {} = {}> extends OpenAPI.Extensible {
     basePath?: string;
     consumes?: MimeTypes;
     definitions?: DefinitionsObject;
@@ -614,13 +625,13 @@ export namespace OpenAPIV2 {
     'x-express-openapi-validation-strict'?: boolean;
   }
 
-  export interface TagObject {
+  export interface TagObject extends OpenAPI.Extensible {
     name: string;
     description?: string;
     externalDocs?: ExternalDocumentationObject;
   }
 
-  export interface SecuritySchemeObjectBase {
+  export interface SecuritySchemeObjectBase extends OpenAPI.Extensible {
     type: 'basic' | 'apiKey' | 'oauth2';
     description?: string;
   }
@@ -701,7 +712,7 @@ export namespace OpenAPIV2 {
 
   export type Schema = SchemaObject | ReferenceObject;
 
-  export interface ResponseObject {
+  export interface ResponseObject extends OpenAPI.Extensible {
     description: string;
     schema?: Schema;
     headers?: HeadersObject;
@@ -720,13 +731,6 @@ export namespace OpenAPIV2 {
     [index: string]: any;
   }
 
-  export interface ResponseObject {
-    description: string;
-    schema?: Schema;
-    headers?: HeadersObject;
-    examples?: ExampleObject;
-  }
-
   export type OperationObject<T extends {} = {}> = {
     tags?: string[];
     summary?: string;
@@ -740,10 +744,11 @@ export namespace OpenAPIV2 {
     schemes?: string[];
     deprecated?: boolean;
     security?: SecurityRequirementObject[];
-  } & T;
+  } & T &
+    OpenAPI.Extensible;
 
-  export interface ResponsesObject {
-    [index: string]: Response | undefined;
+  export interface ResponsesObject extends OpenAPI.Extensible {
+    [index: `${number}`]: Response | undefined;
     default?: Response;
   }
 
@@ -778,10 +783,11 @@ export namespace OpenAPIV2 {
     parameters?: Parameters;
   } & {
     [method in HttpMethods]?: OperationObject<T>;
-  };
+  } &
+    OpenAPI.Extensible;
 
-  export interface PathsObject<T extends {} = {}> {
-    [index: string]: PathItemObject<T>;
+  export interface PathsObject<T extends {} = {}> extends OpenAPI.Extensible {
+    [index: `/${string}`]: PathItemObject<T>;
   }
 
   export interface ParametersDefinitionsObject {
@@ -802,7 +808,7 @@ export namespace OpenAPIV2 {
     [index: string]: SchemaObject;
   }
 
-  export interface SchemaObject extends IJsonSchema {
+  export interface SchemaObject extends IJsonSchema, OpenAPI.Extensible {
     [index: string]: any;
     discriminator?: string;
     readOnly?: boolean;
@@ -822,7 +828,7 @@ export namespace OpenAPIV2 {
     url: string;
   }
 
-  export interface ItemsObject {
+  export interface ItemsObject extends OpenAPI.Extensible {
     type: string;
     format?: string;
     items?: ItemsObject | ReferenceObject;
@@ -852,7 +858,7 @@ export namespace OpenAPIV2 {
     wrapped?: boolean;
   }
 
-  export interface InfoObject {
+  export interface InfoObject extends OpenAPI.Extensible {
     title: string;
     description?: string;
     termsOfService?: string;
@@ -861,13 +867,13 @@ export namespace OpenAPIV2 {
     version: string;
   }
 
-  export interface ContactObject {
+  export interface ContactObject extends OpenAPI.Extensible {
     name?: string;
     url?: string;
     email?: string;
   }
 
-  export interface LicenseObject {
+  export interface LicenseObject extends OpenAPI.Extensible {
     name: string;
     url?: string;
   }
