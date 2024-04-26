@@ -143,7 +143,8 @@ export namespace OpenAPIV3_1 {
   export type SchemaObject =
     | ArraySchemaObject
     | NonArraySchemaObject
-    | MixedSchemaObject;
+    | MixedSchemaObject
+    | boolean;
 
   export interface ArraySchemaObject extends BaseSchemaObject {
     type: ArraySchemaObjectType;
