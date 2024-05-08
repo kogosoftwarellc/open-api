@@ -312,8 +312,8 @@ export namespace OpenAPIV3 {
   }
 
   export interface ServerVariableObject {
-    enum?: string[];
-    default: string;
+    enum?: string[] | number[];
+    default: string | number;
     description?: string;
   }
 
