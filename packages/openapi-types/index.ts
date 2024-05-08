@@ -149,7 +149,8 @@ export namespace OpenAPIV3_1 {
   export type SchemaObject =
     | ArraySchemaObject
     | NonArraySchemaObject
-    | MixedSchemaObject;
+    | MixedSchemaObject
+    | boolean;
 
   export interface ArraySchemaObject extends BaseSchemaObject {
     type: ArraySchemaObjectType;
@@ -319,8 +320,8 @@ export namespace OpenAPIV3 {
   }
 
   export interface ServerVariableObject extends OpenAPI.Extensible {
-    enum?: string[];
-    default: string;
+    enum?: string[] | number[];
+    default: string | number;
     description?: string;
   }
 
