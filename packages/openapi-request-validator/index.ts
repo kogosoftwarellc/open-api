@@ -8,7 +8,7 @@ import Ajv, {
 } from 'ajv';
 import addFormats from 'ajv-formats';
 import { convertParametersToJSONSchema } from 'openapi-jsonschema-parameters';
-import { IJsonSchema, OpenAPI, OpenAPIV3 } from 'openapi-types';
+import { IJsonSchema, OpenAPI, OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
 import { dummyLogger, Logger } from 'ts-log';
 const contentTypeParser = require('content-type');
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
@@ -30,7 +30,7 @@ export interface OpenAPIRequestValidatorArgs {
   loggingKey?: string;
   logger?: Logger;
   parameters?: OpenAPI.Parameters;
-  requestBody?: OpenAPIV3.RequestBodyObject;
+  requestBody?: OpenAPIV3.RequestBodyObject | OpenAPIV3_1.RequestBodyObject;
   schemas?: IJsonSchema[];
   componentSchemas?: IJsonSchema[];
   errorTransformer?(
@@ -57,7 +57,7 @@ export default class OpenAPIRequestValidator
   private isBodyRequired: boolean;
   private logger: Logger = dummyLogger;
   private loggingKey: string = '';
-  private requestBody: OpenAPIV3.RequestBodyObject;
+  private requestBody: OpenAPIV3.RequestBodyObject | OpenAPIV3_1.RequestBodyObject;
   private requestBodyValidators: RequestBodyValidators = {};
   private validateBody: ValidateFunction;
   private validateFormData: ValidateFunction;
@@ -454,7 +454,7 @@ function extendedErrorMapper(mapper) {
 
 function getSchemaForMediaType(
   contentTypeHeader: string,
-  requestBodySpec: OpenAPIV3.RequestBodyObject,
+  requestBodySpec: OpenAPIV3.RequestBodyObject | OpenAPIV3_1.RequestBodyObject,
   logger: Logger,
   loggingKey: string
 ): string {
@@ -594,6 +594,7 @@ function withAddedLocation(location, errors) {
 function resolveAndSanitizeRequestBodySchema(
   requestBodySchema:
     | OpenAPIV3.ReferenceObject
+    | OpenAPIV3_1.ReferenceObject
     | OpenAPIV3.NonArraySchemaObject
     | OpenAPIV3.ArraySchemaObject,
   v: Ajv
@@ -634,6 +635,7 @@ function resolveAndSanitizeRequestBodySchema(
   } else if ('allOf' in requestBodySchema) {
     requestBodySchema.allOf = requestBodySchema.allOf.map((val):
       | OpenAPIV3.ReferenceObject
+      | OpenAPIV3_1.ReferenceObject
       | OpenAPIV3.NonArraySchemaObject
       | OpenAPIV3.ArraySchemaObject => {
       val = sanitizeReadonlyPropertiesFromRequired(val);
@@ -642,6 +644,7 @@ function resolveAndSanitizeRequestBodySchema(
   } else if ('oneOf' in requestBodySchema) {
     requestBodySchema.oneOf = requestBodySchema.oneOf.map((val):
       | OpenAPIV3.ReferenceObject
+      | OpenAPIV3_1.ReferenceObject
       | OpenAPIV3.NonArraySchemaObject
       | OpenAPIV3.ArraySchemaObject => {
       val = sanitizeReadonlyPropertiesFromRequired(val);
@@ -650,6 +653,7 @@ function resolveAndSanitizeRequestBodySchema(
   } else if ('anyOf' in requestBodySchema) {
     requestBodySchema.anyOf = requestBodySchema.anyOf.map((val):
       | OpenAPIV3.ReferenceObject
+      | OpenAPIV3_1.ReferenceObject
       | OpenAPIV3.NonArraySchemaObject
       | OpenAPIV3.ArraySchemaObject => {
       val = sanitizeReadonlyPropertiesFromRequired(val);
@@ -662,6 +666,7 @@ function resolveAndSanitizeRequestBodySchema(
 function sanitizeReadonlyPropertiesFromRequired(
   schema:
     | OpenAPIV3.ReferenceObject
+    | OpenAPIV3_1.ReferenceObject
     | OpenAPIV3.NonArraySchemaObject
     | OpenAPIV3.ArraySchemaObject
 ) {

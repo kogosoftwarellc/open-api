@@ -4,7 +4,7 @@ import Ajv, {
   ErrorObject,
   ValidateFunction,
 } from 'ajv';
-import { IJsonSchema, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import { IJsonSchema, OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
 
 const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
@@ -22,14 +22,14 @@ export interface OpenAPIResponseValidatorArgs {
   definitions?: {
     [definitionName: string]: IJsonSchema;
   };
-  components?: OpenAPIV3.ComponentsObject;
+  components?: OpenAPIV3.ComponentsObject | OpenAPIV3_1.ComponentsObject;
   externalSchemas?: {
     [index: string]: IJsonSchema;
   };
   loggingKey?: string;
   responses: {
     [responseCode: string]: {
-      schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject;
+      schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject | OpenAPIV3_1.SchemaObject;
     };
   };
 
