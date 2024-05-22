@@ -155,7 +155,7 @@ export namespace OpenAPIV3_1 {
     type?: NonArraySchemaObjectType;
   }
 
-  interface MixedSchemaObject extends BaseSchemaObject {
+  export interface MixedSchemaObject extends BaseSchemaObject {
     type?: (ArraySchemaObjectType | NonArraySchemaObjectType)[];
     items?: ReferenceObject | SchemaObject;
   }
