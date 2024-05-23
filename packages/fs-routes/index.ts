@@ -51,7 +51,7 @@ export default function fsRoutes(
 
   if (!memo[cacheKey]) {
     memo[cacheKey] = glob
-      .sync(options.glob, { cwd: dir })
+      .sync(options.glob, { cwd: dir, posix: true })
       .sort(compare)
       .map((file) => ({
         path: path.resolve(dir, file),
