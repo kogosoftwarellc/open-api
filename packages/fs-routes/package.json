@@ -28,6 +28,6 @@
   },
   "homepage": "https://github.com/kogosoftwarellc/open-api/tree/master/packages/fs-routes#readme",
   "peerDependencies": {
-    "glob": ">=7.1.6"
+    "glob": ">=10.3.10"
   }
 }
