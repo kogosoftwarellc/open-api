@@ -1,3 +1,4 @@
+import * as core from 'express-serve-static-core';
 import { ErrorObject, FormatDefinition, Format } from 'ajv';
 import { Application, ErrorRequestHandler, RequestHandler } from 'express';
 import OpenAPIFramework, {
@@ -13,16 +14,34 @@ const CASE_SENSITIVE_PARAM_PROPERTY = 'x-express-openapi-case-sensitive';
 const normalizeQueryParamsMiddleware = require('express-normalize-query-params-middleware');
 const loggingPrefix = 'express-openapi';
 
-export interface OperationFunction extends RequestHandler {
+export interface OperationFunction<
+  P extends Record<string, string> = core.ParamsDictionary,
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = core.Query,
+  Locals extends Record<string, any> = Record<string, any>
+> extends RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals> {
   apiDoc?: OpenAPI.Operation;
 }
 
-export interface OperationHandlerArray {
+export interface OperationHandlerArray<
+  P extends Record<string, string> = core.ParamsDictionary,
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = core.Query,
+  Locals extends Record<string, any> = Record<string, any>
+> {
   apiDoc?: OpenAPI.Operation;
-  [index: number]: RequestHandler;
+  [index: number]: RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals>;
 }
 
-export type Operation = OperationFunction | OperationHandlerArray;
+export type Operation<
+  P extends Record<string, string> = core.ParamsDictionary,
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = core.Query,
+  Locals extends Record<string, any> = Record<string, any>
+> = OperationFunction<P, ResBody, ReqBody, ReqQuery, Locals> | OperationHandlerArray<P, ResBody, ReqBody, ReqQuery, Locals>;
 
 export interface ExpressOpenAPIArgs extends OpenAPIFrameworkArgs {
   app: Application;
