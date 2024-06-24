@@ -176,6 +176,7 @@ function getSchema(parameters, type) {
           paramSchema.examples = getExamples(param.examples);
         }
         schema.properties[param.name] = paramSchema;
+        schema.properties[param.name].description = param.description;
       } else {
         paramSchema = copyValidationKeywords(param);
         if ('examples' in paramSchema) {
