@@ -123,7 +123,9 @@ export namespace OpenAPIV3_1 {
 
   export type ExternalDocumentationObject = OpenAPIV3.ExternalDocumentationObject;
 
-  export type ParameterObject = OpenAPIV3.ParameterObject;
+  export interface ParameterObject extends Omit<OpenAPIV3.ParameterObject, "schema"> {
+    schema: ReferenceObject | SchemaObject
+  }
 
   export type HeaderObject = OpenAPIV3.HeaderObject;
 
