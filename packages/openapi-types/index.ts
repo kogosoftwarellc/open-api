@@ -283,6 +283,7 @@ export namespace OpenAPIV3 {
       | ((request: any, response: any, next: any) => void)
     )[];
     'x-express-openapi-validation-strict'?: boolean;
+    [key: `x-${string}`]: unknown;
   }
 
   export interface InfoObject {
@@ -613,6 +614,7 @@ export namespace OpenAPIV2 {
       | ((request: any, response: any, next: any) => void)
     )[];
     'x-express-openapi-validation-strict'?: boolean;
+    [key: `x-${string}`]: unknown;
   }
 
   export interface TagObject {
