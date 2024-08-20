@@ -10,7 +10,7 @@ const LOCAL_DEFINITION_REGEX = /^#\/([^\/]+)\/([^\/]+)$/;
 
 export interface IOpenAPIResponseValidator {
   validateResponse(
-    statusCode: string,
+    statusCode: number|string,
     response: any
   ): void | OpenAPIResponseValidatorValidationError;
 }
@@ -35,7 +35,8 @@ export interface OpenAPIResponseValidatorArgs {
 
   errorTransformer?(
     openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError,
-    ajvError: ErrorObject
+    ajvError: ErrorObject,
+    response: any
   ): any;
 }
 
@@ -52,7 +53,7 @@ export interface OpenAPIResponseValidatorValidationError {
 
 export default class OpenAPIResponseValidator
   implements IOpenAPIResponseValidator {
-  private errorMapper: (ajvError: ErrorObject) => any;
+  private errorMapper: (ajvError: ErrorObject, response:any) => any;
   private validators: {
     [responseCode: string]: ValidateFunction;
   };
@@ -111,8 +112,8 @@ export default class OpenAPIResponseValidator
     this.validators = compileValidators(v, schemas);
   }
 
-  public validateResponse(statusCode, response) {
-    let validator;
+  public validateResponse(statusCode:number|string, response) {
+    let validator:ValidateFunction;
 
     if (statusCode && statusCode in this.validators) {
       validator = this.validators[statusCode];
@@ -143,7 +144,7 @@ export default class OpenAPIResponseValidator
     if (!isValid) {
       return {
         message: 'The response was not valid.',
-        errors: validator.errors.map(this.errorMapper),
+        errors: validator.errors.map((err) => this.errorMapper(err, response)),
       };
     }
 
@@ -151,7 +152,7 @@ export default class OpenAPIResponseValidator
   }
 }
 
-function compileValidators(v, schemas) {
+function compileValidators(v:Ajv, schemas:Record<string, unknown>) {
   const validators = {};
 
   Object.keys(schemas).forEach((name) => {
@@ -192,8 +193,8 @@ function getSchemas(responses, definitions, components) {
   return schemas;
 }
 
-function makeErrorMapper(mapper): (ajvError: ErrorObject) => any {
-  return (ajvError) => mapper(toOpenapiValidationError(ajvError), ajvError);
+function makeErrorMapper(mapper) {
+  return (ajvError:ErrorObject, response:any) => mapper(toOpenapiValidationError(ajvError), ajvError, response);
 }
 
 function toOpenapiValidationError(
