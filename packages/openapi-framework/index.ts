@@ -1,3 +1,4 @@
+import os from 'node:os';
 import fsRoutes from 'fs-routes';
 import OpenAPIDefaultSetter from 'openapi-default-setter';
 import OpenAPIRequestCoercer from 'openapi-request-coercer';
@@ -230,12 +231,20 @@ export default class OpenAPIFramework implements IOpenAPIFramework {
                 })
                 .map(async (fsRoutesItem) => {
                   routesCheckMap[fsRoutesItem.route] = true;
-                  // There are two cases to distinguish:
-                  // - file is a CommonJS script, and `module.export` appears
-                  //   as `default` property
-                  // - file is a ECMAScript module, and `export default` appears
-                  //   at top-level
-                  const imported = await import(`file://${fsRoutesItem.path}`);
+                  /**
+                   * There are a few cases to distinguish:
+                   * - file is a CommonJS script, and `module.export` appears
+                   *   as `default` property.
+                   * - file is a ECMAScript module, and `export default` appears
+                   *   at top-level.
+                   * - OS is Windows needs absolute path while others support
+                   *   relative paths.
+                   */
+                  let importPath = fsRoutesItem.path;
+                  if (os.type().includes('Windows')) {
+                    importPath = `file://${importPath}`;
+                  }
+                  const imported = await import(importPath);
                   return {
                     path: fsRoutesItem.route,
                     module: imported.default ?? imported,
