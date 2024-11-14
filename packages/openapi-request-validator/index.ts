@@ -32,7 +32,7 @@ export interface OpenAPIRequestValidatorArgs {
   parameters?: OpenAPI.Parameters;
   requestBody?: OpenAPIV3.RequestBodyObject;
   schemas?: IJsonSchema[];
-  componentSchemas?: IJsonSchema[];
+  componentSchemas?: Record<string, IJsonSchema>;
   errorTransformer?(
     openAPIResponseValidatorValidationError: OpenAPIRequestValidatorError,
     ajvError: ErrorObject
