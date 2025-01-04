@@ -404,7 +404,7 @@ export namespace OpenAPIV3 {
     type?: NonArraySchemaObjectType;
   }
 
-  export interface BaseSchemaObject {
+  export interface BaseSchemaObject extends Partial<ReferenceObject> {
     // JSON schema allowed properties, adjusted for OpenAPI
     title?: string;
     description?: string;
