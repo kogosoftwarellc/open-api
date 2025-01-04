@@ -15,7 +15,7 @@ module.exports = {
 
     definitions: null,
 
-    errorTransformer: function (openapiError, jsonschemaError) {
+    errorTransformer: function (openapiError, jsonschemaError, response) {
       return arguments.length;
     },
   },
@@ -25,6 +25,6 @@ module.exports = {
 
   expectedValidationError: {
     message: 'The response was not valid.',
-    errors: [2],
+    errors: [3],
   },
 };
