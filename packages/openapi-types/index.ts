@@ -534,7 +534,8 @@ export namespace OpenAPIV3 {
     | HttpSecurityScheme
     | ApiKeySecurityScheme
     | OAuth2SecurityScheme
-    | OpenIdSecurityScheme;
+    | OpenIdSecurityScheme
+    | MutualTLSSecurityScheme;
 
   export interface HttpSecurityScheme {
     type: 'http';
@@ -582,6 +583,11 @@ export namespace OpenAPIV3 {
     type: 'openIdConnect';
     description?: string;
     openIdConnectUrl: string;
+  }
+
+  export interface MutualTLSSecurityScheme {
+    type: 'mutualTLS';
+    description?: string;
   }
 
   export interface TagObject {
