@@ -8,12 +8,16 @@ export namespace OpenAPI {
   export type Document<T extends {} = {}> =
     | OpenAPIV2.Document<T>
     | OpenAPIV3.Document<T>
-    | OpenAPIV3_1.Document<T>;
+    | OpenAPIV3_1.Document<T>
+    | OpenAPIV3_2.Document<T>;
   export type Operation<T extends {} = {}> =
     | OpenAPIV2.OperationObject<T>
     | OpenAPIV3.OperationObject<T>
-    | OpenAPIV3_1.OperationObject<T>;
+    | OpenAPIV3_1.OperationObject<T>
+    | OpenAPIV3_2.OperationObject<T>;
   export type Parameter =
+    | OpenAPIV3_2.ReferenceObject
+    | OpenAPIV3_2.ParameterObject
     | OpenAPIV3_1.ReferenceObject
     | OpenAPIV3_1.ParameterObject
     | OpenAPIV3.ReferenceObject
@@ -21,6 +25,7 @@ export namespace OpenAPI {
     | OpenAPIV2.ReferenceObject
     | OpenAPIV2.Parameter;
   export type Parameters =
+    | (OpenAPIV3_2.ReferenceObject | OpenAPIV3_2.ParameterObject)[]
     | (OpenAPIV3_1.ReferenceObject | OpenAPIV3_1.ParameterObject)[]
     | (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[]
     | (OpenAPIV2.ReferenceObject | OpenAPIV2.Parameter)[];
@@ -31,6 +36,233 @@ export namespace OpenAPI {
     params?: object;
     query?: object;
   }
+}
+
+export namespace OpenAPIV3_2 {
+  type Modify<T, R> = Omit<T, keyof R> & R;
+
+  type OAuthFlowObject = {
+    authorizationUrl?: string;
+    deviceAuthorizationUrl?: string;
+    tokenUrl?: string;
+    refreshUrl?: string;
+    scopes: {
+      [scope: string]: string;
+    };
+  };
+
+  type PathsWebhooksComponents<T extends {} = {}> = {
+    paths: PathsObject<T>;
+    webhooks: Record<string, PathItemObject | ReferenceObject>;
+    components: ComponentsObject;
+  };
+
+  export type Document<T extends {} = {}> = Modify<
+    Omit<OpenAPIV3_1.Document<T>, 'paths' | 'webhooks' | 'components' | 'tags'>,
+    {
+      paths?: PathsObject<T>;
+      webhooks?: Record<string, PathItemObject | ReferenceObject>;
+      components?: ComponentsObject;
+      tags?: TagObject[];
+    } & (
+      | (Pick<PathsWebhooksComponents<T>, 'paths'> &
+          Omit<Partial<PathsWebhooksComponents<T>>, 'paths'>)
+      | (Pick<PathsWebhooksComponents<T>, 'webhooks'> &
+          Omit<Partial<PathsWebhooksComponents<T>>, 'webhooks'>)
+      | (Pick<PathsWebhooksComponents<T>, 'components'> &
+          Omit<Partial<PathsWebhooksComponents<T>>, 'components'>)
+    )
+  >;
+
+  export type InfoObject = OpenAPIV3_1.InfoObject;
+
+  export type ContactObject = OpenAPIV3_1.ContactObject;
+
+  export type LicenseObject = OpenAPIV3_1.LicenseObject;
+
+  export type ServerObject = OpenAPIV3_1.ServerObject;
+
+  export type ServerVariableObject = OpenAPIV3_1.ServerVariableObject;
+
+  export type PathsObject<T extends {} = {}, P extends {} = {}> = Record<
+    string,
+    (PathItemObject<T> & P) | undefined
+  >;
+
+  export enum HttpMethods {
+    GET = 'get',
+    PUT = 'put',
+    POST = 'post',
+    DELETE = 'delete',
+    OPTIONS = 'options',
+    HEAD = 'head',
+    PATCH = 'patch',
+    TRACE = 'trace',
+    QUERY = 'query',
+  }
+
+  export type PathItemObject<T extends {} = {}> = Modify<
+    OpenAPIV3_1.PathItemObject<T>,
+    {
+      query?: OperationObject<T>;
+      additionalOperations?: Record<string, OperationObject<T>>;
+    }
+  > &
+    {
+      [method in HttpMethods]?: OperationObject<T>;
+    };
+
+  export type OperationObject<T extends {} = {}> = OpenAPIV3_1.OperationObject<
+    T
+  >;
+
+  export type ExternalDocumentationObject = OpenAPIV3_1.ExternalDocumentationObject;
+
+  export type ParameterObject = OpenAPIV3_1.ParameterObject;
+
+  export type HeaderObject = OpenAPIV3_1.HeaderObject;
+
+  export type ParameterBaseObject = OpenAPIV3_1.ParameterBaseObject;
+
+  export type NonArraySchemaObjectType = OpenAPIV3_1.NonArraySchemaObjectType;
+
+  export type ArraySchemaObjectType = OpenAPIV3_1.ArraySchemaObjectType;
+
+  export type SchemaObject = OpenAPIV3_1.SchemaObject;
+
+  export interface ArraySchemaObject extends OpenAPIV3_1.ArraySchemaObject {}
+
+  export interface NonArraySchemaObject
+    extends OpenAPIV3_1.NonArraySchemaObject {}
+
+  export type BaseSchemaObject = OpenAPIV3_1.BaseSchemaObject;
+
+  export type DiscriminatorObject = OpenAPIV3_1.DiscriminatorObject;
+
+  export type XMLObject = OpenAPIV3_1.XMLObject;
+
+  export type ReferenceObject = OpenAPIV3_1.ReferenceObject;
+
+  export type ExampleObject = OpenAPIV3_1.ExampleObject;
+
+  export type MediaTypeObject = Modify<
+    OpenAPIV3_1.MediaTypeObject,
+    {
+      itemSchema?: SchemaObject | ReferenceObject;
+      prefixEncoding?: EncodingObject[];
+      itemEncoding?: EncodingObject;
+    }
+  >;
+
+  export type EncodingObject = OpenAPIV3_1.EncodingObject;
+
+  export type RequestBodyObject = Modify<
+    OpenAPIV3_1.RequestBodyObject,
+    {
+      content: { [media: string]: MediaTypeObject };
+    }
+  >;
+
+  export type ResponsesObject = Record<
+    string,
+    ReferenceObject | ResponseObject
+  >;
+
+  export type ResponseObject = Modify<
+    OpenAPIV3_1.ResponseObject,
+    {
+      summary?: string;
+      headers?: { [header: string]: ReferenceObject | HeaderObject };
+      content?: { [media: string]: MediaTypeObject };
+      links?: { [link: string]: ReferenceObject | LinkObject };
+    }
+  >;
+
+  export type LinkObject = Modify<
+    OpenAPIV3_1.LinkObject,
+    {
+      server?: ServerObject;
+    }
+  >;
+
+  export type CallbackObject = Record<string, PathItemObject | ReferenceObject>;
+
+  export type SecurityRequirementObject = OpenAPIV3_1.SecurityRequirementObject;
+
+  export type ComponentsObject = Modify<
+    OpenAPIV3_1.ComponentsObject,
+    {
+      schemas?: Record<string, SchemaObject>;
+      responses?: Record<string, ReferenceObject | ResponseObject>;
+      parameters?: Record<string, ReferenceObject | ParameterObject>;
+      examples?: Record<string, ReferenceObject | ExampleObject>;
+      requestBodies?: Record<string, ReferenceObject | RequestBodyObject>;
+      headers?: Record<string, ReferenceObject | HeaderObject>;
+      securitySchemes?: Record<string, ReferenceObject | SecuritySchemeObject>;
+      links?: Record<string, ReferenceObject | LinkObject>;
+      callbacks?: Record<string, ReferenceObject | CallbackObject>;
+      pathItems?: Record<string, ReferenceObject | PathItemObject>;
+      mediaTypes?: Record<string, ReferenceObject | MediaTypeObject>;
+    }
+  >;
+
+  export type SecuritySchemeObject =
+    | HttpSecurityScheme
+    | ApiKeySecurityScheme
+    | OAuth2SecurityScheme
+    | OpenIdSecurityScheme
+    | MutualTLSSecurityScheme;
+
+  export interface MutualTLSSecurityScheme {
+    type: 'mutualTLS';
+    description?: string;
+    deprecated?: boolean;
+  }
+
+  export type HttpSecurityScheme = Modify<
+    OpenAPIV3_1.HttpSecurityScheme,
+    {
+      deprecated?: boolean;
+    }
+  >;
+
+  export type ApiKeySecurityScheme = Modify<
+    OpenAPIV3_1.ApiKeySecurityScheme,
+    {
+      deprecated?: boolean;
+    }
+  >;
+
+  export type OAuth2SecurityScheme = Modify<
+    OpenAPIV3_1.OAuth2SecurityScheme,
+    {
+      oauth2MetadataUrl?: string;
+      deprecated?: boolean;
+      flows: {
+        implicit?: OAuthFlowObject;
+        password?: OAuthFlowObject;
+        clientCredentials?: OAuthFlowObject;
+        authorizationCode?: OAuthFlowObject;
+        deviceAuthorization?: OAuthFlowObject;
+      };
+    }
+  >;
+
+  export type OpenIdSecurityScheme = Modify<
+    OpenAPIV3_1.OpenIdSecurityScheme,
+    {
+      deprecated?: boolean;
+    }
+  >;
+
+  export type TagObject = Modify<
+    OpenAPIV3_1.TagObject,
+    {
+      summary?: string;
+      parent?: string;
+      kind?: string;
+    }
+  >;
 }
 
 export namespace OpenAPIV3_1 {
