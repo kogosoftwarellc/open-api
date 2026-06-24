@@ -239,7 +239,7 @@ export function handleFilePath(filePath) {
 
 export function handleYaml(apiDoc) {
   return typeof apiDoc === 'string'
-    ? jsYaml.safeLoad(apiDoc, { json: true })
+    ? jsYaml.load(apiDoc, { json: true })
     : apiDoc;
 }
 
